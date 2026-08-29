@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  timescaledb:
+    image: timescale/timescaledb-ha:pg18
+    container_name: goldedge-db
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+      POSTGRES_DB: ${DB_NAME:-goldedge}
+    ports:
+      - "5433:5432"
+    volumes:
+      - goldedge-db-data:/home/postgres/pgdata/data
+      # PROD-LEVEL: Auto-executes SQL scripts on first container boot
+      - ./migrations:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    container_name: goldedge-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: goldedge-backend
+    depends_on:
+      - timescaledb
+      - redis
+    environment:
+      - DB_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-password}@timescaledb:5432/${DB_NAME:-goldedge}
+      - REDIS_URL=redis://redis:6379/0
+      - MT5_ACCOUNT=${MT5_ACCOUNT:-}
+      - MT5_PASSWORD=${MT5_PASSWORD:-}
+      - MT5_SERVER=${MT5_SERVER:-}
+      - API_SECRET=${API_SECRET:-dev-secret-key}
+      - TRADING_MODE=${TRADING_MODE:-demo}
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    
+  frontend:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    container_name: goldedge-frontend
+    depends_on:
+      - backend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000/api
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+volumes:
+  goldedge-db-data:
+    name: goldedge-db-data
+  redisdata:
+    name: redisdata

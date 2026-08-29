@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(html.duckduckgo.com)",
+      "WebFetch(www.fxscouts.com)",
+      "WebFetch(pypi.org)",
+      "Bash(dir *)",
+      "Bash(findstr *)",
+      "Bash(git *)"
+    ]
+  },
+  "$version": 4
+}

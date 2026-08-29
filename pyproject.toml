@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "goldedge"
+version = "0.1.0"
+description = "XAU/USD Intraday Trading System"
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    "Flask>=3.0.0",
+    "SQLAlchemy>=2.0.0",
+    "redis[hiredis]>=5.0.0",
+    "ctrader-api-client>=0.0.1",
+
+    # MetaTrader
+    "MetaTrader5>=5.0.45",
+
+    # ML / Data Science
+    "lightgbm>=4.3.0",
+    "shap>=0.44.0",
+    "scipy>=1.11.0",
+    "numpy>=1.26.0",
+    "pandas>=2.1.0",
+
+    # Technical Analysis
+    "pandas-ta-classic>=0.3.59",
+
+    # Dependency Injection / Validation
+    "dependency-injector>=4.41.0",
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.1.0",
+
+    # Database
+    "psycopg2-binary>=2.9.0",
+    "alembic>=1.13.0",
+
+    # Timezone
+    "pytz>=2023.3"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/goldedge"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src/goldedge",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "black>=23.1.0",
+    "mypy>=1.7.0",
+    "flake8>=6.1.0"
+]
