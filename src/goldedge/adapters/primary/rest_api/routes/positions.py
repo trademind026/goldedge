@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from dependency_injector.wiring import inject, Provide
 from ..middleware.auth import require_api_key
-from .....application.container import Container
+from .....config.container import Container
 from .....application.use_cases.manage_position import ManagePositionUseCase
 from .....domain.ports.outbound.trade_repo import ITradeRepository
 from .....domain.models.trade import TradeStatus

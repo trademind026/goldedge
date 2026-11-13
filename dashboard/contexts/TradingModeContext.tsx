@@ -25,7 +25,7 @@ export function TradingModeProvider({ children }: { children: ReactNode }) {
 
   // Load persisted mode from DB on mount
   useEffect(() => {
-    fetchJSON<{ trading_mode: string }>("/api/config")
+    fetchJSON<{ trading_mode: string }>("/config")
       .then((data) => {
         if (data.trading_mode === "live" || data.trading_mode === "test") {
           setModeInternal(data.trading_mode as TradingMode);
@@ -37,7 +37,7 @@ export function TradingModeProvider({ children }: { children: ReactNode }) {
   /** Apply a mode change — saves to DB which instantly calls sync_mode() on Flask */
   function _applyMode(newMode: TradingMode) {
     setModeInternal(newMode);
-    postJSON("/api/config", { trading_mode: newMode })
+    postJSON("/config", { trading_mode: newMode })
       .catch((err) => console.error("Failed to save trading mode:", err));
   }
 

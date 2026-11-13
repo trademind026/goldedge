@@ -1,13 +1,16 @@
-import MetaTrader5 as mt5
+try:
+    import MetaTrader5 as mt5
+except ImportError:
+    mt5 = None
 import logging
 import asyncio
 from typing import List, Callable
-from ...domain.ports.outbound.market_data import MarketDataPort
-from ...domain.models.bar import Bar
+from ....domain.ports.outbound.market_data import IMarketDataProvider
+from ....domain.models.bar import Bar
 
 logger = logging.getLogger("mt5_market_data")
 
-class MT5MarketDataProvider(MarketDataPort):
+class MT5MarketDataProvider(IMarketDataProvider):
     def __init__(self, account: int, password: str, server: str, path: str):
         self.account = account
         self.password = password

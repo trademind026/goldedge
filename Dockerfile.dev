@@ -1,0 +1,22 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY pyproject.toml README.md /app/
+# In dev, we install the dependencies first, but we will mount the src directory in docker-compose.
+# We create an empty src directory to satisfy pip install -e .
+RUN mkdir -p src/goldedge && touch src/goldedge/__init__.py
+COPY src/ /app/src/
+
+RUN pip install --no-cache-dir -e .
+RUN pip install --no-cache-dir gunicorn gevent watchdog
+
+EXPOSE 5000
+
+CMD ["gunicorn", "--reload", "--worker-class", "gevent", "-w", "1", "--threads", "4", "-b", "0.0.0.0:5000", "goldedge.adapters.primary.rest_api.factory:create_app()"]
+

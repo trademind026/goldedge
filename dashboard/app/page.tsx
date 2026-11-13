@@ -23,8 +23,8 @@ export default function Home() {
   const load = useCallback(async () => {
     try {
       const [liveData, backtestData, curveData] = await Promise.all([
-        fetchJSON<LiveState>("/api/state").catch(() => null),
-        fetchJSON<BacktestResults>("/api/backtest/results").catch(() => ({})),
+        fetchJSON<LiveState>("/state").catch(() => null),
+        fetchJSON<BacktestResults>("/backtest/results").catch(() => ({})),
         fetchJSON<Record<string, EquityCurvePoint[]>>("/api/equity/curve").catch(() => ({})),
       ]);
       if (liveData) setLive(liveData);
@@ -143,7 +143,13 @@ export default function Home() {
           ) : (
             <div className="t-panel p-5 mb-5 text-center text-[11px]" style={{ color: '#3d4450' }}>
               NO BACKTEST DATA FOR <span style={{ color: riskColors[activeRisk] }}>{activeRisk.toUpperCase()}</span> RISK.
-              RUN <code style={{ color: '#4da6ff' }}>python scripts/tick_replay_backtest.py --risk {activeRisk}</code>
+              <br/><br/>
+              <a 
+                href="/backtest"
+                className="t-btn px-4 py-2 inline-block"
+              >
+                GO TO BACKTEST PAGE →
+              </a>
             </div>
           )}
 
@@ -203,7 +209,7 @@ export default function Home() {
           </div>
 
           {/* Recent trades */}
-          <div className="t-panel p-4">
+          <div className="t-panel p-4 mb-5">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: '#5a6270' }}>
                 Recent Trades — <span style={{ color: riskColors[activeRisk] }}>{activeRisk}</span>

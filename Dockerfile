@@ -20,4 +20,4 @@ RUN pip install --no-cache-dir gunicorn gevent
 EXPOSE 5000
 
 # Start the Flask factory via Gunicorn
-CMD ["gunicorn", "--worker-class", "gevent", "-w", "1", "--threads", "4", "-b", "0.0.0.0:5000", "goldedge.adapters.primary.rest_api.factory:create_app()"]
+CMD ["gunicorn", "--worker-class", "gthread", "-w", "1", "--threads", "10", "-b", "0.0.0.0:5000", "--timeout", "3600", "goldedge.adapters.primary.rest_api.factory:create_app()"]

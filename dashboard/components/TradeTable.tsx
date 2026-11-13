@@ -3,7 +3,7 @@
 import Badge from "./Badge";
 import type { Trade } from "@/lib/api";
 
-import { toDateStr, toISTTimeFull } from "@/lib/time";
+import { toDateStr, toUTCTimeFull } from "@/lib/time";
 
 type TradeWithOptionalCapital = Trade & { initial_capital?: number };
 
@@ -51,15 +51,15 @@ export default function TradeTable({ trades, maxRows }: Props) {
                 {toDateStr(String(t.entry_time))}
               </td>
               <td style={{ color: '#5a6270' }}>
-                {toISTTimeFull(String(t.entry_time))}
+                {toUTCTimeFull(String(t.entry_time))}
               </td>
               <td style={{ color: '#c8cdd5' }}>{t.symbol}</td>
               <td>
-                <Badge label={t.direction} variant={t.direction === "CALL" ? "green" : "red"} />
+                <Badge label={t.direction} variant={t.direction === "BUY" ? "green" : "red"} />
               </td>
               <td style={{ color: '#5a6270' }}>{t.strategy?.replace(/_/g, " ")}</td>
-              <td>₹{t.entry_premium?.toFixed(1)}</td>
-              <td>₹{t.exit_premium?.toFixed(1) ?? "--"}</td>
+              <td>₹{t.entry_price?.toFixed(1)}</td>
+              <td>₹{t.exit_price?.toFixed(1) ?? "--"}</td>
               <td style={{ color: t.pnl > 0 ? '#00e87b' : t.pnl < 0 ? '#ff3e3e' : '#5a6270', fontWeight: 600 }}>
                 {fmt(t.pnl)}
               </td>
@@ -67,7 +67,7 @@ export default function TradeTable({ trades, maxRows }: Props) {
                 {t.initial_capital ? `${((t.pnl / t.initial_capital) * 100).toFixed(2)}%` : '--'}
               </td>
               <td>
-                <Badge label={t.result} variant={resultVariant(t.result)} />
+                <Badge label={t.exit_reason} variant={resultVariant(t.exit_reason)} />
               </td>
               <td>{(t.final_score * 100).toFixed(0)}%</td>
               <td style={{ color: '#5a6270' }}>{t.regime}</td>

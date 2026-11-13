@@ -34,7 +34,7 @@ export interface StreamPayload {
 
 export async function fetchJSON<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, { cache: "no-store" });
-  if (!res.ok) throw new Error(`API ${path} → ${res.status}`);
+  if (!res.ok) throw new Error(`API ${path} -> ${res.status}`);
   return res.json();
 }
 
@@ -44,7 +44,7 @@ export async function postJSON<T>(path: string, body?: object): Promise<T> {
     headers: { "Content-Type": "application/json" },
     body: body ? JSON.stringify(body) : undefined,
   });
-  if (!res.ok) throw new Error(`API ${path} → ${res.status}`);
+  if (!res.ok) throw new Error(`API ${path} -> ${res.status}`);
   return res.json();
 }
 
@@ -65,6 +65,9 @@ export interface LiveState {
   db_connected: boolean;
   trade_suggestions: TradeSuggestion[];
   scan_count: number;
+  signals_checked?: number;
+  trades_today?: number;
+  news_sentiment?: { score: number; label: string };
   scanner_enabled?: boolean;
   auto_trade_enabled?: boolean;
   alerts?: { level: string; title: string; message: string; time: string }[];
@@ -96,11 +99,13 @@ export interface Trade {
   strategy: string;
   entry_price: number;
   exit_price: number;
+  current_price?: number;
+  initial_sl?: number;
   sl: number;
   target: number;
   lot_size: number;
   pnl: number;
-  result: string;
+  exit_reason: string;
   final_score: number;
   regime: string;
   session: string;
@@ -167,9 +172,48 @@ export async function setAutoTrade(enabled: boolean): Promise<{ auto_trade_enabl
 
 export interface RiskProfile {
   name: string;
+  context: string;
   risk_per_trade_pct: number;
   max_daily_loss_pct: number;
+  max_consecutive_losses: number;
+  max_trades_per_day: number;
   sl_atr_multiplier: number;
   tp_atr_multiplier: number;
-  min_ml_score_threshold: number;
+  min_score_threshold: number;
 }
+
+export interface BacktestProfile {
+  trades: number;
+  win_rate: number;
+  pnl: number;
+  max_dd: number;
+  pf: number;
+  avg_win: number;
+  avg_loss: number;
+  rr: number;
+  equity_curve: number[];
+  trade_list: Trade[];
+}
+
+export interface BacktestResults {
+  low?: BacktestProfile;
+  medium?: BacktestProfile;
+  high?: BacktestProfile;
+}
+
+export interface EquityCurvePoint {
+  time: string;
+  equity: number;
+}
+
+export type CandleDateInfo = { day: string; bars: number; ticks?: number; [key: string]: any; };
+export type RLStatus = Record<string, any>;
+export type LiveTrade = any;
+export type JourneyPoint = any;
+export type Candle = any;
+export type MarketDepthRow = any;
+export type DepthTickData = any;
+
+export type OptionChainRow = any;
+export type OptionTickData = any;
+

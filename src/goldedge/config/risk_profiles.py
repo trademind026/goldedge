@@ -35,6 +35,7 @@ class RiskProfile:
     max_daily_loss_pct: float       # Stop trading for the day above this.
     max_consecutive_losses: int     # Pause after this many consecutive losses.
     max_trades_per_day: int         # Hard cap on daily trade count.
+    max_hold_bars: int              # Close position after N bars to avoid rollover/chop (0=disable)
 
     sl_atr_multiplier: float        # SL = ATR × this value
     tp_atr_multiplier: float        # TP = ATR × this value
@@ -53,6 +54,7 @@ LOW_RISK_LIVE = RiskProfile(
     max_daily_loss_pct=2.0,
     max_consecutive_losses=3,
     max_trades_per_day=5,
+    max_hold_bars=120,
     sl_atr_multiplier=2.0,
     tp_atr_multiplier=2.0,          # 1:1 RR baseline
     min_score_threshold=0.85,       # Strict for real capital.
@@ -69,10 +71,10 @@ LOW_RISK_BACKTEST = RiskProfile(
     max_daily_loss_pct=2.0,
     max_consecutive_losses=3,
     max_trades_per_day=5,
+    max_hold_bars=120,
     sl_atr_multiplier=2.0,
     tp_atr_multiplier=2.0,
-    min_score_threshold=0.70,       # Looser to surface historical edge.
-                                    # Do NOT use this threshold live.
+    min_score_threshold=0.80,       # Raised to 0.80 to filter new feature noise
 )
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -87,9 +89,10 @@ LOW_RR15_BACKTEST = RiskProfile(
     max_daily_loss_pct=2.0,
     max_consecutive_losses=3,
     max_trades_per_day=5,
+    max_hold_bars=120,
     sl_atr_multiplier=2.0,
     tp_atr_multiplier=3.0,          # 1:1.5 RR
-    min_score_threshold=0.70,
+    min_score_threshold=0.80,
 )
 
 LOW_RR20_BACKTEST = RiskProfile(
@@ -99,9 +102,10 @@ LOW_RR20_BACKTEST = RiskProfile(
     max_daily_loss_pct=2.0,
     max_consecutive_losses=3,
     max_trades_per_day=5,
+    max_hold_bars=120,
     sl_atr_multiplier=2.0,
     tp_atr_multiplier=4.0,          # 1:2 RR
-    min_score_threshold=0.70,
+    min_score_threshold=0.80,
 )
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -115,6 +119,7 @@ MEDIUM_RISK_LIVE = RiskProfile(
     max_daily_loss_pct=3.0,
     max_consecutive_losses=3,
     max_trades_per_day=5,
+    max_hold_bars=120,
     sl_atr_multiplier=1.5,
     tp_atr_multiplier=3.0,          # 1:2 RR
     min_score_threshold=0.85,
@@ -127,9 +132,40 @@ MEDIUM_RISK_BACKTEST = RiskProfile(
     max_daily_loss_pct=3.0,
     max_consecutive_losses=3,
     max_trades_per_day=8,           # More trades allowed in backtest to explore edge
+    max_hold_bars=120,
     sl_atr_multiplier=1.5,
     tp_atr_multiplier=3.0,
-    min_score_threshold=0.72,
+    min_score_threshold=0.80,
+)
+
+# ══════════════════════════════════════════════════════════════════════════
+# HIGH RISK — aggressive (for prop firm challenges or small accounts)
+# ══════════════════════════════════════════════════════════════════════════
+
+HIGH_RISK_LIVE = RiskProfile(
+    name="HIGH_LIVE",
+    context=ProfileContext.LIVE,
+    risk_per_trade_pct=2.0,
+    max_daily_loss_pct=5.0,
+    max_consecutive_losses=3,
+    max_trades_per_day=10,
+    max_hold_bars=120,
+    sl_atr_multiplier=1.5,
+    tp_atr_multiplier=3.0,          
+    min_score_threshold=0.82,       # Slightly looser to increase trade frequency
+)
+
+HIGH_RISK_BACKTEST = RiskProfile(
+    name="HIGH_BACKTEST",
+    context=ProfileContext.BACKTEST,
+    risk_per_trade_pct=2.0,
+    max_daily_loss_pct=5.0,
+    max_consecutive_losses=3,
+    max_trades_per_day=15,
+    max_hold_bars=120,
+    sl_atr_multiplier=1.5,
+    tp_atr_multiplier=3.0,
+    min_score_threshold=0.80,
 )
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -140,13 +176,14 @@ PROFILES = {
     # Live
     "LOW_LIVE":     LOW_RISK_LIVE,
     "MEDIUM_LIVE":  MEDIUM_RISK_LIVE,
+    "HIGH_LIVE":    HIGH_RISK_LIVE,
     # Backtest research
     "LOW_BACKTEST":      LOW_RISK_BACKTEST,
     "LOW_RR15_BACKTEST": LOW_RR15_BACKTEST,
     "LOW_RR20_BACKTEST": LOW_RR20_BACKTEST,
     "MEDIUM_BACKTEST":   MEDIUM_RISK_BACKTEST,
+    "HIGH_BACKTEST":     HIGH_RISK_BACKTEST,
 }
-
 
 def get_profile(name: str) -> RiskProfile:
     """Retrieve a profile by name. Raises KeyError if not found."""

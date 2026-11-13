@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import Sidebar from "@/components/Sidebar";
 import PnlBarChart from "@/components/PnlBarChart";
 import { API_BASE, fetchJSON, type Trade, type LiveTrade, type JourneyPoint } from "@/lib/api";
-import { toDateStr, toISTTimeFull } from "@/lib/time";
+import { toDateStr, toUTCTimeFull } from "@/lib/time";
 
 import { Download, Activity } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer, CartesianGrid } from "recharts";
@@ -17,9 +17,9 @@ const pnlFmt = (v: number) =>
   `₹${v >= 0 ? "+" : ""}${v.toLocaleString("en-IN", { maximumFractionDigits: 0 })}`;
 
 // ── Journey chart (shared for both live and backtest trades) ─────────────────
-function JourneyChart({ journey, entryPremium, initialSl, target, symbol }: {
+function JourneyChart({ journey, entryPrice, initialSl, target, symbol }: {
   journey: JourneyPoint[];
-  entryPremium: number;
+  entryPrice: number;
   initialSl: number;
   target: number;
   symbol: string;
@@ -32,8 +32,8 @@ function JourneyChart({ journey, entryPremium, initialSl, target, symbol }: {
     ...pt,
     premium: pt.option_price ?? pt.premium ?? 0,
     // Format time label
-    time: pt.ts.length > 10 ? toISTTimeFull(pt.ts) : `Bar ${i}`,
-    entry: entryPremium,
+    time: pt.ts.length > 10 ? toUTCTimeFull(pt.ts) : `Bar ${i}`,
+    entry: entryPrice,
   }));
 
   return (
@@ -41,7 +41,7 @@ function JourneyChart({ journey, entryPremium, initialSl, target, symbol }: {
       <div style={{ marginBottom: 6, fontSize: 11, color: "#5a6270", display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
         <span style={{ color: "#e8e8e8", fontWeight: 600 }}>{symbol} Journey</span>
         <span>{journey.length} data points</span>
-        <span style={{ color: "#00b4ff" }}>Entry ₹{entryPremium}</span>
+        <span style={{ color: "#00b4ff" }}>Entry ₹{entryPrice}</span>
         <span style={{ color: "#ff3e3e" }}>SL ₹{initialSl?.toFixed(1) ?? "—"}</span>
         <span style={{ color: "#00e87b" }}>Target ₹{target?.toFixed(1) ?? "—"}</span>
       </div>
@@ -54,7 +54,7 @@ function JourneyChart({ journey, entryPremium, initialSl, target, symbol }: {
             contentStyle={{ background: "#0d1117", border: "1px solid #1e2530", fontSize: 11 }}
             formatter={(val: unknown, name: unknown) => [`₹${Number(val).toFixed(2)}`, String(name)]}
           />
-          <ReferenceLine y={entryPremium} stroke="#00b4ff" strokeDasharray="4 2" label={{ value: "Entry", fill: "#00b4ff", fontSize: 9 }} />
+          <ReferenceLine y={entryPrice} stroke="#00b4ff" strokeDasharray="4 2" label={{ value: "Entry", fill: "#00b4ff", fontSize: 9 }} />
           <ReferenceLine y={initialSl} stroke="#ff3e3e" strokeDasharray="4 2" label={{ value: "SL", fill: "#ff3e3e", fontSize: 9 }} />
           <ReferenceLine y={target} stroke="#00e87b" strokeDasharray="4 2" label={{ value: "TGT", fill: "#00e87b", fontSize: 9 }} />
           <Line type="linear" dataKey="premium" stroke="#e8c300" dot={false} strokeWidth={2} name="Option ₹" />
@@ -80,15 +80,15 @@ function LiveTradeRows({ trades }: { trades: LiveTrade[] }) {
     const journey = t.journey || [];
     // Read SL/Target from trade fields first, fall back to first journey point
     const firstPt = journey[0];
-    const entryPremium = t.entry_premium ?? t.entry_price ?? 0;
+    const entryPrice = t.entry_price ?? t.entry_price ?? 0;
     const initialSl   = (t.initial_sl || t.initial_sl_price || t.sl_price)
                         ?? firstPt?.sl
                         ?? 0;
     const target      = (t.target || t.target_price)
-                        ?? (entryPremium > 0 ? Math.round(entryPremium * 1.30) : 0);
+                        ?? (entryPrice > 0 ? Math.round(entryPrice * 1.30) : 0);
     setJourneyData({
       journey,
-      entry_premium: entryPremium,
+      entry_premium: entryPrice,
       initial_sl: initialSl,
       target,
       symbol: t.symbol,
@@ -115,14 +115,14 @@ function LiveTradeRows({ trades }: { trades: LiveTrade[] }) {
               <td>
                 <span style={{
                   fontSize: 9, fontWeight: 700, padding: "2px 5px", letterSpacing: "0.5px",
-                  background: t.direction === "CALL" ? "#0a2a18" : "#2a0a0a",
-                  color: t.direction === "CALL" ? "#00e87b" : "#ff3e3e",
-                  border: `1px solid ${t.direction === "CALL" ? "#1a5c3a" : "#5c1a1a"}`,
+                  background: t.direction === "BUY" ? "#0a2a18" : "#2a0a0a",
+                  color: t.direction === "BUY" ? "#00e87b" : "#ff3e3e",
+                  border: `1px solid ${t.direction === "BUY" ? "#1a5c3a" : "#5c1a1a"}`,
                 }}>{t.direction}</span>
               </td>
               <td style={{ color: "#5a6270" }}>{t.strategy?.replace(/_/g, " ")}</td>
-              <td>₹{t.entry_premium?.toFixed(1) ?? "—"}</td>
-              <td>₹{(t.exit_premium ?? t.current_premium)?.toFixed(1) ?? "—"}</td>
+              <td>₹{t.entry_price?.toFixed(1) ?? "—"}</td>
+              <td>₹{(t.exit_price ?? t.current_premium)?.toFixed(1) ?? "—"}</td>
               <td style={{ color: pnlColor, fontWeight: 600 }}>
                 {pnlFmt(pnl)}
               </td>
@@ -155,7 +155,7 @@ function LiveTradeRows({ trades }: { trades: LiveTrade[] }) {
                 <td colSpan={11} style={{ padding: "12px 8px", background: "#0d1117", borderBottom: "1px solid #1e2530" }}>
                   <JourneyChart
                     journey={journeyData.journey}
-                    entryPremium={journeyData.entry_premium}
+                    entryPrice={journeyData.entry_premium}
                     initialSl={journeyData.initial_sl}
                     target={journeyData.target}
                     symbol={journeyData.symbol}
@@ -187,16 +187,16 @@ function BacktestTradeRows({ trades, risk }: { trades: Trade[]; risk: RiskLevel 
     setJourneyIdx(idx);
     setLoadingJourney(true);
     try {
-      const data = await fetchJSON<{ journey: JourneyPoint[] }>(`/api/backtest/journey/${risk}/${idx}`);
+      const data = await fetchJSON<{ journey: JourneyPoint[] }>(`/backtest/journey/${risk}/${idx}`);
       setJourneyData({
         journey: data.journey,
-        entry_premium: t.entry_premium,
+        entry_premium: t.entry_price,
         initial_sl: t.initial_sl ?? t.sl,
         target: t.target,
         symbol: t.symbol,
       });
     } catch {
-      setJourneyData({ journey: [], entry_premium: t.entry_premium, initial_sl: t.initial_sl ?? t.sl, target: t.target, symbol: t.symbol });
+      setJourneyData({ journey: [], entry_premium: t.entry_price, initial_sl: t.initial_sl ?? t.sl, target: t.target, symbol: t.symbol });
     } finally {
       setLoadingJourney(false);
     }
@@ -214,29 +214,29 @@ function BacktestTradeRows({ trades, risk }: { trades: Trade[]; risk: RiskLevel 
           <React.Fragment key={i}>
             <tr>
               <td style={{ color: "#5a6270" }}>{toDateStr(String(t.entry_time))}</td>
-              <td style={{ color: "#5a6270" }}>{toISTTimeFull(String(t.entry_time))}</td>
+              <td style={{ color: "#5a6270" }}>{toUTCTimeFull(String(t.entry_time))}</td>
               <td style={{ color: "#c8cdd5" }}>{t.symbol}</td>
               <td>
                 <span style={{
                   fontSize: 9, fontWeight: 700, padding: "2px 5px",
-                  background: t.direction === "CALL" ? "#0a2a18" : "#2a0a0a",
-                  color: t.direction === "CALL" ? "#00e87b" : "#ff3e3e",
-                  border: `1px solid ${t.direction === "CALL" ? "#1a5c3a" : "#5c1a1a"}`,
+                  background: t.direction === "BUY" ? "#0a2a18" : "#2a0a0a",
+                  color: t.direction === "BUY" ? "#00e87b" : "#ff3e3e",
+                  border: `1px solid ${t.direction === "BUY" ? "#1a5c3a" : "#5c1a1a"}`,
                 }}>{t.direction}</span>
               </td>
               <td style={{ color: "#5a6270" }}>{t.strategy?.replace(/_/g, " ")}</td>
-              <td>₹{t.entry_premium?.toFixed(1)}</td>
-              <td>₹{t.exit_premium?.toFixed(1) ?? "—"}</td>
+              <td>₹{t.entry_price?.toFixed(1)}</td>
+              <td>₹{t.exit_price?.toFixed(1) ?? "—"}</td>
               <td style={{ color: t.pnl > 0 ? "#00e87b" : t.pnl < 0 ? "#ff3e3e" : "#5a6270", fontWeight: 600 }}>
                 {pnlFmt(t.pnl)}
               </td>
               <td>
                 <span style={{
                   fontSize: 9, fontWeight: 700, padding: "2px 5px",
-                  background: t.result === "TARGET" ? "#0a2a18" : t.result === "SL" || t.result === "TRAILING_SL" ? "#2a0a0a" : "#1a1a2a",
-                  color: t.result === "TARGET" ? "#00e87b" : t.result === "SL" || t.result === "TRAILING_SL" ? "#ff3e3e" : "#e8c300",
-                  border: `1px solid ${t.result === "TARGET" ? "#1a5c3a" : t.result === "SL" || t.result === "TRAILING_SL" ? "#5c1a1a" : "#333a45"}`,
-                }}>{t.result}</span>
+                  background: t.exit_reason === "TARGET" ? "#0a2a18" : t.exit_reason === "SL" || t.exit_reason === "TRAILING_SL" ? "#2a0a0a" : "#1a1a2a",
+                  color: t.exit_reason === "TARGET" ? "#00e87b" : t.exit_reason === "SL" || t.exit_reason === "TRAILING_SL" ? "#ff3e3e" : "#e8c300",
+                  border: `1px solid ${t.exit_reason === "TARGET" ? "#1a5c3a" : t.exit_reason === "SL" || t.exit_reason === "TRAILING_SL" ? "#5c1a1a" : "#333a45"}`,
+                }}>{t.exit_reason}</span>
               </td>
               <td>{((t.final_score ?? 0) * 100).toFixed(0)}%</td>
               <td style={{ color: "#5a6270" }}>{t.regime}</td>
@@ -259,7 +259,7 @@ function BacktestTradeRows({ trades, risk }: { trades: Trade[]; risk: RiskLevel 
                 <td colSpan={12} style={{ padding: "12px 8px", background: "#0d1117", borderBottom: "1px solid #1e2530" }}>
                   <JourneyChart
                     journey={journeyData.journey}
-                    entryPremium={journeyData.entry_premium}
+                    entryPrice={journeyData.entry_premium}
                     initialSl={journeyData.initial_sl}
                     target={journeyData.target}
                     symbol={journeyData.symbol}
@@ -279,7 +279,7 @@ export default function TradesPage() {
   const [tabMode, setTabMode] = useState<TabMode>("backtest");
   const [tradeDate, setTradeDate] = useState<string>("");
   const [risk, setRisk] = useState<RiskLevel>("high");
-  const [filter, setFilter] = useState<"ALL" | "CALL" | "PUT" | "WIN" | "LOSS" | "RL_EXIT">("ALL");
+  const [filter, setFilter] = useState<"ALL" | "BUY" | "SELL" | "WIN" | "LOSS" | "RL_EXIT">("ALL");
 
   // Backtest
   const [btTrades, setBtTrades] = useState<Trade[]>([]);
@@ -292,7 +292,7 @@ export default function TradesPage() {
   const loadBacktest = useCallback(async (r: RiskLevel) => {
     setBtLoading(true);
     try {
-      const data = await fetchJSON<Trade[]>(`/api/trades/history?risk=${r}`);
+      const data = await fetchJSON<Trade[]>(`/trades/history?risk=${r}`);
       const trades = Array.isArray(data) ? data : [];
       trades.forEach((t, i) => { t.id = i; });
       setBtTrades(trades);
@@ -306,7 +306,7 @@ export default function TradesPage() {
     try {
       const modeParam = tabMode === "paper" ? "test" : "live";
       const dateParam = tradeDate ? `&date=${tradeDate}` : "";
-      const data = await fetchJSON<LiveTrade[]>(`/api/paper/trades?mode=${modeParam}${dateParam}`);
+      const data = await fetchJSON<LiveTrade[]>(`/paper/trades?mode=${modeParam}${dateParam}`);
       setLiveTrades(Array.isArray(data) ? data : []);
     } finally {
       setLiveLoading(false);
@@ -319,17 +319,17 @@ export default function TradesPage() {
   // Filtered backtest trades
   const filteredBt = btTrades.filter(t => {
     if (filter === "ALL") return true;
-    if (filter === "CALL" || filter === "PUT") return t.direction === filter;
+    if (filter === "BUY" || filter === "SELL") return t.direction === filter;
     if (filter === "WIN") return t.pnl > 0;
     if (filter === "LOSS") return t.pnl <= 0;
-    if (filter === "RL_EXIT") return t.result === "RL_EXIT" || t.result === "DQN_EXIT";
+    if (filter === "RL_EXIT") return t.exit_reason === "RL_EXIT" || t.exit_reason === "DQN_EXIT";
     return true;
   });
 
   // Filtered live trades
   const filteredLive = liveTrades.filter(t => {
     if (filter === "ALL") return true;
-    if (filter === "CALL" || filter === "PUT") return t.direction === filter;
+    if (filter === "BUY" || filter === "SELL") return t.direction === filter;
     if (filter === "WIN") return (t.realised_pnl ?? 0) > 0;
     if (filter === "LOSS") return (t.realised_pnl ?? 0) <= 0;
     return true;
@@ -458,7 +458,7 @@ export default function TradesPage() {
 
         {/* ── Filter buttons ───────────────────────────────────────────────── */}
         <div className="flex gap-[1px] mb-4">
-          {(["ALL", "CALL", "PUT", "WIN", "LOSS", ...(tabMode === "backtest" ? ["RL_EXIT"] : [])] as const).map(f => (
+          {(["ALL", "BUY", "SELL", "WIN", "LOSS", ...(tabMode === "backtest" ? ["RL_EXIT"] : [])] as const).map(f => (
             <button key={f} onClick={() => setFilter(f as typeof filter)}
               className="px-3 py-[5px] text-[10px] font-semibold tracking-wider transition-all"
               style={{
@@ -557,3 +557,4 @@ export default function TradesPage() {
     </div>
   );
 }
+

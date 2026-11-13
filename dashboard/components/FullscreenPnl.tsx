@@ -18,8 +18,8 @@ export default function FullscreenPnl({ onClose }: { onClose: () => void }) {
   useEffect(() => {
     const load = async () => {
       const [results, live] = await Promise.all([
-        fetchJSON<BacktestResults>("/api/backtest/results").catch(() => ({})),
-        fetchJSON<LiveState>("/api/state").catch(() => null),
+        fetchJSON<BacktestResults>("/backtest/results").catch(() => ({})),
+        fetchJSON<LiveState>("/state").catch(() => null),
       ]);
       const high = (results as BacktestResults).high;
       if (high) {

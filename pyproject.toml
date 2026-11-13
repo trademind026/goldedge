@@ -15,9 +15,6 @@ dependencies = [
     "redis[hiredis]>=5.0.0",
     "ctrader-api-client>=0.0.1",
 
-    # MetaTrader
-    "MetaTrader5>=5.0.45",
-
     # ML / Data Science
     "lightgbm>=4.3.0",
     "shap>=0.44.0",
@@ -26,7 +23,7 @@ dependencies = [
     "pandas>=2.1.0",
 
     # Technical Analysis
-    "pandas-ta-classic>=0.3.59",
+    "pandas-ta>=0.3.14b0",
 
     # Dependency Injection / Validation
     "dependency-injector>=4.41.0",

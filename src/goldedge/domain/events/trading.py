@@ -31,6 +31,11 @@ class SLMoved(DomainEvent):
     new_sl: float
 
 @dataclass(frozen=True)
+class BreakevenSet(DomainEvent):
+    ticket: int
+    be_sl: float
+
+@dataclass(frozen=True)
 class JourneySnapshot(DomainEvent):
     ticket: int
     time: str

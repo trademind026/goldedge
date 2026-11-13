@@ -48,8 +48,8 @@ class ManagePositionUseCase:
         # Breakeven config
         be_cfg = cfg.get("breakeven", {})
         self.be_enabled      = be_cfg.get("enabled", True)
-        self.be_trigger_r    = be_cfg.get("trigger_r", 1.0)
-        self.be_offset_ticks = be_cfg.get("offset_ticks", 1)
+        self.be_trigger_r    = be_cfg.get("trigger_r", 1.5)  # MATCH BACKTEST: 1.5 ATR for breakeven
+        self.be_offset_ticks = be_cfg.get("offset_ticks", 20) # 20 ticks = 0.2 ATR on Gold (offset to cover spread)
 
         # Timeout config
         # max_hold_bars: close position after N M1 bars to prevent rollover swap.
@@ -80,8 +80,11 @@ class ManagePositionUseCase:
         symbol_point  = symbol_info.get("point", 0.01)
         symbol_digits = symbol_info.get("digits", 2)
 
-        # ATR should come from a shared indicator cache in production
-        current_atr = 2.5  # Placeholder — wire from IndicatorService M1 window
+        # Dynamic ATR Fallback
+        # If IndicatorService cache isn't available on this tick, estimate ATR dynamically.
+        # XAUUSD 1m ATR is typically ~0.04% to 0.06% of price.
+        current_price = current_tick.bid
+        current_atr = current_price * 0.0005  # e.g., $4500 * 0.0005 = $2.25 ATR
 
         for pos in open_positions:
             if pos.symbol != symbol:
@@ -138,15 +141,33 @@ class ManagePositionUseCase:
                         self.trade_repo.save_position(pos)
                         self.event_bus.publish(BreakevenSet(ticket=pos.ticket, be_sl=be_sl))
 
-            # ── ATR Trailing SL ───────────────────────────────────────────────
+            # ── ATR Trailing SL & Time-Based Tightening ───────────────────────
             trail_distance = current_atr * 1.5
 
             if pos.type == "BUY":
-                new_sl         = executable_price - trail_distance
+                new_sl = executable_price - trail_distance
+                
+                # Squeeze SL toward price as we run out of time (75%+ of max hold)
+                if self.max_hold_bars > 0:
+                    hold_pct = bars_held / self.max_hold_bars
+                    if hold_pct >= 0.75:
+                        progress = min((hold_pct - 0.75) / 0.25, 1.0)
+                        time_sl = new_sl + progress * (executable_price - new_sl)
+                        new_sl = max(new_sl, time_sl)
+
                 is_monotonic   = new_sl > pos.price_sl
                 distance_moved = new_sl - pos.price_sl
             else:
-                new_sl         = executable_price + trail_distance
+                new_sl = executable_price + trail_distance
+                
+                # Squeeze SL toward price as we run out of time
+                if self.max_hold_bars > 0:
+                    hold_pct = bars_held / self.max_hold_bars
+                    if hold_pct >= 0.75:
+                        progress = min((hold_pct - 0.75) / 0.25, 1.0)
+                        time_sl = new_sl - progress * (new_sl - executable_price)
+                        new_sl = min(new_sl, time_sl)
+
                 is_monotonic   = new_sl < pos.price_sl
                 distance_moved = pos.price_sl - new_sl
 

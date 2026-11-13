@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  timescaledb:
+    image: timescale/timescaledb-ha:pg18
+    container_name: goldedge-db-dev
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+      POSTGRES_DB: ${DB_NAME:-goldedge}
+    ports:
+      - "5433:5432"
+    volumes:
+      - goldedge-db-data-dev:/home/postgres/pgdata/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    container_name: goldedge-redis-dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata-dev:/data
+    restart: unless-stopped
+
+  market_data_feed:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: goldedge-data-feed-dev
+    depends_on:
+      - timescaledb
+      - redis
+    environment:
+      - DB_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-password}@timescaledb:5432/${DB_NAME:-goldedge}
+      - REDIS_URL=redis://redis:6379/0
+      - CTRADER_CLIENT_ID=${CTRADER_CLIENT_ID:-}
+      - CTRADER_CLIENT_SECRET=${CTRADER_CLIENT_SECRET:-}
+      - CTRADER_ACCOUNT_ID=${CTRADER_ACCOUNT_ID:-}
+      - CTRADER_ACCESS_TOKEN=${CTRADER_ACCESS_TOKEN:-}
+      - CTRADER_REFRESH_TOKEN=${CTRADER_REFRESH_TOKEN:-}
+      - TRADING_MODE=${TRADING_MODE:-demo}
+    volumes:
+      - ./src:/app/src
+    command: ["python", "-m", "src.goldedge.adapters.primary.market_data.ctrader_live"]
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: goldedge-backend-dev
+    depends_on:
+      - timescaledb
+      - redis
+    environment:
+      - DB_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-password}@timescaledb:5432/${DB_NAME:-goldedge}
+      - REDIS_URL=redis://redis:6379/0
+      - MT5_ACCOUNT=${MT5_ACCOUNT:-}
+      - MT5_PASSWORD=${MT5_PASSWORD:-}
+      - MT5_SERVER=${MT5_SERVER:-}
+      - API_SECRET=${API_SECRET:-dev-secret-key}
+      - TRADING_MODE=${TRADING_MODE:-demo}
+      - FLASK_DEBUG=1
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./src:/app/src
+    command: ["gunicorn", "--reload", "--log-level", "debug", "--worker-class", "gevent", "-w", "1", "--threads", "4", "-b", "0.0.0.0:5000", "goldedge.adapters.primary.rest_api.factory:create_app()"]
+    restart: unless-stopped
+    
+  frontend:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile.dev
+    container_name: goldedge-frontend-dev
+    depends_on:
+      - backend
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-password}@timescaledb:5432/${DB_NAME:-goldedge}
+      - FLASK_API_URL=http://backend:5000
+      - NEXT_PUBLIC_API_URL=/api/flask
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dashboard:/app
+      - frontend-node-modules:/app/node_modules
+      - frontend-next-cache:/app/.next
+    command: ["npm", "run", "dev"]
+    restart: unless-stopped
+
+volumes:
+  goldedge-db-data-dev:
+  redisdata-dev:
+  frontend-node-modules:
+  frontend-next-cache:
+

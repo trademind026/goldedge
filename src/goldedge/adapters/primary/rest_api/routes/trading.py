@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from dependency_injector.wiring import inject, Provide
 from ..middleware.auth import require_api_key
-from .....application.container import Container
+from .....config.container import Container
 from .....application.use_cases.scan_market import ScanMarketUseCase
 
 bp = Blueprint("trading", __name__, url_prefix="/api")

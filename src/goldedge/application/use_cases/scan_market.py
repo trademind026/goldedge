@@ -31,7 +31,7 @@ class ScanMarketUseCase:
         self.execute_trade_uc = execute_trade_uc
         
         self.regime_detector = RegimeDetectorService()
-        self.trade_scorer = TradeScorer(w_ml=0.5, w_tech=0.5)
+        self.trade_scorer = TradeScorer(w_ml=0.5, w_quant=0.5)
         # Use settings to figure out active profile
         # For simplicity, using "MEDIUM_BACKTEST" if TRADING_MODE=backtest else "MEDIUM_LIVE"
         profile_name = "MEDIUM_BACKTEST" if settings.TRADING_MODE == "backtest" else "MEDIUM_LIVE"

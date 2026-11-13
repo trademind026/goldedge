@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime, timezone
 from ...domain.models.signal import ScoredSignal
-from ...domain.models.trade import Position, TradeStatus, OrderStatus
+from ...domain.models.trade import Position, TradeStatus
 from ...domain.ports.outbound.broker import IBrokerAdapter
 from ...domain.ports.outbound.trade_repo import ITradeRepository
 from ...domain.ports.outbound.event_bus import IEventBus

@@ -56,6 +56,13 @@ class TickRepository(ITickRepository):
     # READ OPS
     # ──────────────────────────────────────────────────────────────
 
+
+    def get_ticks_as_df(self, symbol: str, start_time, end_time):
+        import pandas as pd
+        sql = "SELECT time, symbol, bid, ask, last as price, 1 as volume FROM market_ticks WHERE symbol = %(symbol)s AND time >= %(start)s AND time <= %(end)s ORDER BY time ASC"
+        params = {"symbol": symbol, "start": start_time, "end": end_time}
+        return pd.read_sql(sql, self.engine, params=params)
+
     def get_ticks(self, symbol: str, start_time: datetime, end_time: datetime) -> List[Tick]:
         """Loads ticks entirely into memory (use only for small ranges)."""
         sql = text("""

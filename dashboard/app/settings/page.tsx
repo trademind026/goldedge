@@ -8,7 +8,7 @@ import {
   type RiskLevel,
 } from "@/lib/api";
 import {
-  Play,
+  Zap, Play,
   RefreshCw,
   CheckCircle,
   XCircle,
@@ -293,3 +293,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+

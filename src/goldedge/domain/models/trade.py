@@ -9,6 +9,10 @@ class ExitReason(str, Enum):
     MANUAL_CLOSE = "MANUAL_CLOSE"
     SYSTEM_CLOSE = "SYSTEM_CLOSE"
     SESSION_CLOSE = "SESSION_CLOSE"
+    # Aliases used by ManagePositionUseCase
+    SL = "STOP_LOSS"
+    TARGET = "TAKE_PROFIT"
+    TIMEOUT = "TIMEOUT"
 
 class TradeStatus(str, Enum):
     PENDING = "PENDING"

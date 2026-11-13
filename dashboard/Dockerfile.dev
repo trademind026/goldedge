@@ -1,0 +1,18 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dependencies first for caching
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+# The source code will be volume mounted, so we don't need to COPY . .
+# We just expose the dev server port.
+EXPOSE 3000
+
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+# Start the Next.js development server (supports hot reloading)
+CMD ["npm", "run", "dev"]
+

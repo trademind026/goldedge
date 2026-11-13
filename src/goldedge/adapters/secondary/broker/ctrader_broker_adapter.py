@@ -1,11 +1,10 @@
 import logging
 import asyncio
 import time
-from typing import Optional, List
+from typing import Optional, List, Any
 
 from ....domain.ports.outbound.broker import IBrokerAdapter
 from ....domain.models.trade import Position
-from ...primary.market_data.ctrader_live import CTraderOpenAPIClient
 
 logger = logging.getLogger("ctrader_broker")
 
@@ -16,7 +15,7 @@ class CTraderBrokerAdapter(IBrokerAdapter):
     standard thread, this adapter uses thread-safe async execution and 
     Futures to block until the official ProtoOAExecutionEvent confirms the order.
     """
-    def __init__(self, api_client: CTraderOpenAPIClient, account_id: str):
+    def __init__(self, api_client: Any, account_id: str):
         self.api = api_client
         self.account_id = account_id
 

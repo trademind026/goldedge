@@ -12,7 +12,7 @@ export default function AIPage() {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await fetchJSON<RLStatus>("/api/rl/status").catch(() => ({}));
+      const data = await fetchJSON<RLStatus>("/rl/status").catch(() => ({}));
       setRl(data);
     } finally {
       setLoading(false);

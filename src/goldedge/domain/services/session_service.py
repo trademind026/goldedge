@@ -1,7 +1,6 @@
 from datetime import datetime, time
 import pytz
 from ..models.session import SessionState, TradingSession
-from ...config.settings import TradingSessions
 
 class SessionService:
     """

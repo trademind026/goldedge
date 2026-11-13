@@ -17,7 +17,7 @@ import {
   ResponsiveContainer, ReferenceLine, Area,
 } from "recharts";
 import RetroCalendar from "@/components/RetroCalendar";
-import { toISTTime as toIST_HM, toISTTimeFull as toIST_HMS } from "@/lib/time";
+import { toUTCTime as toIST_HM, toUTCTimeFull as toIST_HMS } from "@/lib/time";
 
 /* ── helpers ─────────────────────────────────────────────────────────── */
 
@@ -83,7 +83,7 @@ function OptionTickChart({ tickData, symbol }: { tickData: OptionTickData; symbo
 
   const maxPts = 2000;
   const sampled = data.length > maxPts
-    ? data.filter((_, i) => i % Math.ceil(data.length / maxPts) === 0)
+    ? data.filter((_: any, i: any) => i % Math.ceil(data.length / maxPts) === 0)
     : data;
 
   return (
@@ -350,7 +350,7 @@ export default function ChartsPage() {
     if (selectedDate !== today || !selectedExpiry) return;
 
     const refresh = () => {
-      fetchJSON<OptionChainRow[]>(`/api/options/chain?date=${selectedDate}&expiry=${selectedExpiry}`)
+      fetchJSON<OptionChainRow[]>(`/options/chain?date=${selectedDate}&expiry=${selectedExpiry}`)
         .then((rows) => {
           const freshMap = new Map(rows.map(r => [r.symbol, r]));
           setChain((prev) => {
@@ -379,11 +379,11 @@ export default function ChartsPage() {
   const hasBothViews = (currentDateInfo?.bars ?? 0) > 0 && (currentDateInfo?.ticks ?? 0) > 0;
 
   useEffect(() => {
-    fetchJSON<CandleDateInfo[]>("/api/candle_dates").then(d => {
+    fetchJSON<CandleDateInfo[]>("/candle_dates").then(d => {
       setDates(d);
       if (d.length > 0) setSelectedDate(d[d.length - 1].day);
     }).catch(() => {});
-    fetchJSON<BacktestResults>("/api/backtest/results").then(setResults).catch(() => {});
+    fetchJSON<BacktestResults>("/backtest/results").then(setResults).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -399,8 +399,8 @@ export default function ChartsPage() {
     });
 
     Promise.all([
-      fetchJSON<Candle[]>(`/api/market/candles/date?date=${selectedDate}`).catch(() => []),
-      fetchJSON<string[]>(`/api/options/expiries?date=${selectedDate}`).catch(() => []),
+      fetchJSON<Candle[]>(`/market/candles/date?date=${selectedDate}`).catch(() => []),
+      fetchJSON<string[]>(`/options/expiries?date=${selectedDate}`).catch(() => []),
     ]).then(([c, e]) => {
       setCandles(c);
       setExpiries(e);
@@ -409,7 +409,7 @@ export default function ChartsPage() {
       // If no candles but ticks exist, auto-switch to tick view
       if (c.length === 0) {
         const info = dates.find(d => d.day === selectedDate);
-        if (info && info.ticks > 0) setChartView("ticks");
+        if (info && (info.ticks ?? 0) > 0) setChartView("ticks");
       }
     });
   }, [selectedDate, dates]);
@@ -419,7 +419,7 @@ export default function ChartsPage() {
     if (chartView !== "ticks" || !selectedDate) return;
     if (ticks.length > 0) return; // already loaded
     startTransition(() => setLoadingTicks2(true));
-    fetchJSON<TickPoint[]>(`/api/market/ticks/date?date=${selectedDate}`)
+    fetchJSON<TickPoint[]>(`/market/ticks/date?date=${selectedDate}`)
       .then(setTicks)
       .catch(() => setTicks([]))
       .finally(() => setLoadingTicks2(false));
@@ -432,7 +432,7 @@ export default function ChartsPage() {
       setSelectedOption(null);
       setOptionTicks(null);
     });
-    fetchJSON<OptionChainRow[]>(`/api/options/chain?date=${selectedDate}&expiry=${selectedExpiry}`)
+    fetchJSON<OptionChainRow[]>(`/options/chain?date=${selectedDate}&expiry=${selectedExpiry}`)
       .then(setChain)
       .catch(() => setChain([]))
       .finally(() => setLoadingChain(false));
@@ -441,7 +441,7 @@ export default function ChartsPage() {
   useEffect(() => {
     if (!selectedOption || !selectedDate) return;
     startTransition(() => setLoadingTicks(true));
-    fetchJSON<OptionTickData>(`/api/options/ticks?symbol=${selectedOption}&date=${selectedDate}`)
+    fetchJSON<OptionTickData>(`/options/ticks?symbol=${selectedOption}&date=${selectedDate}`)
       .then(setOptionTicks)
       .catch(() => setOptionTicks(null))
       .finally(() => setLoadingTicks(false));
@@ -501,7 +501,7 @@ export default function ChartsPage() {
             <NiftyCandleChart candles={candles} />
           ) : ticks.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
-              <ComposedChart data={ticks.filter((_, i) => i % Math.max(1, Math.floor(ticks.length / 2000)) === 0)} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
+              <ComposedChart data={ticks.filter((_: any, i: any) => i % Math.max(1, Math.floor(ticks.length / 2000)) === 0)} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
                 <CartesianGrid stroke="#1e222c" strokeDasharray="3 3" />
                 <XAxis dataKey="timestamp" tick={{ fontSize: 9, fill: "#3d4450" }} tickFormatter={t => toIST_HMS(t ?? "")} />
                 <YAxis domain={["auto", "auto"]} tick={{ fontSize: 9, fill: "#5a6270" }} />
@@ -581,3 +581,4 @@ export default function ChartsPage() {
     </div>
   );
 }
+

@@ -20,19 +20,19 @@ function parseUTC(ts: string): Date {
 }
 
 /** Return HH:MM in IST for a timestamp string. */
-export function toISTTime(ts: string): string {
+export function toUTCTime(ts: string): string {
   if (!ts) return "--";
   const d = parseUTC(ts);
   if (isNaN(d.getTime())) return ts.substring(11, 16);
-  return d.toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: '2-digit', minute: '2-digit', hour12: false });
+  return d.toLocaleTimeString("en-IN", { timeZone: "UTC", hour: '2-digit', minute: '2-digit', hour12: false });
 }
 
 /** Return HH:MM:SS in IST for a timestamp string. */
-export function toISTTimeFull(ts: string): string {
+export function toUTCTimeFull(ts: string): string {
   if (!ts) return "--";
   const d = parseUTC(ts);
   if (isNaN(d.getTime())) return ts.substring(11, 19);
-  return d.toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+  return d.toLocaleTimeString("en-IN", { timeZone: "UTC", hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
 }
 
 /** Return YYYY-MM-DD date portion in IST. */
@@ -40,5 +40,5 @@ export function toDateStr(ts: string): string {
   if (!ts) return "--";
   const d = parseUTC(ts);
   if (isNaN(d.getTime())) return ts.substring(0, 10);
-  return d.toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" }); // en-CA gives YYYY-MM-DD
+  return d.toLocaleDateString("en-CA", { timeZone: "UTC" }); // en-CA gives YYYY-MM-DD
 }
