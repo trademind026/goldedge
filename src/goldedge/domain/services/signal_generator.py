@@ -3,6 +3,7 @@ import pandas as pd
 from typing import List, Optional
 from ..models.signal import Signal, SignalDirection
 from ..models.regime import MarketRegime
+from ..models.pip_calculator import PipCalculator
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,7 @@ def _in_session(row: dict) -> bool:
     return _SESSION_OPEN_UTC <= hour < _SESSION_CLOSE_UTC
 
 
+
 class SignalGeneratorService:
     """
     Evaluates trading strategies against technical indicator rows.
@@ -35,13 +37,17 @@ class SignalGeneratorService:
 
     # Strategy-Regime Mapping
     REGIME_STRATEGIES = {
-        MarketRegime.TRENDING_BULL:  ["vwap_momentum_breakout", "bullish_momentum"],
-        MarketRegime.TRENDING_BEAR:  ["bearish_momentum"],
-        MarketRegime.SIDEWAYS:       ["bullish_momentum", "bearish_momentum"],
-        MarketRegime.HIGH_VOLATILITY: ["bearish_momentum", "vwap_momentum_breakout", "bullish_momentum"],
-        MarketRegime.LOW_VOLATILITY:  ["vwap_momentum_breakout"],
-        MarketRegime.UNKNOWN:         ["vwap_momentum_breakout", "bearish_momentum", "bullish_momentum"],
+        MarketRegime.TRENDING_BULL:   ["kinematic_kalman_trend", "vwap_momentum_breakout", "bullish_momentum"],
+        MarketRegime.TRENDING_BEAR:   ["kinematic_kalman_trend", "bearish_momentum"],
+        MarketRegime.KINEMATIC_TREND: ["kinematic_kalman_trend", "bullish_momentum", "bearish_momentum"],
+        MarketRegime.MEAN_REVERSION:  ["statistical_mean_reversion", "mean_reversion"],
+        MarketRegime.SESSION_ORB:     ["session_orb", "vwap_momentum_breakout"],
+        MarketRegime.SIDEWAYS:        ["statistical_mean_reversion", "bullish_momentum", "bearish_momentum"],
+        MarketRegime.HIGH_VOLATILITY: ["session_orb", "bearish_momentum", "vwap_momentum_breakout", "bullish_momentum"],
+        MarketRegime.LOW_VOLATILITY:  ["statistical_mean_reversion", "vwap_momentum_breakout"],
+        MarketRegime.UNKNOWN:         ["kinematic_kalman_trend", "vwap_momentum_breakout", "bearish_momentum", "bullish_momentum"],
     }
+
 
     @staticmethod
     def generate_signals(df: pd.DataFrame, symbol: str, regime: MarketRegime) -> List[Signal]:
@@ -62,6 +68,21 @@ class SignalGeneratorService:
         )
 
         signals = []
+
+        if "kinematic_kalman_trend" in active_strategies:
+            sig = SignalGeneratorService._kinematic_kalman_trend(df, symbol)
+            if sig:
+                signals.append(sig)
+
+        if "statistical_mean_reversion" in active_strategies:
+            sig = SignalGeneratorService._statistical_mean_reversion(df, symbol)
+            if sig:
+                signals.append(sig)
+
+        if "session_orb" in active_strategies:
+            sig = SignalGeneratorService._session_orb(df, symbol)
+            if sig:
+                signals.append(sig)
 
         if "vwap_momentum_breakout" in active_strategies:
             sig = SignalGeneratorService._vwap_momentum_breakout(latest_row, symbol)
@@ -250,3 +271,247 @@ class SignalGeneratorService:
                 details=conditions,
             )
         return None
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # INSTITUTIONAL ENGINES (STAGE 2)
+    # ──────────────────────────────────────────────────────────────────────────
+
+    @staticmethod
+    def _kinematic_kalman_trend(df: pd.DataFrame, symbol: str) -> Optional[Signal]:
+        """
+        Stage 2.2: Kinematic Kalman Trend-Following Engine.
+        Enforces macro trend consensus, Kalman velocity & acceleration gating,
+        pullback to value zone, and >40% rejection wick confirmation.
+        """
+        if len(df) < 50:
+            return None
+
+        row = df.iloc[-1]
+        prev_row = df.iloc[-2] if len(df) >= 2 else row
+        pip_unit = PipCalculator.get_pip_unit(symbol)
+
+        close = float(row.get("close", 0.0))
+        open_px = float(row.get("open", close))
+        high = float(row.get("high", close))
+        low = float(row.get("low", close))
+        ema20 = float(row.get("ema20", 0.0))
+        ema50 = float(row.get("ema50", 0.0))
+        ema200 = float(row.get("ema200", 0.0))
+        atr14 = float(row.get("atr", close * 0.0005))
+        kalman_price = float(row.get("kalman_price", ema20))
+        vel_z = float(row.get("kalman_velocity_z", row.get("kalman_vel_z", 0.0)))
+        accel = float(row.get("kalman_accel", 0.0))
+
+        candle_range = max(high - low, pip_unit * 0.5)
+
+        # Bullish Kinematic Trend
+        if close > ema50 > ema200 and vel_z >= 1.5 and accel >= 0.0:
+            # Pullback into value zone between EMA20 and Kalman price
+            val_zone_high = max(ema20, kalman_price)
+            if low <= val_zone_high + (pip_unit * 2.0):
+                lower_wick = min(open_px, close) - low
+                if (lower_wick / candle_range) >= 0.40:
+                    sl_dist = 1.8 * atr14
+                    tp_dist = 3.6 * atr14
+                    sl_px = close - sl_dist
+                    tp_px = close + tp_dist
+                    return Signal(
+                        strategy="kinematic_kalman_trend",
+                        direction=SignalDirection.BUY,
+                        symbol=symbol,
+                        entry_price=close,
+                        technical_strength=1.0,
+                        initial_sl_price=sl_px,
+                        target_price=tp_px,
+                        base_risk_pips=sl_dist / pip_unit,
+                        base_reward_pips=tp_dist / pip_unit,
+                        regime="KINEMATIC_TREND",
+                        timestamp=row.get("time")
+                    )
+
+        # Bearish Kinematic Trend
+        if close < ema50 < ema200 and vel_z <= -1.5 and accel <= 0.0:
+            val_zone_low = min(ema20, kalman_price)
+            if high >= val_zone_low - (pip_unit * 2.0):
+                upper_wick = high - max(open_px, close)
+                if (upper_wick / candle_range) >= 0.40:
+                    sl_dist = 1.8 * atr14
+                    tp_dist = 3.6 * atr14
+                    sl_px = close + sl_dist
+                    tp_px = close - tp_dist
+                    return Signal(
+                        strategy="kinematic_kalman_trend",
+                        direction=SignalDirection.SELL,
+                        symbol=symbol,
+                        entry_price=close,
+                        technical_strength=1.0,
+                        initial_sl_price=sl_px,
+                        target_price=tp_px,
+                        base_risk_pips=sl_dist / pip_unit,
+                        base_reward_pips=tp_dist / pip_unit,
+                        regime="KINEMATIC_TREND",
+                        timestamp=row.get("time")
+                    )
+
+        return None
+
+    @staticmethod
+    def _statistical_mean_reversion(df: pd.DataFrame, symbol: str) -> Optional[Signal]:
+        """
+        Stage 2.3: Statistical Mean Reversion Engine.
+        Active during range/chop regimes: 3.0 std Bollinger band breach + RSI divergence
+        + candle close back inside band + Kalman velocity curl.
+        """
+        if len(df) < 25:
+            return None
+
+        pip_unit = PipCalculator.get_pip_unit(symbol)
+        close_series = df["close"]
+        rolling_mean = close_series.rolling(20).mean()
+        rolling_std = close_series.rolling(20).std()
+
+        mid_band = float(rolling_mean.iloc[-1])
+        upper_3std = float(rolling_mean.iloc[-1] + 3.0 * rolling_std.iloc[-1])
+        lower_3std = float(rolling_mean.iloc[-1] - 3.0 * rolling_std.iloc[-1])
+
+        row = df.iloc[-1]
+        prev_row = df.iloc[-2]
+        close = float(row.get("close", 0.0))
+        prev_close = float(prev_row.get("close", close))
+        prev_low = float(prev_row.get("low", prev_close))
+        prev_high = float(prev_row.get("high", prev_close))
+        rsi = float(row.get("rsi", 50.0))
+
+        curr_vel = float(row.get("kalman_velocity", row.get("kalman_velocity_z", 0.0)))
+        prev_vel = float(prev_row.get("kalman_velocity", prev_row.get("kalman_velocity_z", 0.0)))
+
+        # Bullish Mean Reversion: breached lower 3.0 std, now closes back inside, velocity curls up
+        if prev_low <= lower_3std and close > lower_3std and rsi < 28 and curr_vel > prev_vel:
+            swing_low = float(df["low"].tail(5).min())
+            sl_px = swing_low - (3.0 * pip_unit)
+            tp_px = mid_band
+            sl_dist = abs(close - sl_px)
+            tp_dist = abs(tp_px - close)
+            return Signal(
+                strategy="statistical_mean_reversion",
+                direction=SignalDirection.BUY,
+                symbol=symbol,
+                entry_price=close,
+                technical_strength=0.95,
+                initial_sl_price=sl_px,
+                target_price=tp_px,
+                base_risk_pips=sl_dist / pip_unit,
+                base_reward_pips=tp_dist / pip_unit,
+                regime="MEAN_REVERSION",
+                timestamp=row.get("time")
+            )
+
+        # Bearish Mean Reversion: breached upper 3.0 std, now closes back inside, velocity curls down
+        if prev_high >= upper_3std and close < upper_3std and rsi > 72 and curr_vel < prev_vel:
+            swing_high = float(df["high"].tail(5).max())
+            sl_px = swing_high + (3.0 * pip_unit)
+            tp_px = mid_band
+            sl_dist = abs(sl_px - close)
+            tp_dist = abs(close - tp_px)
+            return Signal(
+                strategy="statistical_mean_reversion",
+                direction=SignalDirection.SELL,
+                symbol=symbol,
+                entry_price=close,
+                technical_strength=0.95,
+                initial_sl_price=sl_px,
+                target_price=tp_px,
+                base_risk_pips=sl_dist / pip_unit,
+                base_reward_pips=tp_dist / pip_unit,
+                regime="MEAN_REVERSION",
+                timestamp=row.get("time")
+            )
+
+        return None
+
+    @staticmethod
+    def _session_orb(df: pd.DataFrame, symbol: str) -> Optional[Signal]:
+        """
+        Stage 2.4: Session Opening Range Breakout (ORB) Engine.
+        Evaluated during London (07:00–08:30 UTC) and NY (12:30–14:00 UTC) opens.
+        """
+        if len(df) < 20:
+            return None
+
+        row = df.iloc[-1]
+        ts = row.get("time")
+        if ts is None:
+            return None
+
+        hour = ts.hour if hasattr(ts, "hour") else 12
+        minute = ts.minute if hasattr(ts, "minute") else 0
+
+        # Session Open Window
+        is_london = (hour == 7) or (hour == 8 and minute <= 30)
+        is_ny = (hour == 12 and minute >= 30) or (hour == 13) or (hour == 14 and minute == 0)
+
+        if not (is_london or is_ny):
+            return None
+
+        pip_unit = PipCalculator.get_pip_unit(symbol)
+        close = float(row.get("close", 0.0))
+        vol = float(row.get("tick_volume", row.get("volume", 1.0)))
+        atr14 = float(row.get("atr", close * 0.0005))
+        adr_est = atr14 * 10.0  # approximate Average Daily Range
+
+        # 15-minute Opening Range prior to current bar
+        prior_df = df.iloc[:-1]
+        recent_15m = prior_df.tail(15)
+        or_high = float(recent_15m["high"].max())
+        or_low = float(recent_15m["low"].min())
+        or_range = or_high - or_low
+
+        # Compression check: OR range < 0.75 * ADR
+        if or_range >= 0.75 * adr_est:
+            return None
+
+        vol_avg = float(prior_df["tick_volume"].tail(20).mean()) if "tick_volume" in prior_df.columns else 1.0
+        vol_surge = vol >= 2.0 * vol_avg
+
+        # BUY Breakout
+        if close > or_high and vol_surge:
+            sl_px = (or_high + or_low) / 2.0
+            tp_px = close + (1.5 * or_range)
+            sl_dist = abs(close - sl_px)
+            tp_dist = abs(tp_px - close)
+            return Signal(
+                strategy="session_orb",
+                direction=SignalDirection.BUY,
+                symbol=symbol,
+                entry_price=close,
+                technical_strength=1.0,
+                initial_sl_price=sl_px,
+                target_price=tp_px,
+                base_risk_pips=sl_dist / pip_unit,
+                base_reward_pips=tp_dist / pip_unit,
+                regime="SESSION_ORB",
+                timestamp=ts
+            )
+
+        # SELL Breakout
+        if close < or_low and vol_surge:
+            sl_px = (or_high + or_low) / 2.0
+            tp_px = close - (1.5 * or_range)
+            sl_dist = abs(sl_px - close)
+            tp_dist = abs(close - tp_px)
+            return Signal(
+                strategy="session_orb",
+                direction=SignalDirection.SELL,
+                symbol=symbol,
+                entry_price=close,
+                technical_strength=1.0,
+                initial_sl_price=sl_px,
+                target_price=tp_px,
+                base_risk_pips=sl_dist / pip_unit,
+                base_reward_pips=tp_dist / pip_unit,
+                regime="SESSION_ORB",
+                timestamp=ts
+            )
+
+        return None
+

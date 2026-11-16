@@ -1,6 +1,13 @@
+import warnings
 import pandas as pd
-import pandas_ta as ta
 import numpy as np
+try:
+    import pandas_ta as ta
+except ImportError:
+    import pandas_ta_classic as ta
+
+warnings.filterwarnings("ignore", category=UserWarning, module="pandas_ta_classic")
+warnings.filterwarnings("ignore", category=UserWarning, module="pandas_ta")
 from typing import List
 from ..models.bar import Bar
 

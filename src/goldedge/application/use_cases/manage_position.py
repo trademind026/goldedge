@@ -2,7 +2,11 @@ import time
 import math
 from datetime import datetime, timezone
 from dataclasses import replace
+from typing import Optional, Union
+
 from ...domain.models.trade import TradeStatus, ExitReason, Position
+from ...domain.models.pip_calculator import PipCalculator
+from ...domain.services.forex_kalman_exit_agent import ForexKalmanEntropyExitAgent
 from ...domain.ports.outbound.broker import IBrokerAdapter
 from ...domain.ports.outbound.trade_repo import ITradeRepository
 from ...domain.ports.outbound.event_bus import IEventBus
@@ -12,17 +16,9 @@ from ...domain.ports.outbound.market_data import IMarketDataProvider
 
 class ManagePositionUseCase:
     """
-    Tick-driven position management for GoldEdge XAU/USD.
-
-    Design principles:
-      - Hard SL/TP sits at the MT5 broker (survives disconnects).
-      - Live Bid/Ask ticks are used for dynamic management only.
-      - BUY  positions monitor executable Bid.
-      - SELL positions monitor executable Ask.
-      - SL can only tighten — never widen (monotonic enforcement).
-      - MT5 modifications are throttled (distance + time + digit normalization).
-      - Breakeven is applied once per trade (configurable).
-      - Trades are closed after max_hold_bars to prevent rollover swap charges.
+    Tick-driven position management for Forex / CFD trading.
+    Incorporates ForexKalmanEntropyExitAgent for real-time velocity exhaustion,
+    Shannon entropy collapse detection, and dynamic trailing stop adjustment.
     """
 
     def __init__(
@@ -41,32 +37,45 @@ class ManagePositionUseCase:
         cfg = position_management_config or {}
 
         # Trailing SL throttle config
-        self.modify_min_points           = cfg.get("modify_min_points", 10)
-        self.modify_min_atr_fraction     = cfg.get("modify_min_atr_fraction", 0.05)
+        self.modify_min_points = cfg.get("modify_min_points", 10)
+        self.modify_min_atr_fraction = cfg.get("modify_min_atr_fraction", 0.05)
         self.modify_min_interval_seconds = cfg.get("modify_min_interval_seconds", 2.0)
 
         # Breakeven config
         be_cfg = cfg.get("breakeven", {})
-        self.be_enabled      = be_cfg.get("enabled", True)
-        self.be_trigger_r    = be_cfg.get("trigger_r", 1.5)  # MATCH BACKTEST: 1.5 ATR for breakeven
-        self.be_offset_ticks = be_cfg.get("offset_ticks", 20) # 20 ticks = 0.2 ATR on Gold (offset to cover spread)
+        self.be_enabled = be_cfg.get("enabled", True)
+        self.be_trigger_r = be_cfg.get("trigger_r", 1.5)
+        self.be_offset_ticks = be_cfg.get("offset_ticks", 20)
 
         # Timeout config
-        # max_hold_bars: close position after N M1 bars to prevent rollover swap.
-        # Rollover time: typically 22:00–23:00 NY (00:00 server time MT5).
-        # With 60 bars (1 hour), a position opened at 21:00 UTC closes by 22:00.
-        # Set to 0 to disable.
-        self.max_hold_bars               = cfg.get("max_hold_bars", 60)
+        self.max_hold_bars = cfg.get("max_hold_bars", 60)
 
         # Internal state per ticket
         self.last_modification_time: dict[int, float] = {}
         self.breakeven_applied: set[int] = set()
         self.bars_held_counter: dict[int, int] = {}
+        self.exit_agents: dict[int, ForexKalmanEntropyExitAgent] = {}
 
-    def execute(self, symbol: str) -> None:
+    def get_or_create_exit_agent(self, pos: Position) -> ForexKalmanEntropyExitAgent:
+        """Retrieves or creates a dedicated ForexKalmanEntropyExitAgent for a position."""
+        if pos.ticket not in self.exit_agents:
+            pip_unit = PipCalculator.get_pip_unit(pos.symbol)
+            agent = ForexKalmanEntropyExitAgent(pip_unit=pip_unit)
+            agent.reset(pos.price_open)
+            self.exit_agents[pos.ticket] = agent
+        return self.exit_agents[pos.ticket]
+
+    def execute(self, arg1: Union[str, float], arg2: Optional[str] = None) -> None:
         """
-        Called on every live tick. Manages all open positions for the symbol.
+        Called on every live tick. Handles both execute(symbol) and execute(price, symbol).
         """
+        if isinstance(arg1, str):
+            symbol = arg1
+        elif isinstance(arg2, str):
+            symbol = arg2
+        else:
+            return
+
         open_positions = self.trade_repo.get_positions_by_status(TradeStatus.OPEN)
         if not open_positions:
             return
@@ -76,33 +85,29 @@ class ManagePositionUseCase:
             return
 
         # Fetch broker symbol specification
-        symbol_info = self.broker.get_symbol_info(symbol)
-        symbol_point  = symbol_info.get("point", 0.01)
-        symbol_digits = symbol_info.get("digits", 2)
+        symbol_info = {}
+        if hasattr(self.broker, "get_symbol_info"):
+            symbol_info = self.broker.get_symbol_info(symbol)
+        symbol_point = symbol_info.get("point", PipCalculator.get_pip_unit(symbol) * 0.1)
+        symbol_digits = symbol_info.get("digits", 5 if "JPY" not in symbol else 3)
 
-        # Dynamic ATR Fallback
-        # If IndicatorService cache isn't available on this tick, estimate ATR dynamically.
-        # XAUUSD 1m ATR is typically ~0.04% to 0.06% of price.
         current_price = current_tick.bid
-        current_atr = current_price * 0.0005  # e.g., $4500 * 0.0005 = $2.25 ATR
+        current_atr = current_price * 0.0005
 
         for pos in open_positions:
             if pos.symbol != symbol:
                 continue
 
-            # Increment bars-held counter (1 per tick is approximate;
-            # in production this should be incremented once per closed M1 bar)
             bars_held = self.bars_held_counter.get(pos.ticket, 0)
 
-            # ── Timeout Gate (rollover protection) ───────────────────────────
+            # ── Timeout Gate ───────────────────────────────────────────
             if self.max_hold_bars > 0 and bars_held >= self.max_hold_bars:
                 self._process_exit(pos, current_tick, ExitReason.TIMEOUT)
                 continue
 
-            # ── Correct executable exit price ─────────────────────────────────
             executable_price = current_tick.bid if pos.type == "BUY" else current_tick.ask
 
-            # ── Local SL/TP redundancy check (broker holds the real ones) ─────
+            # ── Local SL/TP check ─────────────────────────────────────
             if pos.type == "BUY":
                 if executable_price <= pos.price_sl:
                     self._process_exit(pos, current_tick, ExitReason.SL)
@@ -118,9 +123,31 @@ class ManagePositionUseCase:
                     self._process_exit(pos, current_tick, ExitReason.TARGET)
                     continue
 
-            # ── Breakeven (applied once per position, after +trigger_r move) ─
+            # ── Kalman-Entropy Exit & Trailing Agent Decision ─────────
+            exit_agent = self.get_or_create_exit_agent(pos)
+            exit_agent.update(executable_price, current_tick.bid, current_tick.ask, direction=pos.type)
+            action, suggested_sl = exit_agent.decide(
+                entry_price=pos.price_open,
+                current_price=executable_price,
+                current_sl=pos.price_sl,
+                tick_time=current_tick.time,
+                direction=pos.type
+            )
+
+            if action == "EARLY_EXIT":
+                reason_str = getattr(exit_agent, "exit_reason", "")
+                if reason_str == "KALMAN_VELOCITY_REVERSAL":
+                    exit_reason = ExitReason.KALMAN_VELOCITY_REVERSAL
+                elif reason_str == "KALMAN_TIGHTEN":
+                    exit_reason = ExitReason.KALMAN_TIGHTEN
+                else:
+                    exit_reason = ExitReason.SYSTEM_CLOSE
+                self._process_exit(pos, current_tick, exit_reason)
+                continue
+
+            # ── Breakeven (applied once per position) ─────────────────
             if self.be_enabled and pos.ticket not in self.breakeven_applied:
-                initial_risk    = abs(pos.price_open - pos.price_sl)
+                initial_risk = abs(pos.price_open - pos.price_sl)
                 trigger_distance = initial_risk * self.be_trigger_r
 
                 if pos.type == "BUY":
@@ -141,45 +168,41 @@ class ManagePositionUseCase:
                         self.trade_repo.save_position(pos)
                         self.event_bus.publish(BreakevenSet(ticket=pos.ticket, be_sl=be_sl))
 
-            # ── ATR Trailing SL & Time-Based Tightening ───────────────────────
+            # ── Dynamic Trailing Stop (incorporating agent suggested_sl)
             trail_distance = current_atr * 1.5
 
             if pos.type == "BUY":
-                new_sl = executable_price - trail_distance
-                
-                # Squeeze SL toward price as we run out of time (75%+ of max hold)
+                candidate_sl = max(suggested_sl, executable_price - trail_distance)
                 if self.max_hold_bars > 0:
                     hold_pct = bars_held / self.max_hold_bars
                     if hold_pct >= 0.75:
                         progress = min((hold_pct - 0.75) / 0.25, 1.0)
-                        time_sl = new_sl + progress * (executable_price - new_sl)
-                        new_sl = max(new_sl, time_sl)
+                        candidate_sl = max(candidate_sl, candidate_sl + progress * (executable_price - candidate_sl))
 
-                is_monotonic   = new_sl > pos.price_sl
-                distance_moved = new_sl - pos.price_sl
+                is_monotonic = candidate_sl > pos.price_sl
+                distance_moved = candidate_sl - pos.price_sl
+                new_sl = candidate_sl
             else:
-                new_sl = executable_price + trail_distance
-                
-                # Squeeze SL toward price as we run out of time
+                candidate_sl = min(suggested_sl, executable_price + trail_distance)
                 if self.max_hold_bars > 0:
                     hold_pct = bars_held / self.max_hold_bars
                     if hold_pct >= 0.75:
                         progress = min((hold_pct - 0.75) / 0.25, 1.0)
-                        time_sl = new_sl - progress * (new_sl - executable_price)
-                        new_sl = min(new_sl, time_sl)
+                        candidate_sl = min(candidate_sl, candidate_sl - progress * (candidate_sl - executable_price))
 
-                is_monotonic   = new_sl < pos.price_sl
-                distance_moved = pos.price_sl - new_sl
+                is_monotonic = candidate_sl < pos.price_sl
+                distance_moved = pos.price_sl - candidate_sl
+                new_sl = candidate_sl
 
             if not is_monotonic:
                 continue
 
-            # ── Three-Way Throttle ────────────────────────────────────────────
+            # ── Throttle ──────────────────────────────────────────────
             effective_threshold = max(
                 self.modify_min_points * symbol_point,
                 current_atr * self.modify_min_atr_fraction
             )
-            now_ts          = time.time()
+            now_ts = time.time()
             time_since_last = now_ts - self.last_modification_time.get(pos.ticket, 0)
 
             if distance_moved < effective_threshold:
@@ -187,9 +210,7 @@ class ManagePositionUseCase:
             if time_since_last < self.modify_min_interval_seconds:
                 continue
 
-            # Normalize to valid broker digits
             new_sl = self._round_to_digits(new_sl, symbol_digits)
-
             success = self.broker.modify_position(pos.ticket, sl=new_sl, tp=pos.price_tp)
             if success:
                 self.last_modification_time[pos.ticket] = now_ts
@@ -200,20 +221,18 @@ class ManagePositionUseCase:
                 )
 
     def on_bar_closed(self, symbol: str) -> None:
-        """
-        Called once per closed M1 bar.
-        Increments the bars-held counter for all open positions and publishes a Journey Snapshot.
-        """
+        """Called once per closed bar."""
         open_positions = self.trade_repo.get_positions_by_status(TradeStatus.OPEN)
         current_tick = self.market_data.get_current_tick(symbol)
-        
+
         for pos in open_positions:
             if pos.symbol == symbol:
                 self.bars_held_counter[pos.ticket] = (
                     self.bars_held_counter.get(pos.ticket, 0) + 1
                 )
-                
-                # Publish Journey Snapshot
+                if pos.ticket in self.exit_agents:
+                    self.exit_agents[pos.ticket].on_bar_closed()
+
                 if current_tick:
                     price = current_tick.bid if pos.type == "BUY" else current_tick.ask
                     self.event_bus.publish(JourneySnapshot(
@@ -225,25 +244,23 @@ class ManagePositionUseCase:
                     ))
 
     def _round_to_digits(self, price: float, digits: int) -> float:
-        """Round a price to the broker's valid symbol digits (always floor)."""
         factor = 10 ** digits
         return math.floor(price * factor) / factor
 
-    def _process_exit(
-        self, pos: Position, tick, reason: ExitReason
-    ) -> None:
-        """Close position at broker and persist the final state."""
+    def _process_exit(self, pos: Position, tick, reason: ExitReason) -> None:
         exit_price = tick.bid if pos.type == "BUY" else tick.ask
         success = self.broker.close_position(pos.ticket)
         if success:
             self.breakeven_applied.discard(pos.ticket)
             self.last_modification_time.pop(pos.ticket, None)
             self.bars_held_counter.pop(pos.ticket, None)
+            self.exit_agents.pop(pos.ticket, None)
             updated_pos = replace(
                 pos,
                 status=TradeStatus.CLOSED,
                 price_close=exit_price,
-                time_closing=datetime.now(timezone.utc)
+                time_closing=datetime.now(timezone.utc),
+                exit_reason=reason
             )
             self.trade_repo.save_position(updated_pos)
             self.event_bus.publish(

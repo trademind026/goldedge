@@ -10,10 +10,20 @@ from ..domain.services.sizing_service import PositionSizingService
 from .risk_profiles import MEDIUM_RISK_LIVE, MEDIUM_RISK_BACKTEST
 
 from ..infrastructure.ml.lgbm_meta_labeler import LightGBMMetaLabeler
+from ..infrastructure.ml.forex_meta_model import ForexMetaLabeler
+from ..infrastructure.ml.macro_feature_engine import MacroFeatureEngine
+from ..infrastructure.ml.microstructure_feature_engine import MicrostructureFeatureEngine
+from ..infrastructure.ml.forex_micro_model import ForexMicroModel
+from ..domain.services.forex_decision_rules import ForexDecisionRules
+from ..domain.services.forex_micro_gatekeeper import ForexMicroGatekeeper
+from ..domain.services.circuit_breaker_service import ForexCircuitBreakerService
+from ..domain.services.forex_audit_service import ForexAuditService
+from ..adapters.secondary.features.microstructure_feature_repo import MicrostructureFeatureRepository
 
 from ..application.use_cases.scan_market import ScanMarketUseCase
 from ..application.use_cases.execute_trade import ExecuteTradeUseCase
 from ..application.use_cases.manage_position import ManagePositionUseCase
+from ..application.use_cases.forex_decision_loop import ForexDecisionLoopUseCase
 from ..application.use_cases.compute_metrics import ComputeMetricsUseCase
 from ..application.use_cases.run_backtest import RunBacktestUseCase
 from ..adapters.primary.scheduler.scan_scheduler import ScanScheduler
@@ -33,16 +43,18 @@ from ..adapters.secondary.virtual_broker import VirtualBrokerAdapter
 from ..adapters.secondary.in_memory_trade_repo import InMemoryTradeRepository
 from ..adapters.secondary.in_memory_event_bus import InMemoryEventBus
 
+from ..config.settings import Settings
+
 class Container(containers.DeclarativeContainer):
     
     config = providers.Configuration()
     
     # --- External Config ---
-    db_url = providers.Dependency()
+    db_url = providers.Dependency(default=Settings().DB_URL)
     broker_type = providers.Configuration('broker_type') # 'ctrader' or 'mt5'
 
     # --- Adapters (injected externally or configured via Selector) ---
-    event_bus = providers.Dependency()
+    event_bus = providers.Dependency(default=None)
     
     # Import Adapters
     from ..adapters.secondary.market_data.ctrader_provider import CTraderMarketDataProvider
@@ -58,17 +70,23 @@ class Container(containers.DeclarativeContainer):
     mt5_market_data = providers.Factory(MT5MarketDataProvider, account=0, password="", server="", path="")
     mt5_broker = providers.Factory(MT5BrokerAdapter, account=0, password="", server="", path="")
     
+    # Gold Order Manager (Dual-mode: Paper + MT5 Live)
+    from ..gold.adapters.broker.gold_order_manager import GoldOrderManager
+    gold_order_manager = providers.Singleton(GoldOrderManager, mt5_broker=mt5_broker)
+
     # Dynamic Selectors based on BROKER_TYPE
     market_data_provider = providers.Selector(
         config.BROKER_TYPE,
         ctrader=ctrader_market_data,
-        mt5=mt5_market_data
+        mt5=mt5_market_data,
+        gold=mt5_market_data
     )
     
     broker_adapter = providers.Selector(
         config.BROKER_TYPE,
         ctrader=ctrader_broker,
-        mt5=mt5_broker
+        mt5=mt5_broker,
+        gold=gold_order_manager
     )
 
     # --- Database Abstraction Layer (SQLAlchemy Core) ---
@@ -77,6 +95,15 @@ class Container(containers.DeclarativeContainer):
     trade_repo = providers.Singleton(TradeRepository, engine=db_engine)
     tick_repo = providers.Singleton(TickRepository, engine=db_engine)
     config_repo = providers.Singleton(SystemConfigRepository, engine=db_engine)
+    
+    # --- Data Aggregation (Strict Hexagonal Ports & Adapters) ---
+    from ..adapters.secondary.database.pandas_aggregator_repo import PandasAggregatorRepository
+    from ..application.services.market_aggregator import MarketAggregatorService
+    pandas_aggregator_repo = providers.Singleton(PandasAggregatorRepository, engine=db_engine)
+    market_aggregator_service = providers.Factory(
+        MarketAggregatorService,
+        aggregation_repo=pandas_aggregator_repo
+    )
     
     # --- Infrastructure / ML ---
     ml_labeler = providers.Singleton(LightGBMMetaLabeler)
@@ -131,6 +158,73 @@ class Container(containers.DeclarativeContainer):
         market_data=market_data_provider
     )
     
+    # --- Forex Quant Institutional Decision Engine ---
+    macro_feature_engine = providers.Singleton(MacroFeatureEngine)
+    micro_feature_engine = providers.Singleton(MicrostructureFeatureEngine)
+    microstructure_repo = providers.Singleton(MicrostructureFeatureRepository)
+    forex_meta_labeler = providers.Singleton(ForexMetaLabeler)
+    forex_micro_model = providers.Singleton(ForexMicroModel)
+    forex_micro_gatekeeper = providers.Factory(ForexMicroGatekeeper)
+    circuit_breaker_service = providers.Factory(ForexCircuitBreakerService)
+    forex_audit_service = providers.Factory(ForexAuditService)
+    forex_decision_rules = providers.Factory(
+        ForexDecisionRules,
+        min_kalman_vel_z=0.5,
+        min_meta_prob=0.62,
+        max_spread_pips=1.8
+    )
+    forex_decision_loop_uc = providers.Factory(
+        ForexDecisionLoopUseCase,
+        broker=broker_adapter,
+        market_data=market_data_provider,
+        candle_repo=candle_repo,
+        meta_labeler=forex_meta_labeler,
+        execute_trade_uc=execute_trade_uc,
+        manage_position_uc=manage_position_uc,
+        decision_rules=forex_decision_rules,
+        micro_model=forex_micro_model,
+        micro_gatekeeper=forex_micro_gatekeeper
+    )
+
+    # --- Gold Dedicated Quant Engine ---
+    from ..gold import GoldDecisionRules, GoldDecisionLoopUseCase, GoldTickReplayUseCase
+    gold_decision_rules = providers.Factory(
+        GoldDecisionRules,
+        min_kalman_vel_z=0.5,
+        min_meta_prob=0.62,
+        max_spread_dollars=0.60
+    )
+    gold_decision_loop_uc = providers.Factory(
+        GoldDecisionLoopUseCase,
+        broker=gold_order_manager,
+        candle_repo=candle_repo,
+        meta_labeler=forex_meta_labeler,
+        execute_trade_uc=execute_trade_uc,
+        manage_position_uc=manage_position_uc,
+        decision_rules=gold_decision_rules,
+        symbol="XAUUSD"
+    )
+    gold_tick_replay_uc = providers.Factory(
+        GoldTickReplayUseCase,
+        symbol="XAUUSD",
+        initial_equity=10000.0,
+        daily_loss_limit=1500.0,
+        consecutive_loss_limit=2,
+        cooldown_bars=45,
+        ladder_cooldown_bars=15,
+        half_spread_dollars=0.15
+    )
+
+    from ..gold.application.live_execution_engine import ForexLiveExecutionEngine
+    live_execution_engine = providers.Singleton(
+        ForexLiveExecutionEngine,
+        order_manager=gold_order_manager,
+        symbol="XAUUSD",
+        default_mode="paper",
+        initial_balance=10000.0,
+        leverage=100.0
+    )
+
     compute_metrics_uc = providers.Factory(ComputeMetricsUseCase, trade_repo=trade_repo)
 
     # --- Backtest Adapters (in-memory, zero external infra) ---
@@ -169,5 +263,9 @@ class Container(containers.DeclarativeContainer):
     
     # --- Event Handlers ---
     on_bar_closed = providers.Factory(OnBarClosedHandler, scan_market_uc=scan_market_uc)
-    on_tick_received = providers.Factory(OnTickReceivedHandler, manage_position_uc=manage_position_uc)
+    on_tick_received = providers.Factory(
+        OnTickReceivedHandler,
+        manage_position_uc=manage_position_uc,
+        live_execution_engine=live_execution_engine
+    )
     on_signal_generated = providers.Factory(OnSignalGeneratedHandler, execute_trade_uc=execute_trade_uc)

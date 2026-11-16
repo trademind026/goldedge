@@ -116,3 +116,32 @@ class RegimeDetectorService:
             return MarketRegime.TRENDING_BEAR
         else:
             return MarketRegime.SIDEWAYS
+
+    @staticmethod
+    def classify_institutional_regime(
+        entropy: float,
+        kalman_vel_z: float,
+        atr_ratio: float = 1.0,
+        utc_hour: int = 12,
+        utc_minute: int = 0
+    ) -> MarketRegime:
+        """
+        Stage 2.1 Regime Classification Invariants:
+        - Session Open: London (07:00-08:30 UTC) or NY (12:30-14:00 UTC) with expansion -> SESSION_ORB
+        - Low Entropy (H_t < 0.65) and strong velocity (|v_t| > 1.2 sigma) -> KINEMATIC_TREND
+        - High Entropy (H_t >= 0.65) and ATR ratio < 0.90 -> MEAN_REVERSION
+        """
+        is_london_open = (7 == utc_hour) or (8 == utc_hour and utc_minute <= 30)
+        is_ny_open = (12 == utc_hour and utc_minute >= 30) or (13 == utc_hour) or (14 == utc_hour and utc_minute == 0)
+
+        if (is_london_open or is_ny_open) and atr_ratio >= 1.0:
+            return MarketRegime.SESSION_ORB
+
+        if entropy < 0.65 and abs(kalman_vel_z) >= 1.2:
+            return MarketRegime.KINEMATIC_TREND
+
+        if entropy >= 0.65 and atr_ratio < 0.90:
+            return MarketRegime.MEAN_REVERSION
+
+        return MarketRegime.SIDEWAYS
+

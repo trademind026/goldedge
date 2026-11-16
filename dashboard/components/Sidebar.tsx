@@ -149,11 +149,22 @@ export default function Sidebar() {
         <p className="text-[8px] uppercase tracking-[2px] mb-2 px-1" style={{ color: '#3d4450' }}>TRADING MODE</p>
         <div className="flex" style={{ border: '1px solid #252a33', background: '#0e1117' }}>
           <button
-            onClick={() => setMode("test")}
-            className="flex-1 py-[5px] text-[10px] font-bold uppercase tracking-wider text-center transition-all"
+            onClick={() => setMode("paper")}
+            className="flex-1 py-[5px] text-[9px] font-bold uppercase tracking-wider text-center transition-all"
             style={{
-              background: mode === "test" ? '#4da6ff' : 'transparent',
-              color: mode === "test" ? '#000' : '#5a6270',
+              background: mode === "paper" ? '#00e87b' : 'transparent',
+              color: mode === "paper" ? '#000' : '#5a6270',
+              borderRight: '1px solid #252a33',
+            }}
+          >
+            PAPER
+          </button>
+          <button
+            onClick={() => setMode("demo")}
+            className="flex-1 py-[5px] text-[9px] font-bold uppercase tracking-wider text-center transition-all"
+            style={{
+              background: mode === "demo" ? '#4da6ff' : 'transparent',
+              color: mode === "demo" ? '#000' : '#5a6270',
               borderRight: '1px solid #252a33',
             }}
           >
@@ -161,7 +172,7 @@ export default function Sidebar() {
           </button>
           <button
             onClick={() => setMode("live")}
-            className="flex-1 py-[5px] text-[10px] font-bold uppercase tracking-wider text-center transition-all"
+            className="flex-1 py-[5px] text-[9px] font-bold uppercase tracking-wider text-center transition-all"
             style={{
               background: mode === "live" ? '#ff3e3e' : 'transparent',
               color: mode === "live" ? '#000' : '#5a6270',
@@ -170,8 +181,8 @@ export default function Sidebar() {
             LIVE
           </button>
         </div>
-        <p className="text-[8px] mt-1.5 px-1" style={{ color: mode === "live" ? '#ff3e3e' : '#3d4450' }}>
-          {mode === "live" ? "⚠ REAL EXECUTIONS VIA MT5" : "SIMULATED DEMO TRADES ONLY"}
+        <p className="text-[8px] mt-1.5 px-1 font-semibold" style={{ color: mode === "live" ? '#ff3e3e' : mode === "demo" ? '#4da6ff' : '#00e87b' }}>
+          {mode === "live" ? "⚠ REAL CAPITAL EXECUTION VIA MT5" : mode === "demo" ? "BROKER DEMO SERVER TICKETS" : "LOCAL IN-MEMORY LEDGER"}
         </p>
       </div>
 

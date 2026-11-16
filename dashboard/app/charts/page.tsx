@@ -1,584 +1,745 @@
 "use client";
 
-import { useEffect, useState, startTransition } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import Sidebar from "@/components/Sidebar";
-import Badge from "@/components/Badge";
 import {
-  fetchJSON,
-  SSE_STREAM_URL,
-  type Candle,
-  type BacktestResults,
-  type CandleDateInfo,
-  type OptionChainRow,
-  type OptionTickData,
+  apiGetChartData,
+  type ForexChartResponse,
+  type ChartBar,
 } from "@/lib/api";
 import {
-  ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, ReferenceLine, Area,
+  ResponsiveContainer,
+  ComposedChart,
+  Line,
+  Bar,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ReferenceLine,
+  Cell,
 } from "recharts";
-import RetroCalendar from "@/components/RetroCalendar";
-import { toUTCTime as toIST_HM, toUTCTimeFull as toIST_HMS } from "@/lib/time";
+import {
+  Activity,
+  TrendingUp,
+  TrendingDown,
+  Clock,
+  AlertTriangle,
+  RefreshCw,
+  ShieldAlert,
+} from "lucide-react";
 
-/* ── helpers ─────────────────────────────────────────────────────────── */
+/* ── Constants & Formats ──────────────────────────────────────────────── */
 
-const pnlFmt = (v: number) =>
-  `₹${v >= 0 ? "+" : ""}${v.toLocaleString("en-IN", { maximumFractionDigits: 0 })}`;
+const PAIRS = [
+  { id: "EURUSD", label: "EUR/USD", pip: 0.0001 },
+  { id: "GBPUSD", label: "GBP/USD", pip: 0.0001 },
+  { id: "USDJPY", label: "USD/JPY", pip: 0.01 },
+  { id: "AUDUSD", label: "AUD/USD", pip: 0.0001 },
+  { id: "USDCAD", label: "USD/CAD", pip: 0.0001 },
+  { id: "XAUUSD", label: "XAU/USD (GOLD)", pip: 0.10 },
+];
 
-const TIP = {
-  background: "#181c24",
-  border: "1px solid #252a33",
-  borderRadius: 0,
-  fontSize: 11,
-  fontFamily: "JetBrains Mono",
+const TIMEFRAMES = [
+  { id: "1m", label: "M1" },
+  { id: "5m", label: "M5" },
+  { id: "15m", label: "M15" },
+  { id: "1h", label: "H1" },
+  { id: "4h", label: "H4" },
+  { id: "1d", label: "D1" },
+];
+
+const TIP_STYLE = {
+  background: "#10141d",
+  border: "1px solid #1e2430",
+  borderRadius: "2px",
+  fontSize: "11px",
+  fontFamily: "var(--font-mono, monospace)",
+  color: "#e4e8ec",
+  padding: "8px 12px",
+  boxShadow: "0 8px 24px rgba(0,0,0,0.6)",
 };
-const AXIS = { fill: "#5a6270", fontSize: 9 };
-const GRID = "#1e222c";
 
-/* ── sub-components ──────────────────────────────────────────────────── */
+const AXIS_STYLE = {
+  fill: "#5a6270",
+  fontSize: 10,
+  fontFamily: "var(--font-mono, monospace)",
+};
 
-function NiftyCandleChart({ candles }: { candles: Candle[] }) {
-  if (!candles.length)
-    return <div className="h-64 flex items-center justify-center text-[11px]" style={{ color: '#3d4450' }}>NO CANDLE DATA</div>;
+/* ── Custom Candlestick Shape for Recharts ────────────────────────────── */
 
-  const data = candles.map(c => ({
-    t: toIST_HM(String(c.timestamp)),
-    open: c.open, high: c.high, low: c.low, close: c.close,
-    vol: c.volume,
-  }));
-
-  return (
-    <ResponsiveContainer width="100%" height={300}>
-      <ComposedChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
-        <XAxis dataKey="t" tick={AXIS} interval={14} />
-        <YAxis yAxisId="price" tick={AXIS} domain={["auto", "auto"]} width={65}
-          tickFormatter={v => `₹${v.toLocaleString("en-IN")}`} />
-        <YAxis yAxisId="vol" orientation="right" tick={AXIS} width={40} />
-        <Tooltip contentStyle={TIP}
-          formatter={(v: unknown, name: unknown) => [
-            name === "Volume" ? Number(v as string | number).toLocaleString() : `₹${Number(v as string | number).toLocaleString("en-IN")}`, String(name),
-          ]} />
-        <Bar yAxisId="vol" dataKey="vol" fill="#6b7280" opacity={0.2} name="Volume" />
-        <Line yAxisId="price" type="monotone" dataKey="close" stroke="#4da6ff" dot={false} strokeWidth={1.5} name="Close" />
-        <Line yAxisId="price" type="monotone" dataKey="high" stroke="#00e87b" dot={false} strokeWidth={1} strokeDasharray="2 2" name="High" />
-        <Line yAxisId="price" type="monotone" dataKey="low" stroke="#ff3e3e" dot={false} strokeWidth={1} strokeDasharray="2 2" name="Low" />
-      </ComposedChart>
-    </ResponsiveContainer>
-  );
+interface CandlestickProps {
+  x?: number;
+  width?: number;
+  y?: number;
+  height?: number;
+  payload?: any;
+  yAxis?: any;
 }
 
-function OptionTickChart({ tickData, symbol }: { tickData: OptionTickData; symbol: string }) {
-  if (!tickData.data.length)
-    return <div className="h-64 flex items-center justify-center text-[11px]" style={{ color: '#3d4450' }}>NO TICK DATA FOR {symbol}</div>;
+const CandlestickShape = (props: CandlestickProps) => {
+  const { x = 0, width = 6, payload, yAxis } = props;
+  if (!payload || !yAxis) return null;
 
-  const isTick = tickData.source === "ticks";
-  const data = tickData.data.map((d: Record<string, unknown>) => ({
-    t:   toIST_HMS(String(d.timestamp ?? "")),
-    ltp: Number(isTick ? d.price : d.close) || 0,
-    vol: Number(d.volume) || 0,
-    oi:  Number(d.oi) || 0,
-    bid: isTick ? Number(d.bid_price) || 0 : undefined,
-    ask: isTick ? Number(d.ask_price) || 0 : undefined,
-  }));
+  const { open, close, high, low } = payload;
+  const isBull = close >= open;
+  const strokeColor = isBull ? "#00e87b" : "#ff3e3e";
+  const fillColor = isBull ? "#00e87b" : "#ff3e3e";
 
-  const maxPts = 2000;
-  const sampled = data.length > maxPts
-    ? data.filter((_: any, i: any) => i % Math.ceil(data.length / maxPts) === 0)
-    : data;
+  const scale = yAxis.scale;
+  if (!scale) return null;
 
-  return (
-    <div>
-      <div className="flex items-center gap-3 mb-2">
-        <span className="text-[10px]" style={{ color: '#5a6270' }}>
-          {tickData.data.length.toLocaleString()} {isTick ? "ticks" : "candles"}
-          {data.length > maxPts && ` (sampled to ${sampled.length} pts)`}
-        </span>
-        <Badge label={isTick ? "TICK" : "1-MIN"} variant={isTick ? "green" : "blue"} />
-      </div>
-      <ResponsiveContainer width="100%" height={300}>
-        <ComposedChart data={sampled} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
-          <XAxis dataKey="t" tick={AXIS} interval={Math.max(1, Math.floor(sampled.length / 15))} />
-          <YAxis yAxisId="price" tick={AXIS} domain={["auto", "auto"]} width={55}
-            tickFormatter={v => `₹${v}`} />
-          <YAxis yAxisId="oi" orientation="right" tick={AXIS} width={50} />
-          <Tooltip contentStyle={TIP}
-            formatter={(v: unknown, name: unknown) => [
-              name === "OI" ? Number(v as string | number).toLocaleString() : `₹${Number(v as string | number).toFixed(2)}`, String(name),
-            ]} />
-          <Area yAxisId="oi" type="monotone" dataKey="oi" fill="#252a33" fillOpacity={0.3} stroke="#252a33" name="OI" />
-          <Line yAxisId="price" type="monotone" dataKey="ltp" stroke="#4da6ff" dot={false} strokeWidth={1.5} name="LTP" />
-          {isTick && (
-            <>
-              <Line yAxisId="price" type="monotone" dataKey="bid" stroke="#00e87b" dot={false} strokeWidth={1} strokeDasharray="2 2" name="Bid" />
-              <Line yAxisId="price" type="monotone" dataKey="ask" stroke="#ff3e3e" dot={false} strokeWidth={1} strokeDasharray="2 2" name="Ask" />
-            </>
-          )}
-        </ComposedChart>
-      </ResponsiveContainer>
-    </div>
-  );
-}
+  const yOpen = scale(open);
+  const yClose = scale(close);
+  const yHigh = scale(high);
+  const yLow = scale(low);
 
-function OptionChainTable({
-  chain,
-  selectedSymbol,
-  onSelect,
-}: {
-  chain: OptionChainRow[];
-  selectedSymbol: string | null;
-  onSelect: (sym: string) => void;
-}) {
-  if (!chain.length)
-    return <div className="py-8 text-center text-[11px]" style={{ color: '#3d4450' }}>NO OPTION CHAIN DATA</div>;
-
-  const strikes = Array.from(new Set(chain.map(r => r.strike))).sort((a, b) => a - b);
-  const ceMap = new Map(chain.filter(r => r.type === "CE").map(r => [r.strike, r]));
-  const peMap = new Map(chain.filter(r => r.type === "PE").map(r => [r.strike, r]));
+  const candleTop = Math.min(yOpen, yClose);
+  const candleBottom = Math.max(yOpen, yClose);
+  const bodyHeight = Math.max(candleBottom - candleTop, 1.5);
+  const centerX = x + width / 2;
 
   return (
-    <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
-      <table className="text-[11px]">
-        <thead className="sticky top-0 z-10" style={{ background: '#181c24' }}>
-          <tr>
-            <th colSpan={4} className="text-center" style={{ color: '#00e87b', borderRight: '1px solid #252a33' }}>CALL (CE)</th>
-            <th className="text-center" style={{ color: '#e8c300' }}>Strike</th>
-            <th colSpan={4} className="text-center" style={{ color: '#ff3e3e', borderLeft: '1px solid #252a33' }}>PUT (PE)</th>
-          </tr>
-          <tr>
-            {["OI", "Vol", "LTP", ""].map(h => (
-              <th key={`ce-${h}`} className="text-right">{h}</th>
-            ))}
-            <th className="text-center">₹</th>
-            {["", "LTP", "Vol", "OI"].map(h => (
-              <th key={`pe-${h}`} className="text-left">{h}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {strikes.map(strike => {
-            const ce = ceMap.get(strike);
-            const pe = peMap.get(strike);
-            const ceSym = ce?.symbol ?? "";
-            const peSym = pe?.symbol ?? "";
-            const isCeSelected = selectedSymbol === ceSym;
-            const isPeSelected = selectedSymbol === peSym;
-
-            return (
-              <tr key={strike}>
-                <td className="text-right" style={{ color: '#5a6270' }}>{ce ? ce.oi.toLocaleString() : "-"}</td>
-                <td className="text-right" style={{ color: '#5a6270' }}>{ce ? ce.volume.toLocaleString() : "-"}</td>
-                <td className="text-right font-semibold" style={{ color: '#00e87b' }}>{ce ? `₹${ce.last_price.toFixed(2)}` : "-"}</td>
-                <td className="text-right px-1">
-                  {ce && (
-                    <button
-                      onClick={() => onSelect(ceSym)}
-                      className="px-1.5 py-0.5 text-[9px] font-semibold transition-all"
-                      style={{
-                        background: isCeSelected ? '#00e87b' : '#1e222c',
-                        color: isCeSelected ? '#000' : '#5a6270',
-                        border: `1px solid ${isCeSelected ? '#00e87b' : '#252a33'}`,
-                      }}
-                    >
-                      CE
-                    </button>
-                  )}
-                </td>
-                <td className="text-center font-bold" style={{ color: '#e8c300', background: '#111318' }}>{strike}</td>
-                <td className="text-left px-1">
-                  {pe && (
-                    <button
-                      onClick={() => onSelect(peSym)}
-                      className="px-1.5 py-0.5 text-[9px] font-semibold transition-all"
-                      style={{
-                        background: isPeSelected ? '#ff3e3e' : '#1e222c',
-                        color: isPeSelected ? '#000' : '#5a6270',
-                        border: `1px solid ${isPeSelected ? '#ff3e3e' : '#252a33'}`,
-                      }}
-                    >
-                      PE
-                    </button>
-                  )}
-                </td>
-                <td className="text-left font-semibold" style={{ color: '#ff3e3e' }}>{pe ? `₹${pe.last_price.toFixed(2)}` : "-"}</td>
-                <td className="text-left" style={{ color: '#5a6270' }}>{pe ? pe.volume.toLocaleString() : "-"}</td>
-                <td className="text-left" style={{ color: '#5a6270' }}>{pe ? pe.oi.toLocaleString() : "-"}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+    <g>
+      {/* Upper and Lower Wick */}
+      <line
+        x1={centerX}
+        y1={yHigh}
+        x2={centerX}
+        y2={yLow}
+        stroke={strokeColor}
+        strokeWidth={1.2}
+      />
+      {/* Real Body */}
+      <rect
+        x={x}
+        y={candleTop}
+        width={width}
+        height={bodyHeight}
+        fill={fillColor}
+        stroke={strokeColor}
+        strokeWidth={1}
+        rx={0.5}
+      />
+    </g>
   );
-}
+};
 
-function AnalyticsCharts({ results }: { results: BacktestResults }) {
-  const profiles = ["low", "medium", "high"] as const;
-  const winData = profiles.map(r => ({
-    name: r.charAt(0).toUpperCase() + r.slice(1),
-    win_rate: results[r]?.win_rate ?? 0,
-    loss_rate: results[r] ? 100 - results[r]!.win_rate : 0,
-  }));
-  const ddData = profiles.map(r => ({
-    name: r.charAt(0).toUpperCase() + r.slice(1),
-    drawdown: Math.abs(results[r]?.max_dd ?? 0),
-    pnl: results[r]?.pnl ?? 0,
-  }));
-  const rrData = profiles.map(r => ({
-    name: r.charAt(0).toUpperCase() + r.slice(1),
-    rr: results[r]?.rr ?? 0,
-    avg_win: results[r]?.avg_win ?? 0,
-    avg_loss: Math.abs(results[r]?.avg_loss ?? 0),
-  }));
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-[1px]">
-      <div className="t-panel p-4">
-        <h3 className="text-[11px] font-semibold mb-3 uppercase tracking-wider" style={{ color: '#5a6270' }}>Win Rate</h3>
-        <ResponsiveContainer width="100%" height={200}>
-          <ComposedChart data={winData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
-            <XAxis dataKey="name" tick={AXIS} />
-            <YAxis tick={AXIS} domain={[0, 100]} tickFormatter={v => `${v}%`} width={40} />
-            <Tooltip contentStyle={TIP} formatter={(v: unknown, name: unknown) => [`${v}%`, name === "win_rate" ? "Win" : "Loss"]} />
-            <ReferenceLine y={50} stroke="#252a33" strokeDasharray="4 4" />
-            <Bar dataKey="win_rate" fill="#00e87b" name="win_rate" />
-            <Bar dataKey="loss_rate" fill="#ff3e3e" name="loss_rate" />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
-      <div className="t-panel p-4">
-        <h3 className="text-[11px] font-semibold mb-3 uppercase tracking-wider" style={{ color: '#5a6270' }}>P&L vs Max DD</h3>
-        <ResponsiveContainer width="100%" height={200}>
-          <ComposedChart data={ddData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
-            <XAxis dataKey="name" tick={AXIS} />
-            <YAxis tick={AXIS} width={60} tickFormatter={v => `₹${(v / 1000).toFixed(0)}K`} />
-            <Tooltip contentStyle={TIP} formatter={(v: unknown, name: unknown) => [pnlFmt(name === "drawdown" ? -Number(v as string | number) : Number(v as string | number)), name === "drawdown" ? "Max DD" : "P&L"]} />
-            <Bar dataKey="pnl" fill="#00e87b" name="pnl" />
-            <Bar dataKey="drawdown" fill="#ff3e3e" name="drawdown" />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
-      <div className="t-panel p-4">
-        <h3 className="text-[11px] font-semibold mb-3 uppercase tracking-wider" style={{ color: '#5a6270' }}>Avg W/L & R:R</h3>
-        <ResponsiveContainer width="100%" height={200}>
-          <ComposedChart data={rrData} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
-            <XAxis dataKey="name" tick={AXIS} />
-            <YAxis yAxisId="money" tick={AXIS} width={60} tickFormatter={v => `₹${(v / 1000).toFixed(0)}K`} />
-            <YAxis yAxisId="rr" orientation="right" tick={AXIS} width={30} />
-            <Tooltip contentStyle={TIP} formatter={(v: unknown, name: unknown) => [name === "rr" ? `${v}×` : pnlFmt(Number(v as string | number)), name === "rr" ? "R:R" : name === "avg_win" ? "Avg Win" : "Avg Loss"]} />
-            <ReferenceLine yAxisId="money" y={0} stroke="#252a33" />
-            <Bar yAxisId="money" dataKey="avg_win" fill="#00e87b" name="avg_win" />
-            <Bar yAxisId="money" dataKey="avg_loss" fill="#ff3e3e" name="avg_loss" />
-            <Line yAxisId="rr" type="monotone" dataKey="rr" stroke="#4da6ff" strokeWidth={2} dot={{ fill: "#4da6ff", r: 3 }} name="rr" />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-  );
-}
-
-/* ── main page ───────────────────────────────────────────────────────── */
-
-interface TickPoint { timestamp: string; price: number; volume: number; bid_price?: number; ask_price?: number; }
+/* ── Main Component ───────────────────────────────────────────────────── */
 
 export default function ChartsPage() {
-  const [dates, setDates] = useState<CandleDateInfo[]>([]);
-  const [selectedDate, setSelectedDate] = useState<string>("");
-  const [candles, setCandles] = useState<Candle[]>([]);
-  const [loadingCandles, setLoadingCandles] = useState(false);
-  const [chartView, setChartView] = useState<"candles" | "ticks">("candles");
-  const [ticks, setTicks] = useState<TickPoint[]>([]);
-  const [loadingTicks2, setLoadingTicks2] = useState(false);
+  const [selectedPair, setSelectedPair] = useState("EURUSD");
+  const [selectedTf, setSelectedTf] = useState("1m");
+  const [mobileSubTab, setMobileSubTab] = useState<"velocity" | "entropy">("velocity");
+  const [chartData, setChartData] = useState<ForexChartResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [autoRefresh, setAutoRefresh] = useState(true);
 
-  const [expiries, setExpiries] = useState<string[]>([]);
-  const [selectedExpiry, setSelectedExpiry] = useState<string>("");
-  const [chain, setChain] = useState<OptionChainRow[]>([]);
-  const [loadingChain, setLoadingChain] = useState(false);
+  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [optionTicks, setOptionTicks] = useState<OptionTickData | null>(null);
-  const [loadingTicks, setLoadingTicks] = useState(false);
+  // Fetch chart data
+  const loadData = useCallback(async (isPolling = false) => {
+    if (!isPolling) setLoading(true);
+    try {
+      const resp = await apiGetChartData(selectedPair, selectedTf, 150);
+      setChartData(resp);
+      setError(null);
+    } catch (err: any) {
+      console.error("Charts fetch error:", err);
+      if (!isPolling) setError(err.message || "Failed to load chart telemetry");
+    } finally {
+      if (!isPolling) setLoading(false);
+    }
+  }, [selectedPair, selectedTf]);
 
-  const [results, setResults] = useState<BacktestResults>({});
-
-  // ── Live option-chain prices from SSE (today only) ────────────────────
-  // Overlays tick_cache prices onto the chain state every ~1s so the
-  // option chain table updates live without refresh. Only connects the
-  // EventSource when selectedDate === today.
-  // ── Live option chain updates (today only) ───────────────────────────
-  // Two separate mechanisms:
-  //   1. SSE stream → live LTP prices (every ~1s, zero cost — same stream
-  //      that the live page uses, just reads tick_cache from the payload)
-  //   2. Periodic fetchJSON → OI + volume (every 30s via /api/options/chain,
-  //      which is a single DB query — OI/vol don't change faster than that)
-
-  // 1. SSE for live prices
   useEffect(() => {
-    const today = new Date().toISOString().slice(0, 10);
-    if (selectedDate !== today) return;
+    loadData(false);
+  }, [loadData]);
 
-    const es = new EventSource(SSE_STREAM_URL);
-    es.onmessage = (ev) => {
-      try {
-        const data = JSON.parse(ev.data);
-        const cache = data.tick_cache as Record<string, { price: number }> | undefined;
-        if (!cache) return;
-        setChain((prev) => {
-          if (prev.length === 0) return prev;
-          let changed = false;
-          const updated = prev.map((row) => {
-            const live = cache[row.symbol];
-            if (live && live.price > 0 && Math.abs(live.price - row.last_price) > 0.01) {
-              changed = true;
-              return { ...row, last_price: live.price };
-            }
-            return row;
-          });
-          return changed ? updated : prev;
-        });
-      } catch {}
+  // 2s Auto-Refresh Interval
+  useEffect(() => {
+    if (!autoRefresh) {
+      if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
+      return;
+    }
+
+    pollIntervalRef.current = setInterval(() => {
+      loadData(true);
+    }, 2000);
+
+    return () => {
+      if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
     };
-    return () => es.close();
-  }, [selectedDate]);
+  }, [autoRefresh, loadData]);
 
-  // 2. Periodic OI + volume refresh (every 30s)
-  useEffect(() => {
-    const today = new Date().toISOString().slice(0, 10);
-    if (selectedDate !== today || !selectedExpiry) return;
-
-    const refresh = () => {
-      fetchJSON<OptionChainRow[]>(`/options/chain?date=${selectedDate}&expiry=${selectedExpiry}`)
-        .then((rows) => {
-          const freshMap = new Map(rows.map(r => [r.symbol, r]));
-          setChain((prev) => {
-            if (prev.length === 0) return prev;
-            let changed = false;
-            const updated = prev.map((row) => {
-              const fresh = freshMap.get(row.symbol);
-              if (fresh && (fresh.volume !== row.volume || fresh.oi !== row.oi)) {
-                changed = true;
-                return { ...row, volume: fresh.volume, oi: fresh.oi };
-              }
-              return row;
-            });
-            return changed ? updated : prev;
-          });
-        })
-        .catch(() => {});
-    };
-
-    const interval = setInterval(refresh, 30_000);
-    return () => clearInterval(interval);
-  }, [selectedDate, selectedExpiry]);
-
-  // Current date info for toggle visibility
-  const currentDateInfo = dates.find(d => d.day === selectedDate);
-  const hasBothViews = (currentDateInfo?.bars ?? 0) > 0 && (currentDateInfo?.ticks ?? 0) > 0;
-
-  useEffect(() => {
-    fetchJSON<CandleDateInfo[]>("/candle_dates").then(d => {
-      setDates(d);
-      if (d.length > 0) setSelectedDate(d[d.length - 1].day);
-    }).catch(() => {});
-    fetchJSON<BacktestResults>("/backtest/results").then(setResults).catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    if (!selectedDate) return;
-    startTransition(() => {
-      setLoadingCandles(true);
-      setChain([]);
-      setSelectedExpiry("");
-      setSelectedOption(null);
-      setOptionTicks(null);
-      setTicks([]);
-      setChartView("candles");
+  // Formatted Bars for Charting
+  const formattedBars = useMemo(() => {
+    if (!chartData || !chartData.bars) return [];
+    return chartData.bars.map((b) => {
+      const dt = new Date(b.timestamp);
+      const timeStr = dt.toLocaleTimeString("en-US", {
+        timeZone: "UTC",
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      return {
+        ...b,
+        timeStr,
+        candleRange: [b.low, b.high],
+      };
     });
+  }, [chartData]);
 
-    Promise.all([
-      fetchJSON<Candle[]>(`/market/candles/date?date=${selectedDate}`).catch(() => []),
-      fetchJSON<string[]>(`/options/expiries?date=${selectedDate}`).catch(() => []),
-    ]).then(([c, e]) => {
-      setCandles(c);
-      setExpiries(e);
-      if (e.length > 0) setSelectedExpiry(e[0]);
-      setLoadingCandles(false);
-      // If no candles but ticks exist, auto-switch to tick view
-      if (c.length === 0) {
-        const info = dates.find(d => d.day === selectedDate);
-        if (info && (info.ticks ?? 0) > 0) setChartView("ticks");
-      }
-    });
-  }, [selectedDate, dates]);
+  // Price Domain calculation
+  const priceDomain = useMemo(() => {
+    if (!formattedBars.length) return ["auto", "auto"];
+    let minP = Infinity;
+    let maxP = -Infinity;
+    for (const b of formattedBars) {
+      if (b.low < minP) minP = b.low;
+      if (b.high > maxP) maxP = b.high;
+    }
+    const padding = (maxP - minP) * 0.08 || 0.0005;
+    return [minP - padding, maxP + padding];
+  }, [formattedBars]);
 
-  // Load tick data when user switches to tick view
-  useEffect(() => {
-    if (chartView !== "ticks" || !selectedDate) return;
-    if (ticks.length > 0) return; // already loaded
-    startTransition(() => setLoadingTicks2(true));
-    fetchJSON<TickPoint[]>(`/market/ticks/date?date=${selectedDate}`)
-      .then(setTicks)
-      .catch(() => setTicks([]))
-      .finally(() => setLoadingTicks2(false));
-  }, [chartView, selectedDate, ticks.length]);
+  // Quote and Spread Analysis
+  const currentQuote = chartData?.current_quote;
+  const spreadPips = currentQuote?.spread_pips ?? 0;
+  const spreadStatus = spreadPips > 3.5 ? "critical" : spreadPips > 2.0 ? "warning" : "normal";
 
-  useEffect(() => {
-    if (!selectedDate || !selectedExpiry) return;
-    startTransition(() => {
-      setLoadingChain(true);
-      setSelectedOption(null);
-      setOptionTicks(null);
-    });
-    fetchJSON<OptionChainRow[]>(`/options/chain?date=${selectedDate}&expiry=${selectedExpiry}`)
-      .then(setChain)
-      .catch(() => setChain([]))
-      .finally(() => setLoadingChain(false));
-  }, [selectedDate, selectedExpiry]);
+  const sessionStatus = chartData?.statistics?.session_status ?? "LONDON";
+  const currentRegime = chartData?.statistics?.current_regime ?? "SIDEWAYS";
+  const currentVelocity = chartData?.statistics?.current_kalman_velocity ?? 0;
+  const currentEntropy = chartData?.statistics?.current_entropy ?? 1.5;
+  const isRollover = sessionStatus === "ROLLOVER";
 
-  useEffect(() => {
-    if (!selectedOption || !selectedDate) return;
-    startTransition(() => setLoadingTicks(true));
-    fetchJSON<OptionTickData>(`/options/ticks?symbol=${selectedOption}&date=${selectedDate}`)
-      .then(setOptionTicks)
-      .catch(() => setOptionTicks(null))
-      .finally(() => setLoadingTicks(false));
-  }, [selectedOption, selectedDate]);
-
-  const parseSymbol = (sym: string) => {
-    const m = sym.match(/NIFTY(\d{6})(\d+)(CE|PE)/);
-    if (!m) return sym;
-    return `NIFTY ${m[2]} ${m[3]}`;
-  };
+  const digits = selectedPair.includes("JPY") || selectedPair.includes("XAU") ? 2 : 5;
 
   return (
-    <div className="flex min-h-screen">
+    <div
+      className="flex min-h-screen"
+      style={{
+        background: "#0a0d13",
+        color: "#e4e8ec",
+        fontFamily: "var(--font-mono, monospace)",
+      }}
+    >
       <Sidebar />
-      <main className="flex-1 p-5 overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-5">
-          <div>
-            <h1 className="text-sm font-bold uppercase tracking-wider" style={{ color: '#00e87b' }}>Charts</h1>
-            <p className="text-[10px] mt-0.5" style={{ color: '#3d4450' }}>MARKET DATA, OPTION CHAINS & TICK CHARTS</p>
-          </div>
-          <RetroCalendar
-            dates={dates}
-            selectedDate={selectedDate}
-            onSelect={setSelectedDate}
-          />
-        </div>
 
-        {/* NIFTY chart */}
-        <div className="t-panel p-4 mb-4">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: '#5a6270' }}>
-              NIFTY {chartView === "candles" ? "1-MIN" : "TICKS"} — {selectedDate || "..."}
-              <span className="ml-2 font-normal" style={{ color: '#3d4450' }}>
-                {chartView === "candles" ? `${candles.length} candles` : `${ticks.length} ticks`}
-              </span>
-            </h3>
-            {hasBothViews && (
-              <div className="flex gap-[1px]">
-                {(["candles", "ticks"] as const).map(v => (
-                  <button key={v} onClick={() => setChartView(v)}
-                    className="px-3 py-[4px] text-[9px] font-bold uppercase tracking-wider"
+      <main className="flex-1 flex flex-col h-screen overflow-hidden">
+        {/* ── 1. Interactive Control Header ──────────────────────────── */}
+        <header
+          className="border-b shrink-0 px-4 py-3 flex flex-col gap-3"
+          style={{ background: "#0e1219", borderColor: "#1a202c" }}
+        >
+          {/* Top Line: Pair Selector & Live Telemetry HUD */}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            {/* Currency Pair Segmented Controls */}
+            <div className="flex items-center gap-1.5 overflow-x-auto py-1 scrollbar-none">
+              {PAIRS.map((p) => {
+                const active = p.id === selectedPair;
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => setSelectedPair(p.id)}
+                    className="px-3 py-1.5 text-xs font-bold rounded transition-all shrink-0 cursor-pointer"
                     style={{
-                      background: chartView === v ? '#4da6ff' : '#181c24',
-                      color: chartView === v ? '#000' : '#5a6270',
-                      border: `1px solid ${chartView === v ? '#4da6ff' : '#252a33'}`,
-                    }}>
-                    {v === "candles" ? `1-MIN (${currentDateInfo?.bars ?? 0})` : `TICKS (${currentDateInfo?.ticks ?? 0})`}
+                      background: active ? "#00e87b" : "#141922",
+                      color: active ? "#000000" : "#8a94a6",
+                      border: active ? "1px solid #00e87b" : "1px solid #1f2735",
+                      boxShadow: active ? "0 0 10px rgba(0,232,123,0.3)" : "none",
+                    }}
+                  >
+                    {p.label}
                   </button>
-                ))}
-              </div>
-            )}
-          </div>
-          {loadingCandles || loadingTicks2 ? (
-            <div className="h-[300px] flex items-center justify-center text-[11px]" style={{ color: '#3d4450' }}>LOADING...</div>
-          ) : chartView === "candles" ? (
-            <NiftyCandleChart candles={candles} />
-          ) : ticks.length > 0 ? (
-            <ResponsiveContainer width="100%" height={300}>
-              <ComposedChart data={ticks.filter((_: any, i: any) => i % Math.max(1, Math.floor(ticks.length / 2000)) === 0)} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
-                <CartesianGrid stroke="#1e222c" strokeDasharray="3 3" />
-                <XAxis dataKey="timestamp" tick={{ fontSize: 9, fill: "#3d4450" }} tickFormatter={t => toIST_HMS(t ?? "")} />
-                <YAxis domain={["auto", "auto"]} tick={{ fontSize: 9, fill: "#5a6270" }} />
-                <Tooltip contentStyle={TIP} labelStyle={{ fontSize: 9 }} itemStyle={{ fontSize: 10 }} labelFormatter={t => toIST_HMS(t as string ?? "")} />
-                <Line type="monotone" dataKey="price" stroke="#00e87b" strokeWidth={1} dot={false} name="Price" />
-              </ComposedChart>
-            </ResponsiveContainer>
-          ) : (
-            <div className="h-[300px] flex items-center justify-center text-[11px]" style={{ color: '#3d4450' }}>NO TICK DATA</div>
-          )}
-        </div>
-
-        {/* Option chain */}
-        <div className="t-panel p-4 mb-4">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: '#5a6270' }}>Option Chain</h3>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px]" style={{ color: '#3d4450' }}>EXPIRY:</span>
-              {expiries.length > 0 ? (
-                <select
-                  value={selectedExpiry}
-                  onChange={e => setSelectedExpiry(e.target.value)}
-                >
-                  {expiries.map(exp => (
-                    <option key={exp} value={exp}>{exp}</option>
-                  ))}
-                </select>
-              ) : (
-                <span className="text-[10px]" style={{ color: '#3d4450' }}>NONE</span>
-              )}
-              {chain.length > 0 && (
-                <span className="text-[10px] ml-2" style={{ color: '#3d4450' }}>
-                  {chain.length} contracts
-                </span>
-              )}
+                );
+              })}
             </div>
-          </div>
-          {loadingChain ? (
-            <div className="h-32 flex items-center justify-center text-[11px]" style={{ color: '#3d4450' }}>LOADING...</div>
-          ) : (
-            <OptionChainTable chain={chain} selectedSymbol={selectedOption} onSelect={setSelectedOption} />
-          )}
-        </div>
 
-        {/* Option ticks */}
-        {selectedOption && (
-          <div className="t-panel p-4 mb-4">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: '#5a6270' }}>
-                {parseSymbol(selectedOption)}
-                <span className="ml-2 font-normal" style={{ color: '#3d4450' }}>{selectedOption}</span>
-              </h3>
-              <button
-                onClick={() => { setSelectedOption(null); setOptionTicks(null); }}
-                className="text-[10px] uppercase tracking-wider transition-colors"
-                style={{ color: '#5a6270' }}
+            {/* Live Spread & Telemetry HUD */}
+            <div className="flex items-center gap-3 ml-auto text-xs">
+              {/* Spread Indicator */}
+              <div
+                className="px-2.5 py-1 rounded border flex items-center gap-1.5"
+                style={{
+                  background:
+                    spreadStatus === "critical"
+                      ? "rgba(255,62,62,0.15)"
+                      : spreadStatus === "warning"
+                      ? "rgba(232,195,0,0.15)"
+                      : "rgba(0,232,123,0.12)",
+                  borderColor:
+                    spreadStatus === "critical"
+                      ? "#ff3e3e"
+                      : spreadStatus === "warning"
+                      ? "#e8c300"
+                      : "#00e87b",
+                  color:
+                    spreadStatus === "critical"
+                      ? "#ff3e3e"
+                      : spreadStatus === "warning"
+                      ? "#e8c300"
+                      : "#00e87b",
+                }}
               >
-                [CLOSE]
+                <span className="w-1.5 h-1.5 rounded-full animate-ping" style={{ background: "currentColor" }} />
+                <span>SPREAD:</span>
+                <strong>{spreadPips.toFixed(1)} PIPS</strong>
+              </div>
+
+              {/* Bid / Ask HUD */}
+              <div className="flex items-center gap-2 px-2.5 py-1 rounded bg-[#141922] border border-[#1f2735] text-[11px]">
+                <span className="text-[#8a94a6]">BID:</span>
+                <strong className="text-[#ff5252]">{currentQuote?.bid.toFixed(digits) ?? "--"}</strong>
+                <span className="text-[#3d4554]">/</span>
+                <span className="text-[#8a94a6]">ASK:</span>
+                <strong className="text-[#00e87b]">{currentQuote?.ask.toFixed(digits) ?? "--"}</strong>
+              </div>
+
+              {/* Auto Refresh Toggle */}
+              <button
+                onClick={() => setAutoRefresh(!autoRefresh)}
+                className="p-1.5 rounded bg-[#141922] border border-[#1f2735] text-[#8a94a6] hover:text-white transition-colors"
+                title={autoRefresh ? "Pause auto-refresh (2s)" : "Resume auto-refresh (2s)"}
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${autoRefresh ? "text-[#00e87b] animate-spin" : "text-[#5a6270]"}`} style={{ animationDuration: "6s" }} />
               </button>
             </div>
-            {loadingTicks ? (
-              <div className="h-[300px] flex items-center justify-center text-[11px]" style={{ color: '#3d4450' }}>LOADING...</div>
-            ) : optionTicks ? (
-              <OptionTickChart tickData={optionTicks} symbol={selectedOption} />
-            ) : (
-              <div className="h-32 flex items-center justify-center text-[11px]" style={{ color: '#3d4450' }}>NO DATA</div>
-            )}
+          </div>
+
+          {/* Bottom Line: Timeframes & Session / Regime Status */}
+          <div className="flex flex-wrap items-center justify-between gap-3 text-xs border-t border-[#1a202c] pt-2">
+            {/* Timeframe Selector */}
+            <div className="flex items-center gap-1">
+              <span className="text-[10px] text-[#5a6270] mr-1 uppercase">TF:</span>
+              {TIMEFRAMES.map((tf) => {
+                const active = tf.id === selectedTf;
+                return (
+                  <button
+                    key={tf.id}
+                    onClick={() => setSelectedTf(tf.id)}
+                    className="px-2.5 py-1 text-[11px] font-bold rounded transition-all cursor-pointer"
+                    style={{
+                      background: active ? "#1e293b" : "transparent",
+                      color: active ? "#00e5ff" : "#5a6270",
+                      border: active ? "1px solid #00e5ff66" : "1px solid transparent",
+                    }}
+                  >
+                    {tf.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Global Session & Regime HUD */}
+            <div className="flex items-center gap-2.5 flex-wrap">
+              {/* Session Tag */}
+              <div
+                className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider flex items-center gap-1"
+                style={{
+                  background: isRollover
+                    ? "rgba(255,62,62,0.15)"
+                    : sessionStatus.includes("OVERLAP")
+                    ? "rgba(232,195,0,0.15)"
+                    : "rgba(77,166,255,0.12)",
+                  color: isRollover
+                    ? "#ff3e3e"
+                    : sessionStatus.includes("OVERLAP")
+                    ? "#e8c300"
+                    : "#4da6ff",
+                  border: isRollover
+                    ? "1px solid #ff3e3e55"
+                    : sessionStatus.includes("OVERLAP")
+                    ? "1px solid #e8c30055"
+                    : "1px solid #4da6ff55",
+                }}
+              >
+                <Clock className="w-3 h-3" />
+                SESSION: {sessionStatus.replace(/_/g, " ")}
+              </div>
+
+              {/* Regime Tag */}
+              <div
+                className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider flex items-center gap-1"
+                style={{
+                  background:
+                    currentRegime === "TRENDING_BULL"
+                      ? "rgba(0,232,123,0.12)"
+                      : currentRegime === "TRENDING_BEAR"
+                      ? "rgba(255,62,62,0.12)"
+                      : currentRegime === "HIGH_VOLATILITY"
+                      ? "rgba(232,195,0,0.15)"
+                      : "rgba(138,148,166,0.12)",
+                  color:
+                    currentRegime === "TRENDING_BULL"
+                      ? "#00e87b"
+                      : currentRegime === "TRENDING_BEAR"
+                      ? "#ff3e3e"
+                      : currentRegime === "HIGH_VOLATILITY"
+                      ? "#e8c300"
+                      : "#8a94a6",
+                }}
+              >
+                {currentRegime === "TRENDING_BULL" ? (
+                  <TrendingUp className="w-3 h-3" />
+                ) : currentRegime === "TRENDING_BEAR" ? (
+                  <TrendingDown className="w-3 h-3" />
+                ) : (
+                  <Activity className="w-3 h-3" />
+                )}
+                REGIME: {currentRegime.replace(/_/g, " ")}
+              </div>
+
+              {/* Kalman Velocity & Entropy Telemetry */}
+              <div className="hidden lg:flex items-center gap-2 text-[10px] text-[#8a94a6]">
+                <span>
+                  VEL Z:{" "}
+                  <strong
+                    style={{
+                      color:
+                        currentVelocity > 0.15
+                          ? "#00e87b"
+                          : currentVelocity < -0.15
+                          ? "#ff3e3e"
+                          : "#8a94a6",
+                    }}
+                  >
+                    {currentVelocity > 0 ? `+${currentVelocity}` : currentVelocity}
+                  </strong>
+                </span>
+                <span>|</span>
+                <span>
+                  ENTROPY:{" "}
+                  <strong
+                    style={{
+                      color:
+                        currentEntropy < 1.8
+                          ? "#00e87b"
+                          : currentEntropy > 2.3
+                          ? "#ff3e3e"
+                          : "#e8c300",
+                    }}
+                  >
+                    {currentEntropy.toFixed(2)}
+                  </strong>
+                </span>
+                <span>|</span>
+                <span>
+                  ATR: <strong>{chartData?.statistics?.volatility_atr_pips ?? 0} pips</strong>
+                </span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* ── 2. Error Banner ────────────────────────────────────────── */}
+        {error && (
+          <div className="p-3 bg-[#2a1215] border-l-4 border-[#ff3e3e] text-[#ff8080] text-xs flex items-center justify-between shrink-0">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-[#ff3e3e]" />
+              <span>{error}</span>
+            </div>
+            <button
+              onClick={() => loadData(false)}
+              className="px-2 py-0.5 bg-[#ff3e3e22] text-[#ff3e3e] rounded border border-[#ff3e3e44] hover:bg-[#ff3e3e44]"
+            >
+              Retry
+            </button>
           </div>
         )}
 
-        {/* Analytics */}
-        <h3 className="text-[11px] font-semibold mb-3 uppercase tracking-wider" style={{ color: '#5a6270' }}>
-          Backtest Analytics
-        </h3>
-        <AnalyticsCharts results={results} />
+        {/* ── 3. Rollover Warning Banner (21:00 UTC) ─────────────────── */}
+        {isRollover && (
+          <div className="p-2.5 bg-[#2a2000] border-l-4 border-[#e8c300] text-[#e8c300] text-[11px] flex items-center justify-between shrink-0">
+            <div className="flex items-center gap-2">
+              <ShieldAlert className="w-4 h-4 text-[#e8c300] animate-pulse" />
+              <span>
+                <strong>ROLLOVER SPREAD FREEZE (21:00 - 22:00 UTC):</strong> Liquidity rollover widening in effect across global banking hubs.
+              </span>
+            </div>
+            <span className="text-[9px] uppercase px-2 py-0.5 bg-[#e8c30033] rounded font-bold">WIDE SPREADS EXPECTED</span>
+          </div>
+        )}
+
+        {/* ── 4. Chart Canvas Body ───────────────────────────────────── */}
+        <div className="flex-1 flex flex-col min-h-0 overflow-hidden p-3 gap-3 bg-[#0a0d13]">
+          {loading && !chartData ? (
+            <div className="flex-1 flex flex-col items-center justify-center gap-3 text-[#5a6270]">
+              <RefreshCw className="w-6 h-6 animate-spin text-[#00e5ff]" />
+              <span className="text-xs tracking-wider uppercase">Loading 2D Kinematic Kalman Telemetry...</span>
+            </div>
+          ) : (
+            <>
+              {/* PRIMARY CANDLESTICK & KALMAN OVERLAY CHART */}
+              <div
+                className="flex-1 min-h-[220px] rounded border relative flex flex-col overflow-hidden"
+                style={{ background: "#0e1219", borderColor: "#1a202c" }}
+              >
+                {/* Chart Header Legend */}
+                <div className="px-3 py-1.5 border-b border-[#1a202c] flex items-center justify-between text-[10px] text-[#5a6270] bg-[#0c1016]">
+                  <div className="flex items-center gap-3">
+                    <span className="font-bold text-[#e4e8ec] uppercase">
+                      {selectedPair} [{selectedTf.toUpperCase()}]
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <span className="w-2.5 h-0.5 bg-[#00e5ff]" />
+                      <strong className="text-[#00e5ff]">2D KALMAN FILTER ($x_1$)</strong>
+                    </span>
+                    <span className="hidden sm:flex items-center gap-1">
+                      <span className="w-2.5 h-0.5 bg-[#ffb700]" />
+                      <span className="text-[#ffb700]">EMA 20</span>
+                    </span>
+                    <span className="hidden sm:flex items-center gap-1">
+                      <span className="w-2.5 h-0.5 bg-[#a855f7]" />
+                      <span className="text-[#a855f7]">EMA 50</span>
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className="hidden md:inline text-[9px] text-[#3d4554]">
+                      SHADING: GOLD = LONDON/NY OVERLAP | BLUE = LONDON | RED = ROLLOVER
+                    </span>
+                  </div>
+                </div>
+
+                {/* Primary Chart Viewport */}
+                <div className="flex-1 w-full h-full p-1">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <ComposedChart data={formattedBars} margin={{ top: 10, right: 15, left: 0, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="2 2" stroke="#161c26" vertical={false} />
+                      <XAxis dataKey="timeStr" tick={AXIS_STYLE} minTickGap={30} tickLine={false} axisLine={{ stroke: "#1a202c" }} />
+                      <YAxis
+                        yAxisId="price"
+                        domain={priceDomain}
+                        tick={AXIS_STYLE}
+                        orientation="right"
+                        width={65}
+                        tickFormatter={(v) => v.toFixed(digits)}
+                        tickLine={false}
+                        axisLine={{ stroke: "#1a202c" }}
+                      />
+
+                      <Tooltip
+                        contentStyle={TIP_STYLE}
+                        formatter={(val: any, name: any) => {
+                          if (name === "close") return [Number(val).toFixed(digits), "CLOSE"];
+                          if (name === "kalman_price") return [Number(val).toFixed(digits), "KALMAN"];
+                          if (name === "ema20") return [Number(val).toFixed(digits), "EMA 20"];
+                          if (name === "ema50") return [Number(val).toFixed(digits), "EMA 50"];
+                          return [val, name];
+                        }}
+                        labelFormatter={(lbl, items) => {
+                          const item = items?.[0]?.payload;
+                          if (!item) return lbl;
+                          return `${lbl} UTC | O: ${item.open.toFixed(digits)} H: ${item.high.toFixed(digits)} L: ${item.low.toFixed(digits)} C: ${item.close.toFixed(digits)}`;
+                        }}
+                      />
+
+                      {/* Custom Candlestick Bars */}
+                      <Bar
+                        yAxisId="price"
+                        dataKey="close"
+                        shape={<CandlestickShape />}
+                        isAnimationActive={false}
+                      />
+
+                      {/* Neon Cyan 2D Kinematic Kalman Line (Price State x_1) */}
+                      <Line
+                        yAxisId="price"
+                        type="monotone"
+                        dataKey="kalman_price"
+                        stroke="#00e5ff"
+                        strokeWidth={2}
+                        dot={false}
+                        isAnimationActive={false}
+                        name="kalman_price"
+                      />
+
+                      {/* Dynamic EMA 20 & EMA 50 Lines */}
+                      <Line
+                        yAxisId="price"
+                        type="monotone"
+                        dataKey="ema20"
+                        stroke="#ffb700"
+                        strokeWidth={1.2}
+                        strokeDasharray="3 3"
+                        dot={false}
+                        isAnimationActive={false}
+                        name="ema20"
+                      />
+                      <Line
+                        yAxisId="price"
+                        type="monotone"
+                        dataKey="ema50"
+                        stroke="#a855f7"
+                        strokeWidth={1.2}
+                        strokeDasharray="4 4"
+                        dot={false}
+                        isAnimationActive={false}
+                        name="ema50"
+                      />
+                    </ComposedChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              {/* ── SUB-CHARTS CONTAINER ─────────────────────────────── */}
+              <div className="h-[180px] shrink-0 flex flex-col md:flex-row gap-3">
+                {/* Mobile Sub-chart Tab Switcher (Visible only on <768px) */}
+                <div className="md:hidden flex items-center justify-between px-2 py-1 bg-[#0e1219] rounded border border-[#1a202c]">
+                  <span className="text-[10px] text-[#5a6270] uppercase">Sub-Chart Telemetry:</span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => setMobileSubTab("velocity")}
+                      className={`px-2 py-0.5 text-[10px] font-bold rounded ${
+                        mobileSubTab === "velocity" ? "bg-[#00e87b22] text-[#00e87b] border border-[#00e87b55]" : "text-[#5a6270]"
+                      }`}
+                    >
+                      KALMAN VELOCITY
+                    </button>
+                    <button
+                      onClick={() => setMobileSubTab("entropy")}
+                      className={`px-2 py-0.5 text-[10px] font-bold rounded ${
+                        mobileSubTab === "entropy" ? "bg-[#e8c30022] text-[#e8c300] border border-[#e8c30055]" : "text-[#5a6270]"
+                      }`}
+                    >
+                      SHANNON ENTROPY
+                    </button>
+                  </div>
+                </div>
+
+                {/* SUB-CHART 1: 2D KALMAN PIP VELOCITY (Z-Score) */}
+                <div
+                  className={`flex-1 rounded border flex-col overflow-hidden ${
+                    mobileSubTab === "velocity" ? "flex" : "hidden md:flex"
+                  }`}
+                  style={{ background: "#0e1219", borderColor: "#1a202c" }}
+                >
+                  <div className="px-3 py-1 border-b border-[#1a202c] flex items-center justify-between text-[10px] bg-[#0c1016]">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-[#e4e8ec]">2D KALMAN VELOCITY (Z-SCORE)</span>
+                      <span className="text-[#5a6270]">|</span>
+                      <span className="text-[#00e87b]">+0.15 EXHAUSTION</span>
+                      <span className="text-[#5a6270]">/</span>
+                      <span className="text-[#ff3e3e]">-0.15 BLEED</span>
+                    </div>
+                    <span className="text-[#8a94a6] font-bold">
+                      CURRENT: {currentVelocity > 0 ? `+${currentVelocity}` : currentVelocity}
+                    </span>
+                  </div>
+
+                  <div className="flex-1 w-full p-1">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <ComposedChart data={formattedBars} margin={{ top: 5, right: 15, left: 0, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="2 2" stroke="#161c26" vertical={false} />
+                        <XAxis dataKey="timeStr" tick={AXIS_STYLE} minTickGap={30} tickLine={false} axisLine={{ stroke: "#1a202c" }} />
+                        <YAxis
+                          domain={[-3.0, 3.0]}
+                          tick={AXIS_STYLE}
+                          orientation="right"
+                          width={45}
+                          tickFormatter={(v) => v.toFixed(1)}
+                          tickLine={false}
+                          axisLine={{ stroke: "#1a202c" }}
+                        />
+
+                        {/* Center Zero Line */}
+                        <ReferenceLine y={0} stroke="#3d4450" strokeWidth={1} />
+                        {/* Upper Exhaustion Threshold (+0.15) */}
+                        <ReferenceLine y={0.15} stroke="#00e87b" strokeDasharray="3 3" strokeWidth={1} />
+                        {/* Lower Bleed Threshold (-0.15) */}
+                        <ReferenceLine y={-0.15} stroke="#ff3e3e" strokeDasharray="3 3" strokeWidth={1} />
+
+                        <Tooltip
+                          contentStyle={TIP_STYLE}
+                          formatter={(val: any) => [`${Number(val).toFixed(2)} σ`, "VELOCITY Z"]}
+                        />
+
+                        <Bar dataKey="kalman_velocity_z" isAnimationActive={false}>
+                          {formattedBars.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={entry.kalman_velocity_z >= 0 ? "#00e87b" : "#ff3e3e"}
+                              opacity={Math.abs(entry.kalman_velocity_z) >= 0.15 ? 0.9 : 0.4}
+                            />
+                          ))}
+                        </Bar>
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* SUB-CHART 2: ROLLING SHANNON ENTROPY (CHOP VS TREND) */}
+                <div
+                  className={`flex-1 rounded border flex-col overflow-hidden ${
+                    mobileSubTab === "entropy" ? "flex" : "hidden md:flex"
+                  }`}
+                  style={{ background: "#0e1219", borderColor: "#1a202c" }}
+                >
+                  <div className="px-3 py-1 border-b border-[#1a202c] flex items-center justify-between text-[10px] bg-[#0c1016]">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-[#e4e8ec]">SHANNON ENTROPY (CHOP METER)</span>
+                      <span className="text-[#5a6270]">|</span>
+                      <span className="text-[#00e87b]">&lt;1.8 TREND</span>
+                      <span className="text-[#5a6270]">/</span>
+                      <span className="text-[#ff3e3e]">&gt;2.3 CHOP</span>
+                    </div>
+                    <span
+                      className="font-bold"
+                      style={{
+                        color: currentEntropy < 1.8 ? "#00e87b" : currentEntropy > 2.3 ? "#ff3e3e" : "#e8c300",
+                      }}
+                    >
+                      {currentEntropy < 1.8 ? "TREND EDGE" : currentEntropy > 2.3 ? "NOISE REGIME" : "MODERATE"}
+                    </span>
+                  </div>
+
+                  <div className="flex-1 w-full p-1">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <ComposedChart data={formattedBars} margin={{ top: 5, right: 15, left: 0, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="2 2" stroke="#161c26" vertical={false} />
+                        <XAxis dataKey="timeStr" tick={AXIS_STYLE} minTickGap={30} tickLine={false} axisLine={{ stroke: "#1a202c" }} />
+                        <YAxis
+                          domain={[0.0, 3.0]}
+                          tick={AXIS_STYLE}
+                          orientation="right"
+                          width={40}
+                          tickFormatter={(v) => v.toFixed(1)}
+                          tickLine={false}
+                          axisLine={{ stroke: "#1a202c" }}
+                        />
+
+                        {/* Clean Trending Threshold (< 1.8) */}
+                        <ReferenceLine y={1.8} stroke="#00e87b" strokeDasharray="3 3" strokeWidth={1} />
+                        {/* Noise / Chop Warning Threshold (> 2.3) */}
+                        <ReferenceLine y={2.3} stroke="#ff3e3e" strokeDasharray="3 3" strokeWidth={1} />
+
+                        <Tooltip
+                          contentStyle={TIP_STYLE}
+                          formatter={(val: any) => [`${Number(val).toFixed(2)} bits`, "SHANNON ENTROPY"]}
+                        />
+
+                        <Area
+                          type="monotone"
+                          dataKey="entropy"
+                          stroke="#e8c300"
+                          fill="#e8c30033"
+                          strokeWidth={1.5}
+                          isAnimationActive={false}
+                        />
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       </main>
     </div>
   );
 }
-

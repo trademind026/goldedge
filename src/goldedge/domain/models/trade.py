@@ -9,6 +9,10 @@ class ExitReason(str, Enum):
     MANUAL_CLOSE = "MANUAL_CLOSE"
     SYSTEM_CLOSE = "SYSTEM_CLOSE"
     SESSION_CLOSE = "SESSION_CLOSE"
+    KALMAN_VELOCITY_REVERSAL = "KALMAN_VELOCITY_REVERSAL"
+    KALMAN_TIGHTEN = "KALMAN_TIGHTEN"
+    TRAILING_SL = "TRAILING_SL"
+    BREAKEVEN = "BREAKEVEN"
     # Aliases used by ManagePositionUseCase
     SL = "STOP_LOSS"
     TARGET = "TAKE_PROFIT"
@@ -19,6 +23,19 @@ class TradeStatus(str, Enum):
     OPEN = "OPEN"
     CLOSED = "CLOSED"
     CANCELLED = "CANCELLED"
+
+class ExecutionMode(str, Enum):
+    PAPER = "paper"
+    DEMO = "demo"
+    LIVE = "live"
+
+@dataclass(frozen=True)
+class BrokerCredentials:
+    account: int
+    password: str
+    server: str
+    path: str = ""
+    is_demo: bool = True
 
 @dataclass(frozen=True)
 class Position:

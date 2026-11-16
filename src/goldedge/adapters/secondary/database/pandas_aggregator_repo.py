@@ -11,6 +11,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 from src.goldedge.config.settings import Settings
 from src.goldedge.domain.ports.outbound.aggregation_repo import IAggregationRepository
 
+from sqlalchemy import create_engine, text
+
 logger = logging.getLogger("pandas_aggregator_repo")
 
 class PandasAggregatorRepository(IAggregationRepository):
@@ -18,9 +20,9 @@ class PandasAggregatorRepository(IAggregationRepository):
     Concrete adapter that uses Pandas and SQLAlchemy to perform blazing fast
     vectorized aggregations from TimescaleDB tick data to OHLCV bars.
     """
-    def __init__(self):
+    def __init__(self, engine=None):
         self.settings = Settings()
-        self.engine = create_engine(self.settings.DB_URL)
+        self.engine = engine if engine is not None else create_engine(self.settings.DB_URL)
 
     def aggregate_ticks_to_bars(self, symbol: str, start: Optional[datetime] = None, end: Optional[datetime] = None) -> int:
         # 1. Fetch Ticks
@@ -73,9 +75,21 @@ class PandasAggregatorRepository(IAggregationRepository):
         final_cols = ["time", "symbol", "open", "high", "low", "close", "tick_volume", "real_volume", "spread"]
         ohlcv = ohlcv[final_cols]
 
-        # 3. Save to Database
+        # 3. Save to Database with Conflict-Safe Upsert
         try:
-            ohlcv.to_sql("market_bars_1m", self.engine, if_exists="append", index=False)
+            records = ohlcv.to_dict(orient="records")
+            insert_sql = text("""
+                INSERT INTO market_bars_1m
+                    (time, symbol, open, high, low, close, tick_volume, real_volume, spread)
+                VALUES
+                    (:time, :symbol, :open, :high, :low, :close, :tick_volume, :real_volume, :spread)
+                ON CONFLICT (symbol, time) DO NOTHING
+            """)
+            batch_size = 5000
+            with self.engine.begin() as conn:
+                for i in range(0, len(records), batch_size):
+                    conn.execute(insert_sql, records[i:i + batch_size])
+            logger.info(f"Successfully processed {len(ohlcv)} 1-minute bars for {symbol} into market_bars_1m.")
             return len(ohlcv)
         except Exception as e:
             logger.error(f"Failed to save aggregated bars: {e}")

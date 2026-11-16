@@ -177,7 +177,51 @@ class TradeScorer:
             }
         )
 
+    @staticmethod
+    def compute_institutional_quant_score(
+        s_trend: float,
+        vel_norm: float,
+        norm_entropy: float
+    ) -> float:
+        """
+        Stage 3.1: Model-Free Quantitative Math Engine.
+        quant_score = (0.40 * S_trend) + (0.35 * S_kalman) + (0.25 * (1.0 - H_t))
+        Hard Veto: If quant_score < 0.80, candidate is killed.
+        """
+        s_kalman = min(1.0, max(0.0, abs(vel_norm) / 2.5))
+        cleanliness = max(0.0, min(1.0, 1.0 - norm_entropy))
+        score = (0.40 * s_trend) + (0.35 * s_kalman) + (0.25 * cleanliness)
+        return round(float(score), 4)
+
+    @staticmethod
+    def compute_composite_final_score(
+        quant_score: float,
+        directional_prob: float,
+        s_flow: float = 1.0,
+        s_tech: float = 1.0
+    ) -> float:
+        """
+        Stage 3.2 & 3.4: Composite Formula Qualification.
+        final_score = (0.35 * quant_score) + (0.35 * directional_prob) + (0.20 * S_flow) + (0.10 * S_tech)
+        Requires final_score >= 0.75.
+        """
+        score = (0.35 * quant_score) + (0.35 * directional_prob) + (0.20 * s_flow) + (0.10 * s_tech)
+        return round(float(score), 4)
+
+    @staticmethod
+    def compute_macro_composite_score(
+        quant_score: float,
+        macro_prob: float,
+    ) -> float:
+        """
+        Macro Model 50% Advisory Weight:
+        Composite = 0.50 * quant_score + 0.50 * macro_prob
+        """
+        score = (0.50 * quant_score) + (0.50 * macro_prob)
+        return round(float(score), 4)
+
     def filter_and_rank(self, signals: List[Signal], min_score_threshold: float,
+
                         regime: str = "", features: dict = None) -> List[ScoredTrade]:
         scored    = [self.score_signal(sig, regime=regime, features=features) for sig in signals]
         qualified = [t for t in scored if t.final_score >= min_score_threshold]

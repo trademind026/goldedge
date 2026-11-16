@@ -40,7 +40,11 @@ class PositionSizingService:
         entry_price: float,
         atr_value: float,
         direction: SignalDirection,
-        symbol: str = "XAUUSD"
+        symbol: str = "XAUUSD",
+        kalman_uncertainty: Optional[float] = None,
+        win_probability: Optional[float] = None,
+        current_drawdown_pct: float = 0.0,
+        max_allowed_drawdown_pct: float = 0.08
     ) -> Tuple[Optional[float], Optional[float], Optional[float], Optional[str]]:
         """
         Broker-aware position sizing pipeline.
@@ -50,12 +54,40 @@ class PositionSizingService:
         Actual risk is always <= allowed risk after floor normalization.
         Never rounds up to avoid exceeding the configured risk %.
         """
-        # 1. Base Risk = Account Equity × Allowed Risk %
-        max_monetary_risk = account_balance * (risk_profile.risk_per_trade_pct / 100.0)
+        # 1. Dynamic Drawdown Contraction Scaling (Stage 4.2)
+        if max_allowed_drawdown_pct > 0:
+            dd_scaler = max(0.0, 1.0 - (current_drawdown_pct / max_allowed_drawdown_pct))
+        else:
+            dd_scaler = 1.0
 
-        # 2. SL / TP Distances (configurable per RiskProfile)
-        sl_distance = atr_value * risk_profile.sl_atr_multiplier
+        if dd_scaler <= 0:
+            return None, None, None, f"Dynamic Drawdown Scaler is 0.0 (Account in maximum drawdown lock)."
+
+        # 2. SL / TP Distances (ATR or 1.5x Kalman Uncertainty)
+        base_sl_distance = atr_value * risk_profile.sl_atr_multiplier
+        if kalman_uncertainty is not None and kalman_uncertainty > 0:
+            kalman_sl_distance = 1.5 * kalman_uncertainty
+            sl_distance = max(base_sl_distance, kalman_sl_distance)
+        else:
+            sl_distance = base_sl_distance
+
         tp_distance = atr_value * risk_profile.tp_atr_multiplier
+
+        if sl_distance <= 0:
+            return None, None, None, "Invalid SL distance (ATR or multiplier is zero)"
+
+        # 3. Fractional Half-Kelly Risk Budget (Stage 4.1 & 4.3)
+        if win_probability is not None and 0.0 < win_probability < 1.0:
+            b = tp_distance / max(sl_distance, 1e-6)
+            p = win_probability
+            q = 1.0 - p
+            kelly = (p * b - q) / b if b > 0 else 0.0
+            if kelly <= 0:
+                return None, None, None, f"Half-Kelly expectation non-positive ({kelly:.4f} <= 0). Aborting."
+            f_star = min(0.015, kelly * 0.5)
+            max_monetary_risk = account_balance * f_star * dd_scaler
+        else:
+            max_monetary_risk = account_balance * (risk_profile.risk_per_trade_pct / 100.0) * dd_scaler
 
         if direction == SignalDirection.BUY:
             sl_price = entry_price - sl_distance
@@ -64,10 +96,7 @@ class PositionSizingService:
             sl_price = entry_price + sl_distance
             tp_price = entry_price - tp_distance
 
-        if sl_distance <= 0:
-            return None, None, None, "Invalid SL distance (ATR or multiplier is zero)"
-
-        # 3. Loss per lot using MT5 tick_size and tick_value (broker-native)
+        # 4. Loss per lot using MT5 tick_size and tick_value (broker-native)
         ticks_at_risk = sl_distance / self.tick_size
         loss_per_lot = ticks_at_risk * self.tick_value
 
@@ -76,33 +105,35 @@ class PositionSizingService:
 
         raw_lot_size = max_monetary_risk / loss_per_lot
 
-        # 4. Normalize: ALWAYS floor to volume_step to prevent exceeding risk
+        # 5. Normalize: ALWAYS floor to volume_step to prevent exceeding risk
         steps = math.floor(raw_lot_size / self.volume_step)
         normalized_size = round(steps * self.volume_step, 2)
 
-        # 5. Gate: Below minimum lot — SKIP, never round up
+        # 6. Gate: Below minimum lot — SKIP, never round up
         if normalized_size < self.min_lot:
             return None, None, None, (
                 f"Calculated lot {normalized_size} < broker min {self.min_lot}. "
                 f"Skip trade rather than violating risk limit."
             )
 
-        # 6. Gate: Clamp to max lot
+        # 7. Gate: Clamp to max lot
         normalized_size = min(normalized_size, self.max_lot)
 
-        # 7. Gate: Margin affordability
+        # 8. Gate: Margin affordability & 300% Margin Level Buffer
         margin_required = normalized_size * self.margin_required_per_lot
-        if margin_required > account_balance:
+        if margin_required > 0 and (account_balance / margin_required) * 100 < 300:
+            max_affordable_margin = account_balance / 3.0
             max_affordable = math.floor(
-                (account_balance / self.margin_required_per_lot) / self.volume_step
+                (max_affordable_margin / self.margin_required_per_lot) / self.volume_step
             ) * self.volume_step
             max_affordable = round(max_affordable, 2)
             if max_affordable < self.min_lot:
                 return None, None, None, (
-                    f"Insufficient free margin. Need {margin_required:.2f} "
-                    f"but have {account_balance:.2f}"
+                    f"Insufficient free margin to maintain > 300% margin buffer. "
+                    f"Need {margin_required:.2f} but have {account_balance:.2f}"
                 )
             normalized_size = min(normalized_size, max_affordable)
+
 
         # 8. Recalculate actual monetary risk and verify it ≤ max allowed
         actual_risk = (sl_distance / self.tick_size) * self.tick_value * normalized_size

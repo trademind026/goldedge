@@ -115,31 +115,71 @@ class _OpenPosition:
             else (self.entry_price - self.peak_price)
         )
 
-        # 1. Breakeven Trigger: raised to 2.0 ATR for XAUUSD
-        #    (1.5 ATR was choking winning trades too early before they hit the 3.0 ATR target)
-        if not self.trailing_active and gain_abs >= self.atr * 2.0:
-            self.trailing_active = True
-            # Lock breakeven + 0.5 ATR to secure a small win
-            lock = (self.entry_price + (self.atr * 0.5) if is_bull
-                    else self.entry_price - (self.atr * 0.5))
-            if (is_bull and lock > self.sl) or (not is_bull and lock < self.sl):
-                self.sl = lock
+        pip_unit = 0.01 if "XAU" in self.symbol or "JPY" in self.symbol else 0.0001
+        peak_pips = ((self.peak_price - self.entry_price) if is_bull else (self.entry_price - self.peak_price)) / pip_unit
+
+        # ── Stage 6.5: The 4-Tier Profit Locking Dynamic Ratchet ───────
+        if peak_pips >= 50.0:
+            locked_dist = (self.peak_price - self.entry_price) * 0.80 if is_bull else (self.entry_price - self.peak_price) * 0.80
+            candidate_sl = (self.entry_price + locked_dist) if is_bull else (self.entry_price - locked_dist)
+            if (is_bull and candidate_sl > self.sl) or (not is_bull and candidate_sl < self.sl):
+                self.sl = candidate_sl
+                self.exit_reason_flag = "TRAILING_SL"
+        elif peak_pips >= 35.0:
+            locked_dist = (self.peak_price - self.entry_price) * 0.70 if is_bull else (self.entry_price - self.peak_price) * 0.70
+            candidate_sl = (self.entry_price + locked_dist) if is_bull else (self.entry_price - locked_dist)
+            if (is_bull and candidate_sl > self.sl) or (not is_bull and candidate_sl < self.sl):
+                self.sl = candidate_sl
+                self.exit_reason_flag = "TRAILING_SL"
+        elif peak_pips >= 20.0:
+            locked_dist = (self.peak_price - self.entry_price) * 0.55 if is_bull else (self.entry_price - self.peak_price) * 0.55
+            candidate_sl = (self.entry_price + locked_dist) if is_bull else (self.entry_price - locked_dist)
+            if (is_bull and candidate_sl > self.sl) or (not is_bull and candidate_sl < self.sl):
+                self.sl = candidate_sl
+                self.exit_reason_flag = "TRAILING_SL"
+        elif peak_pips >= 10.0:
+            be_offset = (2.0 * 1.2) * pip_unit
+            candidate_sl = (self.entry_price + be_offset) if is_bull else (self.entry_price - be_offset)
+            if (is_bull and candidate_sl > self.sl) or (not is_bull and candidate_sl < self.sl):
+                self.sl = candidate_sl
                 self.exit_reason_flag = "BREAKEVEN"
+        else:
+            # 1. Breakeven Trigger fallback at 2.0 ATR
+            if not self.trailing_active and gain_abs >= self.atr * 2.0:
+                self.trailing_active = True
+                lock = (self.entry_price + (self.atr * 0.5) if is_bull else self.entry_price - (self.atr * 0.5))
+                if (is_bull and lock > self.sl) or (not is_bull and lock < self.sl):
+                    self.sl = lock
+                    self.exit_reason_flag = "BREAKEVEN"
 
-        # 2. ATR Trailing SL: trail 2.0 ATR behind peak
-        if self.trailing_active:
-            trail_sl = (self.peak_price - (self.atr * 2.0) if is_bull
-                        else self.peak_price + (self.atr * 2.0))
-            if (is_bull and trail_sl > self.sl) or (not is_bull and trail_sl < self.sl):
-                self.sl = trail_sl
-                if getattr(self, "exit_reason_flag", "") not in ("KALMAN_TIGHTEN", "TIME_SQUEEZE"):
-                    self.exit_reason_flag = "TRAILING_SL"
+            # 2. Standard ATR Trailing SL
+            if self.trailing_active:
+                trail_sl = (self.peak_price - (self.atr * 2.0) if is_bull else self.peak_price + (self.atr * 2.0))
+                if (is_bull and trail_sl > self.sl) or (not is_bull and trail_sl < self.sl):
+                    self.sl = trail_sl
+                    if getattr(self, "exit_reason_flag", "") not in ("KALMAN_TIGHTEN", "TIME_SQUEEZE"):
+                        self.exit_reason_flag = "TRAILING_SL"
 
-        # 3. Time-Based Tightening (The Clock Ratchet)
+        # ── Stage 6.6: 15-Bar Linear Stagnation Defense Tightener ──────
+        bars_since_peak = bar_idx - self.peak_bar_idx
+        if bars_since_peak >= 15:
+            compression_pips = (bars_since_peak - 15) * 0.5
+            compression_offset = compression_pips * pip_unit
+            if is_bull:
+                stagnation_sl = self.sl + compression_offset
+                if stagnation_sl < candidate_price:
+                    self.sl = max(self.sl, stagnation_sl)
+                    self.exit_reason_flag = "STAGNATION_TIGHTEN"
+            else:
+                stagnation_sl = self.sl - compression_offset
+                if stagnation_sl > candidate_price:
+                    self.sl = min(self.sl, stagnation_sl)
+                    self.exit_reason_flag = "STAGNATION_TIGHTEN"
+
+        # 3. Session-Aware Clock Ratchet
         if effective_max_hold > 0:
             hold_pct = self.bars_held / effective_max_hold
             if hold_pct >= 0.75:
-                # Squeeze SL toward the candidate_price
                 progress = min((hold_pct - 0.75) / 0.25, 1.0)
                 if is_bull:
                     time_sl = self.sl + progress * (candidate_price - self.sl)
@@ -151,6 +191,7 @@ class _OpenPosition:
                     if time_sl < self.sl:
                         self.sl = time_sl
                         self.exit_reason_flag = "TIME_SQUEEZE"
+
 
     # ── Tick-level exit check (called once per minute) ────────────────────────
 
@@ -192,33 +233,25 @@ class _OpenPosition:
             # 1. Update Kalman for this tick
             k_price, k_vel = kalman.update_tick(float(bids[i]), float(vols[i]))
 
-            # 2. Normalize velocity against per-tick ATR unit
-            # vel_norm = k_vel / atr_per_tick
+            # 2. Normalize velocity against per-tick ATR unit (sigma_v proxy)
+            vel_norm = k_vel / atr_per_tick
 
-            # --- DISABLED FOR XAUUSD: TICK-LEVEL PANIC EXITS ---
-            # Gold ticks are too spiky; these filters cause massive whipsaws.
-            # We rely entirely on the 1.5 ATR Trail and TIME_SQUEEZE instead.
-            
-            # 3. KALMAN_EXIT — extreme velocity reversal (2.5σ per tick)
-            # if is_bull and vel_norm < -2.5:
-            #     return True, "KALMAN_EXIT", float(bids[i]), i
-            # elif not is_bull and vel_norm > 2.5:
-            #     return True, "KALMAN_EXIT", float(asks[i]), i
+            # 3. KALMAN_VELOCITY_REVERSAL — hard velocity reversal shock (v < -1.8 sigma)
+            if is_bull and vel_norm <= -1.8:
+                return True, "KALMAN_VELOCITY_REVERSAL", float(bids[i]), i
+            elif not is_bull and vel_norm >= 1.8:
+                return True, "KALMAN_VELOCITY_REVERSAL", float(asks[i]), i
 
-            # 4. KALMAN_TIGHTEN — weakening momentum (1.5σ per tick)
-            # if is_bull and vel_norm < -1.5:
-            #     tight_sl = float(bids[i]) - (self.atr * 0.8)
-            #     if tight_sl > self.sl:
-            #         self.sl = tight_sl
-            #         self.trailing_active = True
-            #         self.exit_reason_flag = "KALMAN_TIGHTEN"
-            # elif not is_bull and vel_norm > 1.5:
-            #     tight_sl = float(asks[i]) + (self.atr * 0.8)
-            #     if tight_sl < self.sl:
-            #         self.sl = tight_sl
-            #         self.trailing_active = True
-            #         self.exit_reason_flag = "KALMAN_TIGHTEN"
-            # ---------------------------------------------------
+            # 4. KALMAN_TIGHTEN — momentum slows down and dies while in profit
+            gain = (float(bids[i]) - self.entry_price) if is_bull else (self.entry_price - float(asks[i]))
+            if gain >= self.atr * 0.8:
+                if (is_bull and vel_norm < 0.15) or (not is_bull and vel_norm > -0.15):
+                    tight_sl = (float(bids[i]) - (self.atr * 0.5)) if is_bull else (float(asks[i]) + (self.atr * 0.5))
+                    if (is_bull and tight_sl > self.sl) or (not is_bull and tight_sl < self.sl):
+                        self.sl = tight_sl
+                        self.trailing_active = True
+                        self.exit_reason_flag = "KALMAN_TIGHTEN"
+
 
             # 5. Standard SL check
             if is_bull and bids[i] <= self.sl:

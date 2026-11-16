@@ -72,7 +72,25 @@ class VirtualBrokerAdapter:
         ticket = self._next_ticket
         self._next_ticket += 1
 
-        price = self._current_tick.ask if order_type.upper() == "BUY" else self._current_tick.bid
+        point = self._symbol_info.get("point", 0.01)
+        base_price = self._current_tick.ask if order_type.upper() == "BUY" else self._current_tick.bid
+        
+        # Volatility-Scaled Slippage Model (Stage 5.1)
+        if self._current_tick and self._current_tick.ask > self._current_tick.bid:
+            curr_spread_pips = (self._current_tick.ask - self._current_tick.bid) / point
+        else:
+            curr_spread_pips = 1.2
+            
+        median_spread_pips = 1.2
+        base_slippage = 0.3  # 0.3 pips base slippage
+        slippage_pips = base_slippage * (1.0 + (curr_spread_pips / median_spread_pips))
+        slippage_offset = slippage_pips * point
+
+        if order_type.upper() == "BUY":
+            effective_entry_price = base_price + slippage_offset
+        else:
+            effective_entry_price = base_price - slippage_offset
+
         dt = self._current_tick.time if self._current_tick else datetime.now(timezone.utc)
 
         pos = Position(
@@ -80,7 +98,7 @@ class VirtualBrokerAdapter:
             symbol=symbol,
             type=order_type.upper(),
             volume=volume,
-            price_open=price,
+            price_open=round(effective_entry_price, self._symbol_info.get("digits", 2)),
             price_sl=sl,
             price_tp=tp,
             time_setup=dt,

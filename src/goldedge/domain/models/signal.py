@@ -19,6 +19,13 @@ class Signal:
     technical_strength: float   # 0.0 - 1.0 confidence score
     signal_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     details: Dict[str, Any] = field(default_factory=dict)
+    initial_sl_price: float = 0.0
+    target_price: float = 0.0
+    base_risk_pips: float = 0.0
+    base_reward_pips: float = 0.0
+    regime: str = ""
+    timestamp: Any = None
+
 
 @dataclass
 class ScoredSignal:

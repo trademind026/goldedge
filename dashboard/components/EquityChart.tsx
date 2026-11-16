@@ -15,7 +15,7 @@ interface Props {
 const COLORS = { low: "#4da6ff", medium: "#e8c300", high: "#00e87b" };
 
 const fmt = (v: number) =>
-  v >= 0 ? `₹+${v.toLocaleString("en-IN")}` : `₹${v.toLocaleString("en-IN")}`;
+  v >= 0 ? `+$${v.toLocaleString("en-US", { maximumFractionDigits: 0 })}` : `-$${Math.abs(v).toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
 
 export default function EquityChart({ curves, selected = "all" }: Props) {
   const maxLen = Math.max(
@@ -53,7 +53,7 @@ export default function EquityChart({ curves, selected = "all" }: Props) {
         />
         <YAxis
           tick={{ fill: "#5a6270", fontSize: 10 }}
-          tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}K`}
+          tickFormatter={(v) => `$${(v / 1000).toFixed(0)}K`}
           width={55}
         />
         <Tooltip

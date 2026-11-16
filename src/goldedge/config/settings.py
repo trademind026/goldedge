@@ -36,10 +36,19 @@ class Settings(BaseSettings):
     CTRADER_TOKEN_EXPIRES_AT: float = Field(9999999999.0, description="cTrader Token Expiry Unix Timestamp")
 
     # --- MetaTrader 5 ---
-    MT5_ACCOUNT: int = Field(0, description="MT5 Account Number")
+    MT5_ACCOUNT: int = Field(0, description="MT5 Account Number (Fallback/Active)")
     MT5_PASSWORD: str = Field("", description="MT5 Password")
     MT5_SERVER: str = Field("", description="MT5 Server Name")
     MT5_PATH: str = Field(r"C:\Program Files\MetaTrader 5\terminal64.exe", description="Path to MT5 executable")
+
+    # MetaTrader 5 - Distinct Demo vs Live Credentials
+    MT5_DEMO_ACCOUNT: int = Field(0, description="MT5 Demo Account Number")
+    MT5_DEMO_PASSWORD: str = Field("", description="MT5 Demo Password")
+    MT5_DEMO_SERVER: str = Field("MetaQuotes-Demo", description="MT5 Demo Server Name")
+
+    MT5_LIVE_ACCOUNT: int = Field(0, description="MT5 Live Account Number")
+    MT5_LIVE_PASSWORD: str = Field("", description="MT5 Live Password")
+    MT5_LIVE_SERVER: str = Field("", description="MT5 Live Server Name")
     
     # --- Trading Parameters ---
     ACTIVE_SYMBOLS: List[str] = Field(

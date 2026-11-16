@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
 import { fetchJSON, postJSON } from "@/lib/api";
 
-export type TradingMode = "test" | "live";
+export type TradingMode = "paper" | "demo" | "live";
 
 interface TradingModeContextValue {
   mode: TradingMode;
@@ -17,7 +17,7 @@ interface TradingModeContextValue {
 const TradingModeContext = createContext<TradingModeContextValue | null>(null);
 
 export function TradingModeProvider({ children }: { children: ReactNode }) {
-  const [mode, setModeInternal] = useState<TradingMode>("test");
+  const [mode, setModeInternal] = useState<TradingMode>("paper");
   const [dialogError, setDialogError] = useState<string | null>(null);
   const [showDialog, setShowDialog] = useState(false);
   // Holds the mode we want to apply after the user confirms the dialog
@@ -27,8 +27,9 @@ export function TradingModeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     fetchJSON<{ trading_mode: string }>("/config")
       .then((data) => {
-        if (data.trading_mode === "live" || data.trading_mode === "test") {
-          setModeInternal(data.trading_mode as TradingMode);
+        const m = data.trading_mode?.toLowerCase();
+        if (m === "live" || m === "demo" || m === "paper") {
+          setModeInternal(m as TradingMode);
         }
       })
       .catch((err) => console.error("Failed to load trading mode:", err));
@@ -42,25 +43,25 @@ export function TradingModeProvider({ children }: { children: ReactNode }) {
   }
 
   const setMode = useCallback((newMode: TradingMode) => {
-    if (newMode === "test") {
-      // Switching back to TEST is always safe — no dialog
-      _applyMode("test");
+    if (newMode === "paper" || newMode === "demo") {
+      // Switching to PAPER or DEMO is safe
+      _applyMode(newMode);
       return;
     }
 
-    // Switching to LIVE — verify Kite token server-side (no secrets in browser bundle)
-    fetchJSON<{ valid: boolean; authenticated: boolean; has_token: boolean }>(
-      "/api/kite/auth/status"
+    // Switching to LIVE — verify MT5 broker connection server-side
+    fetchJSON<{ connected: boolean; account: string; server: string }>(
+      "/system/mt5/status"
     )
       .then((status) => {
-        if (!status.valid || !status.authenticated) {
+        if (!status.connected) {
           setDialogError(
-            "ZERODHA KITE NOT CONNECTED\n\nYour Kite access token is missing or expired.\n\nGo to Settings → Connect Kite and complete the daily login before switching to LIVE mode."
+            "METATRADER 5 NOT CONNECTED\n\nYour MT5 live terminal connection is offline.\n\nGo to Settings → MetaTrader 5 Integration and connect your live credentials before switching to LIVE mode."
           );
           setPendingLive(false);
           setShowDialog(true);
         } else {
-          // Token OK — show safety confirmation dialog
+          // Connected OK — show safety confirmation dialog
           setDialogError(null);
           setPendingLive(true);
           setShowDialog(true);

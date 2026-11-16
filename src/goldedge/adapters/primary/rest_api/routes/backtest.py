@@ -78,7 +78,9 @@ def run_backtest(run_backtest_uc: RunBacktestUseCase = Provide[Container.run_bac
     data = request.json or {}
     start_str = data.get("start_date")
     end_str = data.get("end_date")
-    risk_level = data.get("risk", "medium")
+    risk_level = str(data.get("risk", "medium")).lower()
+    symbol = data.get("symbol", "XAUUSD")
+    exit_agent = data.get("exit_agent", "Kalman")
     
     if not start_str or not end_str:
         return jsonify({"error": "start_date and end_date required"}), 400
@@ -87,10 +89,20 @@ def run_backtest(run_backtest_uc: RunBacktestUseCase = Provide[Container.run_bac
     end_date = datetime.datetime.strptime(end_str, "%Y-%m-%d")
     end_date = end_date.replace(hour=23, minute=59, second=59)
     
+    profile_key = {
+        "low": "LOW_BACKTEST",
+        "medium": "MEDIUM_BACKTEST",
+        "high": "HIGH_BACKTEST",
+    }.get(risk_level, "MEDIUM_BACKTEST")
+    
     def background_run():
         global _backtest_results_cache, _equity_curve_cache
         try:
-            stats = run_backtest_uc.execute("XAUUSD", start_date, end_date)
+            try:
+                run_backtest_uc.profile = get_profile(profile_key)
+            except Exception:
+                pass
+            stats = run_backtest_uc.execute(symbol, start_date, end_date)
             
             if stats:
                 _backtest_results_cache[risk_level] = {
@@ -116,7 +128,8 @@ def run_backtest(run_backtest_uc: RunBacktestUseCase = Provide[Container.run_bac
     thread = threading.Thread(target=background_run)
     thread.start()
     
-    return jsonify({"status": "started", "message": "Backtest running in background"})
+    return jsonify({"status": "started", "message": f"Backtest running in background for {symbol} ({risk_level})"})
+
     
 import sys
 import io
