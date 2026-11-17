@@ -19,13 +19,17 @@ from ..domain.services.forex_micro_gatekeeper import ForexMicroGatekeeper
 from ..domain.services.circuit_breaker_service import ForexCircuitBreakerService
 from ..domain.services.forex_audit_service import ForexAuditService
 from ..adapters.secondary.features.microstructure_feature_repo import MicrostructureFeatureRepository
+from ..adapters.secondary.ml.ridge_pnl_adapter import RidgeExpectedPnlAdapter
 
+from ..application.services.live_ticker import LiveTickerService
 from ..application.use_cases.scan_market import ScanMarketUseCase
 from ..application.use_cases.execute_trade import ExecuteTradeUseCase
 from ..application.use_cases.manage_position import ManagePositionUseCase
 from ..application.use_cases.forex_decision_loop import ForexDecisionLoopUseCase
 from ..application.use_cases.compute_metrics import ComputeMetricsUseCase
 from ..application.use_cases.run_backtest import RunBacktestUseCase
+from ..domain.services.shadow_tracker import ShadowValidationTracker
+from ..adapters.secondary.persistence.jsonl_shadow_journal import JsonlShadowJournal
 from ..adapters.primary.scheduler.scan_scheduler import ScanScheduler
 
 from ..application.event_handlers.on_bar_closed import OnBarClosedHandler
@@ -35,7 +39,7 @@ from ..application.event_handlers.on_signal_generated import OnSignalGeneratedHa
 from ..adapters.secondary.logger.journey_logger import JourneyLoggerService
 from ..adapters.secondary.logger.market_data_logger import MarketDataLoggerService
 from ..adapters.secondary.db import (
-    build_engine, CandleRepository, TradeRepository, TickRepository, SystemConfigRepository
+    build_engine, CandleRepository, TradeRepository, TickRepository, SystemConfigRepository, BacktestRepository
 )
 
 # Backtest-specific adapters (no external infra needed)
@@ -57,18 +61,76 @@ class Container(containers.DeclarativeContainer):
     event_bus = providers.Dependency(default=None)
     
     # Import Adapters
+    from ..adapters.primary.ctrader_open_api import CTraderOpenAPIClient
     from ..adapters.secondary.market_data.ctrader_provider import CTraderMarketDataProvider
     from ..adapters.secondary.broker.ctrader_broker_adapter import CTraderBrokerAdapter
     from ..adapters.secondary.market_data.mt5_market_data import MT5MarketDataProvider
     from ..adapters.secondary.broker.mt5_broker import MT5BrokerAdapter
-    
-    # cTrader Specific
-    ctrader_market_data = providers.Factory(CTraderMarketDataProvider, client_id="mock", client_secret="mock", account_id="mock", access_token="mock", refresh_token="mock", token_expires_at=0.0, redis_url="redis://mock")
-    ctrader_broker = providers.Factory(CTraderBrokerAdapter, api_client=None, account_id="mock")
-    
-    # MT5 Specific
-    mt5_market_data = providers.Factory(MT5MarketDataProvider, account=0, password="", server="", path="")
-    mt5_broker = providers.Factory(MT5BrokerAdapter, account=0, password="", server="", path="")
+
+    _settings = Settings()
+    _is_live_mode = _settings.TRADING_MODE.lower() == "live"
+    _ctrader_host = "live.ctraderapi.com" if _is_live_mode else "demo.ctraderapi.com"
+    _mt5_account = (
+        (_settings.MT5_LIVE_ACCOUNT or _settings.MT5_ACCOUNT)
+        if _is_live_mode
+        else (_settings.MT5_DEMO_ACCOUNT or _settings.MT5_ACCOUNT)
+    )
+    _mt5_password = (
+        (_settings.MT5_LIVE_PASSWORD or _settings.MT5_PASSWORD)
+        if _is_live_mode
+        else (_settings.MT5_DEMO_PASSWORD or _settings.MT5_PASSWORD)
+    )
+    _mt5_server = (
+        (_settings.MT5_LIVE_SERVER or _settings.MT5_SERVER)
+        if _is_live_mode
+        else (_settings.MT5_DEMO_SERVER or _settings.MT5_SERVER)
+    )
+    _engine_default_mode = (
+        "paper" if _settings.TRADING_MODE.lower() in ("backtest", "test", "paper")
+        else _settings.TRADING_MODE.lower()
+    )
+
+    ctrader_api_client = providers.Singleton(
+        CTraderOpenAPIClient,
+        host=_ctrader_host,
+        port=5035,
+    )
+
+    # cTrader Specific (wired from Settings / .env)
+    ctrader_market_data = providers.Factory(
+        CTraderMarketDataProvider,
+        client_id=_settings.CTRADER_CLIENT_ID,
+        client_secret=_settings.CTRADER_CLIENT_SECRET,
+        account_id=_settings.CTRADER_ACCOUNT_ID,
+        access_token=_settings.CTRADER_ACCESS_TOKEN,
+        refresh_token=_settings.CTRADER_REFRESH_TOKEN,
+        token_expires_at=_settings.CTRADER_TOKEN_EXPIRES_AT,
+        redis_url=_settings.REDIS_URL,
+    )
+    ctrader_broker = providers.Singleton(
+        CTraderBrokerAdapter,
+        api_client=ctrader_api_client,
+        account_id=_settings.CTRADER_ACCOUNT_ID,
+        client_id=_settings.CTRADER_CLIENT_ID,
+        client_secret=_settings.CTRADER_CLIENT_SECRET,
+        access_token=_settings.CTRADER_ACCESS_TOKEN,
+    )
+
+    # MT5 Specific (wired from Settings / .env)
+    mt5_market_data = providers.Factory(
+        MT5MarketDataProvider,
+        account=_mt5_account,
+        password=_mt5_password,
+        server=_mt5_server,
+        path=_settings.MT5_PATH,
+    )
+    mt5_broker = providers.Singleton(
+        MT5BrokerAdapter,
+        account=_mt5_account,
+        password=_mt5_password,
+        server=_mt5_server,
+        path=_settings.MT5_PATH,
+    )
     
     # Gold Order Manager (Dual-mode: Paper + MT5 Live)
     from ..gold.adapters.broker.gold_order_manager import GoldOrderManager
@@ -95,6 +157,7 @@ class Container(containers.DeclarativeContainer):
     trade_repo = providers.Singleton(TradeRepository, engine=db_engine)
     tick_repo = providers.Singleton(TickRepository, engine=db_engine)
     config_repo = providers.Singleton(SystemConfigRepository, engine=db_engine)
+    backtest_repo = providers.Singleton(BacktestRepository, engine=db_engine)
     
     # --- Data Aggregation (Strict Hexagonal Ports & Adapters) ---
     from ..adapters.secondary.database.pandas_aggregator_repo import PandasAggregatorRepository
@@ -137,17 +200,43 @@ class Container(containers.DeclarativeContainer):
         active_profile=MEDIUM_RISK_LIVE
     )
 
+    ridge_pnl_model = providers.Singleton(
+        RidgeExpectedPnlAdapter,
+        model_path="models/gold_ridge_pnl.pkl",
+    )
+
+    shadow_journal = providers.Singleton(
+        JsonlShadowJournal,
+        log_path=_settings.SHADOW_LOG_PATH,
+    )
+
+    shadow_tracker = providers.Singleton(
+        ShadowValidationTracker,
+        contract_size=100.0,
+    )
+
     scan_market_uc = providers.Factory(
         ScanMarketUseCase,
         candle_repo=candle_repo,
         event_bus=event_bus,
-        execute_trade_uc=execute_trade_uc
+        execute_trade_uc=execute_trade_uc,
+        broker=broker_adapter,
+        trade_repo=trade_repo,
+        market_data=market_data_provider,
+        expected_pnl_model=ridge_pnl_model,
+        min_expected_pnl=None,
+        sizing_service=sizing_service,
+        shadow_mode=_settings.SHADOW_MODE,
+        shadow_journal=shadow_journal,
+        shadow_tracker=shadow_tracker,
     )
     
     scan_scheduler = providers.Singleton(
         ScanScheduler,
         scan_market_uc=scan_market_uc,
-        event_bus=event_bus
+        event_bus=event_bus,
+        tick_repo=tick_repo,
+        candle_repo=candle_repo,
     )
     
     manage_position_uc = providers.Factory(
@@ -191,7 +280,7 @@ class Container(containers.DeclarativeContainer):
     gold_decision_rules = providers.Factory(
         GoldDecisionRules,
         min_kalman_vel_z=0.5,
-        min_meta_prob=0.62,
+        min_meta_prob=0.0,
         max_spread_dollars=0.60
     )
     gold_decision_loop_uc = providers.Factory(
@@ -220,7 +309,7 @@ class Container(containers.DeclarativeContainer):
         ForexLiveExecutionEngine,
         order_manager=gold_order_manager,
         symbol="XAUUSD",
-        default_mode="paper",
+        default_mode=_engine_default_mode,
         initial_balance=10000.0,
         leverage=100.0
     )
@@ -248,9 +337,12 @@ class Container(containers.DeclarativeContainer):
         manage_position=bt_manage_position,
         sizing_service=sizing_service,
         profile=MEDIUM_RISK_BACKTEST,
+        expected_pnl_model=ridge_pnl_model,
+        min_expected_pnl=None,
     )
     
-    # --- Loggers ---
+    # --- Loggers & Streaming Services ---
+    live_ticker_service = providers.Factory(LiveTickerService, event_bus=event_bus)
     journey_logger = providers.Singleton(JourneyLoggerService, event_bus=event_bus, trade_repo=trade_repo)
     market_data_logger = providers.Singleton(
         MarketDataLoggerService,
@@ -268,4 +360,11 @@ class Container(containers.DeclarativeContainer):
         manage_position_uc=manage_position_uc,
         live_execution_engine=live_execution_engine
     )
-    on_signal_generated = providers.Factory(OnSignalGeneratedHandler, execute_trade_uc=execute_trade_uc)
+    on_signal_generated = providers.Factory(
+        OnSignalGeneratedHandler,
+        execute_trade_uc=execute_trade_uc,
+        broker=broker_adapter,
+        trade_repo=trade_repo,
+        candle_repo=candle_repo,
+        market_data=market_data_provider,
+    )

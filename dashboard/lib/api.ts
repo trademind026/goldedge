@@ -159,6 +159,7 @@ export interface Trade {
   sl: number;
   target: number;
   lot_size: number;
+  qty?: number;
   pnl: number;
   exit_reason: string;
   final_score: number;
@@ -179,6 +180,7 @@ export interface PaperPosition {
   target: number;
   trailing_active: boolean;
   lot_size: number;
+  qty?: number;
   final_score: number;
   session: string;
   entry_atr: number;
@@ -370,4 +372,55 @@ export async function apiGetChartData(
   return fetchJSON<ForexChartResponse>(
     `/charts/data?symbol=${encodeURIComponent(symbol)}&timeframe=${encodeURIComponent(timeframe)}&limit=${limit}`
   );
+}
+
+export interface BacktestHistoryRun {
+  run_id: string;
+  symbol: string;
+  risk: string;
+  exit_agent: string;
+  start_date: string;
+  end_date: string;
+  trades: number;
+  win_rate: number;
+  pnl: number;
+  max_dd: number;
+  pf: number;
+  avg_win: number;
+  avg_loss: number;
+  rr: number;
+  created_at: string | null;
+}
+
+export interface BacktestHistoryDetail extends BacktestHistoryRun {
+  equity_curve: EquityCurvePoint[];
+  trade_list: Trade[];
+}
+
+export interface BacktestHistoryResponse {
+  runs: BacktestHistoryRun[];
+  total: number;
+}
+
+export interface KalmanCompareMetrics {
+  trades: number;
+  win_rate: number;
+  total_pnl: number;
+  avg_win: number;
+  avg_loss: number;
+  max_drawdown: number;
+  pf: number;
+  rr: number;
+  kalman_exits: number;
+}
+
+export interface KalmanComparisonReport {
+  available: boolean;
+  symbol: string;
+  risk: string;
+  start_date: string;
+  end_date: string;
+  without_kalman: KalmanCompareMetrics;
+  with_kalman: KalmanCompareMetrics;
+  net_kalman_difference: number;
 }

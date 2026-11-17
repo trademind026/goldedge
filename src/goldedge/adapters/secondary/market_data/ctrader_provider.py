@@ -70,6 +70,7 @@ class CTraderMarketDataProvider(IMarketDataProvider):
         import sys, os
         sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..')))
         from src.goldedge.config.settings import Settings
+        from src.goldedge.adapters.secondary.db.connection_pool import build_engine
         settings = Settings()
 
         # Ensure timezone-aware UTC
@@ -80,7 +81,7 @@ class CTraderMarketDataProvider(IMarketDataProvider):
 
         host = "demo.ctraderapi.com"
         config = ClientConfig(client_id=self.client_id, client_secret=self.client_secret, host=host)
-        engine = create_engine(settings.DB_URL)
+        engine = build_engine(os.environ.get("DB_URL") or settings.DB_URL)
 
         def insert_on_conflict_nothing(table, conn, keys, data_iter):
             data = [dict(zip(keys, row)) for row in data_iter]
@@ -116,33 +117,32 @@ class CTraderMarketDataProvider(IMarketDataProvider):
 
         logger.info(f"Fetching {len(day_windows)} daily windows from {start.date()} to {end.date()}")
 
-        for (win_start, win_end) in day_windows:
-            logger.info(f"--- Opening fresh connection for window {win_start.date()} → {win_end.date()} ---")
+        client = CTraderClient(config)
+        async with client:
+            await client.auth.authenticate_trader(
+                AccountCredentials(
+                    account_id=int(self.account_id),
+                    access_token=self.access_token,
+                    refresh_token=self.refresh_token,
+                    expires_at=self.token_expires_at,
+                )
+            )
 
-            try:
-                client = CTraderClient(config)
-                async with client:
-                    await client.auth.authenticate_trader(
-                        AccountCredentials(
-                            account_id=int(self.account_id),
-                            access_token=self.access_token,
-                            refresh_token=self.refresh_token,
-                            expires_at=self.token_expires_at
-                        )
-                    )
+            # Resolve symbol_id once per session
+            symbol_id = None
+            syms = await client.symbols.list_all(int(self.account_id))
+            for s in syms:
+                if s.name == symbol:
+                    symbol_id = s.symbol_id
+                    break
 
-                    # Resolve symbol_id once per session
-                    symbol_id = None
-                    syms = await client.symbols.list_all(int(self.account_id))
-                    for s in syms:
-                        if s.name == symbol:
-                            symbol_id = s.symbol_id
-                            break
+            if not symbol_id:
+                logger.error(f"Symbol '{symbol}' not found.")
+                return
 
-                    if not symbol_id:
-                        logger.error(f"Symbol '{symbol}' not found.")
-                        return
-
+            for (win_start, win_end) in day_windows:
+                logger.info(f"--- Fetching window {win_start.date()} → {win_end.date()} ---")
+                try:
                     # Paginate backwards within this single day window
                     current_end = win_end
                     while current_end > win_start:
@@ -155,7 +155,7 @@ class CTraderMarketDataProvider(IMarketDataProvider):
                             from_timestamp=win_start,
                             to_timestamp=current_end,
                             quote_type='BID',
-                            timeout=45.0
+                            timeout=45.0,
                         )
                         for t in b_ticks:
                             bids.append({"timestamp": t.timestamp, "bid": float(t.price)})
@@ -166,7 +166,7 @@ class CTraderMarketDataProvider(IMarketDataProvider):
                             from_timestamp=win_start,
                             to_timestamp=current_end,
                             quote_type='ASK',
-                            timeout=45.0
+                            timeout=45.0,
                         )
                         for t in a_ticks:
                             asks.append({"timestamp": t.timestamp, "ask": float(t.price)})
@@ -194,9 +194,9 @@ class CTraderMarketDataProvider(IMarketDataProvider):
 
                         await asyncio.sleep(1.0)
 
-            except Exception as e:
-                logger.error(f"Window {win_start.date()} failed: {e}. Skipping to next day.")
-                continue
+                except Exception as e:
+                    logger.error(f"Window {win_start.date()} failed: {e}. Skipping to next day.")
+                    continue
 
         logger.info(f"All done! Grand Total: {total_saved} ticks saved to DB.")
 

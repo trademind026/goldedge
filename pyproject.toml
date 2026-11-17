@@ -14,6 +14,9 @@ dependencies = [
     "SQLAlchemy>=2.0.0",
     "redis[hiredis]>=5.0.0",
     "ctrader-api-client>=0.0.1",
+    "ctrader-open-api>=0.9.0",
+    "twisted>=24.0.0",
+    "service-identity>=24.1.0",
 
     # ML / Data Science
     "lightgbm>=4.3.0",

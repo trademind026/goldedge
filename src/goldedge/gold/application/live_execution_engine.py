@@ -64,6 +64,7 @@ class ForexLiveExecutionEngine:
         self.closed_positions_history: List[Dict[str, Any]] = []
         self.system_alerts: List[Dict[str, Any]] = []
         self._alert_seq: int = 1
+        self._last_sl_modify_ts: Dict[int, float] = {}
 
     def set_mode(self, mode: str):
         mode_clean = mode.lower()
@@ -149,10 +150,19 @@ class ForexLiveExecutionEngine:
                 self.exit_position(ticket)
                 continue
 
-            # Check trailing SL ratchet
+            # Check trailing SL ratchet (handles unset SL <= 0 and throttles broker updates)
             is_buy = pos.type.upper() in ("BUY", "CALL", "LONG")
-            if (is_buy and candidate_sl > pos.price_sl) or (not is_buy and candidate_sl < pos.price_sl):
-                self.order_manager.modify_position(ticket, sl=candidate_sl)
+            sl_unset = pos.price_sl <= 0.0
+            min_step = GoldPipEngine.PIP_SIZE
+            sl_improved = (
+                sl_unset
+                or (is_buy and candidate_sl >= pos.price_sl + min_step)
+                or (not is_buy and candidate_sl <= pos.price_sl - min_step)
+            )
+            now_ts = time.time()
+            if candidate_sl > 0.0 and sl_improved and (now_ts - self._last_sl_modify_ts.get(ticket, 0.0) >= 2.0):
+                if self.order_manager.modify_position(ticket, sl=round(candidate_sl, 2)):
+                    self._last_sl_modify_ts[ticket] = now_ts
 
             # Record journey point
             pnl_usd = GoldPipEngine.calculate_cash_pnl(pos.type, pos.price_open, price, pos.volume)
@@ -189,6 +199,7 @@ class ForexLiveExecutionEngine:
                     if ticket not in live_tickets:
                         del self.exit_agents[ticket]
                         self.journeys.pop(ticket, None)
+                        self._last_sl_modify_ts.pop(ticket, None)
                         self.add_alert("info", f"Position #{ticket} reconciled: closed externally on broker.")
 
                 # 2. Synchronize active broker positions and partial fills

@@ -1,0 +1,2 @@
+entry_time,exit_time,symbol,direction,strategy,entry_price,exit_price,sl,tp,qty,pnl,planned_risk_usd,planned_risk_pct,realized_loss_pct,sl_gap_usd,exit_reason,score,regime,cum_pnl,day,margin_used
+2026-11-16 08:00:00+00:00,2026-11-16 08:10:00+00:00,XAUUSD,BUY,bullish_momentum,3850.0,3850.5,3845.5,3859.0,1.0,50.0,90.0,0.9,0.0,0.0,TARGET,0.72,TRENDING_BULL,50.0,2026-11-16,3850.0

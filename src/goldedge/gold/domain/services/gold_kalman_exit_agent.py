@@ -187,8 +187,13 @@ class GoldKalmanExitAgent:
 
         if price_gain >= 2.00:
             trail_distance = max(1.20, xhat_val * 0.0008)
-            candidate_sl = (peak - trail_distance) if is_buy else (peak + trail_distance)
-            new_sl = max(current_sl, candidate_sl) if is_buy else min(current_sl, candidate_sl)
+            candidate_sl = round((peak - trail_distance) if is_buy else (peak + trail_distance), 2)
+            if current_sl <= 0.0:
+                new_sl = candidate_sl
+            elif is_buy:
+                new_sl = max(current_sl, candidate_sl)
+            else:
+                new_sl = min(current_sl, candidate_sl)
 
         # Early Exit on Velocity Collapse:
         # Price dropped > $1.50 (-15 pips) with persistent exhaustion >= 4s

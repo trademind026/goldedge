@@ -14,3 +14,6 @@ class ICandleRepository(Protocol):
         
     def get_latest_bars(self, symbol: str, count: int) -> List[Bar]:
         ...
+
+    def upsert_1m_bars_from_ticks(self, symbol: str, start: datetime, end_exclusive: datetime) -> int:
+        ...

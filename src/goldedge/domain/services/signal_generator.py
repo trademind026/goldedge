@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 # Only trade during London open to NY close (UTC).
 # Asia session (00:00–07:00 UTC) has wider spreads, low volume, and false signals.
 _SESSION_OPEN_UTC  = 7   # London opens 08:00 BST = 07:00 UTC
-_SESSION_CLOSE_UTC = 20  # NY closes 16:00 EDT = 20:00 UTC
+_SESSION_CLOSE_UTC = 17  # Close entries at 17:00 UTC (avoids post-London late-NY chop)
 
 
 def _in_session(row: dict) -> bool:
@@ -58,8 +58,10 @@ class SignalGeneratorService:
             return []
 
         latest_row = df.iloc[-1].to_dict()
+        if "time" not in latest_row or latest_row["time"] is None:
+            latest_row["time"] = df.index[-1]
 
-        # ── Session Gate — block signals during Asia dead zone ────────────────
+        # ── Session Gate — block signals during Asia dead zone & post-London chop ──
         if not _in_session(latest_row):
             return []
 
@@ -177,18 +179,22 @@ class SignalGeneratorService:
     @staticmethod
     def _bearish_momentum(row: dict, symbol: str) -> Optional[Signal]:
         """
-        XAUUSD Bearish Momentum.
-        Volume raised to 2.0× OR strong negative EMA slope.
+        XAUUSD Bearish Momentum (Experiment E — symmetric 4/4 + bearish candle confirmation).
+        Volume raised to 2.0× OR strong negative EMA slope, plus bearish candle close < open.
         """
         required = ["close", "vwap", "rsi", "ema20", "ema50"]
         if not all(k in row and not pd.isna(row[k]) for k in required):
+            return None
+
+        open_px = row.get("open")
+        if open_px is not None and not pd.isna(open_px) and float(row["close"]) >= float(open_px):
             return None
 
         ema20_slope  = row.get("ema20_slope", 0.0)
         volume_ratio = row.get("volume_ratio", 0.0)
 
         strong_volume = volume_ratio > 2.0
-        strong_slope  = ema20_slope < -0.0002   # decisive downtrend on 1m bars
+        strong_slope  = ema20_slope < -0.0002   # decisive downtrend
 
         conditions = {
             "price_below_vwap":  row["close"] < row.get("vwap", float("inf")),
@@ -198,7 +204,7 @@ class SignalGeneratorService:
         }
 
         met = sum(conditions.values())
-        if met >= 3:
+        if met == 4:
             return Signal(
                 strategy="bearish_momentum",
                 direction=SignalDirection.SELL,

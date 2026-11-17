@@ -42,15 +42,26 @@ class IndicatorService:
 
             data = []
             for b in bars:
-                data.append({
-                    "time":   b.time,
-                    "symbol": b.symbol,
-                    "open":   b.open,
-                    "high":   b.high,
-                    "low":    b.low,
-                    "close":  b.close,
-                    "volume": getattr(b, "tick_volume", getattr(b, "volume", 0)),
-                })
+                if isinstance(b, dict):
+                    data.append({
+                        "time":   b["time"],
+                        "symbol": b.get("symbol", ""),
+                        "open":   b["open"],
+                        "high":   b["high"],
+                        "low":    b["low"],
+                        "close":  b["close"],
+                        "volume": b.get("tick_volume", b.get("volume", 0)),
+                    })
+                else:
+                    data.append({
+                        "time":   b.time,
+                        "symbol": b.symbol,
+                        "open":   b.open,
+                        "high":   b.high,
+                        "low":    b.low,
+                        "close":  b.close,
+                        "volume": getattr(b, "tick_volume", getattr(b, "volume", 0)),
+                    })
             df = pd.DataFrame(data)
 
         if "time" in df.columns:

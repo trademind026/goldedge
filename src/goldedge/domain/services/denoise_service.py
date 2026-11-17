@@ -35,16 +35,22 @@ class VolumeAdaptiveKalmanFilter:
         r_base: float = 1e-2,
     ):
         self.buffer_size = buffer_size
-        self.q_p = q_p
-        self.q_v = q_v
-        self.r_base = r_base
+        self.q_p = float(q_p)
+        self.q_v = float(q_v)
+        self.r_base = float(r_base)
+        self._r_min = self.r_base / 3.0
+        self._r_max = self.r_base * 3.0
 
-        # 2D State: [Price, Velocity]
-        self.x = np.zeros((2, 1))
-        self.P = np.eye(2)
+        # 2D State: [Price, Velocity] and covariance stored as scalar floats
+        # to eliminate per-tick NumPy array/LAPACK overhead while preserving exact math.
+        self._x0: float = 0.0
+        self._x1: float = 0.0
+        self._prev_x1: float = 0.0
+        self._p00: float = 1.0
+        self._p01: float = 0.0
+        self._p10: float = 0.0
+        self._p11: float = 1.0
 
-        # CPU-Efficient Ring Buffer (Zero Allocation During Runtime)
-        self.history = np.empty((buffer_size, 2))
         self.idx = 0
 
         # State transition matrix (Constant-Velocity model)
@@ -56,64 +62,96 @@ class VolumeAdaptiveKalmanFilter:
         # Track previous tick for volatility calculation
         self.last_price: Optional[float] = None
 
+    @property
+    def x(self) -> np.ndarray:
+        """Return 2x1 state vector [price, velocity] for backward compatibility."""
+        return np.array([[self._x0], [self._x1]])
+
+    @property
+    def P(self) -> np.ndarray:
+        """Return 2x2 state covariance matrix for backward compatibility."""
+        return np.array([[self._p00, self._p01],
+                         [self._p10, self._p11]])
+
     def update_tick(self, price: float, volume: float) -> tuple[float, float]:
         """
-        Processes a single tick.
+        Processes a single tick using scalar 2x2 Kalman equations (zero per-tick allocations).
         Returns (kalman_price, kalman_velocity).
         Velocity units: $/tick (e.g., 0.01 = Gold moved $0.01 since last tick).
         """
+        price = float(price)
+        volume = float(volume)
+
         # Initialize state on first tick
         if self.idx == 0:
-            self.x[0, 0] = price
-            self.x[1, 0] = 0.0
+            self._prev_x1 = 0.0
+            self._x0 = price
+            self._x1 = 0.0
             self.last_price = price
-            self.history[0] = self.x.flatten()
-            self.idx += 1
+            self.idx = 1
             return price, 0.0
 
         # Instantaneous volatility proxy (bid-ask bounce indicator)
-        price_diff = abs(price - self.last_price) if self.last_price else 0.0
+        last_price = self.last_price
+        price_diff = abs(price - last_price) if last_price else 0.0
         self.last_price = price
 
         # Adaptive R: High volume = trust tick; High volatility = trust model
-        vol_factor = max(volume, 1.0)
-        volatility_factor = max(price_diff, 0.0001)
-        R_i = self.r_base * (volatility_factor / vol_factor)
-        R_i = np.clip(R_i, self.r_base / 3.0, self.r_base * 3.0)
-        R_mat = np.array([[R_i]])
+        vol_factor = volume if volume > 1.0 else 1.0
+        volatility_factor = price_diff if price_diff > 0.0001 else 0.0001
+        r_i = self.r_base * (volatility_factor / vol_factor)
+        if r_i < self._r_min:
+            r_i = self._r_min
+        elif r_i > self._r_max:
+            r_i = self._r_max
 
-        # Process noise covariance (XAUUSD-tuned)
-        Q = np.array([[self.q_p, 0.0],
-                      [0.0,      self.q_v]])
+        # 1. Predict: x_minus = F @ x, P_minus = F @ P @ F.T + Q
+        x0 = self._x0
+        x1 = self._x1
+        p00 = self._p00
+        p01 = self._p01
+        p10 = self._p10
+        p11 = self._p11
 
-        # 1. Predict
-        x_minus = self.F @ self.x
-        P_minus = self.F @ self.P @ self.F.T + Q
+        xm0 = x0 + x1
+        xm1 = x1
+        pm00 = ((p00 + p10) + (p01 + p11)) + self.q_p
+        pm01 = p01 + p11
+        pm10 = p10 + p11
+        pm11 = p11 + self.q_v
 
-        # 2. Kalman Gain
-        S = self.H @ P_minus @ self.H.T + R_mat
-        K = P_minus @ self.H.T @ np.linalg.inv(S)
+        # 2. Kalman Gain: S = H @ P_minus @ H.T + R, K = P_minus @ H.T @ inv(S)
+        inv_s = 1.0 / (pm00 + r_i)
+        k0 = pm00 * inv_s
+        k1 = pm10 * inv_s
 
-        # 3. Update
-        y = np.array([[price]]) - (self.H @ x_minus)
-        self.x = x_minus + (K @ y)
-        self.P = (np.eye(2) - K @ self.H) @ P_minus
+        # 3. Update: x = x_minus + K @ y, P = (I - K @ H) @ P_minus
+        y = price - xm0
+        self._prev_x1 = x1
+        new_x0 = xm0 + k0 * y
+        new_x1 = xm1 + k1 * y
+        self._x0 = new_x0
+        self._x1 = new_x1
 
-        # Ring buffer (no memory allocation)
-        self.history[self.idx % self.buffer_size] = self.x.flatten()
+        one_minus_k0 = 1.0 - k0
+        self._p00 = one_minus_k0 * pm00
+        self._p01 = one_minus_k0 * pm01
+        self._p10 = (-k1) * pm00 + pm10
+        self._p11 = (-k1) * pm01 + pm11
+
         self.idx += 1
 
-        return float(self.x[0, 0]), float(self.x[1, 0])
+        return new_x0, new_x1
 
     def get_velocity(self) -> float:
-        return float(self.x[1, 0])
+        return self._x1
 
     def get_acceleration(self) -> float:
         if self.idx < 2:
             return 0.0
-        curr_vel = self.history[(self.idx - 1) % self.buffer_size][1]
-        prev_vel = self.history[(self.idx - 2) % self.buffer_size][1]
-        return float(curr_vel - prev_vel)
+        if self.buffer_size == 1:
+            return 0.0
+        return self._x1 - self._prev_x1
 
 
 class DenoiseService:

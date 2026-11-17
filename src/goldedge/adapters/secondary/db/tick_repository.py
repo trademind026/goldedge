@@ -1,5 +1,5 @@
 import logging
-from typing import List, Generator
+from typing import List, Generator, Optional
 from datetime import datetime
 
 from sqlalchemy import Engine, text
@@ -99,6 +99,12 @@ class TickRepository(ITickRepository):
             )
             for row in result:
                 yield self._row_to_tick(row)
+
+    def get_latest_tick_time(self, symbol: str) -> Optional[datetime]:
+        sql = text("SELECT MAX(time) FROM market_ticks WHERE symbol = :symbol")
+        with get_connection(self.engine) as conn:
+            row = conn.execute(sql, {"symbol": symbol}).fetchone()
+        return row[0] if row and row[0] is not None else None
 
     # ──────────────────────────────────────────────────────────────
     # HELPERS
