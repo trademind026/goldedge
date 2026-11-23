@@ -4,14 +4,35 @@ from typing import Any
 from ....domain.ports.outbound.microstructure_repo import IMicrostructureFeatureRepository
 
 
-def compute_forex_micro_features(tick_df: pd.DataFrame, window_seconds: int = 30) -> pd.DataFrame:
+def compute_forex_micro_features(
+    tick_df: pd.DataFrame,
+    window_seconds: int = 30,
+    include_disabled_order_flow: bool = False,
+) -> pd.DataFrame:
     """
-    MODULE 3: FOREX MICROSTRUCTURE & ORDER FLOW FEATURES
-    Computes microstructure features:
-    - Spread expansion
-    - Order flow tick momentum (Lee-Ready trade classification)
-    - Tick intensity / burst ratio
+    MODULE 3: FOREX QUOTE-ARRIVAL MICROSTRUCTURE FEATURES (QUOTE_ARRIVAL_SEMANTICS_V1)
+
+    Computes valid top-of-book quote microstructure features:
+    - price (last valid midpoint)
+    - spread (mean bid/ask spread)
+    - tick_count (valid quote arrival count per 1s bucket)
+    - burst_ratio (5s vs window_seconds quote-arrival burst ratio)
+
+    IMPORTANT (Task G3.1):
+    GoldEdge XAUUSD spot data contains top-of-book bid/ask quotes only (no executed
+    trade prints, real_volume IS NULL, no Level II order book). Lee-Ready aggressor
+    classification (`price >= ask` / `price <= bid`) evaluates to 0 on 100% of valid
+    midpoint quotes and MUST NOT be fed into ML pipelines as order-flow pressure.
+    Accordingly, `buy_vol`, `sell_vol`, `net_order_flow`, and `tick_momentum` are
+    explicitly disabled and excluded unless a caller passes real trade prints
+    (currently unsupported -> raises ValueError if `include_disabled_order_flow=True`).
     """
+    if include_disabled_order_flow:
+        raise ValueError(
+            "Lee-Ready order-flow features (buy_vol, sell_vol, net_order_flow, tick_momentum) "
+            "are disabled in GoldEdge because XAUUSD spot data has no executed trade prints or L2 book."
+        )
+
     if tick_df.empty:
         return pd.DataFrame()
 
@@ -20,40 +41,39 @@ def compute_forex_micro_features(tick_df: pd.DataFrame, window_seconds: int = 30
     df[time_col] = pd.to_datetime(df[time_col])
     df = df.sort_values(time_col)
 
-    # Price handling: use price or mid-price
+    # Strict valid quote filter (bid > 0 & ask > 0 & bid < ask)
+    if "bid" in df.columns and "ask" in df.columns:
+        df = df[
+            df["bid"].notna()
+            & df["ask"].notna()
+            & (df["bid"] > 0.0)
+            & (df["ask"] > 0.0)
+            & (df["bid"] < df["ask"])
+        ].copy()
+        if df.empty:
+            return pd.DataFrame()
+
+    # Price handling: use midpoint
     if "price" not in df.columns:
         df["price"] = (df["bid"] + df["ask"]) / 2.0
 
     # Spread
     df["spread"] = (df["ask"] - df["bid"]).clip(lower=0)
+    df["_tick_unit"] = 1
 
-    # Aggressor classification (Lee-Ready)
-    # price >= ask -> Buyer-initiated (1), price <= bid -> Seller-initiated (-1)
-    df["aggressor"] = 0
-    df.loc[df["price"] >= df["ask"], "aggressor"] = 1
-    df.loc[df["price"] <= df["bid"], "aggressor"] = -1
-
-    vol = df["volume"] if "volume" in df.columns else pd.Series(1, index=df.index)
-    df["buy_vol"] = (df["aggressor"] == 1).astype(int) * vol
-    df["sell_vol"] = (df["aggressor"] == -1).astype(int) * vol
-
-    # Resample to 1-second snapshots
+    # Resample to 1-second snapshots (quote-arrival semantics only)
     df = df.set_index(time_col)
-    agg = df.resample("1s").agg({
-        "price": "last",
-        "spread": "mean",
-        "buy_vol": "sum",
-        "sell_vol": "sum",
-        "aggressor": "count"  # tick count
-    }).dropna()
+    agg = df.resample("1s").agg(
+        {
+            "price": "last",
+            "spread": "mean",
+            "_tick_unit": "count",
+        }
+    ).dropna(subset=["price"])
 
-    agg = agg.rename(columns={"aggressor": "tick_count"})
+    agg = agg.rename(columns={"_tick_unit": "tick_count"})
 
-    # Order Flow Imbalance (OFI)
-    agg["net_order_flow"] = agg["buy_vol"] - agg["sell_vol"]
-    agg["tick_momentum"] = agg["net_order_flow"].rolling(window=window_seconds, min_periods=1).sum()
-
-    # Tick Burst
+    # Quote-arrival burst ratio (NOT traded volume)
     short_ticks = agg["tick_count"].rolling(window=5, min_periods=1).sum()
     long_ticks = agg["tick_count"].rolling(window=window_seconds, min_periods=1).sum()
     agg["burst_ratio"] = (short_ticks / long_ticks.replace(0, np.nan)).fillna(1.0)
@@ -64,6 +84,7 @@ def compute_forex_micro_features(tick_df: pd.DataFrame, window_seconds: int = 30
 class MicrostructureFeatureRepository(IMicrostructureFeatureRepository):
     """
     Adapter implementing IMicrostructureFeatureRepository port for live and historical ticks.
+    Emits valid quote-arrival features only; defective Lee-Ready order-flow columns are excluded.
     """
 
     def compute_micro_features(self, tick_data: Any, window_seconds: int = 30) -> pd.DataFrame:

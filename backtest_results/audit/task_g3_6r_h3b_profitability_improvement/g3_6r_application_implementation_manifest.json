@@ -1,0 +1,13 @@
+{
+  "task": "G3.6R_APPLICATION_IMPLEMENTATION_MANIFEST",
+  "generated_at_utc": "2026-11-23T11:39:11.529814+00:00",
+  "git_head": "unknown",
+  "modified_application_file": "src/goldedge/application/use_cases/run_backtest.py",
+  "run_backtest_sha256": "8C2B9134DA87AE2B2ABC52582E98538A55A0ED4C47D203E89EA9158D1C1A4674",
+  "opt_in_parameters_added": {
+    "max_kaufman_er": "float | None = None (default OFF; preserves H0 & frozen H3b bit-identically)",
+    "be_trigger_atr": "float = 1.0 (default 1.0; preserves H0 & frozen H3b bit-identically)"
+  },
+  "shadow_and_live_unchanged": true,
+  "frozen_defaults_preserved": true
+}

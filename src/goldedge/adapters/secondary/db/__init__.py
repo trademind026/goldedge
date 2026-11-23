@@ -7,6 +7,8 @@ from .candle_repository import CandleRepository
 from .trade_repository import TradeRepository
 from .tick_repository import TickRepository
 from .config_repository import SystemConfigRepository
+from .backtest_repository import BacktestRepository
+from .hwm_risk_repository import HwmRiskRepository
 
 __all__ = [
     "build_engine",
@@ -15,4 +17,6 @@ __all__ = [
     "TradeRepository",
     "TickRepository",
     "SystemConfigRepository",
+    "BacktestRepository",
+    "HwmRiskRepository",
 ]

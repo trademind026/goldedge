@@ -1,0 +1,231 @@
+{
+  "task": "G3.4_TRAINING_MANIFEST",
+  "generated_at_utc": "2026-11-23T09:50:01.113564+00:00",
+  "git_head": "unknown",
+  "feature_schema_version": "G3_3_FEATURE_SCHEMA_V1",
+  "macro_dataset_sha256": "2E9A9D9B7215A50B75B6464FD1E3A17AA887BF415B5A683586E0220B045189E3",
+  "micro_dataset_sha256": "7B565DFAF77D2B23B987FF8EE64952B0875287D428EE2BE39B5DAF48C6778667",
+  "macro_oof_sha256": "6F1B7EAC369BA74B1D9CE2C33E92A12F3337CC6389B597F4760C7C00DC5166F0",
+  "micro_oof_sha256": "C75D989A1BA0814A5B45EAEB34DBE0931439DD1AC0E5CE18C62A82D732029D05",
+  "saved_model_artifacts_count": 16,
+  "saved_model_artifacts": [
+    {
+      "artifact_id": "macro_net_010_f1_B3_LOGISTIC_L2",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/macro_net_010_f1_B3_LOGISTIC_L2.joblib",
+      "sha256": "7A61DBA021CAC84C42DEFF3E754FDEFF5A64C4DC75CED78BEA4861F5FAE2E99B",
+      "hyperparameters": {
+        "C": 0.1,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "macro_net_010_f1_C1_LIGHTGBM_CONSTRAINED",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/macro_net_010_f1_C1_LIGHTGBM_CONSTRAINED.joblib",
+      "sha256": "8404BAAB297C5973DB590E9CDB3D2A880736E9B32D9799116AA3AB914CC9732B",
+      "hyperparameters": {
+        "max_depth": 3,
+        "num_leaves": 7,
+        "min_child_samples": 300,
+        "reg_alpha": 1.0,
+        "reg_lambda": 5.0,
+        "colsample_bytree": 0.7,
+        "learning_rate": 0.05,
+        "best_iteration": 63,
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "macro_net_010_f2_B3_LOGISTIC_L2",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/macro_net_010_f2_B3_LOGISTIC_L2.joblib",
+      "sha256": "D84CC302E37E5BCAB929F76D17FF57A9E070169E4D230EB1C0620BE7206CC940",
+      "hyperparameters": {
+        "C": 0.01,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "macro_net_010_f2_C1_LIGHTGBM_CONSTRAINED",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/macro_net_010_f2_C1_LIGHTGBM_CONSTRAINED.joblib",
+      "sha256": "CBDED522AC797D6B33E40CEEEA515030A671BA23E2AD5A93D488479BDE4E1023",
+      "hyperparameters": {
+        "max_depth": 3,
+        "num_leaves": 7,
+        "min_child_samples": 300,
+        "reg_alpha": 1.0,
+        "reg_lambda": 5.0,
+        "colsample_bytree": 0.7,
+        "learning_rate": 0.05,
+        "best_iteration": 106,
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "macro_net_010_f3_B3_LOGISTIC_L2",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/macro_net_010_f3_B3_LOGISTIC_L2.joblib",
+      "sha256": "BFB1D378BE948ABA4EFBC48B1CAAF29454060C1D3AAE2173D283D6E8E01897C6",
+      "hyperparameters": {
+        "C": 0.01,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "macro_net_010_f3_C1_LIGHTGBM_CONSTRAINED",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/macro_net_010_f3_C1_LIGHTGBM_CONSTRAINED.joblib",
+      "sha256": "327DC9388986ACD4B3A7DFD33C6778D0E698CFCDAE258815006CF4E2DAC6BDB5",
+      "hyperparameters": {
+        "max_depth": 3,
+        "num_leaves": 7,
+        "min_child_samples": 150,
+        "reg_alpha": 1.0,
+        "reg_lambda": 5.0,
+        "colsample_bytree": 0.7,
+        "learning_rate": 0.05,
+        "best_iteration": 164,
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "macro_net_010_f4_B3_LOGISTIC_L2",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/macro_net_010_f4_B3_LOGISTIC_L2.joblib",
+      "sha256": "1DE70B6037544F2FE1BF8D37A6A001F5C7BB47C0E63AB32FF60EAB50BD21B5AB",
+      "hyperparameters": {
+        "C": 0.01,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "macro_net_010_f4_C1_LIGHTGBM_CONSTRAINED",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/macro_net_010_f4_C1_LIGHTGBM_CONSTRAINED.joblib",
+      "sha256": "3D93FE0238CE8305AE3F476ED9CF2CE80F0D87E70E640CC9B7536040F396942A",
+      "hyperparameters": {
+        "max_depth": 2,
+        "num_leaves": 4,
+        "min_child_samples": 300,
+        "reg_alpha": 1.0,
+        "reg_lambda": 5.0,
+        "colsample_bytree": 0.7,
+        "learning_rate": 0.05,
+        "best_iteration": 196,
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f1_B3_LOGISTIC_L2",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/micro_buy_timing_class_f1_B3_LOGISTIC_L2.joblib",
+      "sha256": "8F067622D69C4041ECF11F8C3ECFFE4B880F0634AC5653951A6A584A478091C0",
+      "hyperparameters": {
+        "C": 0.01,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f1_C1_LIGHTGBM_CONSTRAINED",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/micro_buy_timing_class_f1_C1_LIGHTGBM_CONSTRAINED.joblib",
+      "sha256": "78FB4DD205E7D0D6C00A30ED226B25BAE18FABDCDDDF5BB5DF3ACCAE24FF5E28",
+      "hyperparameters": {
+        "max_depth": 3,
+        "num_leaves": 7,
+        "min_child_samples": 500,
+        "reg_alpha": 1.0,
+        "reg_lambda": 5.0,
+        "colsample_bytree": 0.7,
+        "learning_rate": 0.05,
+        "best_iteration": 144,
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f2_B3_LOGISTIC_L2",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/micro_buy_timing_class_f2_B3_LOGISTIC_L2.joblib",
+      "sha256": "B4E8535BC0B6BEC4A5E8D800157A6629DB52692A7A49F24C04505D269D41AD93",
+      "hyperparameters": {
+        "C": 1.0,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f2_C1_LIGHTGBM_CONSTRAINED",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/micro_buy_timing_class_f2_C1_LIGHTGBM_CONSTRAINED.joblib",
+      "sha256": "84D4C0768049D3C7AC975797FEDE64DEE4F9894D4CD168A37DD0D61C49253EEC",
+      "hyperparameters": {
+        "max_depth": 3,
+        "num_leaves": 7,
+        "min_child_samples": 1000,
+        "reg_alpha": 1.0,
+        "reg_lambda": 5.0,
+        "colsample_bytree": 0.7,
+        "learning_rate": 0.05,
+        "best_iteration": 156,
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f3_B3_LOGISTIC_L2",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/micro_buy_timing_class_f3_B3_LOGISTIC_L2.joblib",
+      "sha256": "BC44DE4C64B9AE675C254A34C7C3624025A8240452FBC43490C7679DEC9AEE93",
+      "hyperparameters": {
+        "C": 1.0,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f3_C1_LIGHTGBM_CONSTRAINED",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/micro_buy_timing_class_f3_C1_LIGHTGBM_CONSTRAINED.joblib",
+      "sha256": "6C3025E7E1D58A244849C3A5C281A007C8EE7DA15BC2B3D7A481055BD56BD434",
+      "hyperparameters": {
+        "max_depth": 3,
+        "num_leaves": 7,
+        "min_child_samples": 1000,
+        "reg_alpha": 1.0,
+        "reg_lambda": 5.0,
+        "colsample_bytree": 0.7,
+        "learning_rate": 0.05,
+        "best_iteration": 337,
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f4_B3_LOGISTIC_L2",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/micro_buy_timing_class_f4_B3_LOGISTIC_L2.joblib",
+      "sha256": "B9C6B9C7B8635C6E038B80887576D9A460B457ED1F9C6A8CF0176E09CB2793FF",
+      "hyperparameters": {
+        "C": 0.01,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "selected_on": "inner_val_log_loss"
+      }
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f4_C1_LIGHTGBM_CONSTRAINED",
+      "path": "backtest_results/audit/task_g3_4_ml_model_research/models/micro_buy_timing_class_f4_C1_LIGHTGBM_CONSTRAINED.joblib",
+      "sha256": "801C02060F7C523A2F984BB098C92C7873AC5DD4EFD3C8118D36769C17503B22",
+      "hyperparameters": {
+        "max_depth": 2,
+        "num_leaves": 4,
+        "min_child_samples": 500,
+        "reg_alpha": 1.0,
+        "reg_lambda": 5.0,
+        "colsample_bytree": 0.7,
+        "learning_rate": 0.05,
+        "best_iteration": 399,
+        "selected_on": "inner_val_log_loss"
+      }
+    }
+  ],
+  "total_hyperparameter_trials_logged": 112,
+  "elapsed_sec": 852.03
+}

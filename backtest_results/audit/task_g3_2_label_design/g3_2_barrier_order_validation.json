@@ -1,0 +1,44 @@
+{
+  "task": "G3.2_BARRIER_ORDER_VALIDATION",
+  "generated_at_utc": "2026-11-22T16:59:19.739836+00:00",
+  "methodology": "Tick-chronological executable bid/ask barrier resolution (BUY enters ask / evaluates bid; SELL enters bid / evaluates ask). Never resolves dual-touch barriers using candle OHLC alone.",
+  "total_clean_5m_macro_windows": 19004,
+  "buy_010_both_touched_tick_resolved": 1072,
+  "sell_010_both_touched_tick_resolved": 1089,
+  "buy_010_same_1m_candle_ambiguous_if_ohlc_only": 14,
+  "sell_010_same_1m_candle_ambiguous_if_ohlc_only": 17,
+  "threshold_sensitivity_counts": {
+    "0.05pct": {
+      "buy_tp_first": 8441,
+      "buy_sl_first": 9627,
+      "buy_both": 5406,
+      "sell_tp_first": 8957,
+      "sell_sl_first": 9094,
+      "sell_both": 5376
+    },
+    "0.10pct": {
+      "buy_tp_first": 5839,
+      "buy_sl_first": 6521,
+      "buy_both": 1072,
+      "sell_tp_first": 6168,
+      "sell_sl_first": 6182,
+      "sell_both": 1089
+    },
+    "0.15pct": {
+      "buy_tp_first": 3380,
+      "buy_sl_first": 3709,
+      "buy_both": 252,
+      "sell_tp_first": 3515,
+      "sell_sl_first": 3559,
+      "sell_both": 257
+    },
+    "0.20pct": {
+      "buy_tp_first": 1986,
+      "buy_sl_first": 2025,
+      "buy_both": 71,
+      "sell_tp_first": 1910,
+      "sell_sl_first": 2086,
+      "sell_both": 75
+    }
+  }
+}

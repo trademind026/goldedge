@@ -1,0 +1,55 @@
+{
+  "generated_at_utc": "2026-11-18T18:33:32.661466+00:00",
+  "recovered_span": {
+    "start_utc": "2026-08-13T00:00:00.153000+00:00",
+    "end_utc": "2026-11-18T18:09:38.022225+00:00",
+    "total_rows": 19774744,
+    "valid_rows": 19762699,
+    "inverted_rows": 11612,
+    "zero_spread_rows": 433,
+    "non_positive_rows": 0,
+    "non_null_volume_rows": 0,
+    "duplicate_timestamps": 0,
+    "trading_days": 84
+  },
+  "task4_preservation": {
+    "expected_warmup_rows": 563212,
+    "actual_warmup_rows": 563212,
+    "expected_warmup_sha256": "ffbe8329235641536538dc736ee19a6eb11bb07557842ae626de4ba498cafd56",
+    "actual_warmup_legacy_t4_sha256": "ffbe8329235641536538dc736ee19a6eb11bb07557842ae626de4ba498cafd56",
+    "actual_warmup_clean_sha256": "568b4cc1821c59860ea09d386a2ec37645ed520529a453c729134c8ca309f797",
+    "warmup_exact_match": true,
+    "expected_replay_rows": 17303717,
+    "actual_replay_rows": 17303717,
+    "expected_replay_sha256": "b5ebbaeadbb99e8d2b8a1fdb7d357b8899dfb7385b4b8dc5a3d27b5d06ea2870",
+    "actual_replay_legacy_t4_sha256": "b5ebbaeadbb99e8d2b8a1fdb7d357b8899dfb7385b4b8dc5a3d27b5d06ea2870",
+    "actual_replay_clean_sha256": "e448133f3d6704c76a5c1f82261d8ef28fba6fb612a3a3843253c92c3321b43e",
+    "replay_exact_match": true
+  },
+  "frozen_ledger_hashes": {
+    "frozen_111_baseline_trades_sha256": "73306e1529adc48284bce9ab6ac35122f33b9999d2464af441867eb3bb6cf168",
+    "task4_run_1_sha256": "e51c891499e485a84d2f3acbdb225af241bf844545b68d9ce6f6b7549a438c36",
+    "task4_zero_cost_ref_sha256": "8478d4a5d49f6e48faae2a0861f634a5f06d1109464d7544f764d80405dc86dd"
+  },
+  "window_fingerprints": {
+    "W1_task4_20260824_20261116": {
+      "rows": 17303717,
+      "stream_sha256": "e448133f3d6704c76a5c1f82261d8ef28fba6fb612a3a3843253c92c3321b43e",
+      "legacy_t4_sha256": "b5ebbaeadbb99e8d2b8a1fdb7d357b8899dfb7385b4b8dc5a3d27b5d06ea2870"
+    },
+    "W2_recovered_20260813_20261116": {
+      "rows": 19163752,
+      "stream_sha256": "c386dc6feec879401ac0fb2c5a2507b68618f7bc65ffdc43261370798a23e860"
+    },
+    "W3_warmup_20260813_20260817": {
+      "rows": 508219,
+      "stream_sha256": "cfa4d41e04b9d092b98aa51747fefd4f6c36b2ea98a0a7dca47047b3ea0b39b5"
+    },
+    "W3_recovered_20260817_20261118": {
+      "rows": 19263892,
+      "stream_sha256": "3e77ce1a5c9cd4be1fe51dbc862e90ae3707f7bbe80c5d360de65252f12cbfb3"
+    }
+  },
+  "gaps_over_600s_total": 69,
+  "unexplained_intraday_gaps_over_600s": []
+}

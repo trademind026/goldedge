@@ -1,0 +1,27 @@
+{
+  "task": "G3.2_PHASE_D_CAUSALITY_AUDIT",
+  "generated_at_utc": "2026-11-22T17:04:16.967596+00:00",
+  "status": "PASS",
+  "total_violations": 0,
+  "macro_causality_checks": {
+    "total_macro_rows": 19004,
+    "feature_cutoff_eq_signal_decision_violations": 0,
+    "entry_before_decision_violations": 0,
+    "entry_gt_60s_after_decision_violations": 0,
+    "obs_end_not_after_start_violations": 0,
+    "obs_end_exceeds_15m_horizon_violations": 0,
+    "buy_first_touch_outside_window_violations": 0,
+    "sell_first_touch_outside_window_violations": 0,
+    "invalid_entry_or_exit_quotes": 0,
+    "quarantined_sunday_rows_present": 0,
+    "forbidden_order_flow_columns_present": []
+  },
+  "micro_causality_checks": {
+    "total_micro_rows": 664806,
+    "obs_end_not_after_start_violations": 0,
+    "elapsed_sec_nonpositive_violations": 0,
+    "invalid_quotes_present": 0,
+    "quarantined_sunday_rows_present": 0,
+    "forbidden_order_flow_columns_present": []
+  }
+}

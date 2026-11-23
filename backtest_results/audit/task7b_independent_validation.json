@@ -1,0 +1,135 @@
+{
+  "generated_at_utc": "2026-11-18T17:38:01.382753+00:00",
+  "outcome_tag": "QUOTE_ARRIVAL_SEMANTICS_V1",
+  "shadow_mode": true,
+  "trading_mode": "demo",
+  "frozen_hashes_intact": {
+    "frozen_111_baseline_trades_sha256": "73306e1529adc48284bce9ab6ac35122f33b9999d2464af441867eb3bb6cf168",
+    "task4_run_1_sha256": "e51c891499e485a84d2f3acbdb225af241bf844545b68d9ce6f6b7549a438c36",
+    "task4_zero_cost_ref_sha256": "8478d4a5d49f6e48faae2a0861f634a5f06d1109464d7544f764d80405dc86dd"
+  },
+  "comparison_summary": [
+    {
+      "run_label": "Frozen Task 4 Baseline ($7/lot + 0.30p, no swap)",
+      "trades": 118,
+      "wins": 64,
+      "losses": 53,
+      "breakevens": 1,
+      "win_rate_pct": 54.2373,
+      "gross_pnl_usd": 256.0,
+      "commission_usd": 125.3,
+      "slippage_usd": 103.26,
+      "swap_usd": 0.0,
+      "net_pnl_usd": 130.7,
+      "final_equity_usd": 10130.7,
+      "profit_factor": 1.0303,
+      "closed_max_dd_usd": -995.77,
+      "closed_max_dd_pct": 9.81,
+      "mtm_max_dd_usd": -1301.95,
+      "mtm_max_dd_pct": 12.83,
+      "mtm_max_dd_initial_pct": 13.02
+    },
+    {
+      "run_label": "Task 7B App Corrected ($7/lot + 0.30p, no swap)",
+      "trades": 118,
+      "wins": 64,
+      "losses": 53,
+      "breakevens": 1,
+      "win_rate_pct": 54.2373,
+      "gross_pnl_usd": 256.45,
+      "commission_usd": 125.3,
+      "slippage_usd": 103.26,
+      "swap_usd": 0.0,
+      "net_pnl_usd": 131.15,
+      "final_equity_usd": 10131.15,
+      "profit_factor": 1.0305,
+      "closed_max_dd_usd": -1339.2,
+      "closed_max_dd_pct": 12.22,
+      "mtm_max_dd_usd": -1412.5,
+      "mtm_max_dd_pct": 12.82,
+      "mtm_max_dd_initial_pct": 14.13
+    },
+    {
+      "run_label": "Task 7B App Corrected Zero-Cost ($0, 0p, no swap)",
+      "trades": 118,
+      "wins": 66,
+      "losses": 51,
+      "breakevens": 1,
+      "win_rate_pct": 55.9322,
+      "gross_pnl_usd": 401.12,
+      "commission_usd": 0.0,
+      "slippage_usd": 0.0,
+      "swap_usd": 0.0,
+      "net_pnl_usd": 401.12,
+      "final_equity_usd": 10401.12,
+      "profit_factor": 1.0927,
+      "closed_max_dd_usd": -1266.72,
+      "closed_max_dd_pct": 11.48,
+      "mtm_max_dd_usd": -1354.49,
+      "mtm_max_dd_pct": 12.2,
+      "mtm_max_dd_initial_pct": 13.54
+    },
+    {
+      "run_label": "Task 7B App Corrected Verified Demo ($12/M side + NY17Z Swap + 0.0533p)",
+      "trades": 118,
+      "wins": 65,
+      "losses": 53,
+      "breakevens": 0,
+      "win_rate_pct": 55.0847,
+      "gross_pnl_usd": 293.8,
+      "commission_usd": 177.26,
+      "slippage_usd": 18.19,
+      "swap_usd": 0.0,
+      "net_pnl_usd": 116.54,
+      "final_equity_usd": 10116.54,
+      "profit_factor": 1.0271,
+      "closed_max_dd_usd": -1333.08,
+      "closed_max_dd_pct": 12.19,
+      "mtm_max_dd_usd": -1406.02,
+      "mtm_max_dd_pct": 12.79,
+      "mtm_max_dd_initial_pct": 14.06
+    }
+  ],
+  "reconciliation_vs_task4_run1": {
+    "ref_trades": 118,
+    "cand_trades": 118,
+    "exact_matches": 117,
+    "changed_or_unmatched_count": 1,
+    "changed_entry_times": [
+      "2026-10-08 15:50:00"
+    ]
+  },
+  "reconciliation_vs_task4_zero": {
+    "ref_trades": 118,
+    "cand_trades": 118,
+    "exact_matches": 117,
+    "changed_or_unmatched_count": 1,
+    "changed_entry_times": [
+      "2026-10-08 15:50:00"
+    ]
+  },
+  "independent_corrected_validation": {
+    "reconstruction_sql_verification": {
+      "market_bars_1m_quote_semantics_v1_bars": 83716,
+      "bar_sum_tick_count": 17292029,
+      "bar_sum_tick_rate": 17292029,
+      "bar_non_null_real_volume": 0,
+      "v_market_ticks_raw_rows": 17303717,
+      "v_market_ticks_valid_rows": 17291884,
+      "v_market_ticks_sum_unit": 17291884,
+      "v_market_ticks_non_null_real_vol": 0,
+      "timeline_observed_minutes": 83716,
+      "timeline_feed_gap_minutes": 38446,
+      "max_bar_open_diff_vs_view": 0.0,
+      "max_bar_tick_count_diff_vs_view": 145
+    },
+    "independent_execution_reconciliation": {
+      "trades_verified": 118,
+      "max_entry_price_diff_usd": 0.0,
+      "max_gross_pnl_diff_usd": 0.0,
+      "max_commission_diff_usd": 0.0,
+      "max_slippage_diff_usd": 0.0,
+      "max_net_pnl_diff_usd": 0.0
+    }
+  }
+}

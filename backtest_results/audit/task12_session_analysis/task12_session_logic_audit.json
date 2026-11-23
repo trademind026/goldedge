@@ -1,0 +1,48 @@
+{
+  "canonical_timestamp": "UTC (PostgreSQL market_ticks.time, pandas DatetimeTZDtype UTC)",
+  "signal_generator_session_gate": {
+    "source": "src/goldedge/domain/services/signal_generator.py (lines 13-23, 70-71)",
+    "rule": "_SESSION_OPEN_UTC = 7, _SESSION_CLOSE_UTC = 17 -> 7 <= utc_hour < 17",
+    "dst_aware": false,
+    "weekday_restrictions": "None (trades Mon-Fri identically; weekend has no ticks)",
+    "holiday_restrictions": "None (trades UK Summer Bank Holiday, US Labor Day, Columbus Day, Veterans Day)",
+    "orb_hardcoded_utc": "07:00-08:30 UTC and 12:30-14:00 UTC (fixed UTC, line 345)",
+    "dst_mismatch_finding": "Comment assumes London opens 08:00 BST = 07:00 UTC year-round. After UK switches to GMT on 2026-10-25 01:00Z, 07:00-07:59 UTC is pre-London/late Asia, while 16:00-16:30 London local remains inside 16:00 UTC. After US switches to EST on 2026-11-01 06:00Z, NY open moves from 12:00 UTC to 13:00 UTC."
+  },
+  "trade_scorer_session_component": {
+    "source": "src/goldedge/domain/services/trade_scorer.py (lines 117, 143, 257-274)",
+    "weight": 0.05,
+    "dst_aware": false,
+    "fixed_utc_schedule": {
+      "00-06 UTC": 0.0,
+      "07-08 UTC": 0.4,
+      "09-11 UTC": 0.7,
+      "12-16 UTC": 1.0,
+      "17-19 UTC": 0.7,
+      "20-23 UTC": 0.2
+    },
+    "dst_mismatch_finding": "Awards peak 1.0 overlap score at 12:00-12:59 UTC even after Nov 1 US EST shift when NY is not yet open."
+  },
+  "backtest_and_live_hold_and_reset": {
+    "effective_max_hold": "60m if 7 <= entry_time.hour < 20 else 90m (fixed UTC in run_backtest.py & shadow_tracker.py)",
+    "daily_circuit_breaker_reset": "UTC midnight (00:00 UTC), independent of broker 17:00 NY rollover",
+    "shadow_telemetry_flag": "scan_market.py logs in_15utc_window (cutoff_5m.hour < 15, fixed UTC) and Ridge hour_sin/hour_cos (observation-only)"
+  },
+  "broker_cost_rollover": {
+    "source": "src/goldedge/domain/services/broker_cost_service.py (lines 176-257)",
+    "dst_aware": true,
+    "rule": "17:00 America/New_York (21:00Z EDT / 22:00Z EST), 3x Wednesday swap, skip Sat/Sun"
+  },
+  "task12_dst_calendar": {
+    "asian": "09:00-18:00 Asia/Tokyo (00:00-09:00 UTC, no DST)",
+    "london": "08:00-16:30 Europe/London (07:00-15:30Z BST -> 08:00-16:30Z GMT after 2026-10-25 01:00Z)",
+    "new_york": "08:00-17:00 America/New_York (12:00-21:00Z EDT -> 13:00-22:00Z EST after 2026-11-01 06:00Z)",
+    "overlap": "Intersection of active London and New York sessions (12:00-15:30Z BST/EDT; 12:00-16:30Z GMT/EDT; 13:00-16:30Z GMT/EST)",
+    "holidays_flagged": {
+      "2026-08-31": "UK_SUMMER_BANK_HOLIDAY",
+      "2026-09-07": "US_LABOR_DAY",
+      "2026-10-12": "US_COLUMBUS_DAY",
+      "2026-11-11": "US_VETERANS_DAY"
+    }
+  }
+}

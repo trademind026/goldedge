@@ -84,6 +84,33 @@ class MT5BrokerAdapter(IBrokerAdapter):
 
         return 1.0  # Safe default if disconnected
 
+    def _resolve_filling_mode(self, symbol: str) -> int:
+        """
+        Inspects symbol_info.filling_mode bitmask (1=FOK, 2=IOC) and returns a
+        supported MT5 ORDER_FILLING_* constant to avoid retcode 10030 errors.
+        """
+        info = mt5.symbol_info(symbol)
+        if info is not None:
+            if not info.visible:
+                mt5.symbol_select(symbol, True)
+            filling_flags = getattr(info, "filling_mode", 0)
+            if filling_flags & 2:  # SYMBOL_FILLING_IOC
+                return mt5.ORDER_FILLING_IOC
+            if filling_flags & 1:  # SYMBOL_FILLING_FOK
+                return mt5.ORDER_FILLING_FOK
+            return mt5.ORDER_FILLING_RETURN
+        return mt5.ORDER_FILLING_IOC
+
+    def _normalize_volume(self, symbol: str, volume: float) -> float:
+        """Rounds volume to broker's volume_step and clamps to [volume_min, volume_max]."""
+        info = mt5.symbol_info(symbol)
+        if info is None:
+            return float(volume)
+        vol = max(info.volume_min, min(float(volume), info.volume_max))
+        step = info.volume_step or 0.01
+        steps = round(vol / step)
+        return round(steps * step, 8)
+
     def place_order(
         self,
         symbol: str,
@@ -100,13 +127,18 @@ class MT5BrokerAdapter(IBrokerAdapter):
             return None
 
         action = mt5.ORDER_TYPE_BUY if order_type.upper() in ("BUY", "CALL") else mt5.ORDER_TYPE_SELL
+        filling_type = self._resolve_filling_mode(symbol)
+        norm_volume = self._normalize_volume(symbol, volume)
         tick = mt5.symbol_info_tick(symbol)
-        price = tick.ask if action == mt5.ORDER_TYPE_BUY else tick.bid if tick else 0.0
+        if not tick:
+            logger.error(f"Cannot place order: no live tick available for {symbol}.")
+            return None
+        price = tick.ask if action == mt5.ORDER_TYPE_BUY else tick.bid
 
         request = {
             "action": mt5.TRADE_ACTION_DEAL,
             "symbol": symbol,
-            "volume": float(volume),
+            "volume": norm_volume,
             "type": action,
             "price": price,
             "sl": float(sl),
@@ -115,8 +147,13 @@ class MT5BrokerAdapter(IBrokerAdapter):
             "magic": 123456,
             "comment": "InstitutionalForex",
             "type_time": mt5.ORDER_TIME_GTC,
-            "type_filling": mt5.ORDER_FILLING_IOC,
+            "type_filling": filling_type,
         }
+
+        check = mt5.order_check(request)
+        if check is not None and check.retcode not in (0, mt5.TRADE_RETCODE_DONE):
+            logger.error(f"MT5 order_check failed: {check.retcode} - {check.comment}")
+            return None
 
         result = mt5.order_send(request)
         if result and result.retcode == mt5.TRADE_RETCODE_DONE:
@@ -143,20 +180,21 @@ class MT5BrokerAdapter(IBrokerAdapter):
         close_type = mt5.ORDER_TYPE_SELL if pos.type == mt5.ORDER_TYPE_BUY else mt5.ORDER_TYPE_BUY
         tick = mt5.symbol_info_tick(pos.symbol)
         price = tick.bid if pos.type == mt5.ORDER_TYPE_BUY else tick.ask if tick else pos.price_current
-        close_vol = volume if volume is not None else pos.volume
+        close_vol = self._normalize_volume(pos.symbol, volume if volume is not None else pos.volume)
+        filling_type = self._resolve_filling_mode(pos.symbol)
 
         request = {
             "action": mt5.TRADE_ACTION_DEAL,
             "position": ticket,
             "symbol": pos.symbol,
-            "volume": float(close_vol),
+            "volume": close_vol,
             "type": close_type,
             "price": price,
             "deviation": 20,
             "magic": 123456,
             "comment": "ForexClose",
             "type_time": mt5.ORDER_TIME_GTC,
-            "type_filling": mt5.ORDER_FILLING_IOC,
+            "type_filling": filling_type,
         }
 
         result = mt5.order_send(request)

@@ -7,18 +7,21 @@ from typing import Optional, Union
 from ...domain.models.trade import TradeStatus, ExitReason, Position
 from ...domain.models.pip_calculator import PipCalculator
 from ...domain.services.forex_kalman_exit_agent import ForexKalmanEntropyExitAgent
+from ...domain.services.hwm_kill_switch_service import HwmKillSwitchService, compute_account_equity, compute_unrealized_pnl
 from ...domain.ports.outbound.broker import IBrokerAdapter
 from ...domain.ports.outbound.trade_repo import ITradeRepository
 from ...domain.ports.outbound.event_bus import IEventBus
 from ...domain.events.trading import TradeClosed, SLMoved, BreakevenSet, JourneySnapshot
 from ...domain.ports.outbound.market_data import IMarketDataProvider
+from ..services.hwm_emergency_exit import HwmEmergencyLiquidator
 
 
 class ManagePositionUseCase:
     """
     Tick-driven position management for Forex / CFD trading.
     Incorporates ForexKalmanEntropyExitAgent for real-time velocity exhaustion,
-    Shannon entropy collapse detection, and dynamic trailing stop adjustment.
+    Shannon entropy collapse detection, dynamic trailing stop adjustment, and
+    persistent 8% HWM hard kill-switch enforcement.
     """
 
     def __init__(
@@ -27,12 +30,20 @@ class ManagePositionUseCase:
         trade_repo: ITradeRepository,
         event_bus: IEventBus,
         market_data: IMarketDataProvider,
-        position_management_config: dict = None
+        position_management_config: dict = None,
+        hwm_kill_switch: Optional[HwmKillSwitchService] = None,
+        emergency_liquidator: Optional[HwmEmergencyLiquidator] = None,
+        initial_capital: float = 10000.0,
     ):
         self.broker = broker
         self.trade_repo = trade_repo
         self.event_bus = event_bus
         self.market_data = market_data
+        self.hwm_kill_switch = hwm_kill_switch
+        self.emergency_liquidator = emergency_liquidator or (
+            HwmEmergencyLiquidator(hwm_kill_switch) if hwm_kill_switch is not None else None
+        )
+        self.initial_capital = float(initial_capital)
 
         cfg = position_management_config or {}
 
@@ -83,6 +94,59 @@ class ManagePositionUseCase:
         current_tick = self.market_data.get_current_tick(symbol)
         if not current_tick:
             return
+
+        # ── Persistent 8% HWM Intrabar Unrealized-P&L Kill-Switch Check ──
+        if (
+            self.hwm_kill_switch is not None
+            and current_tick.bid > 0
+            and current_tick.ask > 0
+            and current_tick.bid < current_tick.ask
+        ):
+            acc_info = self.broker.get_account_info() if hasattr(self.broker, "get_account_info") else None
+            if acc_info and acc_info.get("balance") is not None:
+                closed_balance = float(acc_info["balance"])
+                acct_ccy = str(acc_info.get("currency", "USD") or "USD").upper()
+            else:
+                closed_pos = self.trade_repo.get_positions_by_status(TradeStatus.CLOSED)
+                closed_balance = self.initial_capital + sum(float(p.profit or 0.0) for p in closed_pos)
+                acct_ccy = "USD"
+
+            total_unr = 0.0
+            quotes_map: dict[str, tuple[float, float]] = {symbol: (float(current_tick.bid), float(current_tick.ask))}
+            for op in open_positions:
+                if op.symbol == symbol:
+                    b_q, a_q = float(current_tick.bid), float(current_tick.ask)
+                else:
+                    ot = self.market_data.get_current_tick(op.symbol)
+                    if ot and ot.bid > 0 and ot.ask > 0 and ot.bid < ot.ask:
+                        b_q, a_q = float(ot.bid), float(ot.ask)
+                        quotes_map[op.symbol] = (b_q, a_q)
+                    else:
+                        total_unr += float(op.profit or 0.0)
+                        continue
+                cs = 100.0 if "XAU" in op.symbol.upper() else 100000.0
+                total_unr += compute_unrealized_pnl(
+                    op.type, op.price_open, b_q, a_q, op.volume,
+                    contract_size=cs, accrued_swap_pnl=float(getattr(op, "swap", 0.0) or 0.0),
+                )
+
+            cur_equity = compute_account_equity(closed_balance, total_unr, profit_currency="USD", account_currency=acct_ccy)
+            eval_res = self.hwm_kill_switch.evaluate_equity(
+                current_equity=cur_equity,
+                timestamp=current_tick.time,
+                open_positions_count=len(open_positions),
+                symbol=symbol,
+            )
+            if eval_res.halted and self.emergency_liquidator is not None:
+                self.emergency_liquidator.liquidate_open_positions(
+                    broker=self.broker,
+                    trade_repo=self.trade_repo,
+                    market_data=self.market_data,
+                    event_bus=self.event_bus,
+                    quotes_by_symbol=quotes_map,
+                    now=current_tick.time,
+                )
+                return
 
         # Fetch broker symbol specification
         symbol_info = {}

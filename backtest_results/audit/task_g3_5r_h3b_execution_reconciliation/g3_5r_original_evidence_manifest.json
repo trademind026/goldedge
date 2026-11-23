@@ -1,0 +1,41 @@
+{
+  "task": "G3.5R_PHASE_A_ORIGINAL_EVIDENCE_MANIFEST",
+  "generated_at_utc": "2026-11-23T10:55:57.666084+00:00",
+  "git_head": "unknown",
+  "safety_locks": {
+    "SHADOW_MODE": true,
+    "TRADING_MODE": "demo",
+    "market_orders": 0,
+    "market_trades": 0,
+    "HWM_MAX_DRAWDOWN_PCT": 8.0
+  },
+  "implementation_paths": {
+    "application_backtest": "src/goldedge/application/use_cases/run_backtest.py",
+    "signal_generator": "src/goldedge/domain/services/signal_generator.py",
+    "position_sizing": "src/goldedge/domain/services/sizing_service.py",
+    "broker_costs": "src/goldedge/domain/services/broker_cost_service.py",
+    "kalman_filter": "src/goldedge/domain/services/denoise_service.py",
+    "hwm_kill_switch": "src/goldedge/domain/services/hwm_kill_switch_service.py",
+    "g3_5_research_simulator": "src/goldedge/adapters/secondary/ml/calibration_utility.py",
+    "g3_5_extraction_driver": "scripts/audit/task_g3_5_phase_cdefg_utility.py"
+  },
+  "original_file_sha256": {
+    "src/goldedge/application/use_cases/run_backtest.py": "37EAAAE08A92FE7D29F74019129E543FF7C5906392E87B0914F17AB0A859BDF8",
+    "src/goldedge/domain/services/sizing_service.py": "6BA518B635CC82FBFCC7753E4CAA1EF4E2477565640F54F806C8BC79F0F38784",
+    "src/goldedge/domain/services/broker_cost_service.py": "33FF1D979792950A542A84C192F5BEEAF313DDF89012B4901390E0E8862FC992",
+    "src/goldedge/domain/services/signal_generator.py": "A4B8E13E9D6A1F936044A4EB649A97CC14EEC9847A253D77F228F23E27D76303",
+    "src/goldedge/domain/services/denoise_service.py": "4A8DFE3A32BCEA243A9C40565A110EAE938C5016922D525B2CCCCD539837C136",
+    "src/goldedge/domain/services/hwm_kill_switch_service.py": "14DE9E3C48DFFF9F50BA7899B57E19E8728FE669088B54CEB5730F8AF0014B71",
+    "src/goldedge/config/risk_profiles.py": "E94B9576C3817841B0282DE48048A9CC5C8731C1BDEE12FCD028B556368EC95A",
+    "src/goldedge/config/settings.py": "CC1BECE982F805CA13ABF43F9FE786E2C0769F33F228554DFC049CF55CE8A3FB",
+    "src/goldedge/adapters/secondary/ml/calibration_utility.py": "7F7636FF8D5E260E49A049BDD164E4D3D6232615C9ECA3BE2C90DEBF5326A7E7",
+    "scripts/audit/task_g3_5_phase_cdefg_utility.py": "35802F85B5DBEDCAB57971A6D365FE71E04421E6229873F6CF7A06536B351EA1",
+    "backtest_results/frozen_111_baseline_trades.csv": "73306E1529ADC48284BCE9AB6AC35122F33B9999D2464AF441867EB3BB6CF168",
+    "backtest_results/audit/task_g1_root_cause/g1_original_70_baseline_trades.csv": "27200EEA2C7FF4842FC586DD1131EE450247D0BCCBCF3E2F77ECA6952D2CCDC4",
+    "backtest_results/audit/task_g3_5_calibration_utility/g3_5_h3b_all_6m_trades.parquet": "94B21283779886B7668A61BFF84BE22FB7149B0FF24AA3F2D47C8C982D785D2E",
+    "backtest_results/audit/task_g3_5_calibration_utility/g3_5_h3b_candidate_ledger.parquet": "F09A7B192FBAA1B5F531C70CC9E97D4F2B90B61C8281B0C691884CFA866FBB28",
+    "backtest_results/audit/task_g3_5_calibration_utility/g3_5_micro_execution_ledger.parquet": "96EA3674EA2E0B5B889C6663CC0086243BA1D888C5C38D6A6E22AB657220E612",
+    "backtest_results/audit/task_g3_5_calibration_utility/g3_5_macro_h3b_utility.json": "06A701D0CAB650A2FA792EE0883A6C396AAC282781E49F1D01BE44DD1A5BBBB8",
+    "backtest_results/audit/task_g3_5_calibration_utility/g3_5_micro_execution_utility.json": "DE0CB17BFB5AA4C22A04685769E05CADA6379300C411930C6BE89DD2816095D1"
+  }
+}

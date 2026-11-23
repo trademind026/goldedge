@@ -1,0 +1,67 @@
+{
+  "task": "G3.1_PHASE_G_DATA_EXPANSION_ASSESSMENT",
+  "generated_at_utc": "2026-11-22T16:28:33.815739+00:00",
+  "current_db_coverage": {
+    "raw_min_utc": "2026-08-13T00:00:00.153000+00:00",
+    "raw_max_utc": "2026-11-22T16:00:02.669772+00:00",
+    "clean_continuous_window": "2026-08-13T00:00:00Z .. 2026-11-18T23:59:59Z (68 continuous weekday trading days, zero unscheduled outages)",
+    "post_nov18_outages": "2026-11-19 had 156m + 4574m feed outage (backfillable via cTrader ProtoOAGetTickDataReq)."
+  },
+  "local_backup_inspection": {
+    "exists": false,
+    "contains_earlier_or_new_dates": false,
+    "conclusion": "backups/csv_goldedge_20261117_143146.zip is a Nov 17 snapshot of the same Aug 13 - Nov 17 TimescaleDB tables (no additional historical months)."
+  },
+  "legacy_bar_table_gap": {
+    "raw_ticks_all_valid_1m_buckets": 96863,
+    "ml_eligible_1m_buckets_excl_quarantined": 96862,
+    "raw_ticks_approved_window_1m_buckets": 86473,
+    "market_bars_1m_rows": 20175,
+    "market_bars_1m_min": "2026-08-06T00:00:00+00:00",
+    "market_bars_1m_max": "2026-11-19T11:45:00+00:00",
+    "market_bars_1m_quote_semantics_v1_rows": 96020,
+    "market_bars_1m_quote_semantics_v1_min": "2026-08-13T00:00:00+00:00",
+    "market_bars_1m_quote_semantics_v1_max": "2026-11-18T18:08:00+00:00",
+    "diff_all_valid_vs_qs_v1_bars": 843,
+    "diff_843_exact_breakdown": [
+      {
+        "day_utc": "2026-11-18",
+        "bars_only_in_market_ticks": 291,
+        "min_utc": "2026-11-18T18:09:00+00:00",
+        "max_utc": "2026-11-18T23:59:00+00:00",
+        "reason": "POST_QS_V1_MATERIALIZATION_CUTOFF_LIVE_TICKS_AFTER_2026_11_18_18_08Z"
+      },
+      {
+        "day_utc": "2026-11-19",
+        "bars_only_in_market_ticks": 551,
+        "min_utc": "2026-11-19T00:00:00+00:00",
+        "max_utc": "2026-11-19T11:45:00+00:00",
+        "reason": "POST_QS_V1_MATERIALIZATION_CUTOFF_LIVE_TICKS_AFTER_2026_11_18_18_08Z"
+      },
+      {
+        "day_utc": "2026-11-22",
+        "bars_only_in_market_ticks": 1,
+        "min_utc": "2026-11-22T16:00:00+00:00",
+        "max_utc": "2026-11-22T16:00:00+00:00",
+        "reason": "QUARANTINED_OFF_SESSION_SUNDAY_SNAPSHOT"
+      }
+    ],
+    "unexplained_diff_bars": 0,
+    "legacy_market_bars_1m_coverage_gap_bars": 76688
+  },
+  "ctrader_historical_expansion_option": {
+    "mechanism": "cTrader Open API ProtoOAGetTickDataReq (already implemented and verified idempotent in scripts/audit/backfill_missing_ticks.py)",
+    "provenance_and_compatibility": "EXACT same Fusion Markets broker quote feed, identical bid/ask spread structure, real_volume=NULL, zero spread fabrication.",
+    "constraints": "Rate limit <= 5 req/s (2h chunks, ~0.24s/req); broker server historical tick retention depth (typically 3-12 months) must be probed via dry-run before full backfill.",
+    "external_paid_data": "NOT recommended at this stage \u2014 third-party feeds have different liquidity providers/spreads that invalidate Fusion Markets execution calibration."
+  },
+  "expansion_recommendation": {
+    "required_before_g3_2_label_design": false,
+    "required_before_g3_3_production_ml_training": true,
+    "action_plan": [
+      "1. Proceed to G3.2 (Macro/Micro Label Design) immediately on the clean 68-day Aug 13 - Nov 18, 2026 dataset.",
+      "2. Before G3.3 model training, probe cTrader ProtoOAGetTickDataReq backward (e.g., Jan-Aug 2026) using backfill_missing_ticks.py --dry-test to expand Macro regime diversity to >= 6-12 months (130-250+ trading days) with identical broker spreads.",
+      "3. Backfill the Nov 19-22 feed outage via backfill_missing_ticks.py and keep live shadow feed running to accumulate untouched prospective OOS holdout data."
+    ]
+  }
+}

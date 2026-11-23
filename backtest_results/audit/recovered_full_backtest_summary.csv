@@ -1,0 +1,3 @@
+run_label,trades,wins,losses,breakevens,win_rate_pct,gross_pnl_usd,commission_usd,slippage_usd,swap_usd,net_pnl_usd,final_equity_usd,profit_factor,closed_max_dd_usd,closed_max_dd_pct,mtm_max_dd_usd,mtm_max_dd_pct,mtm_max_dd_initial_pct,buy_trades,buy_net_pnl_usd,sell_trades,sell_net_pnl_usd
+"Recovered Warmed Full (2026-08-17 -> 2026-11-18, Verified Demo)",143,79,64,0,55.24,423.23,211.75,21.76,0.0,211.48,10211.48,1.0414,-1336.28,12.17,-1409.22,12.78,14.09,41,-450.5,102,661.98
+"Recovered Original Span (2026-08-13 -> 2026-11-16, Verified Demo)",131,72,59,0,54.96,345.88,194.19,19.79,0.0,151.69,10151.69,1.0324,-1336.28,12.17,-1409.22,12.78,14.09,41,-450.5,90,602.19

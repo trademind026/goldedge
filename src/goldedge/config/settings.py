@@ -1,7 +1,7 @@
 import os
-from typing import List, Dict
+from typing import List, Dict, Any
 from pydantic_settings import BaseSettings
-from pydantic import Field
+from pydantic import Field, field_validator
 from ..domain.models.symbol_profile import SymbolProfile
 
 class Settings(BaseSettings):
@@ -9,11 +9,32 @@ class Settings(BaseSettings):
     Application-wide settings managed by Pydantic.
     Loads from environment variables, .env file, or defaults.
     """
+
+    @field_validator("MT5_ACCOUNT", "MT5_DEMO_ACCOUNT", "MT5_LIVE_ACCOUNT", mode="before")
+    @classmethod
+    def _empty_str_to_zero_int(cls, v: Any) -> Any:
+        if v == "" or v is None:
+            return 0
+        return v
+
+    @field_validator("CTRADER_TOKEN_EXPIRES_AT", mode="before")
+    @classmethod
+    def _empty_str_to_default_float(cls, v: Any) -> Any:
+        if v == "" or v is None:
+            return 9999999999.0
+        return v
     
     # --- Environment ---
     ENV: str = Field("development", description="development, staging, or production")
     TRADING_MODE: str = Field("demo", description="backtest, demo, or live")
+    SHADOW_MODE: bool = Field(True, description="Keep real/demo order placement OFF and emit shadow rollover telemetry")
+    SHADOW_LOG_PATH: str = Field("backtest_results/shadow_live_rollovers.jsonl", description="Shadow rollover JSONL log file")
+    KALMAN_WARMUP_HOURS: int = Field(24, description="Lookback hours of market_ticks replayed on startup for Kalman warmup")
+    HWM_MAX_DRAWDOWN_PCT: float = Field(8.0, description="Hard High-Water-Mark equity drawdown kill-switch threshold (%)")
+    HWM_INITIAL_EQUITY: float = Field(10000.0, description="Fallback initial equity if no persistent HWM record exists")
+    HWM_RESET_SECRET: str = Field("", description="Optional authorization token required to reset active 8% HWM halt")
     BROKER_TYPE: str = Field("ctrader", description="ctrader or mt5")
+    BROKER_COMMISSION_PROFILE: str = Field("fusion_ctrader_demo", description="Broker commission profile (fusion_ctrader_demo, fixed_per_lot, or zero)")
     
     # --- Database ---
     DB_URL: str = Field(

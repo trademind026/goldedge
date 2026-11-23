@@ -1,0 +1,698 @@
+{
+  "frozen_baseline_sha256": "73306e1529adc48284bce9ab6ac35122f33b9999d2464af441867eb3bb6cf168",
+  "frozen_baseline_intact": true,
+  "phase1_reconciliation": {
+    "ref_count": 118,
+    "ind_count": 118,
+    "max_entry_price_diff": 0.0,
+    "max_exit_price_diff": 0.0,
+    "max_pnl_diff_usd": 0.0,
+    "qty_mismatches": 0,
+    "reason_mismatches": 0,
+    "ind_zero_cost_summary": {
+      "count": 118,
+      "wins": 66,
+      "losses": 52,
+      "win_rate_pct": 55.93,
+      "net_pnl": 400.64,
+      "gross_profit": 4728.19,
+      "gross_loss": 4327.55,
+      "pf": 1.0926,
+      "final_equity": 10400.64,
+      "closed_max_dd": -1267.2,
+      "closed_max_dd_pct": 11.48,
+      "mtm_max_dd": -1354.97,
+      "mtm_max_dd_pct": 12.2,
+      "raw_mtm_max_dd": -1354.97,
+      "mtm_peak_at_max_dd": 11103.31,
+      "mtm_trough_equity": 9748.35,
+      "mtm_peak_ts": "2026-09-28T16:16:24.512000+00:00",
+      "mtm_trough_ts": "2026-10-26T13:36:25.160000+00:00",
+      "hard_stop_triggered_at": null,
+      "blocked_by_hard_stop": 0,
+      "total_commission_usd": 0.0,
+      "total_slippage_usd": 0.0,
+      "total_swap_usd": 0.0,
+      "total_spread_cost_usd": 188.82
+    }
+  },
+  "phase3_cost_reconciliation": {
+    "engine_post_remediation_reported": {
+      "trades": 118,
+      "win_rate_pct": 55.08,
+      "pnl": 130.7,
+      "closed_max_dd": -1339.65,
+      "closed_max_dd_pct": 12.22,
+      "mtm_max_dd": -1412.95,
+      "mtm_max_dd_pct": 12.83,
+      "max_planned_risk_pct": 1.0,
+      "max_realized_loss_pct": 1.113,
+      "pf": 1.0303,
+      "avg_win": 68.26,
+      "avg_loss": -81.25,
+      "rr": 0.8401,
+      "sl_slippage_events": 109,
+      "total_sl_gap_usd": -209.05,
+      "worst_sl_gap_usd": -12.56,
+      "inverted_quotes_skipped": 11409,
+      "zero_spread_ticks_skipped": 424,
+      "total_commission_usd": 125.3,
+      "total_slippage_usd": 103.26,
+      "total_swap_usd": 0.0
+    },
+    "independent_stressed_summary": {
+      "count": 118,
+      "wins": 64,
+      "losses": 54,
+      "win_rate_pct": 54.24,
+      "net_pnl": 130.7,
+      "gross_profit": 4437.15,
+      "gross_loss": 4306.45,
+      "pf": 1.0303,
+      "final_equity": 10130.7,
+      "closed_max_dd": -1339.65,
+      "closed_max_dd_pct": 12.22,
+      "mtm_max_dd": -1412.95,
+      "mtm_max_dd_pct": 12.83,
+      "raw_mtm_max_dd": -1412.95,
+      "mtm_peak_at_max_dd": 11015.1,
+      "mtm_trough_equity": 9602.15,
+      "mtm_peak_ts": "2026-09-14T12:37:51.230000+00:00",
+      "mtm_trough_ts": "2026-10-30T10:25:25.615000+00:00",
+      "hard_stop_triggered_at": null,
+      "blocked_by_hard_stop": 0,
+      "total_commission_usd": 125.3,
+      "total_slippage_usd": 103.26,
+      "total_swap_usd": 0.0,
+      "total_spread_cost_usd": 181.4
+    },
+    "rollover_crossings_21utc": 0,
+    "rollover_crossings_22utc": 0,
+    "spread_cost_sum_usd": 181.4,
+    "gross_mid_pnl_sum_usd": 540.66,
+    "commission_sum_usd": 125.3,
+    "slippage_sum_usd": 103.26,
+    "swap_sum_usd": 0.0,
+    "net_pnl_sum_usd": 130.7,
+    "accounting_identity_error_usd": 0.0
+  },
+  "phase4_data_quality": {
+    "daily_rows_count": 76,
+    "totals_aug24_nov16": {
+      "total_ticks": 17327971,
+      "inverted_ticks": 11409,
+      "zero_spread_ticks": 424,
+      "nonpos_ticks": 0
+    },
+    "session_breakdown": [
+      {
+        "session": "Overlap (12-16)",
+        "total_ticks": 5229846,
+        "inverted_ticks": 3057,
+        "inverted_pct": 0.0585,
+        "zero_spread_ticks": 102,
+        "avg_valid_spread": 0.0745
+      },
+      {
+        "session": "Asia (00-06)",
+        "total_ticks": 5175701,
+        "inverted_ticks": 2484,
+        "inverted_pct": 0.048,
+        "zero_spread_ticks": 100,
+        "avg_valid_spread": 0.0709
+      },
+      {
+        "session": "London (07-11)",
+        "total_ticks": 3540930,
+        "inverted_ticks": 2887,
+        "inverted_pct": 0.0815,
+        "zero_spread_ticks": 94,
+        "avg_valid_spread": 0.0724
+      },
+      {
+        "session": "NY Late (17-20)",
+        "total_ticks": 2641339,
+        "inverted_ticks": 2547,
+        "inverted_pct": 0.0964,
+        "zero_spread_ticks": 99,
+        "avg_valid_spread": 0.0764
+      },
+      {
+        "session": "Rollover (21-23)",
+        "total_ticks": 715901,
+        "inverted_ticks": 434,
+        "inverted_pct": 0.0606,
+        "zero_spread_ticks": 29,
+        "avg_valid_spread": 0.0802
+      }
+    ],
+    "volatility_clustering": [
+      {
+        "bucket": "clean_minutes",
+        "minute_count": 82984,
+        "mean_1m_range": 1.8752,
+        "median_1m_range": 1.55,
+        "mean_spread": 0.0718,
+        "mean_ticks_per_min": 206.45
+      },
+      {
+        "bucket": "minutes_with_inverted",
+        "minute_count": 712,
+        "mean_1m_range": 2.0915,
+        "median_1m_range": 1.7825,
+        "mean_spread": 0.0846,
+        "mean_ticks_per_min": 233.02
+      },
+      {
+        "bucket": "minutes_with_zero_spread_only",
+        "minute_count": 23,
+        "mean_1m_range": 1.9309,
+        "median_1m_range": 1.525,
+        "mean_spread": 0.087,
+        "mean_ticks_per_min": 236.3
+      }
+    ],
+    "exclusions_by_trade_direction": {
+      "BUY": {
+        "trades": 29,
+        "entry_min_inv": 0,
+        "entry_min_zero": 0,
+        "open_win_inv": 49,
+        "open_win_zero": 0,
+        "open_win_ticks": 149283
+      },
+      "SELL": {
+        "trades": 89,
+        "entry_min_inv": 55,
+        "entry_min_zero": 2,
+        "open_win_inv": 554,
+        "open_win_zero": 18,
+        "open_win_ticks": 431568
+      }
+    },
+    "gaps_over_60s_total": 61,
+    "weekday_non_rollover_gaps_over_60s": 1,
+    "weekday_non_rollover_gaps_top10": [
+      {
+        "gap_start_utc": "2026-09-07T18:29:59.753000+00:00",
+        "gap_end_utc": "2026-09-07T22:00:01.903000+00:00",
+        "gap_seconds": 12602.15,
+        "is_weekend_closure": false,
+        "is_daily_rollover_break": false,
+        "overlaps_open_trade": false
+      }
+    ],
+    "gaps_overlapping_open_trades": 0
+  },
+  "phase5_drawdown_and_hard_stop": {
+    "closed_peak_trade_idx": 28,
+    "closed_peak_equity": 10961.4,
+    "closed_trough_trade_idx": 81,
+    "closed_trough_equity": 9621.75,
+    "closed_max_dd_usd": -1339.65,
+    "closed_max_dd_pct": 12.22,
+    "mtm_max_dd_usd": -1412.95,
+    "mtm_max_dd_pct": 12.83,
+    "mtm_peak_at_max_dd": 11015.1,
+    "mtm_trough_equity": 9602.15,
+    "mtm_peak_ts": "2026-09-14T12:37:51.230000+00:00",
+    "mtm_trough_ts": "2026-10-30T10:25:25.615000+00:00",
+    "mtm_vs_closed_gap_usd": 73.3,
+    "with_8pct_hwm_entry_gate": {
+      "count": 65,
+      "wins": 38,
+      "losses": 27,
+      "win_rate_pct": 58.46,
+      "net_pnl": 87.4,
+      "gross_profit": 2645.91,
+      "gross_loss": 2558.51,
+      "pf": 1.0342,
+      "final_equity": 10087.4,
+      "closed_max_dd": -874.01,
+      "closed_max_dd_pct": 7.97,
+      "mtm_max_dd": -927.71,
+      "mtm_max_dd_pct": 8.42,
+      "raw_mtm_max_dd": -927.14,
+      "mtm_peak_at_max_dd": 11015.1,
+      "mtm_trough_equity": 10087.4,
+      "mtm_peak_ts": "2026-09-14T12:37:51.230000+00:00",
+      "mtm_trough_ts": "2026-10-16T08:02:19.415000+00:00",
+      "hard_stop_triggered_at": "2026-10-16T07:39:25.668000+00:00",
+      "blocked_by_hard_stop": 53,
+      "total_commission_usd": 69.72,
+      "total_slippage_usd": 57.33,
+      "total_swap_usd": 0.0,
+      "total_spread_cost_usd": 118.7
+    }
+  },
+  "phase6_robustness": {
+    "zero_cost": {
+      "label": "remediated_zero_cost",
+      "overall": {
+        "trades": 118,
+        "wins": 66,
+        "win_rate_pct": 55.93,
+        "net_pnl": 400.64,
+        "pf": 1.0926,
+        "expectancy": 3.4
+      },
+      "long": {
+        "trades": 29,
+        "wins": 14,
+        "win_rate_pct": 48.28,
+        "net_pnl": -386.54,
+        "pf": 0.6732,
+        "expectancy": -13.33
+      },
+      "short": {
+        "trades": 89,
+        "wins": 52,
+        "win_rate_pct": 58.43,
+        "net_pnl": 787.18,
+        "pf": 1.2503,
+        "expectancy": 8.84
+      },
+      "by_session": {
+        "London (07-11)": {
+          "trades": 71,
+          "wins": 42,
+          "win_rate_pct": 59.15,
+          "net_pnl": 373.34,
+          "pf": 1.1566,
+          "expectancy": 5.26
+        },
+        "Overlap (12-16)": {
+          "trades": 47,
+          "wins": 24,
+          "win_rate_pct": 51.06,
+          "net_pnl": 27.31,
+          "pf": 1.0141,
+          "expectancy": 0.58
+        }
+      },
+      "max_consecutive_wins": 7,
+      "max_consecutive_losses": 7,
+      "top5_winners_sum": 1029.88,
+      "top5_pct_of_gross_profit": 21.78,
+      "top5_winners": [
+        {
+          "trade_idx": 55,
+          "direction": "SELL",
+          "entry_time": "2026-10-08T10:25:00.075000+00:00",
+          "net_pnl": 206.82
+        },
+        {
+          "trade_idx": 107,
+          "direction": "SELL",
+          "entry_time": "2026-11-12T08:45:00.082000+00:00",
+          "net_pnl": 206.48
+        },
+        {
+          "trade_idx": 108,
+          "direction": "SELL",
+          "entry_time": "2026-11-12T12:15:00.158000+00:00",
+          "net_pnl": 206.35
+        },
+        {
+          "trade_idx": 101,
+          "direction": "SELL",
+          "entry_time": "2026-11-10T16:20:00.039000+00:00",
+          "net_pnl": 205.68
+        },
+        {
+          "trade_idx": 15,
+          "direction": "BUY",
+          "entry_time": "2026-09-03T11:40:00.037000+00:00",
+          "net_pnl": 204.54
+        }
+      ],
+      "top5_losers": [
+        {
+          "trade_idx": 117,
+          "direction": "SELL",
+          "entry_time": "2026-11-16T14:25:00.056000+00:00",
+          "net_pnl": -112.2
+        },
+        {
+          "trade_idx": 29,
+          "direction": "SELL",
+          "entry_time": "2026-09-14T12:40:00.046000+00:00",
+          "net_pnl": -111.54
+        },
+        {
+          "trade_idx": 116,
+          "direction": "SELL",
+          "entry_time": "2026-11-16T09:55:00.885000+00:00",
+          "net_pnl": -110.33
+        },
+        {
+          "trade_idx": 33,
+          "direction": "BUY",
+          "entry_time": "2026-09-16T11:45:00.046000+00:00",
+          "net_pnl": -109.44
+        },
+        {
+          "trade_idx": 48,
+          "direction": "SELL",
+          "entry_time": "2026-09-28T16:10:00.063000+00:00",
+          "net_pnl": -109.33
+        }
+      ],
+      "excluding_top5_winners": {
+        "trades": 113,
+        "wins": 61,
+        "win_rate_pct": 53.98,
+        "net_pnl": -629.24,
+        "pf": 0.8546,
+        "expectancy": -5.57
+      },
+      "daily_summary": {
+        "trading_days_with_entries": 48,
+        "positive_days": 25,
+        "negative_days": 23,
+        "best_day": 413.56,
+        "worst_day": -243.75,
+        "mean_day_pnl": 8.35
+      },
+      "weekly_summary": {
+        "weeks_with_entries": 13,
+        "positive_weeks": 8,
+        "negative_weeks": 5,
+        "best_week": 502.39,
+        "worst_week": -540.14,
+        "weekly_breakdown": {
+          "2026-W34": 112.63,
+          "2026-W35": 377.09,
+          "2026-W36": 10.42,
+          "2026-W37": 408.13,
+          "2026-W38": -90.95,
+          "2026-W39": -104.28,
+          "2026-W40": 44.36,
+          "2026-W41": -540.14,
+          "2026-W42": -417.88,
+          "2026-W43": 326.68,
+          "2026-W44": 4.67,
+          "2026-W45": 502.39,
+          "2026-W46": -232.49
+        }
+      },
+      "bootstrap_5000": {
+        "expectancy_mean": 3.43,
+        "expectancy_se": 8.77,
+        "expectancy_ci95_low": -13.68,
+        "expectancy_ci95_high": 20.96,
+        "prob_expectancy_gt_0_pct": 65.38,
+        "pf_ci95_low": 0.6919,
+        "pf_ci95_high": 1.7182
+      }
+    },
+    "cost_stressed_7usd_03p": {
+      "label": "remediated_7usd_03p",
+      "overall": {
+        "trades": 118,
+        "wins": 64,
+        "win_rate_pct": 54.24,
+        "net_pnl": 130.7,
+        "pf": 1.0303,
+        "expectancy": 1.11
+      },
+      "long": {
+        "trades": 29,
+        "wins": 14,
+        "win_rate_pct": 48.28,
+        "net_pnl": -423.89,
+        "pf": 0.6432,
+        "expectancy": -14.62
+      },
+      "short": {
+        "trades": 89,
+        "wins": 50,
+        "win_rate_pct": 56.18,
+        "net_pnl": 554.59,
+        "pf": 1.1778,
+        "expectancy": 6.23
+      },
+      "by_session": {
+        "London (07-11)": {
+          "trades": 71,
+          "wins": 41,
+          "win_rate_pct": 57.75,
+          "net_pnl": 199.09,
+          "pf": 1.0837,
+          "expectancy": 2.8
+        },
+        "Overlap (12-16)": {
+          "trades": 47,
+          "wins": 23,
+          "win_rate_pct": 48.94,
+          "net_pnl": -68.4,
+          "pf": 0.9645,
+          "expectancy": -1.46
+        }
+      },
+      "max_consecutive_wins": 7,
+      "max_consecutive_losses": 7,
+      "top5_winners_sum": 1002.53,
+      "top5_pct_of_gross_profit": 22.59,
+      "top5_winners": [
+        {
+          "trade_idx": 55,
+          "direction": "SELL",
+          "entry_time": "2026-10-08T10:25:00.075000+00:00",
+          "net_pnl": 205.35
+        },
+        {
+          "trade_idx": 15,
+          "direction": "BUY",
+          "entry_time": "2026-09-03T11:40:00.037000+00:00",
+          "net_pnl": 203.42
+        },
+        {
+          "trade_idx": 27,
+          "direction": "SELL",
+          "entry_time": "2026-09-14T09:15:00.083000+00:00",
+          "net_pnl": 202.33
+        },
+        {
+          "trade_idx": 10,
+          "direction": "SELL",
+          "entry_time": "2026-09-01T12:10:00.065000+00:00",
+          "net_pnl": 196.3
+        },
+        {
+          "trade_idx": 108,
+          "direction": "SELL",
+          "entry_time": "2026-11-12T12:15:00.158000+00:00",
+          "net_pnl": 195.13
+        }
+      ],
+      "top5_losers": [
+        {
+          "trade_idx": 117,
+          "direction": "SELL",
+          "entry_time": "2026-11-16T14:25:00.056000+00:00",
+          "net_pnl": -114.15
+        },
+        {
+          "trade_idx": 37,
+          "direction": "BUY",
+          "entry_time": "2026-09-21T11:55:00.098000+00:00",
+          "net_pnl": -110.33
+        },
+        {
+          "trade_idx": 53,
+          "direction": "SELL",
+          "entry_time": "2026-10-08T08:00:00.149000+00:00",
+          "net_pnl": -108.68
+        },
+        {
+          "trade_idx": 21,
+          "direction": "SELL",
+          "entry_time": "2026-09-08T16:20:00.032000+00:00",
+          "net_pnl": -108.35
+        },
+        {
+          "trade_idx": 60,
+          "direction": "SELL",
+          "entry_time": "2026-10-14T11:05:01.167000+00:00",
+          "net_pnl": -108.24
+        }
+      ],
+      "excluding_top5_winners": {
+        "trades": 113,
+        "wins": 59,
+        "win_rate_pct": 52.21,
+        "net_pnl": -871.84,
+        "pf": 0.7976,
+        "expectancy": -7.72
+      },
+      "daily_summary": {
+        "trading_days_with_entries": 48,
+        "positive_days": 23,
+        "negative_days": 25,
+        "best_day": 402.37,
+        "worst_day": -241.89,
+        "mean_day_pnl": 2.72
+      },
+      "weekly_summary": {
+        "weeks_with_entries": 13,
+        "positive_weeks": 7,
+        "negative_weeks": 6,
+        "best_week": 422.6,
+        "worst_week": -544.88,
+        "weekly_breakdown": {
+          "2026-W34": 98.79,
+          "2026-W35": 354.14,
+          "2026-W36": 1.58,
+          "2026-W37": 389.75,
+          "2026-W38": -107.27,
+          "2026-W39": -132.83,
+          "2026-W40": 28.11,
+          "2026-W41": -544.88,
+          "2026-W42": -411.73,
+          "2026-W43": 278.63,
+          "2026-W44": -14.6,
+          "2026-W45": 422.6,
+          "2026-W46": -231.59
+        }
+      },
+      "bootstrap_5000": {
+        "expectancy_mean": 1.15,
+        "expectancy_se": 8.5,
+        "expectancy_ci95_low": -15.47,
+        "expectancy_ci95_high": 18.02,
+        "prob_expectancy_gt_0_pct": 55.3,
+        "pf_ci95_low": 0.6473,
+        "pf_ci95_high": 1.6203
+      }
+    },
+    "cost_sensitivity_grid": [
+      {
+        "commission_per_lot": 0.0,
+        "slippage_pips": 0.0,
+        "trades": 118,
+        "win_rate_pct": 55.93,
+        "net_pnl": 400.64,
+        "pf": 1.0926,
+        "closed_max_dd": -1267.2,
+        "closed_max_dd_pct": 11.48,
+        "mtm_max_dd": -1354.97,
+        "mtm_max_dd_pct": 12.2,
+        "total_comm_usd": 0.0,
+        "total_slip_usd": 0.0
+      },
+      {
+        "commission_per_lot": 4.5,
+        "slippage_pips": 0.2,
+        "trades": 118,
+        "win_rate_pct": 57.63,
+        "net_pnl": 213.52,
+        "pf": 1.0495,
+        "closed_max_dd": -1327.48,
+        "closed_max_dd_pct": 12.07,
+        "mtm_max_dd": -1400.14,
+        "mtm_max_dd_pct": 12.67,
+        "total_comm_usd": 81.31,
+        "total_slip_usd": 69.5
+      },
+      {
+        "commission_per_lot": 5.0,
+        "slippage_pips": 0.2,
+        "trades": 118,
+        "win_rate_pct": 56.78,
+        "net_pnl": 218.45,
+        "pf": 1.0507,
+        "closed_max_dd": -1317.89,
+        "closed_max_dd_pct": 11.99,
+        "mtm_max_dd": -1390.62,
+        "mtm_max_dd_pct": 12.59,
+        "total_comm_usd": 90.25,
+        "total_slip_usd": 69.42
+      },
+      {
+        "commission_per_lot": 7.0,
+        "slippage_pips": 0.3,
+        "trades": 118,
+        "win_rate_pct": 54.24,
+        "net_pnl": 130.7,
+        "pf": 1.0303,
+        "closed_max_dd": -1339.65,
+        "closed_max_dd_pct": 12.22,
+        "mtm_max_dd": -1412.95,
+        "mtm_max_dd_pct": 12.83,
+        "total_comm_usd": 125.3,
+        "total_slip_usd": 103.26
+      },
+      {
+        "commission_per_lot": 10.0,
+        "slippage_pips": 0.5,
+        "trades": 118,
+        "win_rate_pct": 50.0,
+        "net_pnl": -29.99,
+        "pf": 0.9931,
+        "closed_max_dd": -1387.86,
+        "closed_max_dd_pct": 12.75,
+        "mtm_max_dd": -1458.56,
+        "mtm_max_dd_pct": 13.33,
+        "total_comm_usd": 176.3,
+        "total_slip_usd": 169.5
+      },
+      {
+        "commission_per_lot": 18.0,
+        "slippage_pips": 0.3,
+        "trades": 118,
+        "win_rate_pct": 40.68,
+        "net_pnl": -58.4,
+        "pf": 0.9863,
+        "closed_max_dd": -1382.68,
+        "closed_max_dd_pct": 12.74,
+        "mtm_max_dd": -1452.43,
+        "mtm_max_dd_pct": 13.32,
+        "total_comm_usd": 312.12,
+        "total_slip_usd": 100.02
+      }
+    ],
+    "latency_sensitivity_grid": [
+      {
+        "delay_scenario": "baseline_0s",
+        "zero_cost_net_pnl": 400.64,
+        "zero_cost_pf": 1.0926,
+        "zero_cost_wr_pct": 55.93,
+        "stressed_net_pnl": 130.7,
+        "stressed_pf": 1.0303,
+        "stressed_wr_pct": 54.24,
+        "stressed_mtm_dd_pct": 12.83
+      },
+      {
+        "delay_scenario": "delay_1_tick",
+        "zero_cost_net_pnl": 312.93,
+        "zero_cost_pf": 1.0721,
+        "zero_cost_wr_pct": 55.93,
+        "stressed_net_pnl": 36.53,
+        "stressed_pf": 1.0084,
+        "stressed_wr_pct": 55.08,
+        "stressed_mtm_dd_pct": 13.32
+      },
+      {
+        "delay_scenario": "delay_1s",
+        "zero_cost_net_pnl": 452.62,
+        "zero_cost_pf": 1.1076,
+        "zero_cost_wr_pct": 55.17,
+        "stressed_net_pnl": 86.57,
+        "stressed_pf": 1.0204,
+        "stressed_wr_pct": 51.28,
+        "stressed_mtm_dd_pct": 13.34
+      },
+      {
+        "delay_scenario": "delay_5s",
+        "zero_cost_net_pnl": 343.85,
+        "zero_cost_pf": 1.0801,
+        "zero_cost_wr_pct": 56.14,
+        "stressed_net_pnl": 106.28,
+        "stressed_pf": 1.0248,
+        "stressed_wr_pct": 50.88,
+        "stressed_mtm_dd_pct": 13.98
+      }
+    ]
+  }
+}

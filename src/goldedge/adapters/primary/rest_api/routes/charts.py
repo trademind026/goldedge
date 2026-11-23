@@ -56,7 +56,7 @@ def api_charts_data(
     Overlays:
     - 2D Kinematic Kalman Filter (price state x_1 & normalized velocity Z-score)
     - Rolling Shannon Entropy (Chop vs Trend Meter)
-    - EMA 20 & EMA 50, ATR in pips, Order Flow Momentum
+    - EMA 20 & EMA 50, ATR in pips, Quote-Rate Momentum (tick arrival proxy, NOT order flow)
     - Session Shading Tagging (London/NY overlap, Rollover, etc.)
     """
     symbol = request.args.get("symbol", "EURUSD").upper().replace("/", "").replace("_", "")
@@ -118,14 +118,14 @@ def api_charts_data(
     if df.empty:
         return jsonify({"error": f"No resampled data available for {symbol} on {tf_arg}"}), 404
 
-    # 3. 2D Kinematic Kalman Filter
+    # 3. 2D Kinematic Kalman Filter (quote-only price/spread adaptive; never feed tick_count as traded volume)
     is_gold = "XAU" in symbol or "GOLD" in symbol
     if is_gold:
-        kalman_df = apply_gold_adaptive_kalman(df["close"], df["tick_volume"])
+        kalman_df = apply_gold_adaptive_kalman(df["close"], volume_series=None, spread_series=df["spread_pips"])
     else:
         kalman_df = apply_forex_adaptive_kalman(
             price_series=df["close"],
-            volume_series=df["tick_volume"],
+            volume_series=None,
             spread_series=df["spread_pips"],
             q_price=1e-4,
             q_velocity=1e-5,
@@ -162,8 +162,10 @@ def api_charts_data(
     )
     df["atr_pips"] = (tr.rolling(14, min_periods=1).mean() / pip_unit).fillna(1.0).round(1)
 
-    # Order flow momentum proxy (aggressor tick imbalance)
-    df["order_flow_momentum"] = (
+    # Quote-rate momentum proxy (signed price-return scaled by log1p quote arrivals; NOT traded order flow)
+    tf_minutes = {"1m": 1.0, "5m": 5.0, "15m": 15.0, "1h": 60.0, "4h": 240.0, "1d": 1440.0}.get(tf_arg, 1.0)
+    df["tick_rate"] = (df["tick_volume"] / tf_minutes).round(2)
+    df["quote_rate_momentum"] = (
         (np.sign(returns).fillna(0) * np.log1p(df["tick_volume"]))
         .rolling(10, min_periods=1)
         .mean()
@@ -202,12 +204,15 @@ def api_charts_data(
             "high": float(row["high"]),
             "low": float(row["low"]),
             "close": float(row["close"]),
+            "tick_count": int(row["tick_volume"]),
             "tick_volume": int(row["tick_volume"]),
+            "tick_rate": float(row["tick_rate"]),
+            "real_volume": None,
             "spread_pips": float(row["spread_pips"]),
             "kalman_price": round(float(row["kalman_price"]), 5 if not is_gold and "JPY" not in symbol else 2),
             "kalman_velocity_z": float(row["kalman_velocity_z"]),
             "entropy": float(row["entropy"]),
-            "order_flow_momentum": float(row["order_flow_momentum"]),
+            "quote_rate_momentum": float(row["quote_rate_momentum"]),
             "ema20": float(row["ema20"]),
             "ema50": float(row["ema50"]),
             "atr_pips": float(row["atr_pips"]),

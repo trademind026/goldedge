@@ -70,8 +70,14 @@ class GoldTickReplayUseCase:
         kalman_df = apply_gold_adaptive_kalman(candles["close"], candles["volume"])
         candles["kalman_price"] = kalman_df["kalman_price"].values
         candles["kalman_vel"] = kalman_df["kalman_velocity"].values
-        vel_std = max(1e-4, float(np.std(candles["kalman_vel"])))
-        candles["kalman_vel_z"] = candles["kalman_vel"] / vel_std
+        vel_std = (
+            candles["kalman_vel"]
+            .shift(1)
+            .expanding(min_periods=20)
+            .std()
+            .clip(lower=1e-4)
+        )
+        candles["kalman_vel_z"] = (candles["kalman_vel"] / vel_std).fillna(0.0)
 
         # State Tracking
         equity = self.initial_equity

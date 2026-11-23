@@ -1,0 +1,21 @@
+{
+  "calibrator_id": "cal_micro_buy_timing_class_f3_B3_LOGISTIC_L2_ISOTONIC_OVR",
+  "base_artifact_id": "micro_buy_timing_class_f3_B3_LOGISTIC_L2",
+  "base_artifact_sha256": "BC44DE4C64B9AE675C254A34C7C3624025A8240452FBC43490C7679DEC9AEE93",
+  "method": "ISOTONIC_OVR",
+  "horizon": "micro",
+  "target_name": "buy_timing_class",
+  "fold_id": 3,
+  "classes": [
+    "ENTER_NOW",
+    "WAIT_ADVERSE",
+    "NEUTRAL"
+  ],
+  "cal_start_utc": "2026-09-18T00:00:00Z",
+  "cal_end_utc": "2026-10-02T00:00:00Z",
+  "cal_n_samples": 96155,
+  "cal_unique_days": 12,
+  "internal_val_logloss": 0.955948,
+  "created_at_utc": "2026-11-23T10:20:30.660917+00:00",
+  "calibrator_sha256": "5C1D2AE7564C063100B78A86AF43658101536EB751243770BCE93A48D4DA33FE"
+}

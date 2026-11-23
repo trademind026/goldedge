@@ -1,0 +1,209 @@
+{
+  "counters": {
+    "closed_5m_bars_evaluated": 2178,
+    "h1_trend_zero": 48,
+    "outside_session_07_17_utc": 1170,
+    "no_strategy_trigger": 707,
+    "signal_bars": 253,
+    "raw_signals_by_strategy_dir": {
+      "bullish_momentum:BUY": 157,
+      "bearish_momentum:SELL": 96
+    }
+  },
+  "retained": [
+    "E02_H0",
+    "E13_H0"
+  ],
+  "cls": {
+    "E01_H0": "REJECTED",
+    "E01_H4a": "REJECTED",
+    "E02_H0": "EXPLORATORY",
+    "E02_H4a": "REQUIRES_MORE_DATA",
+    "E03_H0": "REJECTED",
+    "E03_H4a": "REJECTED",
+    "E04_H0": "REJECTED",
+    "E04_H4a": "REJECTED",
+    "E05_H0": "REJECTED",
+    "E05_H4a": "REJECTED",
+    "E06_H0": "EXPLORATORY",
+    "E06_H4a": "REJECTED",
+    "E07_H0": "REJECTED",
+    "E07_H4a": "REJECTED",
+    "E08_H0": "REJECTED",
+    "E08_H4a": "REJECTED",
+    "E09_H0": "REQUIRES_MORE_DATA",
+    "E09_H4a": "REQUIRES_MORE_DATA",
+    "E10_H0": "REQUIRES_MORE_DATA",
+    "E10_H4a": "REJECTED",
+    "E11_H0": "REJECTED",
+    "E11_H4a": "REJECTED",
+    "E12_H0": "REQUIRES_MORE_DATA",
+    "E12_H4a": "REJECTED",
+    "E13_H0": "EXPLORATORY",
+    "E13_H4a": "REJECTED"
+  },
+  "h0_app_vs_research": {
+    "W1": {
+      "H0_research": {
+        "n": 15,
+        "wr_pct": 73.33,
+        "net_pnl": 303.78,
+        "pf": 1.7363,
+        "exp": 20.25,
+        "closed_dd": -208.34,
+        "mtm_dd_pct": 3.33,
+        "buy_n": 3,
+        "buy_pnl": -64.02,
+        "sell_n": 12,
+        "sell_pnl": 367.81
+      },
+      "H0_app": {
+        "n": 15,
+        "wr_pct": 73.33,
+        "net_pnl": 303.78,
+        "pf": 1.7363,
+        "exp": 20.25,
+        "closed_dd": -208.34,
+        "mtm_dd_pct": 3.33,
+        "buy_n": 3,
+        "buy_pnl": -64.02,
+        "sell_n": 12,
+        "sell_pnl": 367.81
+      },
+      "H4a_research": {
+        "n": 9,
+        "wr_pct": 88.89,
+        "net_pnl": 238.79,
+        "pf": 3.3844,
+        "exp": 26.53,
+        "closed_dd": -100.15,
+        "mtm_dd_pct": 2.16,
+        "buy_n": 2,
+        "buy_pnl": 33.75,
+        "sell_n": 7,
+        "sell_pnl": 205.04
+      },
+      "H4a_app": {
+        "n": 9,
+        "wr_pct": 88.89,
+        "net_pnl": 238.79,
+        "pf": 3.3844,
+        "exp": 26.53,
+        "closed_dd": -100.15,
+        "mtm_dd_pct": 2.16,
+        "buy_n": 2,
+        "buy_pnl": 33.75,
+        "sell_n": 7,
+        "sell_pnl": 205.04
+      }
+    },
+    "W2": {
+      "H0_research": {
+        "n": 14,
+        "wr_pct": 78.57,
+        "net_pnl": 661.64,
+        "pf": 3.2985,
+        "exp": 47.26,
+        "closed_dd": -137.69,
+        "mtm_dd_pct": 2.09,
+        "buy_n": 5,
+        "buy_pnl": 66.15,
+        "sell_n": 9,
+        "sell_pnl": 595.49
+      },
+      "H0_app": {
+        "n": 14,
+        "wr_pct": 78.57,
+        "net_pnl": 661.64,
+        "pf": 3.2985,
+        "exp": 47.26,
+        "closed_dd": -137.69,
+        "mtm_dd_pct": 2.09,
+        "buy_n": 5,
+        "buy_pnl": 66.15,
+        "sell_n": 9,
+        "sell_pnl": 595.49
+      },
+      "H4a_research": {
+        "n": 9,
+        "wr_pct": 88.89,
+        "net_pnl": 755.35,
+        "pf": 9.61,
+        "exp": 83.93,
+        "closed_dd": -87.73,
+        "mtm_dd_pct": 1.4,
+        "buy_n": 3,
+        "buy_pnl": 318.71,
+        "sell_n": 6,
+        "sell_pnl": 436.64
+      },
+      "H4a_app": {
+        "n": 9,
+        "wr_pct": 88.89,
+        "net_pnl": 755.35,
+        "pf": 9.61,
+        "exp": 83.93,
+        "closed_dd": -87.73,
+        "mtm_dd_pct": 1.4,
+        "buy_n": 3,
+        "buy_pnl": 318.71,
+        "sell_n": 6,
+        "sell_pnl": 436.64
+      }
+    },
+    "W3": {
+      "H0_research": {
+        "n": 15,
+        "wr_pct": 73.33,
+        "net_pnl": 416.47,
+        "pf": 2.0515,
+        "exp": 27.76,
+        "closed_dd": -142.48,
+        "mtm_dd_pct": 2.09,
+        "buy_n": 5,
+        "buy_pnl": 48.67,
+        "sell_n": 10,
+        "sell_pnl": 367.8
+      },
+      "H0_app": {
+        "n": 15,
+        "wr_pct": 73.33,
+        "net_pnl": 416.47,
+        "pf": 2.0515,
+        "exp": 27.76,
+        "closed_dd": -142.48,
+        "mtm_dd_pct": 2.09,
+        "buy_n": 5,
+        "buy_pnl": 48.67,
+        "sell_n": 10,
+        "sell_pnl": 367.8
+      },
+      "H4a_research": {
+        "n": 9,
+        "wr_pct": 88.89,
+        "net_pnl": 624.66,
+        "pf": 8.1203,
+        "exp": 69.41,
+        "closed_dd": -87.73,
+        "mtm_dd_pct": 1.8,
+        "buy_n": 3,
+        "buy_pnl": 292.45,
+        "sell_n": 6,
+        "sell_pnl": 332.22
+      },
+      "H4a_app": {
+        "n": 9,
+        "wr_pct": 88.89,
+        "net_pnl": 624.66,
+        "pf": 8.1203,
+        "exp": 69.41,
+        "closed_dd": -87.73,
+        "mtm_dd_pct": 1.8,
+        "buy_n": 3,
+        "buy_pnl": 292.45,
+        "sell_n": 6,
+        "sell_pnl": 332.22
+      }
+    }
+  }
+}

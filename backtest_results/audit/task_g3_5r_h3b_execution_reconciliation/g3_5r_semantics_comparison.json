@@ -1,0 +1,15 @@
+{
+  "task": "G3.5R_PHASE_D_SEMANTICS_COMPARISON",
+  "generated_at_utc": "2026-11-23T10:58:28.086105+00:00",
+  "defect_attribution": "CASE_B_RESEARCH_SIMULATOR_DEFECTS_ONLY",
+  "application_run_backtest_defects_found": 0,
+  "research_simulator_defects_fixed": 6,
+  "before_vs_after": {
+    "original_g3_5_sim_total_r": -13.01877,
+    "original_g3_5_discrepancy_r": -13.79128,
+    "repaired_g3_5r_sim_total_r": 0.77251,
+    "app_canonical_total_r": 0.77251,
+    "repaired_discrepancy_r": 0.0
+  },
+  "reconciled_verdict": "EXACTLY_RECONCILED"
+}

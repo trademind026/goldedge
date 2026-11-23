@@ -1,0 +1,35 @@
+{
+  "task": "G3.3_DATASET_MANIFEST",
+  "generated_at_utc": "2026-11-22T17:25:12.274771+00:00",
+  "git_head": "unknown",
+  "feature_schema_version": "G3_3_FEATURE_SCHEMA_V1",
+  "label_spec_version": "G3_2_LABEL_SPEC_V1",
+  "cost_model": {
+    "profile": "fusion_ctrader_demo_48439552",
+    "commission_usd_per_million_per_side": 12.0,
+    "slippage_pips_per_side": 0.0533,
+    "pip_size_usd": 0.1
+  },
+  "source_artifacts": {
+    "g3_2_macro_labels.parquet": {
+      "rows": 19004,
+      "sha256": "34EF853020E760C83E0250E7CBFC97259E9D5DEAA6B8FA5DD9A87473C6A3CE5D",
+      "min_day": "2026-08-13",
+      "max_day": "2026-11-19"
+    },
+    "g3_2_micro_labels.parquet": {
+      "rows": 664806,
+      "sha256": "A642CC653EA8D9EDC993E4D9EEB3B8CF7A40C3E2CC4C792D029A962984CC1A19",
+      "min_day": "2026-08-13",
+      "max_day": "2026-11-19"
+    },
+    "g3_3_macro_features_causal.parquet": {
+      "rows": 19004,
+      "sha256": "BDA186D87D8219F6A4AE0D7DBEE8A1ADF22F4C8B88B53E815B211D6865117C10"
+    },
+    "g3_3_micro_features_causal.parquet": {
+      "rows": 664806,
+      "sha256": "D393E35F30FCE1957AFD52F1210BC9BC2A23D6EF27E15DE2AE786D2999422AD8"
+    }
+  }
+}

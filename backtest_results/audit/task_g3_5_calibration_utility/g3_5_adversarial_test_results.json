@@ -1,0 +1,23 @@
+{
+  "task": "G3.5_PHASE_H_ADVERSARIAL_TEST_RESULTS",
+  "generated_at_utc": "2026-11-23T11:39:54.874563+00:00",
+  "overall_status": "PASS",
+  "tests_passed": 14,
+  "tests_total": 14,
+  "results": {
+    "01_future_labels_in_calibration_rejected": "PASS",
+    "02_class_probability_alignment_and_simplex": "PASS",
+    "03_wrong_model_artifact_hash_rejected": "PASS",
+    "04_missing_or_invalid_quote_rejected": "PASS",
+    "05_out_of_order_quote_timestamps_detected": "PASS",
+    "06_future_micro_label_feature_rejected": "PASS",
+    "07_buy_sell_bid_ask_polarity_verified": "PASS",
+    "08_missed_fills_and_session_cutoff_enforced": "PASS",
+    "09_commission_and_slippage_strictly_charged": "PASS",
+    "10_no_double_counted_commission_or_spread": "PASS",
+    "11_delayed_entry_stop_tp_recalculation_verified": "PASS",
+    "12_zero_train_val_cal_test_overlap": "PASS",
+    "13_calibration_strictly_cal_only_selection": "PASS",
+    "14_h3b_exit_path_early_fail_verified": "PASS"
+  }
+}

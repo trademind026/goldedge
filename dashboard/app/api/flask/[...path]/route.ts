@@ -12,19 +12,33 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
   const headers = new Headers(request.headers);
   headers.delete("host");
   headers.delete("cookie");
+  headers.set("connection", "close");
   headers.set("x-internal-api-secret", requiredEnv("INTERNAL_API_SECRET"));
   headers.set("x-auth-user-id", "admin_bypass");
   headers.set("x-auth-user-role", "admin");
 
   const isMutation = !["GET", "HEAD", "OPTIONS"].includes(request.method);
   const body = isMutation ? await request.arrayBuffer() : undefined;
-  
-  const upstreamResponse = await fetch(upstreamUrl, {
-    method: request.method,
-    headers,
-    body,
-    cache: "no-store",
-  });
+
+  const doFetch = () =>
+    fetch(upstreamUrl, {
+      method: request.method,
+      headers,
+      body,
+      cache: "no-store",
+    });
+
+  let upstreamResponse: Response;
+  try {
+    upstreamResponse = await doFetch();
+  } catch (err) {
+    const code = (err as { cause?: { code?: string } })?.cause?.code;
+    if (!isMutation && code === "UND_ERR_SOCKET") {
+      upstreamResponse = await doFetch();
+    } else {
+      throw err;
+    }
+  }
 
   return new Response(upstreamResponse.body, {
     status: upstreamResponse.status,

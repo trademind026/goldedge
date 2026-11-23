@@ -95,9 +95,57 @@ def api_exit_position(engine: ForexLiveExecutionEngine = Provide[Container.live_
 @require_api_key
 @inject
 def api_kill_switch(engine: ForexLiveExecutionEngine = Provide[Container.live_execution_engine]):
-    """EMERGENCY: Closes ALL open positions and disables trading engine."""
-    closed_tickets = engine.kill_switch()
-    return jsonify({"status": "emergency_halted", "closed_positions": closed_tickets})
+    """EMERGENCY: Persists halt, closes ALL open positions and disables trading engine."""
+    data = request.json or {}
+    actor = str(data.get("authorized_by", "api_operator")).strip() or "api_operator"
+    reason = str(data.get("reason", "Manual REST API emergency kill-switch")).strip()
+    closed_tickets = engine.kill_switch(authorized_by=actor, reason=reason)
+    return jsonify({
+        "status": "emergency_halted",
+        "closed_positions": closed_tickets,
+        "hwm_risk": engine.hwm_kill_switch.get_state().to_dict(),
+    })
+
+
+@bp.route("/risk/hwm", methods=["GET"])
+@require_api_key
+@inject
+def api_hwm_risk_status(engine: ForexLiveExecutionEngine = Provide[Container.live_execution_engine]):
+    """Return persistent 8% HWM kill-switch state and recent audit trail."""
+    state = engine.hwm_kill_switch.get_state()
+    history = []
+    if engine.hwm_kill_switch.repo is not None:
+        try:
+            history = engine.hwm_kill_switch.repo.get_audit_history(state.account_scope, limit=50)
+        except Exception:
+            history = []
+    return jsonify({"state": state.to_dict(), "audit_history": history})
+
+
+@bp.route("/risk/reset", methods=["POST"])
+@require_api_key
+@inject
+def api_hwm_risk_reset(engine: ForexLiveExecutionEngine = Provide[Container.live_execution_engine]):
+    """Explicitly authorized reset of an active 8% HWM kill-switch halt with audit record."""
+    data = request.json or {}
+    authorized_by = str(data.get("authorized_by", "")).strip()
+    reason = str(data.get("reason", "")).strip()
+    auth_token = data.get("auth_token")
+    current_equity = data.get("current_equity")
+    try:
+        new_state = engine.reset_hwm_kill_switch(
+            authorized_by=authorized_by,
+            reason=reason,
+            current_equity=(float(current_equity) if current_equity is not None else None),
+            auth_token=auth_token,
+        )
+        return jsonify({"status": "reset", "state": new_state})
+    except PermissionError as exc:
+        return jsonify({"error": str(exc)}), 403
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 400
+    except Exception as exc:
+        return jsonify({"error": f"Failed persisting HWM reset (fail-closed): {exc}"}), 500
 
 
 @bp.route("/enter", methods=["POST"])

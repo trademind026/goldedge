@@ -1,0 +1,73 @@
+{
+  "task": "G3.3_PHASE_H_INDEPENDENT_RECONCILIATION",
+  "generated_at_utc": "2026-11-23T09:03:06.561840+00:00",
+  "clean_room_zero_goldedge_imports": true,
+  "overall_status": "PASS",
+  "dataset_hash_checks": {
+    "g3_2_macro_labels.parquet": {
+      "match": true,
+      "sha256": "34EF853020E760C83E0250E7CBFC97259E9D5DEAA6B8FA5DD9A87473C6A3CE5D"
+    },
+    "g3_2_micro_labels.parquet": {
+      "match": true,
+      "sha256": "A642CC653EA8D9EDC993E4D9EEB3B8CF7A40C3E2CC4C792D029A962984CC1A19"
+    },
+    "g3_3_macro_features_causal.parquet": {
+      "match": true,
+      "sha256": "BDA186D87D8219F6A4AE0D7DBEE8A1ADF22F4C8B88B53E815B211D6865117C10"
+    },
+    "g3_3_micro_features_causal.parquet": {
+      "match": true,
+      "sha256": "D393E35F30FCE1957AFD52F1210BC9BC2A23D6EF27E15DE2AE786D2999422AD8"
+    }
+  },
+  "feature_target_separation": {
+    "macro_leaked_cols": [],
+    "micro_leaked_cols": [],
+    "exact_timestamp_alignment": true
+  },
+  "integrity_checks": {
+    "macro_duplicate_timestamps": 0,
+    "micro_duplicate_timestamps": 0,
+    "quarantined_sunday_rows": 0
+  },
+  "walkforward_split_reconciliation": {
+    "folds_checked": 3,
+    "fold_mismatches": 0,
+    "details": [
+      {
+        "fold_id": 1,
+        "exact_split_match": true
+      },
+      {
+        "fold_id": 2,
+        "exact_split_match": true
+      },
+      {
+        "fold_id": 3,
+        "exact_split_match": true
+      }
+    ]
+  },
+  "training_only_preprocessing_reconciliation": {
+    "median_mismatches": 0
+  },
+  "discrete_tick_tie_reconciliation": {
+    "independent_buy_ties": 11888,
+    "reported_buy_ties": 11888,
+    "exact_match": true
+  },
+  "expanded_6m_independent_reconciliation": {
+    "present": true,
+    "macro_rows": 36833,
+    "micro_rows": 1278171,
+    "macro_sha256_match": true,
+    "micro_sha256_match": true,
+    "timestamp_contracts_ok": true,
+    "duplicates": 0,
+    "quarantined_sunday_rows": 0,
+    "expanded_4way_fold_mismatches": 0,
+    "status": "PASS"
+  },
+  "elapsed_sec": 1.11
+}

@@ -88,6 +88,39 @@ class CandleRepository(ICandleRepository):
         # Return oldest-first
         return [self._row_to_bar(r) for r in reversed(rows)]
 
+    def upsert_1m_bars_from_ticks(self, symbol: str, start_time: datetime, end_exclusive: datetime) -> int:
+        """Aggregate completed 1m bid OHLCV bars from market_ticks into market_bars_1m."""
+        sql = text("""
+            INSERT INTO market_bars_1m (
+                time, symbol, open, high, low, close, tick_volume, real_volume, spread
+            )
+            SELECT
+                time_bucket('1 minute', time) AS bucket_time,
+                symbol,
+                first(bid, time) AS open,
+                max(bid) AS high,
+                min(bid) AS low,
+                last(bid, time) AS close,
+                count(*) AS tick_volume,
+                NULL::bigint AS real_volume,
+                GREATEST(0, ROUND((last(ask, time) - last(bid, time)) / 0.01))::int AS spread
+            FROM market_ticks
+            WHERE symbol = :symbol
+              AND time >= :start
+              AND time < :end_exclusive
+              AND bid > 0
+              AND ask > 0
+              AND bid < ask
+            GROUP BY bucket_time, symbol
+            ON CONFLICT (symbol, time) DO NOTHING
+        """)
+        with self.engine.begin() as conn:
+            res = conn.execute(
+                sql,
+                {"symbol": symbol, "start": start_time, "end_exclusive": end_exclusive},
+            )
+            return int(res.rowcount or 0)
+
     # ──────────────────────────────────────────────────────────────
     # HELPERS
     # ──────────────────────────────────────────────────────────────

@@ -1,0 +1,220 @@
+{
+  "task": "G3.3_PHASE_A_HISTORICAL_EXPANSION_REPORT",
+  "generated_at_utc": "2026-11-22T17:11:45.845387+00:00",
+  "status": "HISTORY_EXPANSION_VERIFIED",
+  "broker": "Fusion Markets cTrader Demo (account 48439552, symbolId=41 XAUUSD)",
+  "api_method": "ProtoOAGetTickDataReq (read-only, <= 1 week per request, paginated via hasMore)",
+  "auth_succeeded": true,
+  "control_2026_08_20_available": true,
+  "earlier_months_probes_available": 7,
+  "earliest_available_probe_utc": "2025-11-17T13:00:00+00:00",
+  "current_verified_db_coverage": {
+    "ml_eligible_min_utc": "2026-08-13T00:00:00.153000+00:00",
+    "ml_eligible_max_utc": "2026-11-19T11:45:39.744483+00:00",
+    "ml_eligible_1m_bars": 96862,
+    "clean_weekday_trading_days": 68,
+    "approx_months": 3.2
+  },
+  "local_backup_archives_checked": {
+    "csv_goldedge_20261117_143146.zip": "Snapshot of same Aug 13 - Nov 17 DB; zero earlier months.",
+    "db_data.zip": "Bundle of csv_goldedge_20261117_143146.zip + shadow_artifacts_20261117.zip."
+  },
+  "probe_results": [
+    {
+      "probe_label": "2026-08-20_control",
+      "window_utc": "2026-08-20T13:00:00+00:00",
+      "bid_ticks": 408,
+      "ask_ticks": 408,
+      "has_more_flag": false,
+      "available": true,
+      "sample_bid_px": 4474.89,
+      "sample_ask_px": 4475.01
+    },
+    {
+      "probe_label": "2026-08-10",
+      "window_utc": "2026-08-10T13:00:00+00:00",
+      "bid_ticks": 356,
+      "ask_ticks": 348,
+      "has_more_flag": false,
+      "available": true,
+      "sample_bid_px": 4332.34,
+      "sample_ask_px": 4332.43
+    },
+    {
+      "probe_label": "2026-07-15",
+      "window_utc": "2026-07-15T13:00:00+00:00",
+      "bid_ticks": 376,
+      "ask_ticks": 382,
+      "has_more_flag": false,
+      "available": true,
+      "sample_bid_px": 4068.48,
+      "sample_ask_px": 4068.59
+    },
+    {
+      "probe_label": "2026-06-15",
+      "window_utc": "2026-06-15T13:00:00+00:00",
+      "bid_ticks": 339,
+      "ask_ticks": 334,
+      "has_more_flag": false,
+      "available": true,
+      "sample_bid_px": 4349.11,
+      "sample_ask_px": 4349.17
+    },
+    {
+      "probe_label": "2026-05-15",
+      "window_utc": "2026-05-15T13:00:00+00:00",
+      "bid_ticks": 439,
+      "ask_ticks": 441,
+      "has_more_flag": false,
+      "available": true,
+      "sample_bid_px": 4545.95,
+      "sample_ask_px": 4546.04
+    },
+    {
+      "probe_label": "2026-04-15",
+      "window_utc": "2026-04-15T13:00:00+00:00",
+      "bid_ticks": 390,
+      "ask_ticks": 386,
+      "has_more_flag": false,
+      "available": true,
+      "sample_bid_px": 4811.58,
+      "sample_ask_px": 4811.76
+    },
+    {
+      "probe_label": "2026-02-17",
+      "window_utc": "2026-02-17T13:00:00+00:00",
+      "bid_ticks": 181,
+      "ask_ticks": 183,
+      "has_more_flag": false,
+      "available": true,
+      "sample_bid_px": 4931.89,
+      "sample_ask_px": 4931.99
+    },
+    {
+      "probe_label": "2025-11-17",
+      "window_utc": "2025-11-17T13:00:00+00:00",
+      "bid_ticks": 314,
+      "ask_ticks": 317,
+      "has_more_flag": false,
+      "available": true,
+      "sample_bid_px": 4077.21,
+      "sample_ask_px": 4077.28
+    }
+  ],
+  "errors": [],
+  "governance_note": "Read-only probe only; zero broker orders placed, zero raw market_ticks overwritten, and frozen H0/H3b research windows remain strictly untouched.",
+  "elapsed_sec": 19.06,
+  "updated_at_utc": "2026-11-23T09:02:26.337365+00:00",
+  "staged_3day_pilot_verified": {
+    "table": "market_ticks_staged_expansion",
+    "window_utc": "2026-08-10T00:00:00Z .. 2026-08-13T00:00:00Z",
+    "valid_ticks_staged": 780498,
+    "min_time_utc": "2026-08-10T00:00:00.134000+00:00",
+    "max_time_utc": "2026-08-12T23:59:59.494000+00:00",
+    "reconstructed_1m_bars": 4137,
+    "expected_3weekday_trading_mins": 4140,
+    "coverage_pct": 99.93,
+    "mean_spread_usd": 0.08304,
+    "min_spread_usd": 0.03,
+    "max_spread_usd": 6.42,
+    "api_requests": 162,
+    "elapsed_sec": 328.2,
+    "measured_throughput_sec_per_trading_day": 109.4,
+    "estimated_full_backfill_runtime": {
+      "plus_3_months_to_6_2_months_total": "~2.0 hours (~65 trading days)",
+      "plus_6_months_to_9_2_months_total": "~4.0 hours (~130 trading days)"
+    }
+  },
+  "expanded_6_2_month_verified": {
+    "staged_table": "market_ticks_staged_expansion",
+    "union_view": "v_market_ticks_expanded_6m_v1",
+    "staged_ticks": 18403826,
+    "staged_min_utc": "2026-05-13T00:00:00.098000+00:00",
+    "staged_max_utc": "2026-08-12T23:59:59.494000+00:00",
+    "staged_invalid_rows": 0,
+    "staged_overlap_with_core": 0,
+    "staged_1m_bars": 90373,
+    "staged_weekdays": 66,
+    "staged_mean_spread_usd": 0.08627,
+    "staged_median_spread_usd": 0.07,
+    "staged_p95_spread_usd": 0.15,
+    "staged_max_spread_usd": 6.5,
+    "total_union_1m_bars": 187235,
+    "expanded_macro_rows": 36833,
+    "expanded_macro_nonoverlap_15m": 12193,
+    "expanded_macro_sha256": "2E9A9D9B7215A50B75B6464FD1E3A17AA887BF415B5A683586E0220B045189E3",
+    "expanded_micro_rows": 1278171,
+    "expanded_micro_sha256": "7B565DFAF77D2B23B987FF8EE64952B0875287D428EE2BE39B5DAF48C6778667",
+    "expanded_4way_folds": [
+      {
+        "fold_id": 1,
+        "macro_n": {
+          "train": 11188,
+          "val": 2708,
+          "cal": 2708,
+          "test": 4080
+        },
+        "macro_all3_strict_purge": true,
+        "micro_n": {
+          "train": 402846,
+          "val": 88013,
+          "cal": 86666,
+          "test": 135701
+        },
+        "micro_all3_strict_purge": true
+      },
+      {
+        "fold_id": 2,
+        "macro_n": {
+          "train": 16628,
+          "val": 2708,
+          "cal": 2708,
+          "test": 4051
+        },
+        "macro_all3_strict_purge": true,
+        "micro_n": {
+          "train": 577548,
+          "val": 88352,
+          "cal": 97127,
+          "test": 139223
+        },
+        "micro_all3_strict_purge": true
+      },
+      {
+        "fold_id": 3,
+        "macro_n": {
+          "train": 22068,
+          "val": 2679,
+          "cal": 2708,
+          "test": 4078
+        },
+        "macro_all3_strict_purge": true,
+        "micro_n": {
+          "train": 763070,
+          "val": 92057,
+          "cal": 96155,
+          "test": 133222
+        },
+        "micro_all3_strict_purge": true
+      },
+      {
+        "fold_id": 4,
+        "macro_n": {
+          "train": 27479,
+          "val": 2706,
+          "cal": 2708,
+          "test": 3904
+        },
+        "macro_all3_strict_purge": true,
+        "micro_n": {
+          "train": 951314,
+          "val": 87717,
+          "cal": 91922,
+          "test": 147162
+        },
+        "micro_all3_strict_purge": true
+      }
+    ],
+    "elapsed_sec": 214.12
+  }
+}

@@ -25,8 +25,8 @@ class PandasAggregatorRepository(IAggregationRepository):
         self.engine = engine if engine is not None else create_engine(self.settings.DB_URL)
 
     def aggregate_ticks_to_bars(self, symbol: str, start: Optional[datetime] = None, end: Optional[datetime] = None) -> int:
-        # 1. Fetch Ticks
-        query = "SELECT time, bid, ask, last FROM market_ticks WHERE symbol = %(symbol)s"
+        # 1. Fetch Ticks (preserving nullable real_volume)
+        query = "SELECT time, bid, ask, last, volume AS real_volume FROM market_ticks WHERE symbol = %(symbol)s"
         params = {"symbol": symbol}
         
         if start:
@@ -44,22 +44,29 @@ class PandasAggregatorRepository(IAggregationRepository):
             logger.warning(f"No ticks found for {symbol} in the given range.")
             return 0
 
-        # Prepare DataFrame for resampling
+        # Prepare DataFrame for resampling with strict consistent quote validity
         df_ticks['time'] = pd.to_datetime(df_ticks['time'], utc=True)
+        df_ticks = df_ticks[
+            (df_ticks["bid"] > 0.0) & (df_ticks["ask"] > 0.0) & (df_ticks["bid"] < df_ticks["ask"])
+        ].copy()
+        if df_ticks.empty:
+            logger.warning(f"No valid quotes (bid > 0 & ask > 0 & bid < ask) found for {symbol}.")
+            return 0
         df_ticks = df_ticks.set_index('time')
 
         # 2. Resample to 1 Minute
         freq = '1min'
         
-        # OHLC using BID price (Matches cTrader chart)
+        # OHLC using valid BID price (Matches cTrader chart)
         ohlcv = df_ticks["bid"].resample(freq).ohlc()
         ohlcv.columns = ["open", "high", "low", "close"]
         
-        # Tick Volume (Count of price changes in that minute)
+        # Quote-arrival frequency (valid quote updates per minute)
         ohlcv["tick_volume"] = df_ticks["bid"].resample(freq).count()
         
-        # Real Volume (NULL for Forex)
-        ohlcv["real_volume"] = None
+        # Genuine traded volume only when supplied; keep NULL otherwise
+        has_real_vol = df_ticks["real_volume"].notna().any()
+        ohlcv["real_volume"] = df_ticks["real_volume"].resample(freq).sum(min_count=1) if has_real_vol else None
         
         # Spread calculation (Multiplier logic for Points)
         pip_multiplier = 100 if ('XAU' in symbol or 'JPY' in symbol) else 10000

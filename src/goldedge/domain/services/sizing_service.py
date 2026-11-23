@@ -23,7 +23,8 @@ class PositionSizingService:
         min_lot: float = 0.01,
         max_lot: float = 50.0,
         volume_step: float = 0.01,
-        margin_required_per_lot: float = 1000.0
+        margin_required_per_lot: float = 1000.0,
+        commission_per_lot: float = 0.0,
     ):
         self.contract_size = contract_size
         self.tick_size = tick_size
@@ -32,6 +33,13 @@ class PositionSizingService:
         self.max_lot = max_lot
         self.volume_step = volume_step
         self.margin_required_per_lot = margin_required_per_lot
+        self.commission_per_lot = float(commission_per_lot)
+
+    @staticmethod
+    def resolve_executable_entry(direction, bid: float, ask: float) -> float:
+        """Return executable entry quote: ask for BUY, bid for SELL."""
+        dir_val = direction.value if hasattr(direction, "value") else str(direction)
+        return float(ask) if str(dir_val).upper() == "BUY" else float(bid)
 
     def calculate_size(
         self,
@@ -44,16 +52,22 @@ class PositionSizingService:
         kalman_uncertainty: Optional[float] = None,
         win_probability: Optional[float] = None,
         current_drawdown_pct: float = 0.0,
-        max_allowed_drawdown_pct: float = 0.08
+        max_allowed_drawdown_pct: float = 0.08,
+        commission_per_lot: Optional[float] = None,
     ) -> Tuple[Optional[float], Optional[float], Optional[float], Optional[str]]:
         """
-        Broker-aware position sizing pipeline.
+        Broker-aware position sizing pipeline using executable entry quote.
+        Callers should pass executable ask (BUY) or bid (SELL) as `entry_price`
+        so SL/TP and monetary risk match real fill mechanics.
         Returns (lot_size, sl_price, tp_price, rejection_reason).
         lot_size is None if the trade should be SKIPPED.
 
-        Actual risk is always <= allowed risk after floor normalization.
-        Never rounds up to avoid exceeding the configured risk %.
+        Actual planned risk is strictly <= allowed risk after floor normalization.
+        Never rounds up and rejects if min_lot exceeds the risk budget.
         """
+        if account_balance <= 0 or entry_price <= 0:
+            return None, None, None, "Invalid non-positive account balance or entry price"
+
         # 1. Dynamic Drawdown Contraction Scaling (Stage 4.2)
         if max_allowed_drawdown_pct > 0:
             dd_scaler = max(0.0, 1.0 - (current_drawdown_pct / max_allowed_drawdown_pct))
@@ -63,7 +77,7 @@ class PositionSizingService:
         if dd_scaler <= 0:
             return None, None, None, f"Dynamic Drawdown Scaler is 0.0 (Account in maximum drawdown lock)."
 
-        # 2. SL / TP Distances (ATR or 1.5x Kalman Uncertainty)
+        # 2. SL / TP Distances from executable entry price
         base_sl_distance = atr_value * risk_profile.sl_atr_multiplier
         if kalman_uncertainty is not None and kalman_uncertainty > 0:
             kalman_sl_distance = 1.5 * kalman_uncertainty
@@ -76,7 +90,8 @@ class PositionSizingService:
         if sl_distance <= 0:
             return None, None, None, "Invalid SL distance (ATR or multiplier is zero)"
 
-        # 3. Fractional Half-Kelly Risk Budget (Stage 4.1 & 4.3)
+        # 3. Fractional Half-Kelly Risk Budget (Stage 4.1 & 4.3), capped by risk_profile.risk_per_trade_pct
+        max_profile_risk = account_balance * (risk_profile.risk_per_trade_pct / 100.0) * dd_scaler
         if win_probability is not None and 0.0 < win_probability < 1.0:
             b = tp_distance / max(sl_distance, 1e-6)
             p = win_probability
@@ -84,30 +99,46 @@ class PositionSizingService:
             kelly = (p * b - q) / b if b > 0 else 0.0
             if kelly <= 0:
                 return None, None, None, f"Half-Kelly expectation non-positive ({kelly:.4f} <= 0). Aborting."
-            f_star = min(0.015, kelly * 0.5)
-            max_monetary_risk = account_balance * f_star * dd_scaler
+            f_star = min(risk_profile.risk_per_trade_pct / 100.0, kelly * 0.5)
+            max_monetary_risk = min(max_profile_risk, account_balance * f_star * dd_scaler)
         else:
-            max_monetary_risk = account_balance * (risk_profile.risk_per_trade_pct / 100.0) * dd_scaler
+            max_monetary_risk = max_profile_risk
 
-        if direction == SignalDirection.BUY:
+        dir_val = direction.value if hasattr(direction, "value") else str(direction)
+        if str(dir_val).upper() == "BUY":
             sl_price = entry_price - sl_distance
             tp_price = entry_price + tp_distance
         else:
             sl_price = entry_price + sl_distance
             tp_price = entry_price - tp_distance
 
-        # 4. Loss per lot using MT5 tick_size and tick_value (broker-native)
-        ticks_at_risk = sl_distance / self.tick_size
-        loss_per_lot = ticks_at_risk * self.tick_value
+        # 4. Loss per lot using contract tick_size/tick_value plus fees/commission
+        # Note: when entry_price is executable ask (BUY) / bid (SELL), closing on opposing
+        # bid (BUY) / ask (SELL) at sl_price loses exact |entry_price - sl_price| plus fees.
+        comm = self.commission_per_lot if commission_per_lot is None else float(commission_per_lot)
+        ticks_at_risk = abs(entry_price - sl_price) / self.tick_size
+        loss_per_lot = ticks_at_risk * self.tick_value + comm
 
         if loss_per_lot <= 0:
             return None, None, None, "Loss per lot is zero — check tick_size / tick_value"
 
+        # Explicit minimum-lot budget guard before stepping
+        min_lot_risk = loss_per_lot * self.min_lot
+        if min_lot_risk > max_monetary_risk + 1e-6:
+            return None, None, None, (
+                f"Min lot {self.min_lot} risk ${min_lot_risk:.2f} exceeds "
+                f"risk budget ${max_monetary_risk:.2f}."
+            )
+
         raw_lot_size = max_monetary_risk / loss_per_lot
 
         # 5. Normalize: ALWAYS floor to volume_step to prevent exceeding risk
-        steps = math.floor(raw_lot_size / self.volume_step)
+        steps = math.floor((raw_lot_size + 1e-12) / self.volume_step)
         normalized_size = round(steps * self.volume_step, 2)
+
+        # Step down if float rounding nudged actual risk past budget
+        while normalized_size >= self.min_lot and (loss_per_lot * normalized_size) > max_monetary_risk + 1e-6:
+            normalized_size = round(normalized_size - self.volume_step, 2)
 
         # 6. Gate: Below minimum lot — SKIP, never round up
         if normalized_size < self.min_lot:
@@ -134,10 +165,9 @@ class PositionSizingService:
                 )
             normalized_size = min(normalized_size, max_affordable)
 
-
-        # 8. Recalculate actual monetary risk and verify it ≤ max allowed
-        actual_risk = (sl_distance / self.tick_size) * self.tick_value * normalized_size
-        if actual_risk > max_monetary_risk + 0.01:  # 1 cent tolerance for float precision
+        # 9. Final hard verification: planned risk strictly <= max_monetary_risk
+        actual_risk = loss_per_lot * normalized_size
+        if actual_risk > max_monetary_risk + 1e-6:
             return None, None, None, (
                 f"Post-normalization actual risk {actual_risk:.2f} "
                 f"exceeds allowed {max_monetary_risk:.2f}"

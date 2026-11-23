@@ -13,11 +13,19 @@ interface RetroCalendarProps {
   dates: CalendarDate[];
   selectedDate: string;
   onSelect: (date: string) => void;
+  label?: string;
+  align?: "left" | "right";
 }
 
 const WEEKDAYS = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
 
-export default function RetroCalendar({ dates, selectedDate, onSelect }: RetroCalendarProps) {
+export default function RetroCalendar({
+  dates,
+  selectedDate,
+  onSelect,
+  label,
+  align = "left",
+}: RetroCalendarProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -39,6 +47,16 @@ export default function RetroCalendar({ dates, selectedDate, onSelect }: RetroCa
     : new Date();
   const [viewYear, setViewYear] = useState(initialMonth.getFullYear());
   const [viewMonth, setViewMonth] = useState(initialMonth.getMonth());
+
+  // Keep calendar view synced when selectedDate is populated asynchronously
+  useEffect(() => {
+    if (!selectedDate) return;
+    const d = new Date(selectedDate + "T00:00:00");
+    if (!Number.isNaN(d.getTime())) {
+      setViewYear(d.getFullYear());
+      setViewMonth(d.getMonth());
+    }
+  }, [selectedDate]);
 
   // Close on outside click
   useEffect(() => {
@@ -95,6 +113,9 @@ export default function RetroCalendar({ dates, selectedDate, onSelect }: RetroCa
           color: "#c8cdd5",
         }}
       >
+        {label && (
+          <span className="text-[9px]" style={{ color: "#5a6270" }}>{label}:</span>
+        )}
         <span style={{ color: "#4da6ff" }}>{selectedLabel}</span>
         {selectedDate && barMap[selectedDate] !== undefined && (
           <span className="text-[9px]" style={{ color: "#5a6270" }}>
@@ -106,7 +127,7 @@ export default function RetroCalendar({ dates, selectedDate, onSelect }: RetroCa
       {/* Dropdown calendar */}
       {open && (
         <div
-          className="absolute right-0 top-full mt-1 z-50"
+          className={`absolute ${align === "right" ? "right-0" : "left-0"} top-full mt-1 z-50`}
           style={{
             background: "#111318",
             border: "2px solid #252a33",

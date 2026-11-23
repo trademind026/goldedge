@@ -13,7 +13,7 @@ class CTraderOpenAPIClient:
     HFT-Optimized raw asyncio TCP client for cTrader Open API Protocol Buffers.
     Handles the 4-byte big-endian framing requirement.
     """
-    def __init__(self, host: str = "live.openapi.ctrader.com", port: int = 5035):
+    def __init__(self, host: str = "demo.ctraderapi.com", port: int = 5035):
         self.host = host
         self.port = port
         self.reader: Optional[asyncio.StreamReader] = None

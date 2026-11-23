@@ -1,0 +1,21 @@
+{
+  "task": "G3.5_PHASE_G_EXPERIMENT_GOVERNANCE",
+  "generated_at_utc": "2026-11-23T10:45:28.444930+00:00",
+  "git_head": "unknown",
+  "execution_mode": "STRICT_SHADOW_MODE",
+  "run_backtest_modified": false,
+  "h0_h3b_modified": false,
+  "kalman_exit_modified": false,
+  "g3_4_prior_trials_exposed": 112,
+  "g3_5_hypotheses_evaluated": 23,
+  "historical_oot_classification": "RESEARCH_EXPOSED_EXPLORATORY_ONLY",
+  "prospective_shadow_validation_required": "G3.7",
+  "threshold_selection_source": "RESERVED_CALIBRATION_FOLDS_ONLY",
+  "artifact_fingerprints": {
+    "h3b_candidate_ledger_sha256": "F09A7B192FBAA1B5F531C70CC9E97D4F2B90B61C8281B0C691884CFA866FBB28",
+    "micro_execution_ledger_sha256": "96EA3674EA2E0B5B889C6663CC0086243BA1D888C5C38D6A6E22AB657220E612",
+    "macro_calibrated_oof_sha256": "21F443143067342F0DEE2CDD9192A2B57A59CEEF3B0B7E917616488EEE265D02",
+    "micro_calibrated_oof_sha256": "2212B7C96A69D572A8DDFFB764333C7256B836FB8148B8AFA51E115A235A74A5"
+  },
+  "elapsed_sec": 4.68
+}

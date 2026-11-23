@@ -70,6 +70,7 @@ class CTraderMarketDataProvider(IMarketDataProvider):
         import sys, os
         sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..')))
         from src.goldedge.config.settings import Settings
+        from src.goldedge.adapters.secondary.db.connection_pool import build_engine
         settings = Settings()
 
         # Ensure timezone-aware UTC
@@ -80,7 +81,7 @@ class CTraderMarketDataProvider(IMarketDataProvider):
 
         host = "demo.ctraderapi.com"
         config = ClientConfig(client_id=self.client_id, client_secret=self.client_secret, host=host)
-        engine = create_engine(settings.DB_URL)
+        engine = build_engine(os.environ.get("DB_URL") or settings.DB_URL)
 
         def insert_on_conflict_nothing(table, conn, keys, data_iter):
             data = [dict(zip(keys, row)) for row in data_iter]
@@ -92,13 +93,25 @@ class CTraderMarketDataProvider(IMarketDataProvider):
         def save_chunk(bids, asks):
             if not bids or not asks:
                 return 0
-            df_bids = pd.DataFrame(bids).sort_values("timestamp")
-            df_asks = pd.DataFrame(asks).sort_values("timestamp")
-            df = pd.merge_asof(df_bids, df_asks, on="timestamp", direction="backward")
-            df = df.ffill().bfill()
-            df["last"] = (df["bid"] + df["ask"]) / 2
+            df_bids = pd.DataFrame(bids).drop_duplicates(subset=["timestamp"], keep="last").sort_values("timestamp")
+            df_asks = pd.DataFrame(asks).drop_duplicates(subset=["timestamp"], keep="last").sort_values("timestamp")
+            # Causal union: only forward-fill prior quote states (never backward-fill future quotes)
+            df = pd.merge(df_bids, df_asks, on="timestamp", how="outer").sort_values("timestamp")
+            df["bid"] = df["bid"].ffill()
+            df["ask"] = df["ask"].ffill()
+            df = df.dropna(subset=["bid", "ask"])
+            # Reject inverted/zero-spread/non-positive quotes at ingestion
+            valid_mask = (df["bid"] > 0.0) & (df["ask"] > 0.0) & (df["bid"] < df["ask"])
+            dropped = int((~valid_mask).sum())
+            if dropped:
+                logger.warning(f"Dropped {dropped} invalid/inverted quote rows (bid >= ask) in historical chunk.")
+            df = df[valid_mask].copy()
+            if df.empty:
+                return 0
+            df["last"] = (df["bid"] + df["ask"]) / 2.0
+            df["volume"] = None  # Spot cTrader feed emits quote updates only; never fabricate volume=1
             df["symbol"] = symbol
-            df = df[["timestamp", "symbol", "bid", "ask", "last"]]
+            df = df[["timestamp", "symbol", "bid", "ask", "last", "volume"]]
             df.rename(columns={"timestamp": "time"}, inplace=True)
             df.to_sql("market_ticks", engine, if_exists="append", index=False,
                       method=insert_on_conflict_nothing, chunksize=5000)
@@ -116,33 +129,32 @@ class CTraderMarketDataProvider(IMarketDataProvider):
 
         logger.info(f"Fetching {len(day_windows)} daily windows from {start.date()} to {end.date()}")
 
-        for (win_start, win_end) in day_windows:
-            logger.info(f"--- Opening fresh connection for window {win_start.date()} → {win_end.date()} ---")
+        client = CTraderClient(config)
+        async with client:
+            await client.auth.authenticate_trader(
+                AccountCredentials(
+                    account_id=int(self.account_id),
+                    access_token=self.access_token,
+                    refresh_token=self.refresh_token,
+                    expires_at=self.token_expires_at,
+                )
+            )
 
-            try:
-                client = CTraderClient(config)
-                async with client:
-                    await client.auth.authenticate_trader(
-                        AccountCredentials(
-                            account_id=int(self.account_id),
-                            access_token=self.access_token,
-                            refresh_token=self.refresh_token,
-                            expires_at=self.token_expires_at
-                        )
-                    )
+            # Resolve symbol_id once per session
+            symbol_id = None
+            syms = await client.symbols.list_all(int(self.account_id))
+            for s in syms:
+                if s.name == symbol:
+                    symbol_id = s.symbol_id
+                    break
 
-                    # Resolve symbol_id once per session
-                    symbol_id = None
-                    syms = await client.symbols.list_all(int(self.account_id))
-                    for s in syms:
-                        if s.name == symbol:
-                            symbol_id = s.symbol_id
-                            break
+            if not symbol_id:
+                logger.error(f"Symbol '{symbol}' not found.")
+                return
 
-                    if not symbol_id:
-                        logger.error(f"Symbol '{symbol}' not found.")
-                        return
-
+            for (win_start, win_end) in day_windows:
+                logger.info(f"--- Fetching window {win_start.date()} → {win_end.date()} ---")
+                try:
                     # Paginate backwards within this single day window
                     current_end = win_end
                     while current_end > win_start:
@@ -155,7 +167,7 @@ class CTraderMarketDataProvider(IMarketDataProvider):
                             from_timestamp=win_start,
                             to_timestamp=current_end,
                             quote_type='BID',
-                            timeout=45.0
+                            timeout=45.0,
                         )
                         for t in b_ticks:
                             bids.append({"timestamp": t.timestamp, "bid": float(t.price)})
@@ -166,7 +178,7 @@ class CTraderMarketDataProvider(IMarketDataProvider):
                             from_timestamp=win_start,
                             to_timestamp=current_end,
                             quote_type='ASK',
-                            timeout=45.0
+                            timeout=45.0,
                         )
                         for t in a_ticks:
                             asks.append({"timestamp": t.timestamp, "ask": float(t.price)})
@@ -179,24 +191,28 @@ class CTraderMarketDataProvider(IMarketDataProvider):
                         total_saved += saved
                         logger.info(f"  Saved {saved} ticks. Grand Total: {total_saved}")
 
-                        # Walk cursor backwards
+                        # Walk cursor backwards using the latest of both streams' oldest timestamps
+                        # so neither BID nor ASK intermediate windows are skipped.
                         oldest_b = min(t.timestamp for t in b_ticks) if b_ticks else current_end
                         oldest_a = min(t.timestamp for t in a_ticks) if a_ticks else current_end
-                        earliest = min(oldest_b, oldest_a)
-
-                        if current_end == earliest:
-                            current_end = earliest - timedelta(milliseconds=1)
+                        if b_ticks and a_ticks:
+                            next_end = max(oldest_b, oldest_a)
                         else:
-                            current_end = earliest
+                            next_end = min(oldest_b, oldest_a)
+
+                        if next_end >= current_end:
+                            current_end = current_end - timedelta(milliseconds=1)
+                        else:
+                            current_end = next_end
 
                         if max_returned < 1000:
                             break
 
                         await asyncio.sleep(1.0)
 
-            except Exception as e:
-                logger.error(f"Window {win_start.date()} failed: {e}. Skipping to next day.")
-                continue
+                except Exception as e:
+                    logger.error(f"Window {win_start.date()} failed: {e}. Skipping to next day.")
+                    continue
 
         logger.info(f"All done! Grand Total: {total_saved} ticks saved to DB.")
 

@@ -59,7 +59,8 @@ if ($Truncate -and -not $Force) {
 if ($Truncate) {
     $tableList = ($csvFiles | ForEach-Object { "`"public`".`"$($_.BaseName)`"" }) -join ', '
     Write-Host 'Truncating target tables...' -ForegroundColor Cyan
-    docker exec $cfg.Container psql -v ON_ERROR_STOP=1 -U $cfg.User -d $cfg.Database -c "TRUNCATE TABLE $tableList RESTART IDENTITY CASCADE;"
+    $truncateSql = "TRUNCATE TABLE $tableList RESTART IDENTITY CASCADE;"
+    $truncateSql | docker exec -i $cfg.Container psql -v ON_ERROR_STOP=1 -U $cfg.User -d $cfg.Database
     if ($LASTEXITCODE -ne 0) {
         throw 'Failed to truncate tables.'
     }
@@ -86,8 +87,12 @@ while ($pending.Count -gt 0 -and $pass -lt $maxPasses) {
             }
 
             $sql = "\copy `"public`".`"$table`" FROM '$containerCsv' WITH (FORMAT csv, HEADER true, ENCODING 'UTF8')"
+            $prevCopyPref = $ErrorActionPreference
+            $ErrorActionPreference = 'Continue'
             $output = ($sql | docker exec -i $cfg.Container psql -v ON_ERROR_STOP=1 -U $cfg.User -d $cfg.Database 2>&1)
-            if ($LASTEXITCODE -eq 0) {
+            $copyExit = $LASTEXITCODE
+            $ErrorActionPreference = $prevCopyPref
+            if ($copyExit -eq 0) {
                 Write-Host "  Imported $table ($output)" -ForegroundColor Green
                 $importedThisPass++
             }
@@ -97,7 +102,10 @@ while ($pending.Count -gt 0 -and $pass -lt $maxPasses) {
             }
         }
         finally {
-            docker exec $cfg.Container rm -f $containerCsv 2>$null | Out-Null
+            $prevPref = $ErrorActionPreference
+            $ErrorActionPreference = 'Continue'
+            docker exec -u 0 $cfg.Container rm -f $containerCsv 2>$null | Out-Null
+            $ErrorActionPreference = $prevPref
         }
     }
 

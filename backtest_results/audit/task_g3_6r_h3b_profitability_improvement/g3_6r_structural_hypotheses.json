@@ -1,0 +1,47 @@
+{
+  "task": "G3.6R_PHASE_B_STRUCTURAL_HYPOTHESES",
+  "generated_at_utc": "2026-11-23T11:13:00Z",
+  "hypothesis_budget": 3,
+  "selection_basis": "Phase A full-period attribution & DEV_MAY_AUG (n=107) structural mechanism audit. Strictly non-ML, causal, isolated opt-in parameters in RunBacktestUseCase (default OFF).",
+  "hypotheses": [
+    {
+      "id": "CHANGE_A_MAX_KAUFMAN_ER_0_50",
+      "category": "H1_ENTRY_QUALITY_EXHAUSTION",
+      "parameter": "max_kaufman_er=0.50 (default None)",
+      "observed_failure_mechanism": "Momentum signals firing after an already ultra-straight impulse (high Kaufman Efficiency Ratio >= 0.50) enter at local exhaustion peaks and mean-revert into SL.",
+      "supporting_trade_evidence": "In DEV_MAY_AUG (n=107), top-tercile ER [0.471..0.912] produced -3.08 R (-0.0856 R/trade, n=36) vs +9.46 R across T1+T2. Across full 6.2m (n=215), T3_HIGH ER produced -10.79 R (PF 0.66, WR 41.7%) vs +16.65 R across T1+T2.",
+      "causal_rule": "Block new H3b entry when causal features['kaufman_er'] >= 0.50 at decision time.",
+      "expected_effect": "Eliminate exhausted-entry SL stops while retaining ~65-72% of H3b trades; improve net expectancy, PF, and reduce drawdown.",
+      "expected_coverage_pct": "65-72%",
+      "potential_drawdown_effect": "Lower consecutive losing streaks during exhausted breakout reversals.",
+      "min_independent_sample_needed": "At least 100+ trades across >= 50 active trading days across both DEV and LATER subperiods.",
+      "falsification_criterion": "Reject if H3b + Change A fails to improve net P&L/R in BOTH DEV_MAY_AUG and LATER_SEP_NOV, or collapses under 1.5x/2.0x cost stress or outlier-day removal."
+    },
+    {
+      "id": "CHANGE_B_BE_TRIGGER_1_4_ATR",
+      "category": "H2_EXIT_EFFICIENCY_PREMATURE_BREAKEVEN",
+      "parameter": "be_trigger_atr=1.4 (default 1.0)",
+      "observed_failure_mechanism": "RunBacktestUseCase moves SL to entry +/- $0.20 at +1.0 ATR (despite its own docstring noting 1.0 ATR is noise-sensitive on XAUUSD). 40/215 trades (18.6%, DEV n=20) reached mean MFE 1.24 ATR and were shaken out at BREAKEVEN (-0.01 R total) before reaching TRAILING_SL (+0.77 R) or TARGET (+1.95 R).",
+      "supporting_trade_evidence": "BREAKEVEN exits (n=40; DEV n=20, -0.21 R; full -0.01 R) had mean MFE 1.24 ATR and MAE 0.47 ATR, giving back potential continuation.",
+      "causal_rule": "Delay breakeven ratchet trigger from 1.0 ATR to 1.4 ATR (preserving 1.6 ATR trailing tier 1, 2.5 ATR tier 2, E1, and TIME_SQUEEZE).",
+      "expected_effect": "Retain 100% trade coverage (~215 trades); allow trades reaching 1.0-1.39 ATR room to convert into TRAILING_SL/TARGET winners (offset against some reversions to SL).",
+      "expected_coverage_pct": "100%",
+      "potential_drawdown_effect": "Slight risk of deeper DD if more 1.0-1.39 ATR trades reverse to full -1.0 R SL; must be verified on actual tick-MTM DD.",
+      "min_independent_sample_needed": "Full 215-trade universe across 87 active days.",
+      "falsification_criterion": "Reject if extra SL reversions outweigh converted winners in either subperiod, increase tick-MTM DD unacceptably, or fail cost stress."
+    },
+    {
+      "id": "CHANGE_C_MIN_SCORE_0_68",
+      "category": "H1_H3_MARGINAL_ENTRY_QUALITY_FLOOR",
+      "parameter": "min_score_threshold=0.68 (default 0.60 via RiskProfile)",
+      "observed_failure_mechanism": "Lowest-tercile passing scores (0.60..0.68) represent marginal momentum setups with weak follow-through and negative expectancy.",
+      "supporting_trade_evidence": "In DEV_MAY_AUG, T1_LOW score [0.601..0.687] produced -2.27 R (WR 41.7%, n=36) vs +8.64 R for >= 0.69. Across full 6.2m, T1_LOW score produced -7.66 R (PF 0.74, -$377.61).",
+      "causal_rule": "Raise RiskProfile.min_score_threshold from 0.60 to 0.68 (pre-existing causal TradeScorer gate).",
+      "expected_effect": "Retain ~65-70% of trades; remove weak marginal setups.",
+      "expected_coverage_pct": "65-70%",
+      "potential_drawdown_effect": "Lower drawdown by removing low-conviction SL losses.",
+      "min_independent_sample_needed": "At least 100+ trades across >= 50 active days.",
+      "falsification_criterion": "Reject if raising min_score_threshold to 0.68 fails to improve net P&L/R across both DEV and LATER subperiods or fails cost-stress / statistical checks."
+    }
+  ]
+}

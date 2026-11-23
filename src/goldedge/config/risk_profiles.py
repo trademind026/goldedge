@@ -41,6 +41,8 @@ class RiskProfile:
     tp_atr_multiplier: float        # TP = ATR × this value
 
     min_score_threshold: float      # Minimum composite signal score to trade.
+    block_high_volatility: bool = False
+    block_buy_sideways: bool = False
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -122,7 +124,9 @@ MEDIUM_RISK_LIVE = RiskProfile(
     max_hold_bars=120,
     sl_atr_multiplier=1.5,
     tp_atr_multiplier=3.0,          # 1:2 RR
-    min_score_threshold=0.85,
+    min_score_threshold=0.60,
+    block_high_volatility=True,
+    block_buy_sideways=True,
 )
 
 MEDIUM_RISK_BACKTEST = RiskProfile(
@@ -135,7 +139,9 @@ MEDIUM_RISK_BACKTEST = RiskProfile(
     max_hold_bars=120,
     sl_atr_multiplier=1.5,
     tp_atr_multiplier=3.0,
-    min_score_threshold=0.80,
+    min_score_threshold=0.60,
+    block_high_volatility=True,
+    block_buy_sideways=True,
 )
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -165,7 +171,7 @@ HIGH_RISK_BACKTEST = RiskProfile(
     max_hold_bars=120,
     sl_atr_multiplier=1.5,
     tp_atr_multiplier=3.0,
-    min_score_threshold=0.80,
+    min_score_threshold=0.83,
 )
 
 # ══════════════════════════════════════════════════════════════════════════

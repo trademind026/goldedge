@@ -5,6 +5,7 @@ from pathlib import Path
 
 from twisted.internet import reactor
 from ctrader_open_api import Client, Protobuf, TcpProtocol, EndPoints
+from ctrader_open_api.messages.OpenApiCommonMessages_pb2 import ProtoErrorRes
 from ctrader_open_api.messages.OpenApiMessages_pb2 import *
 
 # Add project root to path
@@ -12,6 +13,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 
 from src.goldedge.config.container import Container
 from src.goldedge.config.settings import Settings
+from src.goldedge.adapters.secondary.event_bus.redis_event_bus import RedisStreamEventBus
 
 logger = logging.getLogger("ctrader_live")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -19,16 +21,25 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 
 class CTraderLiveStream:
     def __init__(self, target_symbol: str = "XAUUSD"):
-        # Dependency Injection Container
-        self.container = Container()
         self.settings = Settings()
+        event_bus = RedisStreamEventBus(
+            redis_url=self.settings.REDIS_URL,
+            consumer_group="live_ticker_group",
+            consumer_name="ctrader_feed_1",
+        )
+        # Dependency Injection Container
+        self.container = Container(
+            db_url=self.settings.DB_URL,
+            event_bus=event_bus,
+            config={"BROKER_TYPE": self.settings.BROKER_TYPE},
+        )
         self.ticker_service = self.container.live_ticker_service()
         
         # cTrader credentials from Settings
         self.client_id = self.settings.CTRADER_CLIENT_ID
         self.client_secret = self.settings.CTRADER_CLIENT_SECRET
         self.access_token = self.settings.CTRADER_ACCESS_TOKEN
-        self.account_id = int(self.settings.CTRADER_ACCOUNT_ID)
+        self.account_id = int(self.settings.CTRADER_ACCOUNT_ID) if str(self.settings.CTRADER_ACCOUNT_ID).isdigit() else 0
         
         self.target_symbol = target_symbol
         self.symbol_id = None
@@ -56,7 +67,8 @@ class CTraderLiveStream:
         request = ProtoOAApplicationAuthReq()
         request.clientId = self.client_id
         request.clientSecret = self.client_secret
-        client.send(request)
+        d = client.send(request)
+        d.addErrback(lambda f: logger.error(f"cTrader Application Auth send failed: {f}"))
 
     def on_disconnected(self, client, reason):
         logger.warning(f"Disconnected from cTrader: {reason}")
@@ -122,6 +134,17 @@ class CTraderLiveStream:
                     bid=self.current_bid,
                     ask=self.current_ask
                 )
+
+        # 6. Error Responses
+        elif message.payloadType in (ProtoOAErrorRes().payloadType, ProtoErrorRes().payloadType):
+            err = Protobuf.extract(message)
+            logger.error(
+                f"cTrader Error (payloadType={message.payloadType}): "
+                f"code={getattr(err, 'errorCode', None)} desc={getattr(err, 'description', None)}"
+            )
+
+        else:
+            logger.debug(f"Unhandled cTrader message payloadType={message.payloadType}")
 
 if __name__ == "__main__":
     stream = CTraderLiveStream("XAUUSD")

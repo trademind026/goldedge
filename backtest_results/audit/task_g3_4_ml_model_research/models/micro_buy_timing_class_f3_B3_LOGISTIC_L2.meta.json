@@ -1,0 +1,72 @@
+{
+  "artifact_id": "micro_buy_timing_class_f3_B3_LOGISTIC_L2",
+  "model_family": "B3_LOGISTIC_L2",
+  "target_name": "micro_buy_timing_class",
+  "classes": [
+    "ENTER_NOW",
+    "WAIT_ADVERSE",
+    "NEUTRAL"
+  ],
+  "feature_schema_version": "G3_3_FEATURE_SCHEMA_V1",
+  "feature_columns": [
+    "entry_spread_usd",
+    "entry_spread_bps",
+    "short_term_vol_30t_usd",
+    "prior_mid_ret_5t",
+    "prior_mid_ret_10t",
+    "prior_mid_ret_30t",
+    "prior_interarrival_mean_10t",
+    "prior_quote_intensity_30t",
+    "hour_sin",
+    "hour_cos"
+  ],
+  "dataset_sha256": "7B565DFAF77D2B23B987FF8EE64952B0875287D428EE2BE39B5DAF48C6778667",
+  "fold_id": 3,
+  "train_window_utc": [
+    "2026-05-13T00:00:00Z",
+    "2026-09-04T00:00:00Z"
+  ],
+  "hyperparameters": {
+    "C": 1.0,
+    "penalty": "l2",
+    "solver": "lbfgs",
+    "selected_on": "inner_val_log_loss"
+  },
+  "git_head": "unknown",
+  "random_seed": 42,
+  "created_at_utc": "2026-11-23T09:37:06.338028+00:00",
+  "artifact_sha256": "BC44DE4C64B9AE675C254A34C7C3624025A8240452FBC43490C7679DEC9AEE93",
+  "preprocessor_audit": {
+    "fold_id": 3,
+    "fit_n_samples": 763070,
+    "fit_max_event_end_utc": 1788479710.107,
+    "eval_start_utc": 1788480000.0,
+    "feature_count": 10,
+    "missing_counts_in_train": {
+      "entry_spread_usd": 0,
+      "entry_spread_bps": 0,
+      "short_term_vol_30t_usd": 0,
+      "prior_mid_ret_5t": 0,
+      "prior_mid_ret_10t": 0,
+      "prior_mid_ret_30t": 0,
+      "prior_interarrival_mean_10t": 417,
+      "prior_quote_intensity_30t": 417,
+      "hour_sin": 0,
+      "hour_cos": 0
+    },
+    "medians_sample_first5": {
+      "entry_spread_usd": 0.07,
+      "entry_spread_bps": 0.1714,
+      "short_term_vol_30t_usd": 0.42538,
+      "prior_mid_ret_5t": 0.0,
+      "prior_mid_ret_10t": 0.0
+    },
+    "iqr_scale_sample_first5": {
+      "entry_spread_usd": 0.05,
+      "entry_spread_bps": 0.1209,
+      "short_term_vol_30t_usd": 0.27045,
+      "prior_mid_ret_5t": 0.000156,
+      "prior_mid_ret_10t": 0.000228
+    }
+  }
+}

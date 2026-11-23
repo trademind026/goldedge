@@ -1,0 +1,266 @@
+{
+  "task": "G3.4_PHASE_I_PROBABILITY_DIAGNOSTICS",
+  "note": "Raw uncalibrated probabilities only. CALIBRATION folds reserved for G3.5.",
+  "macro_B3_LOGISTIC": {
+    "ece_10bin": 0.0113,
+    "reliability_bins": [
+      {
+        "bin": "[0.3,0.4]",
+        "count": 578,
+        "mean_prob": 0.3728,
+        "emp_acc": 0.3754
+      },
+      {
+        "bin": "[0.4,0.5]",
+        "count": 1217,
+        "mean_prob": 0.4526,
+        "emp_acc": 0.4363
+      },
+      {
+        "bin": "[0.5,0.6]",
+        "count": 2436,
+        "mean_prob": 0.5558,
+        "emp_acc": 0.5349
+      },
+      {
+        "bin": "[0.6,0.7]",
+        "count": 4458,
+        "mean_prob": 0.6554,
+        "emp_acc": 0.6411
+      },
+      {
+        "bin": "[0.7,0.8]",
+        "count": 5788,
+        "mean_prob": 0.7472,
+        "emp_acc": 0.7481
+      },
+      {
+        "bin": "[0.8,0.9]",
+        "count": 1635,
+        "mean_prob": 0.8288,
+        "emp_acc": 0.8532
+      },
+      {
+        "bin": "[0.9,1.0]",
+        "count": 1,
+        "mean_prob": 0.9025,
+        "emp_acc": 0.0
+      }
+    ],
+    "class_conditional": {
+      "UP": {
+        "mean_pred_prob": 0.15926,
+        "empirical_rate": 0.16608,
+        "prob_p10_p50_p90": [
+          0.0917,
+          0.147,
+          0.2427
+        ]
+      },
+      "DOWN": {
+        "mean_pred_prob": 0.17829,
+        "empirical_rate": 0.17346,
+        "prob_p10_p50_p90": [
+          0.1053,
+          0.1637,
+          0.2725
+        ]
+      },
+      "FLAT": {
+        "mean_pred_prob": 0.66244,
+        "empirical_rate": 0.66046,
+        "prob_p10_p50_p90": [
+          0.4874,
+          0.689,
+          0.8008
+        ]
+      }
+    }
+  },
+  "macro_C1_LIGHTGBM": {
+    "ece_10bin": 0.00874,
+    "reliability_bins": [
+      {
+        "bin": "[0.3,0.4]",
+        "count": 501,
+        "mean_prob": 0.3759,
+        "emp_acc": 0.3633
+      },
+      {
+        "bin": "[0.4,0.5]",
+        "count": 1428,
+        "mean_prob": 0.4521,
+        "emp_acc": 0.4447
+      },
+      {
+        "bin": "[0.5,0.6]",
+        "count": 2680,
+        "mean_prob": 0.5541,
+        "emp_acc": 0.5265
+      },
+      {
+        "bin": "[0.6,0.7]",
+        "count": 4598,
+        "mean_prob": 0.6538,
+        "emp_acc": 0.6603
+      },
+      {
+        "bin": "[0.7,0.8]",
+        "count": 4787,
+        "mean_prob": 0.7471,
+        "emp_acc": 0.7441
+      },
+      {
+        "bin": "[0.8,0.9]",
+        "count": 1960,
+        "mean_prob": 0.8391,
+        "emp_acc": 0.8393
+      },
+      {
+        "bin": "[0.9,1.0]",
+        "count": 159,
+        "mean_prob": 0.915,
+        "emp_acc": 0.9497
+      }
+    ],
+    "class_conditional": {
+      "UP": {
+        "mean_pred_prob": 0.15915,
+        "empirical_rate": 0.16608,
+        "prob_p10_p50_p90": [
+          0.0793,
+          0.1512,
+          0.2485
+        ]
+      },
+      "DOWN": {
+        "mean_pred_prob": 0.17941,
+        "empirical_rate": 0.17346,
+        "prob_p10_p50_p90": [
+          0.0988,
+          0.1677,
+          0.2791
+        ]
+      },
+      "FLAT": {
+        "mean_pred_prob": 0.66144,
+        "empirical_rate": 0.66046,
+        "prob_p10_p50_p90": [
+          0.4813,
+          0.6782,
+          0.8176
+        ]
+      }
+    }
+  },
+  "micro_buy_B3_LOGISTIC": {
+    "ece_10bin": 0.00519,
+    "reliability_bins": [
+      {
+        "bin": "[0.3,0.4]",
+        "count": 7638,
+        "mean_prob": 0.3797,
+        "emp_acc": 0.3806
+      },
+      {
+        "bin": "[0.4,0.5]",
+        "count": 544335,
+        "mean_prob": 0.45,
+        "emp_acc": 0.4449
+      },
+      {
+        "bin": "[0.5,0.6]",
+        "count": 3309,
+        "mean_prob": 0.5242,
+        "emp_acc": 0.4956
+      },
+      {
+        "bin": "[0.6,0.7]",
+        "count": 26,
+        "mean_prob": 0.6081,
+        "emp_acc": 0.6923
+      }
+    ],
+    "class_conditional": {
+      "ENTER_NOW": {
+        "mean_pred_prob": 0.43589,
+        "empirical_rate": 0.43628,
+        "prob_p10_p50_p90": [
+          0.4024,
+          0.442,
+          0.4674
+        ]
+      },
+      "WAIT_ADVERSE": {
+        "mean_pred_prob": 0.44237,
+        "empirical_rate": 0.44189,
+        "prob_p10_p50_p90": [
+          0.4242,
+          0.446,
+          0.4607
+        ]
+      },
+      "NEUTRAL": {
+        "mean_pred_prob": 0.12174,
+        "empirical_rate": 0.12183,
+        "prob_p10_p50_p90": [
+          0.077,
+          0.1101,
+          0.1698
+        ]
+      }
+    }
+  },
+  "micro_buy_C1_LIGHTGBM": {
+    "ece_10bin": 0.00473,
+    "reliability_bins": [
+      {
+        "bin": "[0.3,0.4]",
+        "count": 15951,
+        "mean_prob": 0.3861,
+        "emp_acc": 0.3871
+      },
+      {
+        "bin": "[0.4,0.5]",
+        "count": 538058,
+        "mean_prob": 0.4507,
+        "emp_acc": 0.4459
+      },
+      {
+        "bin": "[0.5,0.6]",
+        "count": 1299,
+        "mean_prob": 0.5125,
+        "emp_acc": 0.5304
+      }
+    ],
+    "class_conditional": {
+      "ENTER_NOW": {
+        "mean_pred_prob": 0.43516,
+        "empirical_rate": 0.43628,
+        "prob_p10_p50_p90": [
+          0.395,
+          0.4424,
+          0.4695
+        ]
+      },
+      "WAIT_ADVERSE": {
+        "mean_pred_prob": 0.44299,
+        "empirical_rate": 0.44189,
+        "prob_p10_p50_p90": [
+          0.4146,
+          0.4465,
+          0.469
+        ]
+      },
+      "NEUTRAL": {
+        "mean_pred_prob": 0.12185,
+        "empirical_rate": 0.12183,
+        "prob_p10_p50_p90": [
+          0.0674,
+          0.1095,
+          0.1864
+        ]
+      }
+    }
+  }
+}

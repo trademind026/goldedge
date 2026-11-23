@@ -1,0 +1,391 @@
+{
+  "task": "G3.5_PHASE_A_CALIBRATION_INTEGRITY",
+  "generated_at_utc": "2026-11-23T10:20:55.081365+00:00",
+  "governance_notice": "Historical OOT folds are research-exposed; calibrators fitted strictly on reserved CALIBRATION folds only.",
+  "datasets_verified": {
+    "macro_sha256": "2E9A9D9B7215A50B75B6464FD1E3A17AA887BF415B5A683586E0220B045189E3",
+    "macro_rows": 36833,
+    "micro_sha256": "7B565DFAF77D2B23B987FF8EE64952B0875287D428EE2BE39B5DAF48C6778667",
+    "micro_rows": 1278171,
+    "feature_schema_version": "G3_3_FEATURE_SCHEMA_V1"
+  },
+  "g3_4_models_verified_count": 16,
+  "g3_4_models_all_passed": true,
+  "g3_4_model_checks": [
+    {
+      "artifact_id": "macro_net_010_f1_B3_LOGISTIC_L2",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "7A61DBA021CAC84C42DEFF3E754FDEFF5A64C4DC75CED78BEA4861F5FAE2E99B"
+    },
+    {
+      "artifact_id": "macro_net_010_f1_C1_LIGHTGBM_CONSTRAINED",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "8404BAAB297C5973DB590E9CDB3D2A880736E9B32D9799116AA3AB914CC9732B"
+    },
+    {
+      "artifact_id": "macro_net_010_f2_B3_LOGISTIC_L2",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "D84CC302E37E5BCAB929F76D17FF57A9E070169E4D230EB1C0620BE7206CC940"
+    },
+    {
+      "artifact_id": "macro_net_010_f2_C1_LIGHTGBM_CONSTRAINED",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "CBDED522AC797D6B33E40CEEEA515030A671BA23E2AD5A93D488479BDE4E1023"
+    },
+    {
+      "artifact_id": "macro_net_010_f3_B3_LOGISTIC_L2",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "BFB1D378BE948ABA4EFBC48B1CAAF29454060C1D3AAE2173D283D6E8E01897C6"
+    },
+    {
+      "artifact_id": "macro_net_010_f3_C1_LIGHTGBM_CONSTRAINED",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "327DC9388986ACD4B3A7DFD33C6778D0E698CFCDAE258815006CF4E2DAC6BDB5"
+    },
+    {
+      "artifact_id": "macro_net_010_f4_B3_LOGISTIC_L2",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "1DE70B6037544F2FE1BF8D37A6A001F5C7BB47C0E63AB32FF60EAB50BD21B5AB"
+    },
+    {
+      "artifact_id": "macro_net_010_f4_C1_LIGHTGBM_CONSTRAINED",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "3D93FE0238CE8305AE3F476ED9CF2CE80F0D87E70E640CC9B7536040F396942A"
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f1_B3_LOGISTIC_L2",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "8F067622D69C4041ECF11F8C3ECFFE4B880F0634AC5653951A6A584A478091C0"
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f1_C1_LIGHTGBM_CONSTRAINED",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "78FB4DD205E7D0D6C00A30ED226B25BAE18FABDCDDDF5BB5DF3ACCAE24FF5E28"
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f2_B3_LOGISTIC_L2",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "B4E8535BC0B6BEC4A5E8D800157A6629DB52692A7A49F24C04505D269D41AD93"
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f2_C1_LIGHTGBM_CONSTRAINED",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "84D4C0768049D3C7AC975797FEDE64DEE4F9894D4CD168A37DD0D61C49253EEC"
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f3_B3_LOGISTIC_L2",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "BC44DE4C64B9AE675C254A34C7C3624025A8240452FBC43490C7679DEC9AEE93"
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f3_C1_LIGHTGBM_CONSTRAINED",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "6C3025E7E1D58A244849C3A5C281A007C8EE7DA15BC2B3D7A481055BD56BD434"
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f4_B3_LOGISTIC_L2",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "B9C6B9C7B8635C6E038B80887576D9A460B457ED1F9C6A8CF0176E09CB2793FF"
+    },
+    {
+      "artifact_id": "micro_buy_timing_class_f4_C1_LIGHTGBM_CONSTRAINED",
+      "sha256_match": true,
+      "feature_schema_match": true,
+      "class_order_match": true,
+      "sha256": "801C02060F7C523A2F984BB098C92C7873AC5DD4EFD3C8118D36769C17503B22"
+    }
+  ],
+  "fold_boundary_audits": [
+    {
+      "fold_id": 1,
+      "cal_window_utc": [
+        "2026-07-24T00:00:00Z",
+        "2026-08-07T00:00:00Z"
+      ],
+      "test_window_utc": [
+        "2026-08-07T00:00:00Z",
+        "2026-08-28T00:00:00Z"
+      ],
+      "macro_counts": {
+        "train": 11188,
+        "val": 2708,
+        "cal": 2708,
+        "test": 4080
+      },
+      "micro_counts": {
+        "train": 402846,
+        "val": 88013,
+        "cal": 86666,
+        "test": 135701
+      },
+      "macro_purge_audit": {
+        "train_to_val_purged": true,
+        "val_to_cal_purged": true,
+        "cal_to_test_purged": true,
+        "index_overlap_count": 0,
+        "all_clean": true
+      },
+      "micro_purge_audit": {
+        "train_to_val_purged": true,
+        "val_to_cal_purged": true,
+        "cal_to_test_purged": true,
+        "index_overlap_count": 0,
+        "all_clean": true
+      }
+    },
+    {
+      "fold_id": 2,
+      "cal_window_utc": [
+        "2026-08-21T00:00:00Z",
+        "2026-09-04T00:00:00Z"
+      ],
+      "test_window_utc": [
+        "2026-09-04T00:00:00Z",
+        "2026-09-25T00:00:00Z"
+      ],
+      "macro_counts": {
+        "train": 16628,
+        "val": 2708,
+        "cal": 2708,
+        "test": 4051
+      },
+      "micro_counts": {
+        "train": 577548,
+        "val": 88352,
+        "cal": 97127,
+        "test": 139223
+      },
+      "macro_purge_audit": {
+        "train_to_val_purged": true,
+        "val_to_cal_purged": true,
+        "cal_to_test_purged": true,
+        "index_overlap_count": 0,
+        "all_clean": true
+      },
+      "micro_purge_audit": {
+        "train_to_val_purged": true,
+        "val_to_cal_purged": true,
+        "cal_to_test_purged": true,
+        "index_overlap_count": 0,
+        "all_clean": true
+      }
+    },
+    {
+      "fold_id": 3,
+      "cal_window_utc": [
+        "2026-09-18T00:00:00Z",
+        "2026-10-02T00:00:00Z"
+      ],
+      "test_window_utc": [
+        "2026-10-02T00:00:00Z",
+        "2026-10-23T00:00:00Z"
+      ],
+      "macro_counts": {
+        "train": 22068,
+        "val": 2679,
+        "cal": 2708,
+        "test": 4078
+      },
+      "micro_counts": {
+        "train": 763070,
+        "val": 92057,
+        "cal": 96155,
+        "test": 133222
+      },
+      "macro_purge_audit": {
+        "train_to_val_purged": true,
+        "val_to_cal_purged": true,
+        "cal_to_test_purged": true,
+        "index_overlap_count": 0,
+        "all_clean": true
+      },
+      "micro_purge_audit": {
+        "train_to_val_purged": true,
+        "val_to_cal_purged": true,
+        "cal_to_test_purged": true,
+        "index_overlap_count": 0,
+        "all_clean": true
+      }
+    },
+    {
+      "fold_id": 4,
+      "cal_window_utc": [
+        "2026-10-16T00:00:00Z",
+        "2026-10-30T00:00:00Z"
+      ],
+      "test_window_utc": [
+        "2026-10-30T00:00:00Z",
+        "2026-11-19T12:00:00Z"
+      ],
+      "macro_counts": {
+        "train": 27479,
+        "val": 2706,
+        "cal": 2708,
+        "test": 3904
+      },
+      "micro_counts": {
+        "train": 951314,
+        "val": 87717,
+        "cal": 91922,
+        "test": 147162
+      },
+      "macro_purge_audit": {
+        "train_to_val_purged": true,
+        "val_to_cal_purged": true,
+        "cal_to_test_purged": true,
+        "index_overlap_count": 0,
+        "all_clean": true
+      },
+      "micro_purge_audit": {
+        "train_to_val_purged": true,
+        "val_to_cal_purged": true,
+        "cal_to_test_purged": true,
+        "index_overlap_count": 0,
+        "all_clean": true
+      }
+    }
+  ],
+  "duplicate_timestamps": {
+    "macro_cal": 0,
+    "macro_oof": 0,
+    "micro_cal": 0,
+    "micro_oof": 0
+  },
+  "saved_calibrators_count": 16,
+  "saved_calibrators": [
+    {
+      "calibrator_id": "cal_macro_net_010_f1_B3_LOGISTIC_L2_RAW",
+      "method": "RAW",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_macro_net_010_f1_B3_LOGISTIC_L2_RAW.joblib",
+      "sha256": "F03822A694F716490860077C30A5D32AEFEAEA724D187C6704010E16FB29DC93"
+    },
+    {
+      "calibrator_id": "cal_macro_net_010_f1_C1_LIGHTGBM_CONSTRAINED_RAW",
+      "method": "RAW",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_macro_net_010_f1_C1_LIGHTGBM_CONSTRAINED_RAW.joblib",
+      "sha256": "1019E2EE56A46DB3CFAEAB1BC5F9EFBF4D8ACAE5530E0D24D321588E93235F1B"
+    },
+    {
+      "calibrator_id": "cal_macro_net_010_f2_B3_LOGISTIC_L2_RAW",
+      "method": "RAW",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_macro_net_010_f2_B3_LOGISTIC_L2_RAW.joblib",
+      "sha256": "FE95F9B78D8C558EB1571A221E9CA5A52F004387F7C4C963CD8C8CD45137CBA3"
+    },
+    {
+      "calibrator_id": "cal_macro_net_010_f2_C1_LIGHTGBM_CONSTRAINED_RAW",
+      "method": "RAW",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_macro_net_010_f2_C1_LIGHTGBM_CONSTRAINED_RAW.joblib",
+      "sha256": "E3EFC2B9F6C06B6F3ADF0C1D1BC5CD0ACDC5C64EF959CC55F6DAE7EF1D38D1DE"
+    },
+    {
+      "calibrator_id": "cal_macro_net_010_f3_B3_LOGISTIC_L2_RAW",
+      "method": "RAW",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_macro_net_010_f3_B3_LOGISTIC_L2_RAW.joblib",
+      "sha256": "701C142506DA26AAE96CB2E3C9F866FD47C5433965EA93D1C6156A12A2EEAEC1"
+    },
+    {
+      "calibrator_id": "cal_macro_net_010_f3_C1_LIGHTGBM_CONSTRAINED_SIGMOID_OVR",
+      "method": "SIGMOID_OVR",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_macro_net_010_f3_C1_LIGHTGBM_CONSTRAINED_SIGMOID_OVR.joblib",
+      "sha256": "9828740C660EF5E275EDC13834F260F3F2586FA9B226AFD3155B2B2489CEAF30"
+    },
+    {
+      "calibrator_id": "cal_macro_net_010_f4_B3_LOGISTIC_L2_TEMPERATURE",
+      "method": "TEMPERATURE",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_macro_net_010_f4_B3_LOGISTIC_L2_TEMPERATURE.joblib",
+      "sha256": "69461852FD944A36FD5418BA264F846365E17D1567088193894E19F1CE37301E"
+    },
+    {
+      "calibrator_id": "cal_macro_net_010_f4_C1_LIGHTGBM_CONSTRAINED_RAW",
+      "method": "RAW",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_macro_net_010_f4_C1_LIGHTGBM_CONSTRAINED_RAW.joblib",
+      "sha256": "0EA4A52D98C04E7BC404E9ED86292DE14892B1E188800BA86C6967FC50720DAB"
+    },
+    {
+      "calibrator_id": "cal_micro_buy_timing_class_f1_B3_LOGISTIC_L2_RAW",
+      "method": "RAW",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_micro_buy_timing_class_f1_B3_LOGISTIC_L2_RAW.joblib",
+      "sha256": "993AC86D7B8BDABC49D66B2F17D67B009C43B8C88185EEA04D1EDEA788D2E990"
+    },
+    {
+      "calibrator_id": "cal_micro_buy_timing_class_f1_C1_LIGHTGBM_CONSTRAINED_RAW",
+      "method": "RAW",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_micro_buy_timing_class_f1_C1_LIGHTGBM_CONSTRAINED_RAW.joblib",
+      "sha256": "29F03A0C9FB00580A7F0C7FCD963CC7305DC466BD4AD98C7207608562C1321F6"
+    },
+    {
+      "calibrator_id": "cal_micro_buy_timing_class_f2_B3_LOGISTIC_L2_RAW",
+      "method": "RAW",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_micro_buy_timing_class_f2_B3_LOGISTIC_L2_RAW.joblib",
+      "sha256": "551C38F72CA53CC13905241F35BFD77D67B1A8B11550BA3A698039E450B18ED1"
+    },
+    {
+      "calibrator_id": "cal_micro_buy_timing_class_f2_C1_LIGHTGBM_CONSTRAINED_RAW",
+      "method": "RAW",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_micro_buy_timing_class_f2_C1_LIGHTGBM_CONSTRAINED_RAW.joblib",
+      "sha256": "9208A72515A3C8EBEE498E37777AA51E455AD647ADF19811E6570A4DE449520D"
+    },
+    {
+      "calibrator_id": "cal_micro_buy_timing_class_f3_B3_LOGISTIC_L2_ISOTONIC_OVR",
+      "method": "ISOTONIC_OVR",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_micro_buy_timing_class_f3_B3_LOGISTIC_L2_ISOTONIC_OVR.joblib",
+      "sha256": "5C1D2AE7564C063100B78A86AF43658101536EB751243770BCE93A48D4DA33FE"
+    },
+    {
+      "calibrator_id": "cal_micro_buy_timing_class_f3_C1_LIGHTGBM_CONSTRAINED_TEMPERATURE",
+      "method": "TEMPERATURE",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_micro_buy_timing_class_f3_C1_LIGHTGBM_CONSTRAINED_TEMPERATURE.joblib",
+      "sha256": "2DCAA585D9211221B8E184565B4D9961828EEC803F8BCC1AE0489C724BE54DF7"
+    },
+    {
+      "calibrator_id": "cal_micro_buy_timing_class_f4_B3_LOGISTIC_L2_SIGMOID_OVR",
+      "method": "SIGMOID_OVR",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_micro_buy_timing_class_f4_B3_LOGISTIC_L2_SIGMOID_OVR.joblib",
+      "sha256": "80CD6BA4A497B58AE24F1ED28DD3871DF7692D05048291340B613383A08D6489"
+    },
+    {
+      "calibrator_id": "cal_micro_buy_timing_class_f4_C1_LIGHTGBM_CONSTRAINED_TEMPERATURE",
+      "method": "TEMPERATURE",
+      "path": "backtest_results/audit/task_g3_5_calibration_utility/calibrators/cal_micro_buy_timing_class_f4_C1_LIGHTGBM_CONSTRAINED_TEMPERATURE.joblib",
+      "sha256": "47E6402914EC9436E3762872605A8AB336EFEA7222DD1AC4BC603E0B05B43625"
+    }
+  ],
+  "output_parquets": {
+    "macro_cal_sha256": "8D6693ED9F0557B9DCF61B6CE350CC12F83CC5E34F25BB3AA993FA2C579575B0",
+    "macro_oof_sha256": "21F443143067342F0DEE2CDD9192A2B57A59CEEF3B0B7E917616488EEE265D02",
+    "micro_cal_sha256": "CEEF8FB8EE64DC314234F5D77E3B182B63BA413B268422C8C1EE2662E763A44B",
+    "micro_oof_sha256": "2212B7C96A69D572A8DDFFB764333C7256B836FB8148B8AFA51E115A235A74A5"
+  },
+  "overall_status": "PASS",
+  "elapsed_sec": 33.79
+}

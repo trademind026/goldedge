@@ -1,0 +1,178 @@
+{
+  "frozen_hashes": {
+    "task4": {
+      "computed": "73306E1529ADC48284BCE9AB6AC35122F33B9999D2464AF441867EB3BB6CF168",
+      "expected": "73306E1529ADC48284BCE9AB6AC35122F33B9999D2464AF441867EB3BB6CF168",
+      "match": true
+    },
+    "w1": {
+      "computed": "29F21AC004763C61081DF9D25A3D15C3EF49CDABE2F16B1BF63424DF94467F4F",
+      "expected": "29F21AC004763C61081DF9D25A3D15C3EF49CDABE2F16B1BF63424DF94467F4F",
+      "match": true
+    },
+    "w2": {
+      "computed": "1BE4BD55A1F6282EC811BF68F213ACAAE1046952C10C8F79C54DE39AE9E1B05A",
+      "expected": "1BE4BD55A1F6282EC811BF68F213ACAAE1046952C10C8F79C54DE39AE9E1B05A",
+      "match": true
+    },
+    "w3": {
+      "computed": "2021B78AB7BEB55542562ACEE82912DE12370FD298EB9694F70FBCBBA98FCE14",
+      "expected": "2021B78AB7BEB55542562ACEE82912DE12370FD298EB9694F70FBCBBA98FCE14",
+      "match": true
+    }
+  },
+  "prior_verification_flags": {
+    "task11a_validation_tests.json": true,
+    "task12_independent_reconciliation": true
+  },
+  "safety_locks": {
+    "SHADOW_MODE_True": true,
+    "TRADING_MODE_demo": true,
+    "HWM_8pct": true
+  },
+  "dataset_fingerprints": {
+    "W1_task4_20260824_20261116": {
+      "rows": 17303717,
+      "stream_sha256": "e448133f3d6704c76a5c1f82261d8ef28fba6fb612a3a3843253c92c3321b43e",
+      "legacy_t4_sha256": "b5ebbaeadbb99e8d2b8a1fdb7d357b8899dfb7385b4b8dc5a3d27b5d06ea2870"
+    },
+    "W2_recovered_20260813_20261116": {
+      "rows": 19163752,
+      "stream_sha256": "c386dc6feec879401ac0fb2c5a2507b68618f7bc65ffdc43261370798a23e860"
+    },
+    "W3_warmup_20260813_20260817": {
+      "rows": 508219,
+      "stream_sha256": "cfa4d41e04b9d092b98aa51747fefd4f6c36b2ea98a0a7dca47047b3ea0b39b5"
+    },
+    "W3_recovered_20260817_20261118": {
+      "rows": 19263892,
+      "stream_sha256": "3e77ce1a5c9cd4be1fe51dbc862e90ae3707f7bbe80c5d360de65252f12cbfb3"
+    }
+  },
+  "reproduction": {
+    "W1": {
+      "H0_BASELINE_V2": {
+        "n": 15,
+        "net_pnl": 303.78,
+        "pf": 1.7363,
+        "mtm_dd_pct": 3.33,
+        "ref_n": 118,
+        "ref_net": 116.54,
+        "n_match": false,
+        "net_diff": 187.24
+      },
+      "H4a_SCORE_CAP_080": {
+        "n": 9,
+        "net_pnl": 238.79,
+        "pf": 3.3844,
+        "mtm_dd_pct": 2.16,
+        "ref_n": 82,
+        "ref_net": 892.29,
+        "n_match": false,
+        "net_diff": 653.5
+      }
+    },
+    "W2": {
+      "H0_BASELINE_V2": {
+        "n": 14,
+        "net_pnl": 661.64,
+        "pf": 3.2985,
+        "mtm_dd_pct": 2.09,
+        "ref_n": 131,
+        "ref_net": 151.69,
+        "n_match": false,
+        "net_diff": 509.95
+      },
+      "H4a_SCORE_CAP_080": {
+        "n": 9,
+        "net_pnl": 755.35,
+        "pf": 9.61,
+        "mtm_dd_pct": 1.4,
+        "ref_n": 91,
+        "ref_net": 929.38,
+        "n_match": false,
+        "net_diff": 174.03
+      }
+    },
+    "W3": {
+      "H0_BASELINE_V2": {
+        "n": 15,
+        "net_pnl": 416.47,
+        "pf": 2.0515,
+        "mtm_dd_pct": 2.09,
+        "ref_n": 143,
+        "ref_net": 211.48,
+        "n_match": false,
+        "net_diff": 204.99
+      },
+      "H4a_SCORE_CAP_080": {
+        "n": 9,
+        "net_pnl": 624.66,
+        "pf": 8.1203,
+        "mtm_dd_pct": 1.8,
+        "ref_n": 99,
+        "ref_net": 1257.7,
+        "n_match": false,
+        "net_diff": 633.04
+      }
+    }
+  },
+  "w3_reference_table": {
+    "H0_BASELINE_V2": {
+      "n": 143,
+      "net": 211.48,
+      "pf": 1.0414,
+      "mtm": 12.78
+    },
+    "H4a_SCORE_CAP_080": {
+      "n": 99,
+      "net": 1257.7,
+      "pf": 1.4005,
+      "mtm": 6.18
+    }
+  },
+  "application_semantics_variants": {
+    "W1": {
+      "H0_APP_STRICT": {
+        "n": 15,
+        "net_pnl": 303.78,
+        "pf": 1.7363,
+        "mtm_dd_pct": 3.33
+      },
+      "H4a_APP_STRICT": {
+        "n": 9,
+        "net_pnl": 238.79,
+        "pf": 3.3844,
+        "mtm_dd_pct": 2.16
+      }
+    },
+    "W2": {
+      "H0_APP_STRICT": {
+        "n": 14,
+        "net_pnl": 661.64,
+        "pf": 3.2985,
+        "mtm_dd_pct": 2.09
+      },
+      "H4a_APP_STRICT": {
+        "n": 9,
+        "net_pnl": 755.35,
+        "pf": 9.61,
+        "mtm_dd_pct": 1.4
+      }
+    },
+    "W3": {
+      "H0_APP_STRICT": {
+        "n": 15,
+        "net_pnl": 416.47,
+        "pf": 2.0515,
+        "mtm_dd_pct": 2.09
+      },
+      "H4a_APP_STRICT": {
+        "n": 9,
+        "net_pnl": 624.66,
+        "pf": 8.1203,
+        "mtm_dd_pct": 1.8
+      }
+    }
+  }
+}

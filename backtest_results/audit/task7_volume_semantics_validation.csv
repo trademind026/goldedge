@@ -1,0 +1,6 @@
+check,metric_value,total_ticks,note
+db_market_ticks_non_null_volume_count,0.0,17303717,"0 rows have traded volume; TickRepository exposes real_volume=NULL without COALESCE(volume, 1)"
+kalman_none_vs_unit_diff,0.0,4,Pure scalar Kalman treats missing real_volume identically to baseline vol_factor=1.0
+zero_cost_signal_parity_vs_task4,0.0,118,"Exact 118/118 trade match after removing COALESCE(volume, 1)"
+research_with_tick_intensity_net_pnl_usd,116.09,118,"WR=55.08%, PF=1.0270, MTM_DD=12.80%"
+research_without_tick_intensity_net_pnl_usd,-9.26,126,"WR=53.97%, PF=0.9980, MTM_DD=11.73%"

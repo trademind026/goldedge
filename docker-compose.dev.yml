@@ -43,6 +43,9 @@ services:
       - TRADING_MODE=${TRADING_MODE:-demo}
     volumes:
       - ./src:/app/src
+      - ./backtest_results:/app/backtest_results
+      - ./scripts:/app/scripts
+      - ./models:/app/models
     command: ["python", "-m", "src.goldedge.adapters.primary.market_data.ctrader_live"]
     restart: unless-stopped
 
@@ -67,7 +70,10 @@ services:
       - "5000:5000"
     volumes:
       - ./src:/app/src
-    command: ["gunicorn", "--reload", "--log-level", "debug", "--worker-class", "gevent", "-w", "1", "--threads", "4", "-b", "0.0.0.0:5000", "goldedge.adapters.primary.rest_api.factory:create_app()"]
+      - ./backtest_results:/app/backtest_results
+      - ./scripts:/app/scripts
+      - ./models:/app/models
+    command: ["gunicorn", "--reload", "--graceful-timeout", "3", "--log-level", "debug", "--worker-class", "gthread", "--timeout", "300", "-w", "1", "--threads", "8", "-b", "0.0.0.0:5000", "goldedge.adapters.primary.rest_api.factory:create_app()"]
     restart: unless-stopped
     
   frontend:
@@ -81,6 +87,9 @@ services:
       - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-password}@timescaledb:5432/${DB_NAME:-goldedge}
       - FLASK_API_URL=http://backend:5000
       - NEXT_PUBLIC_API_URL=/api/flask
+      - INTERNAL_API_SECRET=${API_SECRET:-dev-secret-key}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET:-dev-better-auth-secret-change-in-prod-32chars}
+      - BETTER_AUTH_URL=${BETTER_AUTH_URL:-http://localhost:3000}
     ports:
       - "3000:3000"
     volumes:

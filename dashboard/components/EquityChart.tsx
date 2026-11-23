@@ -53,15 +53,16 @@ export default function EquityChart({ curves, selected = "all" }: Props) {
         />
         <YAxis
           tick={{ fill: "#5a6270", fontSize: 10 }}
-          tickFormatter={(v) => `$${(v / 1000).toFixed(0)}K`}
-          width={55}
+          domain={["auto", "auto"]}
+          tickFormatter={(v) => `$${Number(v).toLocaleString("en-US", { maximumFractionDigits: 0 })}`}
+          width={64}
         />
         <Tooltip
           contentStyle={{ background: "#181c24", border: "1px solid #252a33", borderRadius: 0, fontSize: 11, fontFamily: "JetBrains Mono" }}
           labelStyle={{ color: "#5a6270" }}
           formatter={(v: unknown) => [fmt(Number(v as string | number)), ""]}
         />
-        <ReferenceLine y={0} stroke="#252a33" strokeDasharray="4 4" />
+        <ReferenceLine y={10000} stroke="#252a33" strokeDasharray="4 4" />
         <Legend wrapperStyle={{ fontSize: 10, color: "#5a6270" }} />
         {show("low") && (
           <Line type="monotone" dataKey="low" stroke={COLORS.low} dot={false}

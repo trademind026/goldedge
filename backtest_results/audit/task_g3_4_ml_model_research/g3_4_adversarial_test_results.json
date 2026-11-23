@@ -1,0 +1,22 @@
+{
+  "task": "G3.4_PHASE_J_ADVERSARIAL_TEST_RESULTS",
+  "generated_at_utc": "2026-11-23T11:39:56.227370+00:00",
+  "overall_status": "PASS",
+  "tests_passed": 13,
+  "tests_total": 13,
+  "results": {
+    "01_shuffled_target_negative_control": "PASS (chance_ll=0.8273, lr_shuf=0.8310, lgb_shuf=0.8278)",
+    "02_leaked_global_scaler_rejected": "PASS",
+    "03_future_feature_rejected": "PASS",
+    "04_wrong_fold_event_end_rejected": "PASS",
+    "05_label_column_leakage_rejected": "PASS",
+    "06_model_schema_mismatch_rejected": "PASS",
+    "07_duplicate_predictions_zero": "PASS",
+    "08_class_probability_ordering_verified": "PASS",
+    "09_incomplete_label_window_rejected": "PASS",
+    "10_exact_price_tick_threshold_verified": "PASS",
+    "11_session_gap_and_quarantine_verified": "PASS",
+    "12_model_reload_prediction_parity": "PASS (max_diff=5.00e-07)",
+    "13_fixed_seed_reproducibility": "PASS (max_diff=0.00e+00)"
+  }
+}

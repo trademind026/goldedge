@@ -1,0 +1,94 @@
+{
+  "artifact_id": "macro_net_010_f1_B3_LOGISTIC_L2",
+  "model_family": "B3_LOGISTIC_L2",
+  "target_name": "macro_net_010",
+  "classes": [
+    "UP",
+    "DOWN",
+    "FLAT"
+  ],
+  "feature_schema_version": "G3_3_FEATURE_SCHEMA_V1",
+  "feature_columns": [
+    "ema20_ema50_spread_atr",
+    "ema20_slope_atr",
+    "h1_ema_trend_sign",
+    "rsi_14_5m",
+    "atr_14_pct",
+    "atr_ratio_20",
+    "adx_14_5m",
+    "bb_width_20",
+    "bb_pos_20",
+    "kaufman_er_20",
+    "prior_ret_5m",
+    "prior_ret_15m",
+    "prior_ret_60m",
+    "prior_realized_vol_12",
+    "dist_swing_low_atr",
+    "dist_swing_high_atr",
+    "tick_rate_ratio",
+    "entry_spread_bps",
+    "hour_sin",
+    "hour_cos",
+    "regime_code"
+  ],
+  "dataset_sha256": "2E9A9D9B7215A50B75B6464FD1E3A17AA887BF415B5A683586E0220B045189E3",
+  "fold_id": 1,
+  "train_window_utc": [
+    "2026-05-13T00:00:00Z",
+    "2026-07-10T00:00:00Z"
+  ],
+  "hyperparameters": {
+    "C": 0.1,
+    "penalty": "l2",
+    "solver": "lbfgs",
+    "selected_on": "inner_val_log_loss"
+  },
+  "git_head": "unknown",
+  "random_seed": 42,
+  "created_at_utc": "2026-11-23T09:35:50.455376+00:00",
+  "artifact_sha256": "7A61DBA021CAC84C42DEFF3E754FDEFF5A64C4DC75CED78BEA4861F5FAE2E99B",
+  "preprocessor_audit": {
+    "fold_id": 1,
+    "fit_n_samples": 11188,
+    "fit_max_event_end_utc": 1783638599.519,
+    "eval_start_utc": 1783641600.0,
+    "feature_count": 21,
+    "missing_counts_in_train": {
+      "ema20_ema50_spread_atr": 0,
+      "ema20_slope_atr": 0,
+      "h1_ema_trend_sign": 0,
+      "rsi_14_5m": 0,
+      "atr_14_pct": 0,
+      "atr_ratio_20": 0,
+      "adx_14_5m": 0,
+      "bb_width_20": 0,
+      "bb_pos_20": 0,
+      "kaufman_er_20": 0,
+      "prior_ret_5m": 0,
+      "prior_ret_15m": 0,
+      "prior_ret_60m": 0,
+      "prior_realized_vol_12": 0,
+      "dist_swing_low_atr": 0,
+      "dist_swing_high_atr": 0,
+      "tick_rate_ratio": 0,
+      "entry_spread_bps": 0,
+      "hour_sin": 0,
+      "hour_cos": 0,
+      "regime_code": 0
+    },
+    "medians_sample_first5": {
+      "ema20_ema50_spread_atr": -0.180725,
+      "ema20_slope_atr": -1.3e-05,
+      "h1_ema_trend_sign": 0.0,
+      "rsi_14_5m": 48.715271,
+      "atr_14_pct": 0.001161
+    },
+    "iqr_scale_sample_first5": {
+      "ema20_ema50_spread_atr": 1.50643,
+      "ema20_slope_atr": 0.00019,
+      "h1_ema_trend_sign": 1.0,
+      "rsi_14_5m": 19.225575,
+      "atr_14_pct": 0.00053
+    }
+  }
+}

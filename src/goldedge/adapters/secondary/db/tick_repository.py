@@ -1,5 +1,5 @@
 import logging
-from typing import List, Generator
+from typing import List, Generator, Optional
 from datetime import datetime
 
 from sqlalchemy import Engine, text
@@ -59,7 +59,13 @@ class TickRepository(ITickRepository):
 
     def get_ticks_as_df(self, symbol: str, start_time, end_time):
         import pandas as pd
-        sql = "SELECT time, symbol, bid, ask, last as price, 1 as volume FROM market_ticks WHERE symbol = %(symbol)s AND time >= %(start)s AND time <= %(end)s ORDER BY time ASC"
+        # Preserve NULL real volume honestly; quote arrival count is computed explicitly per candle.
+        sql = (
+            "SELECT time, symbol, bid, ask, last as price, volume AS real_volume "
+            "FROM market_ticks "
+            "WHERE symbol = %(symbol)s AND time >= %(start)s AND time < %(end)s "
+            "ORDER BY time ASC"
+        )
         params = {"symbol": symbol, "start": start_time, "end": end_time}
         return pd.read_sql(sql, self.engine, params=params)
 
@@ -99,6 +105,12 @@ class TickRepository(ITickRepository):
             )
             for row in result:
                 yield self._row_to_tick(row)
+
+    def get_latest_tick_time(self, symbol: str) -> Optional[datetime]:
+        sql = text("SELECT MAX(time) FROM market_ticks WHERE symbol = :symbol")
+        with get_connection(self.engine) as conn:
+            row = conn.execute(sql, {"symbol": symbol}).fetchone()
+        return row[0] if row and row[0] is not None else None
 
     # ──────────────────────────────────────────────────────────────
     # HELPERS

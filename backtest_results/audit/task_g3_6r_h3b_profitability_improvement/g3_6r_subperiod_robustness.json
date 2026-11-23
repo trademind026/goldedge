@@ -1,0 +1,196 @@
+{
+  "task": "G3.6R_SUBPERIOD_ROBUSTNESS",
+  "generated_at_utc": "2026-11-23T11:39:11.527144+00:00",
+  "results": {
+    "H0_ORIGINAL": {
+      "DEV_MAY_AUG": {
+        "n": 139,
+        "unique_days": 55,
+        "win_rate_pct": 49.64,
+        "net_pnl_usd": -262.62,
+        "total_net_r": -5.2948,
+        "mean_net_r": -0.03809,
+        "pf": 0.894
+      },
+      "LATER_SEP_NOV": {
+        "n": 126,
+        "unique_days": 47,
+        "win_rate_pct": 54.76,
+        "net_pnl_usd": -38.86,
+        "total_net_r": -1.0473,
+        "mean_net_r": -0.00831,
+        "pf": 0.982
+      },
+      "BUY": {
+        "n": 92,
+        "unique_days": 40,
+        "win_rate_pct": 52.17,
+        "net_pnl_usd": -360.21,
+        "total_net_r": -7.1948,
+        "mean_net_r": -0.0782,
+        "pf": 0.78
+      },
+      "SELL": {
+        "n": 173,
+        "unique_days": 64,
+        "win_rate_pct": 52.02,
+        "net_pnl_usd": 58.74,
+        "total_net_r": 0.8528,
+        "mean_net_r": 0.00493,
+        "pf": 1.02
+      }
+    },
+    "H3B_FROZEN": {
+      "DEV_MAY_AUG": {
+        "n": 107,
+        "unique_days": 45,
+        "win_rate_pct": 47.66,
+        "net_pnl_usd": 305.43,
+        "total_net_r": 6.3755,
+        "mean_net_r": 0.05958,
+        "pf": 1.181
+      },
+      "LATER_SEP_NOV": {
+        "n": 108,
+        "unique_days": 42,
+        "win_rate_pct": 53.7,
+        "net_pnl_usd": -41.78,
+        "total_net_r": -0.5173,
+        "mean_net_r": -0.00479,
+        "pf": 0.979
+      },
+      "BUY": {
+        "n": 77,
+        "unique_days": 33,
+        "win_rate_pct": 49.35,
+        "net_pnl_usd": -40.91,
+        "total_net_r": -0.6125,
+        "mean_net_r": -0.00795,
+        "pf": 0.969
+      },
+      "SELL": {
+        "n": 138,
+        "unique_days": 55,
+        "win_rate_pct": 51.45,
+        "net_pnl_usd": 304.55,
+        "total_net_r": 6.4706,
+        "mean_net_r": 0.04689,
+        "pf": 1.128
+      }
+    },
+    "H3B_CHANGE_A_ER50": {
+      "DEV_MAY_AUG": {
+        "n": 88,
+        "unique_days": 44,
+        "win_rate_pct": 45.45,
+        "net_pnl_usd": 232.4,
+        "total_net_r": 4.5611,
+        "mean_net_r": 0.05183,
+        "pf": 1.173
+      },
+      "LATER_SEP_NOV": {
+        "n": 84,
+        "unique_days": 37,
+        "win_rate_pct": 59.52,
+        "net_pnl_usd": 363.77,
+        "total_net_r": 7.4035,
+        "mean_net_r": 0.08814,
+        "pf": 1.276
+      },
+      "BUY": {
+        "n": 63,
+        "unique_days": 31,
+        "win_rate_pct": 46.03,
+        "net_pnl_usd": 24.12,
+        "total_net_r": 0.2192,
+        "mean_net_r": 0.00348,
+        "pf": 1.024
+      },
+      "SELL": {
+        "n": 109,
+        "unique_days": 50,
+        "win_rate_pct": 55.96,
+        "net_pnl_usd": 572.04,
+        "total_net_r": 11.7455,
+        "mean_net_r": 0.10776,
+        "pf": 1.345
+      }
+    },
+    "H3B_CHANGE_B_BE14": {
+      "DEV_MAY_AUG": {
+        "n": 100,
+        "unique_days": 45,
+        "win_rate_pct": 47.0,
+        "net_pnl_usd": 284.05,
+        "total_net_r": 6.1334,
+        "mean_net_r": 0.06133,
+        "pf": 1.151
+      },
+      "LATER_SEP_NOV": {
+        "n": 101,
+        "unique_days": 42,
+        "win_rate_pct": 48.51,
+        "net_pnl_usd": 137.03,
+        "total_net_r": 3.1703,
+        "mean_net_r": 0.03139,
+        "pf": 1.066
+      },
+      "BUY": {
+        "n": 73,
+        "unique_days": 33,
+        "win_rate_pct": 41.1,
+        "net_pnl_usd": -178.46,
+        "total_net_r": -2.9205,
+        "mean_net_r": -0.04001,
+        "pf": 0.883
+      },
+      "SELL": {
+        "n": 128,
+        "unique_days": 55,
+        "win_rate_pct": 51.56,
+        "net_pnl_usd": 599.55,
+        "total_net_r": 12.2242,
+        "mean_net_r": 0.0955,
+        "pf": 1.248
+      }
+    },
+    "H3B_CHANGE_C_SCORE68": {
+      "DEV_MAY_AUG": {
+        "n": 89,
+        "unique_days": 43,
+        "win_rate_pct": 47.19,
+        "net_pnl_usd": 439.37,
+        "total_net_r": 9.0802,
+        "mean_net_r": 0.10202,
+        "pf": 1.318
+      },
+      "LATER_SEP_NOV": {
+        "n": 88,
+        "unique_days": 39,
+        "win_rate_pct": 55.68,
+        "net_pnl_usd": 73.16,
+        "total_net_r": 1.6122,
+        "mean_net_r": 0.01832,
+        "pf": 1.046
+      },
+      "BUY": {
+        "n": 62,
+        "unique_days": 28,
+        "win_rate_pct": 51.61,
+        "net_pnl_usd": 410.99,
+        "total_net_r": 8.8707,
+        "mean_net_r": 0.14308,
+        "pf": 1.475
+      },
+      "SELL": {
+        "n": 115,
+        "unique_days": 55,
+        "win_rate_pct": 51.3,
+        "net_pnl_usd": 101.54,
+        "total_net_r": 1.8216,
+        "mean_net_r": 0.01584,
+        "pf": 1.048
+      }
+    }
+  }
+}

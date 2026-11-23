@@ -1,0 +1,216 @@
+{
+  "base_H4a_w3_trades": 99,
+  "candidates": {
+    "S04_H4a_NO_UTC09": {
+      "base_n": 99,
+      "executed_n": 89,
+      "retained_n": 87,
+      "total_removed_from_base_n": 12,
+      "directly_filtered_n": 11,
+      "directly_filtered_winners": 4,
+      "directly_filtered_losers": 7,
+      "directly_filtered_net_pnl": -332.45,
+      "cascade_prevented_n": 1,
+      "cascade_prevented_winners": 1,
+      "cascade_prevented_losers": 0,
+      "cascade_prevented_net_pnl": 1.33,
+      "cascade_created_n": 2,
+      "cascade_created_winners": 2,
+      "cascade_created_losers": 0,
+      "cascade_created_net_pnl": 101.69,
+      "accounting_identity": "99 - 11 (direct) - 1 (cascade_prev) + 2 (cascade_new) = 89",
+      "accounting_identity_verified": true,
+      "cascade_prevented_examples": [
+        {
+          "entry_time": "2026-10-07T10:30:00.049000+00:00",
+          "direction": "SELL",
+          "utc_hour": 10,
+          "net_pnl": 1.33
+        }
+      ],
+      "cascade_created_examples": [
+        {
+          "entry_time": "2026-09-02T10:00:00.081000+00:00",
+          "direction": "SELL",
+          "utc_hour": 10,
+          "net_pnl": 31.29
+        },
+        {
+          "entry_time": "2026-10-07T10:15:00.065000+00:00",
+          "direction": "SELL",
+          "utc_hour": 10,
+          "net_pnl": 70.41
+        }
+      ]
+    },
+    "S10_H4a_BUY_NO_07_08": {
+      "base_n": 99,
+      "executed_n": 91,
+      "retained_n": 90,
+      "total_removed_from_base_n": 9,
+      "directly_filtered_n": 8,
+      "directly_filtered_winners": 2,
+      "directly_filtered_losers": 6,
+      "directly_filtered_net_pnl": -221.18,
+      "cascade_prevented_n": 1,
+      "cascade_prevented_winners": 0,
+      "cascade_prevented_losers": 1,
+      "cascade_prevented_net_pnl": -99.97,
+      "cascade_created_n": 1,
+      "cascade_created_winners": 1,
+      "cascade_created_losers": 0,
+      "cascade_created_net_pnl": 192.18,
+      "accounting_identity": "99 - 8 (direct) - 1 (cascade_prev) + 1 (cascade_new) = 91",
+      "accounting_identity_verified": true,
+      "cascade_prevented_examples": [
+        {
+          "entry_time": "2026-08-21T09:15:00.061000+00:00",
+          "direction": "BUY",
+          "utc_hour": 9,
+          "net_pnl": -99.97
+        }
+      ],
+      "cascade_created_examples": [
+        {
+          "entry_time": "2026-08-21T09:05:00.094000+00:00",
+          "direction": "BUY",
+          "utc_hour": 9,
+          "net_pnl": 192.18
+        }
+      ]
+    },
+    "S15_H4a_NO_TRANS_15M": {
+      "base_n": 99,
+      "executed_n": 72,
+      "retained_n": 66,
+      "total_removed_from_base_n": 33,
+      "directly_filtered_n": 31,
+      "directly_filtered_winners": 15,
+      "directly_filtered_losers": 16,
+      "directly_filtered_net_pnl": -463.65,
+      "cascade_prevented_n": 2,
+      "cascade_prevented_winners": 1,
+      "cascade_prevented_losers": 1,
+      "cascade_prevented_net_pnl": -19.04,
+      "cascade_created_n": 6,
+      "cascade_created_winners": 1,
+      "cascade_created_losers": 5,
+      "cascade_created_net_pnl": -250.55,
+      "accounting_identity": "99 - 31 (direct) - 2 (cascade_prev) + 6 (cascade_new) = 72",
+      "accounting_identity_verified": true,
+      "cascade_prevented_examples": [
+        {
+          "entry_time": "2026-09-28T07:45:00.097000+00:00",
+          "direction": "SELL",
+          "utc_hour": 7,
+          "net_pnl": 93.51
+        },
+        {
+          "entry_time": "2026-11-13T13:30:00.140000+00:00",
+          "direction": "SELL",
+          "utc_hour": 13,
+          "net_pnl": -112.55
+        }
+      ],
+      "cascade_created_examples": [
+        {
+          "entry_time": "2026-08-21T07:25:00.647000+00:00",
+          "direction": "BUY",
+          "utc_hour": 7,
+          "net_pnl": -8.8
+        },
+        {
+          "entry_time": "2026-08-25T16:05:00.075000+00:00",
+          "direction": "BUY",
+          "utc_hour": 16,
+          "net_pnl": -92.72
+        },
+        {
+          "entry_time": "2026-09-28T07:25:00.041000+00:00",
+          "direction": "SELL",
+          "utc_hour": 7,
+          "net_pnl": 1.03
+        },
+        {
+          "entry_time": "2026-11-06T16:50:00.149000+00:00",
+          "direction": "BUY",
+          "utc_hour": 16,
+          "net_pnl": -26.75
+        },
+        {
+          "entry_time": "2026-11-10T16:50:00.049000+00:00",
+          "direction": "SELL",
+          "utc_hour": 16,
+          "net_pnl": -11.85
+        },
+        {
+          "entry_time": "2026-11-13T13:20:00.037000+00:00",
+          "direction": "SELL",
+          "utc_hour": 13,
+          "net_pnl": -111.47
+        }
+      ]
+    },
+    "S17_H4a_NO_FIRST30M": {
+      "base_n": 99,
+      "executed_n": 83,
+      "retained_n": 79,
+      "total_removed_from_base_n": 20,
+      "directly_filtered_n": 19,
+      "directly_filtered_winners": 10,
+      "directly_filtered_losers": 9,
+      "directly_filtered_net_pnl": -368.91,
+      "cascade_prevented_n": 1,
+      "cascade_prevented_winners": 1,
+      "cascade_prevented_losers": 0,
+      "cascade_prevented_net_pnl": 93.51,
+      "cascade_created_n": 4,
+      "cascade_created_winners": 2,
+      "cascade_created_losers": 2,
+      "cascade_created_net_pnl": 23.14,
+      "accounting_identity": "99 - 19 (direct) - 1 (cascade_prev) + 4 (cascade_new) = 83",
+      "accounting_identity_verified": true,
+      "cascade_prevented_examples": [
+        {
+          "entry_time": "2026-09-28T07:45:00.097000+00:00",
+          "direction": "SELL",
+          "utc_hour": 7,
+          "net_pnl": 93.51
+        }
+      ],
+      "cascade_created_examples": [
+        {
+          "entry_time": "2026-08-21T07:45:00.209000+00:00",
+          "direction": "BUY",
+          "utc_hour": 7,
+          "net_pnl": 185.84
+        },
+        {
+          "entry_time": "2026-09-28T07:40:00.141000+00:00",
+          "direction": "SELL",
+          "utc_hour": 7,
+          "net_pnl": 57.53
+        },
+        {
+          "entry_time": "2026-10-19T07:30:00.504000+00:00",
+          "direction": "BUY",
+          "utc_hour": 7,
+          "net_pnl": -106.94
+        },
+        {
+          "entry_time": "2026-11-13T08:35:00.086000+00:00",
+          "direction": "SELL",
+          "utc_hour": 8,
+          "net_pnl": -113.29
+        }
+      ]
+    }
+  },
+  "hwm_w3_h0_clarification": {
+    "executed_trades_inc_trigger": 78,
+    "unprotected_h0_trades": 143,
+    "prevented_counterfactual_trades": 65,
+    "raw_post_halt_qualified_signals_blocked": 149,
+    "explanation": "78 trades executed up to and including the trigger trade (closed via HWM_KILL_SWITCH_8PCT at 2026-10-16T07:39:25.668Z). 65 prevented trades = 143 unprotected H0 trades minus 78 executed trades (counterfactual trades that would have executed). 149 prevented signals = raw post-halt 5m bars passing score/regime/H1/daily/cooldown gates while halted; this exceeds 65 because the halted portfolio has no open position (so it never blocks overlapping 5m signals during a ~23m hold) and never triggers the 15-bar (strategy, direction) cooldown."
+  }
+}

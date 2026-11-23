@@ -1,0 +1,679 @@
+{
+  "task": "G3.2_PHASE_F_LABEL_DISTRIBUTION",
+  "generated_at_utc": "2026-11-22T16:59:19.756091+00:00",
+  "governance_note": "Descriptive label quality only. Well-constructed labels do NOT imply predictive accuracy.",
+  "macro_summary": {
+    "raw_5m_buckets_before_quarantine": 19394,
+    "quarantined_sunday_5m_buckets": 1,
+    "ml_eligible_5m_buckets": 19393,
+    "total_5m_decision_labels": 19004,
+    "total_exclusions": 389,
+    "unaccounted_5m_buckets": 0,
+    "nonoverlap_15m_labels": 6292,
+    "exclusions": {
+      "WARMUP_LT_100_5M_BARS": 100,
+      "INCOMPLETE_15M_HORIZON_GAP_OR_END": 212,
+      "NO_EXECUTABLE_ENTRY_TICK_WITHIN_60S": 77
+    },
+    "cost_sensitive_class_shift_nonoverlap_15m": {
+      "0.05pct_raw": {
+        "FLAT": {
+          "count": 2413,
+          "pct": 38.35
+        },
+        "DOWN": {
+          "count": 2037,
+          "pct": 32.37
+        },
+        "UP": {
+          "count": 1842,
+          "pct": 29.28
+        }
+      },
+      "0.05pct_net_of_costs": {
+        "FLAT": {
+          "count": 2517,
+          "pct": 40.0
+        },
+        "DOWN": {
+          "count": 1980,
+          "pct": 31.47
+        },
+        "UP": {
+          "count": 1795,
+          "pct": 28.53
+        }
+      },
+      "0.10pct_raw": {
+        "FLAT": {
+          "count": 4110,
+          "pct": 65.32
+        },
+        "DOWN": {
+          "count": 1121,
+          "pct": 17.82
+        },
+        "UP": {
+          "count": 1061,
+          "pct": 16.86
+        }
+      },
+      "0.10pct_net_of_costs": {
+        "FLAT": {
+          "count": 4170,
+          "pct": 66.27
+        },
+        "DOWN": {
+          "count": 1092,
+          "pct": 17.36
+        },
+        "UP": {
+          "count": 1030,
+          "pct": 16.37
+        }
+      },
+      "0.15pct_raw": {
+        "FLAT": {
+          "count": 5087,
+          "pct": 80.85
+        },
+        "UP": {
+          "count": 603,
+          "pct": 9.58
+        },
+        "DOWN": {
+          "count": 602,
+          "pct": 9.57
+        }
+      },
+      "0.15pct_net_of_costs": {
+        "FLAT": {
+          "count": 5128,
+          "pct": 81.5
+        },
+        "UP": {
+          "count": 585,
+          "pct": 9.3
+        },
+        "DOWN": {
+          "count": 579,
+          "pct": 9.2
+        }
+      },
+      "0.20pct_raw": {
+        "FLAT": {
+          "count": 5643,
+          "pct": 89.69
+        },
+        "UP": {
+          "count": 326,
+          "pct": 5.18
+        },
+        "DOWN": {
+          "count": 323,
+          "pct": 5.13
+        }
+      },
+      "0.20pct_net_of_costs": {
+        "FLAT": {
+          "count": 5663,
+          "pct": 90.0
+        },
+        "UP": {
+          "count": 322,
+          "pct": 5.12
+        },
+        "DOWN": {
+          "count": 307,
+          "pct": 4.88
+        }
+      }
+    },
+    "barrier_010_nonoverlap_15m": {
+      "BUY": {
+        "NEITHER": {
+          "count": 2203,
+          "pct": 35.01
+        },
+        "SL_FIRST": {
+          "count": 2147,
+          "pct": 34.12
+        },
+        "TP_FIRST": {
+          "count": 1942,
+          "pct": 30.86
+        }
+      },
+      "SELL": {
+        "NEITHER": {
+          "count": 2201,
+          "pct": 34.98
+        },
+        "SL_FIRST": {
+          "count": 2065,
+          "pct": 32.82
+        },
+        "TP_FIRST": {
+          "count": 2026,
+          "pct": 32.2
+        }
+      }
+    },
+    "h3b_isolated_hypothetical_outcomes_nonoverlap": {
+      "note": "Isolated hypothetical candidate entries under frozen H3b exits/costs \u2014 NOT portfolio-executed trades.",
+      "BUY_exit_reasons": {
+        "STOP_OR_TRAIL": {
+          "count": 4145,
+          "pct": 65.88
+        },
+        "E1_EARLY_FAIL": {
+          "count": 1369,
+          "pct": 21.76
+        },
+        "TARGET": {
+          "count": 392,
+          "pct": 6.23
+        },
+        "TIMEOUT": {
+          "count": 386,
+          "pct": 6.13
+        }
+      },
+      "BUY_mean_r": -0.0841,
+      "SELL_exit_reasons": {
+        "STOP_OR_TRAIL": {
+          "count": 4155,
+          "pct": 66.04
+        },
+        "E1_EARLY_FAIL": {
+          "count": 1203,
+          "pct": 19.12
+        },
+        "TIMEOUT": {
+          "count": 483,
+          "pct": 7.68
+        },
+        "TARGET": {
+          "count": 451,
+          "pct": 7.17
+        }
+      },
+      "SELL_mean_r": 0.0033
+    },
+    "by_regime_net_010_nonoverlap": {
+      "HIGH_VOLATILITY": {
+        "FLAT": {
+          "count": 826,
+          "pct": 52.91
+        },
+        "DOWN": {
+          "count": 378,
+          "pct": 24.22
+        },
+        "UP": {
+          "count": 357,
+          "pct": 22.87
+        }
+      },
+      "LOW_VOLATILITY": {
+        "FLAT": {
+          "count": 1206,
+          "pct": 77.96
+        },
+        "UP": {
+          "count": 180,
+          "pct": 11.64
+        },
+        "DOWN": {
+          "count": 161,
+          "pct": 10.41
+        }
+      },
+      "SIDEWAYS": {
+        "FLAT": {
+          "count": 869,
+          "pct": 68.59
+        },
+        "DOWN": {
+          "count": 211,
+          "pct": 16.65
+        },
+        "UP": {
+          "count": 187,
+          "pct": 14.76
+        }
+      },
+      "TRENDING_BEAR": {
+        "FLAT": {
+          "count": 664,
+          "pct": 64.28
+        },
+        "DOWN": {
+          "count": 195,
+          "pct": 18.88
+        },
+        "UP": {
+          "count": 174,
+          "pct": 16.84
+        }
+      },
+      "TRENDING_BULL": {
+        "FLAT": {
+          "count": 605,
+          "pct": 68.44
+        },
+        "DOWN": {
+          "count": 147,
+          "pct": 16.63
+        },
+        "UP": {
+          "count": 132,
+          "pct": 14.93
+        }
+      }
+    },
+    "by_session_net_010_nonoverlap": {
+      "ASIA_00_07": {
+        "FLAT": {
+          "count": 1218,
+          "pct": 62.49
+        },
+        "UP": {
+          "count": 366,
+          "pct": 18.78
+        },
+        "DOWN": {
+          "count": 365,
+          "pct": 18.73
+        }
+      },
+      "LONDON_07_12": {
+        "FLAT": {
+          "count": 1014,
+          "pct": 71.76
+        },
+        "DOWN": {
+          "count": 206,
+          "pct": 14.58
+        },
+        "UP": {
+          "count": 193,
+          "pct": 13.66
+        }
+      },
+      "NY_17_20": {
+        "FLAT": {
+          "count": 602,
+          "pct": 72.18
+        },
+        "DOWN": {
+          "count": 121,
+          "pct": 14.51
+        },
+        "UP": {
+          "count": 111,
+          "pct": 13.31
+        }
+      },
+      "OFF_20_24": {
+        "FLAT": {
+          "count": 585,
+          "pct": 84.05
+        },
+        "DOWN": {
+          "count": 60,
+          "pct": 8.62
+        },
+        "UP": {
+          "count": 51,
+          "pct": 7.33
+        }
+      },
+      "OVERLAP_12_17": {
+        "FLAT": {
+          "count": 751,
+          "pct": 53.64
+        },
+        "DOWN": {
+          "count": 340,
+          "pct": 24.29
+        },
+        "UP": {
+          "count": 309,
+          "pct": 22.07
+        }
+      }
+    },
+    "day_clustered_uncertainty_nonoverlap_15m": {
+      "net_UP_010": {
+        "n_obs": 6292,
+        "n_days": 85,
+        "mean": 0.1637,
+        "day_block_se": 0.00869,
+        "day_block_95pct_ci_halfwidth": 0.017033,
+        "day_block_vif": 3.47,
+        "n_eff_day_block": 1813.1
+      },
+      "net_DOWN_010": {
+        "n_obs": 6292,
+        "n_days": 85,
+        "mean": 0.17355,
+        "day_block_se": 0.008538,
+        "day_block_95pct_ci_halfwidth": 0.016735,
+        "day_block_vif": 3.198,
+        "n_eff_day_block": 1967.8
+      },
+      "net_DIRECTIONAL_010": {
+        "n_obs": 6292,
+        "n_days": 85,
+        "mean": 0.33725,
+        "day_block_se": 0.011934,
+        "day_block_95pct_ci_halfwidth": 0.023392,
+        "day_block_vif": 4.009,
+        "n_eff_day_block": 1569.5
+      }
+    }
+  },
+  "micro_summary": {
+    "total_nonoverlap_30_tick_labels": 664806,
+    "exclusions": {
+      "BROKEN_BY_GAP_GE_60S_OR_DAY_END": 4417
+    },
+    "cost_sensitive_class_shift": {
+      "raw_post_spread_gt0": {
+        "DOWN": {
+          "count": 288739,
+          "pct": 43.43
+        },
+        "UP": {
+          "count": 286052,
+          "pct": 43.03
+        },
+        "FLAT": {
+          "count": 90015,
+          "pct": 13.54
+        }
+      },
+      "standalone_rt_net_of_spread_comm_slip_gt0": {
+        "DOWN": {
+          "count": 228364,
+          "pct": 34.35
+        },
+        "UP": {
+          "count": 225781,
+          "pct": 33.96
+        },
+        "FLAT": {
+          "count": 210661,
+          "pct": 31.69
+        }
+      },
+      "standalone_rt_net_plus_010_buffer": {
+        "FLAT": {
+          "count": 309207,
+          "pct": 46.51
+        },
+        "DOWN": {
+          "count": 178888,
+          "pct": 26.91
+        },
+        "UP": {
+          "count": 176711,
+          "pct": 26.58
+        }
+      }
+    },
+    "entry_timing_and_quote_move_targets": {
+      "note": "Primary Micro targets for H3b entry timing (no duplicate round-trip commission).",
+      "quote_move_class_1x_spread": {
+        "DOWN": {
+          "count": 289672,
+          "pct": 43.57
+        },
+        "UP": {
+          "count": 287053,
+          "pct": 43.18
+        },
+        "FLAT": {
+          "count": 88081,
+          "pct": 13.25
+        }
+      },
+      "quote_move_class_010": {
+        "DOWN": {
+          "count": 273420,
+          "pct": 41.13
+        },
+        "UP": {
+          "count": 270791,
+          "pct": 40.73
+        },
+        "FLAT": {
+          "count": 120595,
+          "pct": 18.14
+        }
+      },
+      "buy_timing_class_enter_now_vs_wait": {
+        "WAIT_ADVERSE": {
+          "count": 294645,
+          "pct": 44.32
+        },
+        "ENTER_NOW": {
+          "count": 289692,
+          "pct": 43.58
+        },
+        "NEUTRAL": {
+          "count": 80469,
+          "pct": 12.1
+        }
+      },
+      "sell_timing_class_enter_now_vs_wait": {
+        "ENTER_NOW": {
+          "count": 286443,
+          "pct": 43.09
+        },
+        "WAIT_ADVERSE": {
+          "count": 286052,
+          "pct": 43.03
+        },
+        "NEUTRAL": {
+          "count": 92311,
+          "pct": 13.89
+        }
+      }
+    },
+    "fixed_time_horizon_comparison": {
+      "5s_net": {
+        "FLAT": {
+          "count": 282458,
+          "pct": 42.49
+        },
+        "DOWN": {
+          "count": 191221,
+          "pct": 28.76
+        },
+        "UP": {
+          "count": 189848,
+          "pct": 28.56
+        },
+        "INCOMPLETE": {
+          "count": 1279,
+          "pct": 0.19
+        }
+      },
+      "10s_net": {
+        "DOWN": {
+          "count": 230892,
+          "pct": 34.73
+        },
+        "UP": {
+          "count": 229247,
+          "pct": 34.48
+        },
+        "FLAT": {
+          "count": 203185,
+          "pct": 30.56
+        },
+        "INCOMPLETE": {
+          "count": 1482,
+          "pct": 0.22
+        }
+      },
+      "15s_net": {
+        "DOWN": {
+          "count": 249659,
+          "pct": 37.55
+        },
+        "UP": {
+          "count": 247726,
+          "pct": 37.26
+        },
+        "FLAT": {
+          "count": 165836,
+          "pct": 24.95
+        },
+        "INCOMPLETE": {
+          "count": 1585,
+          "pct": 0.24
+        }
+      },
+      "agreement_30t_vs_5s_pct": 69.39,
+      "agreement_30t_vs_10s_pct": 72.1,
+      "agreement_30t_vs_15s_pct": 63.81
+    },
+    "by_session_net_class": {
+      "ASIA_00_07": {
+        "DOWN": {
+          "count": 70316,
+          "pct": 35.22
+        },
+        "UP": {
+          "count": 69798,
+          "pct": 34.96
+        },
+        "FLAT": {
+          "count": 59544,
+          "pct": 29.82
+        }
+      },
+      "LONDON_07_12": {
+        "FLAT": {
+          "count": 45686,
+          "pct": 33.92
+        },
+        "DOWN": {
+          "count": 44881,
+          "pct": 33.32
+        },
+        "UP": {
+          "count": 44122,
+          "pct": 32.76
+        }
+      },
+      "NY_17_20": {
+        "FLAT": {
+          "count": 32614,
+          "pct": 37.99
+        },
+        "DOWN": {
+          "count": 26731,
+          "pct": 31.13
+        },
+        "UP": {
+          "count": 26513,
+          "pct": 30.88
+        }
+      },
+      "OFF_20_24": {
+        "FLAT": {
+          "count": 15934,
+          "pct": 36.04
+        },
+        "DOWN": {
+          "count": 14325,
+          "pct": 32.4
+        },
+        "UP": {
+          "count": 13950,
+          "pct": 31.55
+        }
+      },
+      "OVERLAP_12_17": {
+        "DOWN": {
+          "count": 72111,
+          "pct": 35.98
+        },
+        "UP": {
+          "count": 71398,
+          "pct": 35.63
+        },
+        "FLAT": {
+          "count": 56883,
+          "pct": 28.39
+        }
+      }
+    },
+    "day_clustered_uncertainty": {
+      "net_UP": {
+        "n_obs": 664806,
+        "n_days": 85,
+        "mean": 0.33962,
+        "day_block_se": 0.001981,
+        "day_block_95pct_ci_halfwidth": 0.003883,
+        "day_block_vif": 11.634,
+        "n_eff_day_block": 57142.6
+      },
+      "net_DOWN": {
+        "n_obs": 664806,
+        "n_days": 85,
+        "mean": 0.3435,
+        "day_block_se": 0.001748,
+        "day_block_95pct_ci_halfwidth": 0.003426,
+        "day_block_vif": 9.009,
+        "n_eff_day_block": 73791.6
+      },
+      "net_DIRECTIONAL": {
+        "n_obs": 664806,
+        "n_days": 85,
+        "mean": 0.68312,
+        "day_block_se": 0.003294,
+        "day_block_95pct_ci_halfwidth": 0.006457,
+        "day_block_vif": 33.329,
+        "n_eff_day_block": 19946.8
+      }
+    }
+  },
+  "phase_c4_adverse_selection_research": {
+    "description": "Unconditional relationship between immediate post-entry 30-tick Micro net direction and subsequent 15m / H3b outcomes (non-overlapping 15m entries). Observational research only.",
+    "by_post_entry_micro_30t_class": {
+      "UP": {
+        "n_windows": 2205,
+        "mean_15m_buy_ret_net_bps": 1.021,
+        "mean_15m_sell_ret_net_bps": -1.862,
+        "mean_15m_buy_mae_usd": 3.6727,
+        "mean_15m_sell_mae_usd": 4.8032,
+        "mean_h3b_buy_r": 0.0412,
+        "mean_h3b_sell_r": -0.1119
+      },
+      "DOWN": {
+        "n_windows": 2341,
+        "mean_15m_buy_ret_net_bps": -1.998,
+        "mean_15m_sell_ret_net_bps": 1.121,
+        "mean_15m_buy_mae_usd": 4.9726,
+        "mean_15m_sell_mae_usd": 3.7023,
+        "mean_h3b_buy_r": -0.1914,
+        "mean_h3b_sell_r": 0.0987
+      },
+      "FLAT": {
+        "n_windows": 1746,
+        "mean_15m_buy_ret_net_bps": -1.189,
+        "mean_15m_sell_ret_net_bps": 0.303,
+        "mean_15m_buy_mae_usd": 3.7966,
+        "mean_15m_sell_mae_usd": 3.5363,
+        "mean_h3b_buy_r": -0.0986,
+        "mean_h3b_sell_r": 0.0208
+      }
+    }
+  },
+  "elapsed_sec": 251.72
+}

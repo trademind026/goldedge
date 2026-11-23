@@ -1,0 +1,876 @@
+{
+  "multi_window": {
+    "H0_BASELINE_V2": {
+      "W1": {
+        "overall": {
+          "n": 118,
+          "wr_pct": 55.08,
+          "net_pnl": 116.54,
+          "pf": 1.0271,
+          "exp": 0.99,
+          "closed_dd": -1333.08,
+          "mtm_dd_pct": 12.79
+        },
+        "buy": {
+          "n": 29,
+          "wr_pct": 48.28,
+          "net_pnl": -437.53,
+          "pf": 0.6299,
+          "exp": -15.09,
+          "closed_dd": -718.1
+        },
+        "sell": {
+          "n": 89,
+          "wr_pct": 57.3,
+          "net_pnl": 554.08,
+          "pf": 1.1781,
+          "exp": 6.23,
+          "closed_dd": -986.55
+        }
+      },
+      "W2": {
+        "overall": {
+          "n": 131,
+          "wr_pct": 54.96,
+          "net_pnl": 151.69,
+          "pf": 1.0324,
+          "exp": 1.16,
+          "closed_dd": -1336.28,
+          "mtm_dd_pct": 12.78
+        },
+        "buy": {
+          "n": 41,
+          "wr_pct": 48.78,
+          "net_pnl": -450.5,
+          "pf": 0.7142,
+          "exp": -10.99,
+          "closed_dd": -732.07
+        },
+        "sell": {
+          "n": 90,
+          "wr_pct": 57.78,
+          "net_pnl": 602.19,
+          "pf": 1.1936,
+          "exp": 6.69,
+          "closed_dd": -986.49
+        }
+      },
+      "W3": {
+        "overall": {
+          "n": 143,
+          "wr_pct": 55.24,
+          "net_pnl": 211.48,
+          "pf": 1.0414,
+          "exp": 1.48,
+          "closed_dd": -1336.28,
+          "mtm_dd_pct": 12.78
+        },
+        "buy": {
+          "n": 41,
+          "wr_pct": 48.78,
+          "net_pnl": -450.5,
+          "pf": 0.7142,
+          "exp": -10.99,
+          "closed_dd": -732.07
+        },
+        "sell": {
+          "n": 102,
+          "wr_pct": 57.84,
+          "net_pnl": 661.98,
+          "pf": 1.1874,
+          "exp": 6.49,
+          "closed_dd": -986.49
+        }
+      }
+    },
+    "H8_H4a_ALL_REGIMES": {
+      "W1": {
+        "overall": {
+          "n": 82,
+          "wr_pct": 62.2,
+          "net_pnl": 892.29,
+          "pf": 1.3467,
+          "exp": 10.88,
+          "closed_dd": -636.45,
+          "mtm_dd_pct": 6.09
+        },
+        "buy": {
+          "n": 21,
+          "wr_pct": 52.38,
+          "net_pnl": -35.79,
+          "pf": 0.9571,
+          "exp": -1.7,
+          "closed_dd": -547.55
+        },
+        "sell": {
+          "n": 61,
+          "wr_pct": 65.57,
+          "net_pnl": 928.08,
+          "pf": 1.5337,
+          "exp": 15.21,
+          "closed_dd": -424.71
+        }
+      },
+      "W2": {
+        "overall": {
+          "n": 91,
+          "wr_pct": 61.54,
+          "net_pnl": 929.38,
+          "pf": 1.322,
+          "exp": 10.21,
+          "closed_dd": -648.8,
+          "mtm_dd_pct": 6.18
+        },
+        "buy": {
+          "n": 30,
+          "wr_pct": 53.33,
+          "net_pnl": -0.74,
+          "pf": 0.9993,
+          "exp": -0.02,
+          "closed_dd": -547.55
+        },
+        "sell": {
+          "n": 61,
+          "wr_pct": 65.57,
+          "net_pnl": 930.12,
+          "pf": 1.5311,
+          "exp": 15.25,
+          "closed_dd": -437.06
+        }
+      },
+      "W3": {
+        "overall": {
+          "n": 99,
+          "wr_pct": 61.62,
+          "net_pnl": 1257.7,
+          "pf": 1.4005,
+          "exp": 12.7,
+          "closed_dd": -648.8,
+          "mtm_dd_pct": 6.18
+        },
+        "buy": {
+          "n": 30,
+          "wr_pct": 53.33,
+          "net_pnl": -0.74,
+          "pf": 0.9993,
+          "exp": -0.02,
+          "closed_dd": -547.55
+        },
+        "sell": {
+          "n": 69,
+          "wr_pct": 65.22,
+          "net_pnl": 1258.45,
+          "pf": 1.6273,
+          "exp": 18.24,
+          "closed_dd": -513.64
+        }
+      }
+    },
+    "R1_ADX20_ON_H0": {
+      "W1": {
+        "overall": {
+          "n": 81,
+          "wr_pct": 59.26,
+          "net_pnl": 1015.7,
+          "pf": 1.3969,
+          "exp": 12.54,
+          "closed_dd": -892.12,
+          "mtm_dd_pct": 8.61
+        },
+        "buy": {
+          "n": 22,
+          "wr_pct": 50.0,
+          "net_pnl": -352.41,
+          "pf": 0.6188,
+          "exp": -16.02,
+          "closed_dd": -603.7
+        },
+        "sell": {
+          "n": 59,
+          "wr_pct": 62.71,
+          "net_pnl": 1368.11,
+          "pf": 1.837,
+          "exp": 23.19,
+          "closed_dd": -640.29
+        }
+      },
+      "W2": {
+        "overall": {
+          "n": 94,
+          "wr_pct": 58.51,
+          "net_pnl": 1052.83,
+          "pf": 1.3571,
+          "exp": 11.2,
+          "closed_dd": -892.74,
+          "mtm_dd_pct": 8.6
+        },
+        "buy": {
+          "n": 34,
+          "wr_pct": 50.0,
+          "net_pnl": -362.91,
+          "pf": 0.7237,
+          "exp": -10.67,
+          "closed_dd": -661.67
+        },
+        "sell": {
+          "n": 60,
+          "wr_pct": 63.33,
+          "net_pnl": 1415.74,
+          "pf": 1.8659,
+          "exp": 23.6,
+          "closed_dd": -640.91
+        }
+      },
+      "W3": {
+        "overall": {
+          "n": 102,
+          "wr_pct": 58.82,
+          "net_pnl": 964.35,
+          "pf": 1.2946,
+          "exp": 9.45,
+          "closed_dd": -892.74,
+          "mtm_dd_pct": 8.6
+        },
+        "buy": {
+          "n": 34,
+          "wr_pct": 50.0,
+          "net_pnl": -362.91,
+          "pf": 0.7237,
+          "exp": -10.67,
+          "closed_dd": -661.67
+        },
+        "sell": {
+          "n": 68,
+          "wr_pct": 63.24,
+          "net_pnl": 1327.26,
+          "pf": 1.6772,
+          "exp": 19.52,
+          "closed_dd": -640.91
+        }
+      }
+    },
+    "R2_NO_RAW_HIVOL_ON_H0": {
+      "W1": {
+        "overall": {
+          "n": 109,
+          "wr_pct": 55.96,
+          "net_pnl": 268.98,
+          "pf": 1.0688,
+          "exp": 2.47,
+          "closed_dd": -1043.54,
+          "mtm_dd_pct": 10.49
+        },
+        "buy": {
+          "n": 25,
+          "wr_pct": 44.0,
+          "net_pnl": -448.25,
+          "pf": 0.585,
+          "exp": -17.93,
+          "closed_dd": -663.89
+        },
+        "sell": {
+          "n": 84,
+          "wr_pct": 59.52,
+          "net_pnl": 717.23,
+          "pf": 1.2536,
+          "exp": 8.54,
+          "closed_dd": -737.27
+        }
+      },
+      "W2": {
+        "overall": {
+          "n": 121,
+          "wr_pct": 56.2,
+          "net_pnl": 230.31,
+          "pf": 1.0531,
+          "exp": 1.9,
+          "closed_dd": -1043.6,
+          "mtm_dd_pct": 10.52
+        },
+        "buy": {
+          "n": 36,
+          "wr_pct": 47.22,
+          "net_pnl": -517.66,
+          "pf": 0.6585,
+          "exp": -14.38,
+          "closed_dd": -680.03
+        },
+        "sell": {
+          "n": 85,
+          "wr_pct": 60.0,
+          "net_pnl": 747.97,
+          "pf": 1.2651,
+          "exp": 8.8,
+          "closed_dd": -737.33
+        }
+      },
+      "W3": {
+        "overall": {
+          "n": 133,
+          "wr_pct": 56.39,
+          "net_pnl": 288.93,
+          "pf": 1.0606,
+          "exp": 2.17,
+          "closed_dd": -1043.6,
+          "mtm_dd_pct": 10.52
+        },
+        "buy": {
+          "n": 36,
+          "wr_pct": 47.22,
+          "net_pnl": -517.66,
+          "pf": 0.6585,
+          "exp": -14.38,
+          "closed_dd": -680.03
+        },
+        "sell": {
+          "n": 97,
+          "wr_pct": 59.79,
+          "net_pnl": 806.59,
+          "pf": 1.2481,
+          "exp": 8.32,
+          "closed_dd": -796.39
+        }
+      }
+    },
+    "R4_NO_POST_TRANS3_ON_H0": {
+      "W1": {
+        "overall": {
+          "n": 87,
+          "wr_pct": 52.87,
+          "net_pnl": -810.97,
+          "pf": 0.7468,
+          "exp": -9.32,
+          "closed_dd": -1172.28,
+          "mtm_dd_pct": 11.74
+        },
+        "buy": {
+          "n": 19,
+          "wr_pct": 42.11,
+          "net_pnl": -215.67,
+          "pf": 0.6777,
+          "exp": -11.35,
+          "closed_dd": -535.47
+        },
+        "sell": {
+          "n": 68,
+          "wr_pct": 55.88,
+          "net_pnl": -595.3,
+          "pf": 0.765,
+          "exp": -8.75,
+          "closed_dd": -934.24
+        }
+      },
+      "W2": {
+        "overall": {
+          "n": 94,
+          "wr_pct": 52.13,
+          "net_pnl": -810.34,
+          "pf": 0.7714,
+          "exp": -8.62,
+          "closed_dd": -1163.6,
+          "mtm_dd_pct": 11.66
+        },
+        "buy": {
+          "n": 25,
+          "wr_pct": 40.0,
+          "net_pnl": -265.11,
+          "pf": 0.7402,
+          "exp": -10.6,
+          "closed_dd": -535.47
+        },
+        "sell": {
+          "n": 69,
+          "wr_pct": 56.52,
+          "net_pnl": -545.23,
+          "pf": 0.784,
+          "exp": -7.9,
+          "closed_dd": -925.57
+        }
+      },
+      "W3": {
+        "overall": {
+          "n": 104,
+          "wr_pct": 53.85,
+          "net_pnl": -509.56,
+          "pf": 0.8664,
+          "exp": -4.9,
+          "closed_dd": -1431.6,
+          "mtm_dd_pct": 14.27
+        },
+        "buy": {
+          "n": 25,
+          "wr_pct": 40.0,
+          "net_pnl": -265.11,
+          "pf": 0.7402,
+          "exp": -10.6,
+          "closed_dd": -535.47
+        },
+        "sell": {
+          "n": 79,
+          "wr_pct": 58.23,
+          "net_pnl": -244.44,
+          "pf": 0.9125,
+          "exp": -3.09,
+          "closed_dd": -1193.56
+        }
+      }
+    },
+    "R5_NO_SW_TO_BULL_BUY_H0": {
+      "W1": {
+        "overall": {
+          "n": 111,
+          "wr_pct": 57.66,
+          "net_pnl": 728.8,
+          "pf": 1.1902,
+          "exp": 6.57,
+          "closed_dd": -1132.13,
+          "mtm_dd_pct": 10.77
+        },
+        "buy": {
+          "n": 22,
+          "wr_pct": 59.09,
+          "net_pnl": 143.05,
+          "pf": 1.2335,
+          "exp": 6.5,
+          "closed_dd": -230.88
+        },
+        "sell": {
+          "n": 89,
+          "wr_pct": 57.3,
+          "net_pnl": 585.75,
+          "pf": 1.182,
+          "exp": 6.58,
+          "closed_dd": -1024.56
+        }
+      },
+      "W2": {
+        "overall": {
+          "n": 119,
+          "wr_pct": 57.98,
+          "net_pnl": 725.8,
+          "pf": 1.1806,
+          "exp": 6.1,
+          "closed_dd": -1139.19,
+          "mtm_dd_pct": 10.83
+        },
+        "buy": {
+          "n": 29,
+          "wr_pct": 58.62,
+          "net_pnl": 105.71,
+          "pf": 1.1333,
+          "exp": 3.65,
+          "closed_dd": -233.31
+        },
+        "sell": {
+          "n": 90,
+          "wr_pct": 57.78,
+          "net_pnl": 620.09,
+          "pf": 1.1922,
+          "exp": 6.89,
+          "closed_dd": -1031.62
+        }
+      },
+      "W3": {
+        "overall": {
+          "n": 131,
+          "wr_pct": 58.02,
+          "net_pnl": 783.12,
+          "pf": 1.1752,
+          "exp": 5.98,
+          "closed_dd": -1139.19,
+          "mtm_dd_pct": 10.83
+        },
+        "buy": {
+          "n": 29,
+          "wr_pct": 58.62,
+          "net_pnl": 105.71,
+          "pf": 1.1333,
+          "exp": 3.65,
+          "closed_dd": -233.31
+        },
+        "sell": {
+          "n": 102,
+          "wr_pct": 57.84,
+          "net_pnl": 677.41,
+          "pf": 1.1842,
+          "exp": 6.64,
+          "closed_dd": -1031.62
+        }
+      }
+    },
+    "R6_TREND_CAP080_SW_OPEN": {
+      "W1": {
+        "overall": {
+          "n": 99,
+          "wr_pct": 59.6,
+          "net_pnl": 383.18,
+          "pf": 1.1094,
+          "exp": 3.87,
+          "closed_dd": -1082.06,
+          "mtm_dd_pct": 9.89
+        },
+        "buy": {
+          "n": 21,
+          "wr_pct": 52.38,
+          "net_pnl": -30.79,
+          "pf": 0.9631,
+          "exp": -1.47,
+          "closed_dd": -541.91
+        },
+        "sell": {
+          "n": 78,
+          "wr_pct": 61.54,
+          "net_pnl": 413.97,
+          "pf": 1.1552,
+          "exp": 5.31,
+          "closed_dd": -763.92
+        }
+      },
+      "W2": {
+        "overall": {
+          "n": 108,
+          "wr_pct": 59.26,
+          "net_pnl": 410.12,
+          "pf": 1.1075,
+          "exp": 3.8,
+          "closed_dd": -1089.12,
+          "mtm_dd_pct": 9.92
+        },
+        "buy": {
+          "n": 30,
+          "wr_pct": 53.33,
+          "net_pnl": 4.33,
+          "pf": 1.0038,
+          "exp": 0.14,
+          "closed_dd": -541.91
+        },
+        "sell": {
+          "n": 78,
+          "wr_pct": 61.54,
+          "net_pnl": 405.78,
+          "pf": 1.1514,
+          "exp": 5.2,
+          "closed_dd": -770.98
+        }
+      },
+      "W3": {
+        "overall": {
+          "n": 117,
+          "wr_pct": 58.97,
+          "net_pnl": 632.76,
+          "pf": 1.1523,
+          "exp": 5.41,
+          "closed_dd": -1148.72,
+          "mtm_dd_pct": 10.39
+        },
+        "buy": {
+          "n": 30,
+          "wr_pct": 53.33,
+          "net_pnl": 4.33,
+          "pf": 1.0038,
+          "exp": 0.14,
+          "closed_dd": -541.91
+        },
+        "sell": {
+          "n": 87,
+          "wr_pct": 60.92,
+          "net_pnl": 628.42,
+          "pf": 1.2082,
+          "exp": 7.22,
+          "closed_dd": -808.13
+        }
+      }
+    },
+    "R7_H4a_PLUS_ADX20": {
+      "W1": {
+        "overall": {
+          "n": 57,
+          "wr_pct": 64.91,
+          "net_pnl": 733.81,
+          "pf": 1.5053,
+          "exp": 12.87,
+          "closed_dd": -500.92,
+          "mtm_dd_pct": 5.05
+        },
+        "buy": {
+          "n": 16,
+          "wr_pct": 56.25,
+          "net_pnl": -140.09,
+          "pf": 0.7387,
+          "exp": -8.76,
+          "closed_dd": -446.3
+        },
+        "sell": {
+          "n": 41,
+          "wr_pct": 68.29,
+          "net_pnl": 873.9,
+          "pf": 1.9539,
+          "exp": 21.31,
+          "closed_dd": -326.39
+        }
+      },
+      "W2": {
+        "overall": {
+          "n": 66,
+          "wr_pct": 63.64,
+          "net_pnl": 746.54,
+          "pf": 1.4208,
+          "exp": 11.31,
+          "closed_dd": -523.27,
+          "mtm_dd_pct": 5.22
+        },
+        "buy": {
+          "n": 25,
+          "wr_pct": 56.0,
+          "net_pnl": -112.17,
+          "pf": 0.8669,
+          "exp": -4.49,
+          "closed_dd": -453.43
+        },
+        "sell": {
+          "n": 41,
+          "wr_pct": 68.29,
+          "net_pnl": 858.7,
+          "pf": 1.922,
+          "exp": 20.94,
+          "closed_dd": -332.73
+        }
+      },
+      "W3": {
+        "overall": {
+          "n": 70,
+          "wr_pct": 61.43,
+          "net_pnl": 586.21,
+          "pf": 1.2904,
+          "exp": 8.37,
+          "closed_dd": -523.27,
+          "mtm_dd_pct": 5.22
+        },
+        "buy": {
+          "n": 25,
+          "wr_pct": 56.0,
+          "net_pnl": -112.17,
+          "pf": 0.8669,
+          "exp": -4.49,
+          "closed_dd": -453.43
+        },
+        "sell": {
+          "n": 45,
+          "wr_pct": 64.44,
+          "net_pnl": 698.38,
+          "pf": 1.594,
+          "exp": 15.52,
+          "closed_dd": -332.73
+        }
+      }
+    },
+    "R10_H4a_NO_SW_TO_BULL_BUY": {
+      "W1": {
+        "overall": {
+          "n": 75,
+          "wr_pct": 66.67,
+          "net_pnl": 1393.64,
+          "pf": 1.6467,
+          "exp": 18.58,
+          "closed_dd": -563.55,
+          "mtm_dd_pct": 5.31
+        },
+        "buy": {
+          "n": 14,
+          "wr_pct": 71.43,
+          "net_pnl": 450.18,
+          "pf": 2.2573,
+          "exp": 32.16,
+          "closed_dd": -153.16
+        },
+        "sell": {
+          "n": 61,
+          "wr_pct": 65.57,
+          "net_pnl": 943.45,
+          "pf": 1.525,
+          "exp": 15.47,
+          "closed_dd": -450.31
+        }
+      },
+      "W2": {
+        "overall": {
+          "n": 80,
+          "wr_pct": 66.25,
+          "net_pnl": 1404.15,
+          "pf": 1.6217,
+          "exp": 17.55,
+          "closed_dd": -563.57,
+          "mtm_dd_pct": 5.31
+        },
+        "buy": {
+          "n": 19,
+          "wr_pct": 68.42,
+          "net_pnl": 458.03,
+          "pf": 1.992,
+          "exp": 24.11,
+          "closed_dd": -153.16
+        },
+        "sell": {
+          "n": 61,
+          "wr_pct": 65.57,
+          "net_pnl": 946.12,
+          "pf": 1.5265,
+          "exp": 15.51,
+          "closed_dd": -450.34
+        }
+      },
+      "W3": {
+        "overall": {
+          "n": 88,
+          "wr_pct": 65.91,
+          "net_pnl": 1759.29,
+          "pf": 1.6976,
+          "exp": 19.99,
+          "closed_dd": -563.57,
+          "mtm_dd_pct": 5.31
+        },
+        "buy": {
+          "n": 19,
+          "wr_pct": 68.42,
+          "net_pnl": 458.03,
+          "pf": 1.992,
+          "exp": 24.11,
+          "closed_dd": -153.16
+        },
+        "sell": {
+          "n": 69,
+          "wr_pct": 65.22,
+          "net_pnl": 1301.26,
+          "pf": 1.6316,
+          "exp": 18.86,
+          "closed_dd": -526.27
+        }
+      }
+    },
+    "R11_H4a_PLUS_H7_REF": {
+      "W1": {
+        "overall": {
+          "n": 82,
+          "wr_pct": 65.85,
+          "net_pnl": 999.24,
+          "pf": 1.4205,
+          "exp": 12.19,
+          "closed_dd": -507.21,
+          "mtm_dd_pct": 4.97
+        },
+        "buy": {
+          "n": 21,
+          "wr_pct": 66.67,
+          "net_pnl": 73.09,
+          "pf": 1.116,
+          "exp": 3.48,
+          "closed_dd": -302.24
+        },
+        "sell": {
+          "n": 61,
+          "wr_pct": 65.57,
+          "net_pnl": 926.15,
+          "pf": 1.5303,
+          "exp": 15.18,
+          "closed_dd": -432.19
+        }
+      },
+      "W2": {
+        "overall": {
+          "n": 91,
+          "wr_pct": 65.93,
+          "net_pnl": 1128.72,
+          "pf": 1.4325,
+          "exp": 12.4,
+          "closed_dd": -521.14,
+          "mtm_dd_pct": 5.03
+        },
+        "buy": {
+          "n": 30,
+          "wr_pct": 66.67,
+          "net_pnl": 199.63,
+          "pf": 1.2378,
+          "exp": 6.65,
+          "closed_dd": -307.69
+        },
+        "sell": {
+          "n": 61,
+          "wr_pct": 65.57,
+          "net_pnl": 929.08,
+          "pf": 1.5249,
+          "exp": 15.23,
+          "closed_dd": -440.57
+        }
+      },
+      "W3": {
+        "overall": {
+          "n": 99,
+          "wr_pct": 65.66,
+          "net_pnl": 1468.52,
+          "pf": 1.5124,
+          "exp": 14.83,
+          "closed_dd": -521.5,
+          "mtm_dd_pct": 5.23
+        },
+        "buy": {
+          "n": 30,
+          "wr_pct": 66.67,
+          "net_pnl": 199.63,
+          "pf": 1.2378,
+          "exp": 6.65,
+          "closed_dd": -307.69
+        },
+        "sell": {
+          "n": 69,
+          "wr_pct": 65.22,
+          "net_pnl": 1268.89,
+          "pf": 1.6262,
+          "exp": 18.39,
+          "closed_dd": -521.5
+        }
+      }
+    }
+  },
+  "outliers_ex_top_3": {
+    "H0_BASELINE_V2": {
+      "remaining_net_pnl": -397.94,
+      "remaining_pf": 0.9221
+    },
+    "H8_H4a_ALL_REGIMES": {
+      "remaining_net_pnl": 630.71,
+      "remaining_pf": 1.2008
+    },
+    "R1_ADX20_ON_H0": {
+      "remaining_net_pnl": 352.63,
+      "remaining_pf": 1.1077
+    },
+    "R2_NO_RAW_HIVOL_ON_H0": {
+      "remaining_net_pnl": -322.27,
+      "remaining_pf": 0.9324
+    },
+    "R4_NO_POST_TRANS3_ON_H0": {
+      "remaining_net_pnl": -1073.55,
+      "remaining_pf": 0.7186
+    },
+    "R5_NO_SW_TO_BULL_BUY_H0": {
+      "remaining_net_pnl": 167.18,
+      "remaining_pf": 1.0374
+    },
+    "R6_TREND_CAP080_SW_OPEN": {
+      "remaining_net_pnl": 17.71,
+      "remaining_pf": 1.0043
+    },
+    "R7_H4a_PLUS_ADX20": {
+      "remaining_net_pnl": -0.74,
+      "remaining_pf": 0.9996
+    },
+    "R10_H4a_NO_SW_TO_BULL_BUY": {
+      "remaining_net_pnl": 1100.31,
+      "remaining_pf": 1.4363
+    },
+    "R11_H4a_PLUS_H7_REF": {
+      "remaining_net_pnl": 821.13,
+      "remaining_pf": 1.2865
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "task": "G3.6R_PHASE_E_INDEPENDENT_RECONCILIATION",
+  "generated_at_utc": "2026-11-23T11:47:43.378197+00:00",
+  "clean_room_zero_goldedge_imports": true,
+  "candidates_audited": [
+    "H3B_FROZEN",
+    "H3B_CHANGE_A_ER50",
+    "H3B_CHANGE_C_SCORE68"
+  ],
+  "total_trades_independently_replayed": 564,
+  "h3b_frozen_audit": {
+    "run_name": "H3B_FROZEN",
+    "n_trades": 215,
+    "mismatches": {
+      "entry": 0,
+      "exit": 0,
+      "reason": 0,
+      "comm": 0,
+      "pnl": 0,
+      "r": 0
+    },
+    "total_mismatches": 0,
+    "app_total_pnl": 263.64,
+    "indep_total_pnl": 263.64,
+    "app_total_r": 5.85814,
+    "indep_total_r": 5.85809,
+    "app_cum_r_dd": -11.1722,
+    "indep_cum_r_dd": -11.1722,
+    "status": "PASS"
+  },
+  "change_a_er50_audit": {
+    "run_name": "H3B_CHANGE_A_ER50",
+    "n_trades": 172,
+    "mismatches": {
+      "entry": 0,
+      "exit": 0,
+      "reason": 0,
+      "comm": 0,
+      "pnl": 0,
+      "r": 0
+    },
+    "total_mismatches": 0,
+    "app_total_pnl": 596.17,
+    "indep_total_pnl": 596.17,
+    "app_total_r": 11.96466,
+    "indep_total_r": 11.9646,
+    "app_cum_r_dd": -6.4839,
+    "indep_cum_r_dd": -6.4839,
+    "status": "PASS"
+  },
+  "change_c_score68_audit": {
+    "run_name": "H3B_CHANGE_C_SCORE68",
+    "n_trades": 177,
+    "mismatches": {
+      "entry": 0,
+      "exit": 0,
+      "reason": 0,
+      "comm": 0,
+      "pnl": 0,
+      "r": 0
+    },
+    "total_mismatches": 0,
+    "app_total_pnl": 512.53,
+    "indep_total_pnl": 512.53,
+    "app_total_r": 10.69237,
+    "indep_total_r": 10.69236,
+    "app_cum_r_dd": -9.1453,
+    "indep_cum_r_dd": -9.1453,
+    "status": "PASS"
+  },
+  "change_c_eligibility_audit": {
+    "change_c_trades": 177,
+    "score_below_0_68_violations": 0,
+    "retained_common_entries": 140,
+    "skipped_h3b_entries": 75,
+    "newly_eligible_later_entries": 37,
+    "min_score_observed_in_change_c": 0.6817
+  },
+  "frozen_baselines_intact": {
+    "frozen_111": true,
+    "frozen_70": true
+  },
+  "total_mismatches": 0,
+  "overall_status": "PASS",
+  "reconciliation_parquet_sha256": "02EF5098D5E3C9A47D53588F5B9E925AC73AD954A283DA0F345DCCCFD05C98F5",
+  "elapsed_sec": 18.36
+}

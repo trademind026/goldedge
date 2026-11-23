@@ -1,0 +1,96 @@
+{
+  "baseline_version": "RECOVERED_FULL_HISTORY_BASELINE_V2",
+  "frozen_at_utc": "2026-11-18T19:21:45.316798+00:00",
+  "symbol": "XAUUSD",
+  "semantics_version": "QUOTE_ARRIVAL_SEMANTICS_V1",
+  "safety_locks": {
+    "SHADOW_MODE": true,
+    "TRADING_MODE": "demo",
+    "BROKER_TYPE": "ctrader"
+  },
+  "windows": {
+    "W1_original_task4": {
+      "warmup_start_utc": "2026-08-20T00:00:00+00:00",
+      "replay_start_utc": "2026-08-24T00:00:00+00:00",
+      "replay_end_utc": "2026-11-16T20:01:23+00:00",
+      "expected_trades": 118
+    },
+    "W2_recovered_original_span": {
+      "warmup_start_utc": "2026-08-09T00:00:00+00:00 (DB data starts 2026-08-13T00:00:00.153Z)",
+      "replay_start_utc": "2026-08-13T00:00:00+00:00",
+      "replay_end_utc": "2026-11-16T20:01:23+00:00",
+      "expected_trades": 131
+    },
+    "W3_recovered_warmed_full_history": {
+      "warmup_start_utc": "2026-08-13T00:00:00+00:00",
+      "warmup_end_utc": "2026-08-17T00:00:00+00:00",
+      "replay_start_utc": "2026-08-17T00:00:00+00:00",
+      "replay_end_utc": "2026-11-18T18:00:00+00:00 (DB end 2026-11-18T18:09:38.022225Z)",
+      "expected_trades": 143
+    }
+  },
+  "risk_profile": {
+    "name": "MEDIUM_BACKTEST",
+    "context": "backtest",
+    "risk_per_trade_pct": 1.0,
+    "max_daily_loss_pct": 3.0,
+    "max_consecutive_losses": 3,
+    "max_trades_per_day": 8,
+    "max_hold_bars": 120,
+    "sl_atr_multiplier": 1.5,
+    "tp_atr_multiplier": 3.0,
+    "min_score_threshold": 0.6,
+    "block_high_volatility": true,
+    "block_buy_sideways": true
+  },
+  "execution_and_indicators": {
+    "initial_capital": 10000.0,
+    "adapt_to_volume": false,
+    "use_tick_intensity_features": true,
+    "use_kalman_exit": false,
+    "session_close_utc": null,
+    "early_fail_mins": null,
+    "early_fail_min_mfe_atr": null,
+    "cooldown_bars": 15,
+    "trailing_be_atr": 1.0,
+    "trailing_t1_trigger_atr": 1.6,
+    "trailing_t1_dist_atr": 1.1,
+    "trailing_t2_trigger_atr": 2.5,
+    "trailing_t2_dist_atr": 0.75,
+    "effective_max_hold_london_ny": 60,
+    "effective_max_hold_offhours": 90,
+    "time_squeeze_start_ratio": 0.75,
+    "slippage_pips": 0.0533,
+    "apply_swap": true
+  },
+  "commission_schedule": {
+    "name": "fusion_ctrader_demo_48439552",
+    "broker": "Fusion Markets",
+    "platform": "cTrader",
+    "environment": "demo",
+    "account_id": 48439552,
+    "commission_type": "USD_PER_MILLION_USD",
+    "rate_value": 12.0,
+    "min_commission_usd": 0.0,
+    "contract_size": 100.0,
+    "currency": "USD",
+    "precision_digits": 2,
+    "verified_for_live": false,
+    "account_tier_verified": false,
+    "notes": "Verified against ProtoOASymbolByIdRes (commission=1200) and 15/15 demo deals on account 48439552."
+  },
+  "swap_schedule": {
+    "swap_calculation_type": "PIPS",
+    "swap_long_pips": -5.653,
+    "swap_short_pips": 2.677,
+    "triple_swap_weekday": 2,
+    "rollover_timezone": "America/New_York",
+    "rollover_local_hour": 17,
+    "rollover_local_minute": 0,
+    "pip_size": 0.1,
+    "contract_size": 100.0,
+    "charge_swap_at_weekends": false,
+    "historical_rates_verified": false,
+    "daily_rate_overrides": null
+  }
+}

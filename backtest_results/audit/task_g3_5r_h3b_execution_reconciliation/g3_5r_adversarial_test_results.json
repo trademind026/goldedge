@@ -1,0 +1,23 @@
+{
+  "task": "G3.5R_PHASE_E_ADVERSARIAL_TEST_RESULTS",
+  "generated_at_utc": "2026-11-23T11:39:53.861010+00:00",
+  "overall_status": "PASS",
+  "tests_passed": 14,
+  "tests_total": 14,
+  "results": {
+    "01_e1_exact_15th_bar_trigger": "PASS",
+    "02_e1_suppressed_when_mfe_reached_in_bar15": "PASS",
+    "03_sl_precedes_e1": "PASS",
+    "04_tp_precedes_e1_exact_limit_fill": "PASS",
+    "05_same_timestamp_sl_precedes_tp": "PASS",
+    "06_fast_quotes_breakeven_exit_reason": "PASS",
+    "07_corrupted_zero_spread_inverted_quotes_skipped": "PASS",
+    "08_session_cutoff_15utc_enforced": "PASS",
+    "09_short_trade_bid_ask_and_target": "PASS",
+    "10_spread_anchored_sl_tp_distances": "PASS",
+    "11_broker_rounded_commission_exact": "PASS",
+    "12_time_squeeze_canonical_trigger": "PASS",
+    "13_sizing_and_net_r_conversion_exact": "PASS",
+    "14_deterministic_replay_bit_identical": "PASS"
+  }
+}

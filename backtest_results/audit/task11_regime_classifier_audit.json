@@ -1,0 +1,62 @@
+{
+  "implementation_source": "src/goldedge/domain/services/regime_detector.py (RegimeDetectorService)",
+  "timeframe": "Completed 5-minute bars (rolling 200-bar window = ~16.7h)",
+  "priority_thresholds": {
+    "1_HIGH_VOLATILITY": "14-bar ATR/close > 75th percentile of rolling 200-bar ATR/close",
+    "2_LOW_VOLATILITY": "14-bar ATR/close < 25th percentile of rolling 200-bar ATR/close",
+    "3_TRENDING_BULL": "ema_diff=(ema20-ema50)/ema50 > 0.003 AND ema20_slope > 0",
+    "4_TRENDING_BEAR": "ema_diff < -0.003 AND ema20_slope < 0",
+    "5_SIDEWAYS": "20-bar (high-low)/close < 0.004",
+    "6_FALLBACK": "ema_diff > 0 -> TRENDING_BULL; ema_diff < 0 -> TRENDING_BEAR; else SIDEWAYS"
+  },
+  "hysteresis": "3 consecutive identical closed 5m raw classifications (15 minutes) required to switch committed regime",
+  "completed_candles_only": true,
+  "live_vs_backtest_parity": "Equivalent logic and 3-bar hysteresis (B6 remediation). ScanMarketUseCase replays recent completed bars into a fresh RegimeDetectorService per scan; relative 200-bar volatility percentiles can shift intraday as rolling window advances.",
+  "unused_static_method": "classify_institutional_regime (SESSION_ORB/KINEMATIC_TREND/MEAN_REVERSION) is not called by RunBacktestUseCase or ScanMarketUseCase.",
+  "w3_5m_bar_distributions": {
+    "total_closed_5m_bars": 18670,
+    "primary_regime_counts": {
+      "LOW_VOLATILITY": 4983,
+      "HIGH_VOLATILITY": 4754,
+      "SIDEWAYS": 3715,
+      "TRENDING_BEAR": 2782,
+      "TRENDING_BULL": 2434,
+      "UNKNOWN": 2
+    },
+    "vol_category_counts": {
+      "MED_VOL": 9018,
+      "LOW_VOL": 4906,
+      "HIGH_VOL": 4746
+    },
+    "adx_trend_strength_counts": {
+      "WEAK_ADX_LT20": 7072,
+      "MOD_ADX_20_30": 6817,
+      "STRONG_ADX_GE30": 4781
+    },
+    "transition_family_counts": {
+      "VOLATILITY_SHIFT": 15032,
+      "TREND_TO_SIDEWAYS": 1854,
+      "SIDEWAYS_TO_TREND": 1184,
+      "BEAR_TO_BULL": 313,
+      "BULL_TO_BEAR": 281,
+      "NONE": 6
+    },
+    "top_regime_transitions": {
+      "LOW_VOLATILITY->SIDEWAYS": 127,
+      "SIDEWAYS->LOW_VOLATILITY": 102,
+      "HIGH_VOLATILITY->TRENDING_BEAR": 98,
+      "HIGH_VOLATILITY->TRENDING_BULL": 92,
+      "SIDEWAYS->HIGH_VOLATILITY": 90,
+      "TRENDING_BEAR->SIDEWAYS": 83,
+      "TRENDING_BULL->SIDEWAYS": 70,
+      "TRENDING_BULL->LOW_VOLATILITY": 62,
+      "SIDEWAYS->TRENDING_BEAR": 60,
+      "TRENDING_BEAR->LOW_VOLATILITY": 59,
+      "TRENDING_BULL->HIGH_VOLATILITY": 58,
+      "TRENDING_BEAR->HIGH_VOLATILITY": 57,
+      "SIDEWAYS->TRENDING_BULL": 51,
+      "LOW_VOLATILITY->TRENDING_BEAR": 47,
+      "LOW_VOLATILITY->TRENDING_BULL": 41
+    }
+  }
+}

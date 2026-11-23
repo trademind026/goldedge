@@ -1,0 +1,107 @@
+{
+  "task": "G3.5_PHASE_H_INDEPENDENT_RECONCILIATION",
+  "generated_at_utc": "2026-11-23T10:45:56.596450+00:00",
+  "clean_room_zero_goldedge_imports": true,
+  "overall_status": "PASS",
+  "metric_mismatches": 0,
+  "checks": {
+    "calibrators_16_sha256_verified": true,
+    "calibrators_strict_cal_boundaries": true,
+    "duplicate_timestamps": {
+      "macro": 0,
+      "micro": 0
+    },
+    "max_simplex_err": 0.0,
+    "macro_calibration_reconciliation": {
+      "B3_LOGISTIC_L2_raw": {
+        "indep_mc_ll": 0.84192,
+        "rep_mc_ll": 0.84192,
+        "indep_pm_auc": 0.65974,
+        "match": true
+      },
+      "B3_LOGISTIC_L2_cal": {
+        "indep_mc_ll": 0.84283,
+        "rep_mc_ll": 0.84283,
+        "indep_pm_auc": 0.6579,
+        "match": true
+      },
+      "C1_LIGHTGBM_CONSTRAINED_raw": {
+        "indep_mc_ll": 0.84017,
+        "rep_mc_ll": 0.84017,
+        "indep_pm_auc": 0.66331,
+        "match": true
+      },
+      "C1_LIGHTGBM_CONSTRAINED_cal": {
+        "indep_mc_ll": 0.84043,
+        "rep_mc_ll": 0.84043,
+        "indep_pm_auc": 0.66348,
+        "match": true
+      }
+    },
+    "micro_calibration_reconciliation": {
+      "B3_LOGISTIC_L2_raw": {
+        "indep_mc_ll": 0.96658,
+        "rep_mc_ll": 0.96658,
+        "match": true
+      },
+      "B3_LOGISTIC_L2_cal": {
+        "indep_mc_ll": 0.96661,
+        "rep_mc_ll": 0.96661,
+        "match": true
+      },
+      "C1_LIGHTGBM_CONSTRAINED_raw": {
+        "indep_mc_ll": 0.9651,
+        "rep_mc_ll": 0.9651,
+        "match": true
+      },
+      "C1_LIGHTGBM_CONSTRAINED_cal": {
+        "indep_mc_ll": 0.96529,
+        "rep_mc_ll": 0.96529,
+        "match": true
+      }
+    },
+    "h3b_candidate_causal_violations": 0,
+    "phase_c_policy_reconciliation": {
+      "ATR_ONLY_REJECT_LOW_20": {
+        "indep_retained": 100,
+        "indep_total_r": -2.8459,
+        "indep_day_block_delta": -0.048284,
+        "match": true
+      },
+      "SPREAD_ONLY_REJECT_HIGH_20": {
+        "indep_retained": 85,
+        "indep_total_r": 1.0593,
+        "indep_day_block_delta": 0.017936,
+        "match": true
+      },
+      "MACRO_C1_CAL_PMOVE_REJECT_20": {
+        "indep_retained": 98,
+        "indep_total_r": -4.3957,
+        "indep_day_block_delta": -0.041467,
+        "match": true
+      }
+    },
+    "phase_d_execution_reconciliation": {
+      "WAIT_10S_ALL": {
+        "indep_missed": 23,
+        "indep_delta_r": 13.1832,
+        "match": true
+      },
+      "SIMPLE_SPREAD_WAIT10S": {
+        "indep_missed": 3,
+        "indep_delta_r": -0.5936,
+        "match": true
+      },
+      "ML_C1_CAL_WAIT10S": {
+        "indep_missed": 7,
+        "indep_delta_r": 5.0799,
+        "match": true
+      }
+    },
+    "frozen_baselines_intact": {
+      "frozen_111": true,
+      "frozen_70": true
+    }
+  },
+  "elapsed_sec": 1.33
+}

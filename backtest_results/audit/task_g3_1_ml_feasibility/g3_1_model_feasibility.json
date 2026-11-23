@@ -1,0 +1,62 @@
+{
+  "task": "G3.1_PHASE_F_MODEL_FEASIBILITY",
+  "generated_at_utc": "2026-11-22T16:28:33.814512+00:00",
+  "governance_note": "Strictly feasibility analysis only. Zero production models trained and zero trading thresholds optimized. Uses conservative day-level cluster dependence (not naive i.i.d. VIF=1.0).",
+  "macro_15m_assessment": {
+    "nonoverlap_15m_windows_horizon_only": 6321,
+    "conservative_day_clustered_n_eff": 1554.2,
+    "unique_trading_days": 85,
+    "minority_class_prevalence_0.10pct": 16.82,
+    "day_block_95pct_ci_up_prevalence_pct": 1.54,
+    "candidate_feature_count": 15,
+    "epv_nonoverlap_upper_bound": 70.9,
+    "epv_day_clustered_conservative": 17.4,
+    "approx_val_fold_n_eff_day_clustered": 388.6,
+    "val_fold_95pct_ci_halfwidth_day_clustered_pct": 4.97,
+    "regime_coverage_limitation": "Only 85 active dates (~68 clean weekdays, ~3 months Aug-Nov 2026) in a single macro gold environment ($3,500-$4,500). Day-clustered N_eff (1554.2) is much smaller than raw non-overlapping windows (6321) due to within-day regime/volatility clustering.",
+    "model_families": {
+      "constant_prevalence_baseline": {
+        "feasible": true,
+        "role": "Mandatory log-loss / Brier benchmark."
+      },
+      "regularized_logistic_regression": {
+        "feasible": true,
+        "role": "Primary baseline for G3.3; low variance, naturally calibrated via Platt/temperature scaling."
+      },
+      "constrained_lightgbm": {
+        "feasible": "CONDITIONAL",
+        "constraints_required": "max_depth<=3, num_leaves<=7, min_child_samples>=150, strong L2 reg, feature_fraction<=0.7, strict purged walk-forward CV. High risk of overfitting to Aug-Nov macro regime without additional historical months."
+      }
+    },
+    "calibration_requirement": "Use Platt / temperature scaling (not isotonic regression, which overfits on day-clustered validation folds)."
+  },
+  "micro_30_tick_assessment": {
+    "nonoverlap_30t_windows_horizon_only": 664806,
+    "conservative_day_clustered_n_eff": 4360.1,
+    "unique_trading_days": 85,
+    "median_30t_abs_mid_move_usd": 0.31,
+    "median_spread_usd": 0.07,
+    "fusion_total_rt_friction_usd": 0.115,
+    "move_to_friction_ratio": 2.696,
+    "executable_post_spread_gt0_minority_pct": 43.01,
+    "candidate_feature_count": 8,
+    "epv_nonoverlap_upper_bound": 35741.6,
+    "epv_day_clustered_conservative": 234.4,
+    "val_fold_95pct_ci_halfwidth_day_clustered_pct": 2.97,
+    "economic_viability_warning": "Median 30-tick |mid_move| is $0.310 vs total round-trip spread+commission friction $0.115 (ratio 2.7x). Standalone 30-tick directional scalping is heavily friction-constrained without L2 order book; Micro ML is better suited as an execution-timing / adverse-selection filter for Macro entries than a standalone 30-tick trading strategy.",
+    "model_families": {
+      "constant_prevalence_baseline": {
+        "feasible": true,
+        "role": "Mandatory benchmark."
+      },
+      "regularized_logistic_regression": {
+        "feasible": true,
+        "role": "Primary baseline for quote-revision & micro-momentum predictability."
+      },
+      "constrained_lightgbm": {
+        "feasible": "CONDITIONAL",
+        "constraints_required": "Shallow trees (max_depth<=4, min_child_samples>=500), labels defined net of spread+commission or used as execution-timing filter, evaluated across unseen calendar weeks with day-block confidence intervals."
+      }
+    }
+  }
+}

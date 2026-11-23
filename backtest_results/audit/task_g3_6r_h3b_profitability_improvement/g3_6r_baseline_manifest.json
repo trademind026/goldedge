@@ -1,0 +1,18 @@
+{
+  "task": "G3.6R_BASELINE_MANIFEST",
+  "generated_at_utc": "2026-11-23T11:12:09.791735+00:00",
+  "git_head": "unknown",
+  "safety_locks": {
+    "SHADOW_MODE": true,
+    "TRADING_MODE": "demo",
+    "market_orders": 0,
+    "market_trades": 0,
+    "HWM_MAX_DRAWDOWN_PCT": 8.0
+  },
+  "source_hashes": {
+    "run_backtest.py": "37EAAAE08A92FE7D29F74019129E543FF7C5906392E87B0914F17AB0A859BDF8",
+    "g3_5_h3b_all_6m_trades.parquet": "94B21283779886B7668A61BFF84BE22FB7149B0FF24AA3F2D47C8C982D785D2E",
+    "g3_3_expanded_6m_macro_dataset.parquet": "2E9A9D9B7215A50B75B6464FD1E3A17AA887BF415B5A683586E0220B045189E3",
+    "g3_6r_trade_attribution.parquet": "D44C702444576EC6DD51C50E5B89BA2C0F4CC49F15B1A5E2B3FBCF06DEAFF4B1"
+  }
+}

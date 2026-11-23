@@ -1,0 +1,30 @@
+{
+  "name": "H3B_FROZEN",
+  "config": {
+    "name": "H3B_FROZEN",
+    "session_close_utc": 15,
+    "early_fail_mins": 15,
+    "early_fail_min_mfe_atr": 0.4,
+    "min_score_threshold": 0.6,
+    "max_kaufman_er": null,
+    "be_trigger_atr": 1.0
+  },
+  "trades": 215,
+  "unique_days": 87,
+  "win_rate_pct": 0.51,
+  "net_pnl_usd": 263.64,
+  "final_equity_usd": 10263.64,
+  "total_net_r": 5.8581,
+  "mean_net_r": 0.02725,
+  "pf": 1.072,
+  "closed_max_dd_usd": -555.58,
+  "closed_max_dd_pct": 5.17,
+  "mtm_max_dd_usd": -606.79,
+  "mtm_max_dd_pct": 5.64,
+  "hwm_kill_switch_halted": false,
+  "total_commission_usd": 157.59,
+  "total_slippage_usd": 16.04,
+  "trades_parquet": "backtest_results/audit/task_g3_6r_h3b_profitability_improvement/runs/H3B_FROZEN_trades.parquet",
+  "trades_parquet_sha256": "980F1D4797279E5CC352F190F315624EF6B0A58717169FEFE21A7E8A6BB02125",
+  "elapsed_sec": 715.3
+}

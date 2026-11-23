@@ -1,0 +1,785 @@
+{
+  "data_note": "XAUUSD historical data is quote-based CFD tick data. quote_arrival_rate_per_min measures tick update frequency, NOT traded exchange volume.",
+  "by_utc_hour_5m_bars": {
+    "UTC_00": {
+      "bars_5m": 816,
+      "mean_atr": 3.8593,
+      "median_atr": 3.633,
+      "mean_spread_usd": 0.0761,
+      "p90_spread_usd": 0.1074,
+      "mean_quote_arrival_rate_per_min": 199.8,
+      "mean_kaufman_er": 0.3457,
+      "mean_adx_14": 24.61,
+      "mean_abs_kalman_vel": 0.02018,
+      "mean_abs_dist_ema20_atr": 1.3501,
+      "regime_mix_pct": {
+        "LOW_VOLATILITY": 32.8,
+        "SIDEWAYS": 27.1,
+        "HIGH_VOLATILITY": 15.4,
+        "TRENDING_BULL": 14.0,
+        "TRENDING_BEAR": 10.5,
+        "UNKNOWN": 0.1
+      }
+    },
+    "UTC_01": {
+      "bars_5m": 816,
+      "mean_atr": 5.2733,
+      "median_atr": 5.0524,
+      "mean_spread_usd": 0.0688,
+      "p90_spread_usd": 0.098,
+      "mean_quote_arrival_rate_per_min": 273.59,
+      "mean_kaufman_er": 0.3462,
+      "mean_adx_14": 27.04,
+      "mean_abs_kalman_vel": 0.0229,
+      "mean_abs_dist_ema20_atr": 1.3931,
+      "regime_mix_pct": {
+        "HIGH_VOLATILITY": 61.0,
+        "TRENDING_BULL": 14.2,
+        "SIDEWAYS": 14.1,
+        "TRENDING_BEAR": 10.4,
+        "LOW_VOLATILITY": 0.2
+      }
+    },
+    "UTC_02": {
+      "bars_5m": 816,
+      "mean_atr": 5.3231,
+      "median_atr": 5.0924,
+      "mean_spread_usd": 0.0689,
+      "p90_spread_usd": 0.1015,
+      "mean_quote_arrival_rate_per_min": 216.71,
+      "mean_kaufman_er": 0.329,
+      "mean_adx_14": 26.57,
+      "mean_abs_kalman_vel": 0.01821,
+      "mean_abs_dist_ema20_atr": 1.0836,
+      "regime_mix_pct": {
+        "HIGH_VOLATILITY": 50.9,
+        "TRENDING_BULL": 22.4,
+        "TRENDING_BEAR": 18.1,
+        "SIDEWAYS": 6.2,
+        "LOW_VOLATILITY": 2.3
+      }
+    },
+    "UTC_03": {
+      "bars_5m": 816,
+      "mean_atr": 4.7745,
+      "median_atr": 4.5576,
+      "mean_spread_usd": 0.0652,
+      "p90_spread_usd": 0.0975,
+      "mean_quote_arrival_rate_per_min": 173.19,
+      "mean_kaufman_er": 0.3003,
+      "mean_adx_14": 25.79,
+      "mean_abs_kalman_vel": 0.01676,
+      "mean_abs_dist_ema20_atr": 1.0033,
+      "regime_mix_pct": {
+        "TRENDING_BULL": 29.4,
+        "TRENDING_BEAR": 27.9,
+        "SIDEWAYS": 23.7,
+        "HIGH_VOLATILITY": 14.1,
+        "LOW_VOLATILITY": 4.9
+      }
+    },
+    "UTC_04": {
+      "bars_5m": 816,
+      "mean_atr": 3.8802,
+      "median_atr": 3.7106,
+      "mean_spread_usd": 0.0684,
+      "p90_spread_usd": 0.1008,
+      "mean_quote_arrival_rate_per_min": 135.05,
+      "mean_kaufman_er": 0.323,
+      "mean_adx_14": 25.33,
+      "mean_abs_kalman_vel": 0.01452,
+      "mean_abs_dist_ema20_atr": 0.989,
+      "regime_mix_pct": {
+        "LOW_VOLATILITY": 46.1,
+        "TRENDING_BULL": 20.0,
+        "SIDEWAYS": 17.3,
+        "TRENDING_BEAR": 14.1,
+        "HIGH_VOLATILITY": 2.6
+      }
+    },
+    "UTC_05": {
+      "bars_5m": 816,
+      "mean_atr": 3.8537,
+      "median_atr": 3.6624,
+      "mean_spread_usd": 0.0756,
+      "p90_spread_usd": 0.1064,
+      "mean_quote_arrival_rate_per_min": 197.4,
+      "mean_kaufman_er": 0.3491,
+      "mean_adx_14": 25.26,
+      "mean_abs_kalman_vel": 0.02038,
+      "mean_abs_dist_ema20_atr": 1.2463,
+      "regime_mix_pct": {
+        "LOW_VOLATILITY": 48.0,
+        "SIDEWAYS": 24.4,
+        "TRENDING_BEAR": 14.6,
+        "TRENDING_BULL": 11.9,
+        "HIGH_VOLATILITY": 1.1
+      }
+    },
+    "UTC_06": {
+      "bars_5m": 816,
+      "mean_atr": 4.4267,
+      "median_atr": 4.1701,
+      "mean_spread_usd": 0.0717,
+      "p90_spread_usd": 0.0982,
+      "mean_quote_arrival_rate_per_min": 215.76,
+      "mean_kaufman_er": 0.309,
+      "mean_adx_14": 26.57,
+      "mean_abs_kalman_vel": 0.01709,
+      "mean_abs_dist_ema20_atr": 1.1043,
+      "regime_mix_pct": {
+        "SIDEWAYS": 32.7,
+        "TRENDING_BEAR": 23.9,
+        "HIGH_VOLATILITY": 20.7,
+        "TRENDING_BULL": 19.7,
+        "LOW_VOLATILITY": 2.9
+      }
+    },
+    "UTC_07": {
+      "bars_5m": 816,
+      "mean_atr": 4.2917,
+      "median_atr": 4.2598,
+      "mean_spread_usd": 0.0734,
+      "p90_spread_usd": 0.1041,
+      "mean_quote_arrival_rate_per_min": 201.38,
+      "mean_kaufman_er": 0.3002,
+      "mean_adx_14": 24.96,
+      "mean_abs_kalman_vel": 0.01816,
+      "mean_abs_dist_ema20_atr": 1.0337,
+      "regime_mix_pct": {
+        "SIDEWAYS": 34.2,
+        "TRENDING_BULL": 20.8,
+        "TRENDING_BEAR": 20.8,
+        "HIGH_VOLATILITY": 15.7,
+        "LOW_VOLATILITY": 8.5
+      }
+    },
+    "UTC_08": {
+      "bars_5m": 816,
+      "mean_atr": 4.371,
+      "median_atr": 4.2277,
+      "mean_spread_usd": 0.0716,
+      "p90_spread_usd": 0.1024,
+      "mean_quote_arrival_rate_per_min": 209.3,
+      "mean_kaufman_er": 0.3184,
+      "mean_adx_14": 25.44,
+      "mean_abs_kalman_vel": 0.01764,
+      "mean_abs_dist_ema20_atr": 1.0963,
+      "regime_mix_pct": {
+        "SIDEWAYS": 38.2,
+        "HIGH_VOLATILITY": 21.7,
+        "TRENDING_BEAR": 17.4,
+        "TRENDING_BULL": 15.2,
+        "LOW_VOLATILITY": 7.5
+      }
+    },
+    "UTC_09": {
+      "bars_5m": 816,
+      "mean_atr": 4.1463,
+      "median_atr": 3.9179,
+      "mean_spread_usd": 0.0702,
+      "p90_spread_usd": 0.1035,
+      "mean_quote_arrival_rate_per_min": 187.12,
+      "mean_kaufman_er": 0.2894,
+      "mean_adx_14": 24.64,
+      "mean_abs_kalman_vel": 0.0176,
+      "mean_abs_dist_ema20_atr": 0.9447,
+      "regime_mix_pct": {
+        "SIDEWAYS": 38.5,
+        "HIGH_VOLATILITY": 18.6,
+        "TRENDING_BEAR": 15.4,
+        "TRENDING_BULL": 14.7,
+        "LOW_VOLATILITY": 12.7
+      }
+    },
+    "UTC_10": {
+      "bars_5m": 816,
+      "mean_atr": 3.7987,
+      "median_atr": 3.659,
+      "mean_spread_usd": 0.0722,
+      "p90_spread_usd": 0.1019,
+      "mean_quote_arrival_rate_per_min": 170.1,
+      "mean_kaufman_er": 0.3142,
+      "mean_adx_14": 22.89,
+      "mean_abs_kalman_vel": 0.01601,
+      "mean_abs_dist_ema20_atr": 0.8952,
+      "regime_mix_pct": {
+        "SIDEWAYS": 38.0,
+        "LOW_VOLATILITY": 28.4,
+        "TRENDING_BEAR": 15.2,
+        "HIGH_VOLATILITY": 10.0,
+        "TRENDING_BULL": 8.3
+      }
+    },
+    "UTC_11": {
+      "bars_5m": 816,
+      "mean_atr": 3.735,
+      "median_atr": 3.6319,
+      "mean_spread_usd": 0.0722,
+      "p90_spread_usd": 0.1036,
+      "mean_quote_arrival_rate_per_min": 186.76,
+      "mean_kaufman_er": 0.322,
+      "mean_adx_14": 23.02,
+      "mean_abs_kalman_vel": 0.01696,
+      "mean_abs_dist_ema20_atr": 1.0642,
+      "regime_mix_pct": {
+        "SIDEWAYS": 35.7,
+        "LOW_VOLATILITY": 29.0,
+        "TRENDING_BEAR": 13.8,
+        "TRENDING_BULL": 11.8,
+        "HIGH_VOLATILITY": 9.7
+      }
+    },
+    "UTC_12": {
+      "bars_5m": 816,
+      "mean_atr": 4.6293,
+      "median_atr": 4.231,
+      "mean_spread_usd": 0.0895,
+      "p90_spread_usd": 0.1124,
+      "mean_quote_arrival_rate_per_min": 247.65,
+      "mean_kaufman_er": 0.3187,
+      "mean_adx_14": 24.35,
+      "mean_abs_kalman_vel": 0.02402,
+      "mean_abs_dist_ema20_atr": 1.2115,
+      "regime_mix_pct": {
+        "HIGH_VOLATILITY": 37.3,
+        "SIDEWAYS": 30.5,
+        "LOW_VOLATILITY": 11.5,
+        "TRENDING_BEAR": 11.0,
+        "TRENDING_BULL": 9.7
+      }
+    },
+    "UTC_13": {
+      "bars_5m": 816,
+      "mean_atr": 6.0381,
+      "median_atr": 5.6317,
+      "mean_spread_usd": 0.0837,
+      "p90_spread_usd": 0.1084,
+      "mean_quote_arrival_rate_per_min": 322.24,
+      "mean_kaufman_er": 0.3486,
+      "mean_adx_14": 26.08,
+      "mean_abs_kalman_vel": 0.02455,
+      "mean_abs_dist_ema20_atr": 1.2654,
+      "regime_mix_pct": {
+        "HIGH_VOLATILITY": 78.9,
+        "SIDEWAYS": 7.4,
+        "TRENDING_BEAR": 7.0,
+        "TRENDING_BULL": 4.4,
+        "LOW_VOLATILITY": 2.3
+      }
+    },
+    "UTC_14": {
+      "bars_5m": 816,
+      "mean_atr": 6.9163,
+      "median_atr": 6.882,
+      "mean_spread_usd": 0.0727,
+      "p90_spread_usd": 0.1045,
+      "mean_quote_arrival_rate_per_min": 327.74,
+      "mean_kaufman_er": 0.3113,
+      "mean_adx_14": 26.92,
+      "mean_abs_kalman_vel": 0.02416,
+      "mean_abs_dist_ema20_atr": 1.1126,
+      "regime_mix_pct": {
+        "HIGH_VOLATILITY": 92.0,
+        "SIDEWAYS": 2.7,
+        "TRENDING_BULL": 2.5,
+        "TRENDING_BEAR": 2.0,
+        "LOW_VOLATILITY": 0.9
+      }
+    },
+    "UTC_15": {
+      "bars_5m": 816,
+      "mean_atr": 6.5581,
+      "median_atr": 6.3911,
+      "mean_spread_usd": 0.0687,
+      "p90_spread_usd": 0.1,
+      "mean_quote_arrival_rate_per_min": 293.0,
+      "mean_kaufman_er": 0.3215,
+      "mean_adx_14": 24.93,
+      "mean_abs_kalman_vel": 0.01994,
+      "mean_abs_dist_ema20_atr": 0.9621,
+      "regime_mix_pct": {
+        "HIGH_VOLATILITY": 72.7,
+        "TRENDING_BULL": 12.6,
+        "TRENDING_BEAR": 9.7,
+        "SIDEWAYS": 5.0
+      }
+    },
+    "UTC_16": {
+      "bars_5m": 816,
+      "mean_atr": 5.5836,
+      "median_atr": 5.3727,
+      "mean_spread_usd": 0.0699,
+      "p90_spread_usd": 0.0999,
+      "mean_quote_arrival_rate_per_min": 243.67,
+      "mean_kaufman_er": 0.3141,
+      "mean_adx_14": 23.99,
+      "mean_abs_kalman_vel": 0.01797,
+      "mean_abs_dist_ema20_atr": 0.9071,
+      "regime_mix_pct": {
+        "TRENDING_BEAR": 29.7,
+        "HIGH_VOLATILITY": 25.0,
+        "TRENDING_BULL": 23.9,
+        "SIDEWAYS": 11.9,
+        "LOW_VOLATILITY": 9.6
+      }
+    },
+    "UTC_17": {
+      "bars_5m": 815,
+      "mean_atr": 4.6971,
+      "median_atr": 4.5796,
+      "mean_spread_usd": 0.0718,
+      "p90_spread_usd": 0.1051,
+      "mean_quote_arrival_rate_per_min": 214.71,
+      "mean_kaufman_er": 0.2809,
+      "mean_adx_14": 23.31,
+      "mean_abs_kalman_vel": 0.01548,
+      "mean_abs_dist_ema20_atr": 0.8263,
+      "regime_mix_pct": {
+        "LOW_VOLATILITY": 33.4,
+        "TRENDING_BEAR": 23.1,
+        "SIDEWAYS": 20.1,
+        "TRENDING_BULL": 14.6,
+        "HIGH_VOLATILITY": 8.8
+      }
+    },
+    "UTC_18": {
+      "bars_5m": 798,
+      "mean_atr": 4.3008,
+      "median_atr": 4.0444,
+      "mean_spread_usd": 0.0705,
+      "p90_spread_usd": 0.1065,
+      "mean_quote_arrival_rate_per_min": 203.02,
+      "mean_kaufman_er": 0.3378,
+      "mean_adx_14": 23.81,
+      "mean_abs_kalman_vel": 0.01593,
+      "mean_abs_dist_ema20_atr": 1.0351,
+      "regime_mix_pct": {
+        "LOW_VOLATILITY": 49.6,
+        "SIDEWAYS": 18.5,
+        "TRENDING_BEAR": 17.8,
+        "TRENDING_BULL": 7.1,
+        "HIGH_VOLATILITY": 6.9
+      }
+    },
+    "UTC_19": {
+      "bars_5m": 792,
+      "mean_atr": 4.0516,
+      "median_atr": 3.7073,
+      "mean_spread_usd": 0.0736,
+      "p90_spread_usd": 0.1044,
+      "mean_quote_arrival_rate_per_min": 201.54,
+      "mean_kaufman_er": 0.3488,
+      "mean_adx_14": 24.56,
+      "mean_abs_kalman_vel": 0.01457,
+      "mean_abs_dist_ema20_atr": 1.1314,
+      "regime_mix_pct": {
+        "LOW_VOLATILITY": 62.1,
+        "TRENDING_BEAR": 11.7,
+        "HIGH_VOLATILITY": 9.2,
+        "SIDEWAYS": 8.8,
+        "TRENDING_BULL": 8.1
+      }
+    },
+    "UTC_20": {
+      "bars_5m": 792,
+      "mean_atr": 3.4875,
+      "median_atr": 3.2471,
+      "mean_spread_usd": 0.1188,
+      "p90_spread_usd": 0.2072,
+      "mean_quote_arrival_rate_per_min": 113.79,
+      "mean_kaufman_er": 0.3111,
+      "mean_adx_14": 24.35,
+      "mean_abs_kalman_vel": 0.01456,
+      "mean_abs_dist_ema20_atr": 0.9121,
+      "regime_mix_pct": {
+        "LOW_VOLATILITY": 72.1,
+        "TRENDING_BEAR": 11.1,
+        "HIGH_VOLATILITY": 6.4,
+        "TRENDING_BULL": 6.3,
+        "SIDEWAYS": 4.0
+      }
+    },
+    "UTC_21": {
+      "bars_5m": 144,
+      "mean_atr": 3.1795,
+      "median_atr": 2.9189,
+      "mean_spread_usd": 0.1551,
+      "p90_spread_usd": 0.2127,
+      "mean_quote_arrival_rate_per_min": 105.51,
+      "mean_kaufman_er": 0.2885,
+      "mean_adx_14": 23.2,
+      "mean_abs_kalman_vel": 0.01535,
+      "mean_abs_dist_ema20_atr": 0.7765,
+      "regime_mix_pct": {
+        "LOW_VOLATILITY": 64.6,
+        "SIDEWAYS": 18.1,
+        "TRENDING_BEAR": 9.7,
+        "HIGH_VOLATILITY": 5.6,
+        "TRENDING_BULL": 2.1
+      }
+    },
+    "UTC_22": {
+      "bars_5m": 652,
+      "mean_atr": 3.1387,
+      "median_atr": 2.9576,
+      "mean_spread_usd": 0.0721,
+      "p90_spread_usd": 0.0984,
+      "mean_quote_arrival_rate_per_min": 89.21,
+      "mean_kaufman_er": 0.3279,
+      "mean_adx_14": 23.84,
+      "mean_abs_kalman_vel": 0.01665,
+      "mean_abs_dist_ema20_atr": 0.9064,
+      "regime_mix_pct": {
+        "LOW_VOLATILITY": 84.4,
+        "TRENDING_BEAR": 9.2,
+        "TRENDING_BULL": 2.9,
+        "SIDEWAYS": 2.1,
+        "HIGH_VOLATILITY": 1.4
+      }
+    },
+    "UTC_23": {
+      "bars_5m": 805,
+      "mean_atr": 3.0273,
+      "median_atr": 2.8676,
+      "mean_spread_usd": 0.0749,
+      "p90_spread_usd": 0.1055,
+      "mean_quote_arrival_rate_per_min": 110.52,
+      "mean_kaufman_er": 0.3328,
+      "mean_adx_14": 22.25,
+      "mean_abs_kalman_vel": 0.01625,
+      "mean_abs_dist_ema20_atr": 1.1062,
+      "regime_mix_pct": {
+        "LOW_VOLATILITY": 72.9,
+        "SIDEWAYS": 12.3,
+        "TRENDING_BEAR": 7.7,
+        "TRENDING_BULL": 4.6,
+        "HIGH_VOLATILITY": 2.4,
+        "UNKNOWN": 0.1
+      }
+    }
+  },
+  "by_dst_session_5m_bars": {
+    "ASIAN_ONLY": {
+      "bars_5m": 5928,
+      "mean_atr": 4.4764,
+      "mean_spread_usd": 0.0706,
+      "mean_quote_arrival_rate_per_min": 201.17,
+      "mean_kaufman_er": 0.3281,
+      "mean_adx_14": 25.87,
+      "regime_mix_pct": {
+        "HIGH_VOLATILITY": 23.4,
+        "SIDEWAYS": 21.1,
+        "LOW_VOLATILITY": 19.4,
+        "TRENDING_BULL": 18.4,
+        "TRENDING_BEAR": 17.6,
+        "UNKNOWN": 0.0
+      }
+    },
+    "LONDON_PRE_OVERLAP": {
+      "bars_5m": 4020,
+      "mean_atr": 4.0364,
+      "mean_spread_usd": 0.0721,
+      "mean_quote_arrival_rate_per_min": 191.06,
+      "mean_kaufman_er": 0.3081,
+      "mean_adx_14": 24.03,
+      "regime_mix_pct": {
+        "SIDEWAYS": 36.8,
+        "LOW_VOLATILITY": 18.7,
+        "TRENDING_BEAR": 15.7,
+        "HIGH_VOLATILITY": 14.6,
+        "TRENDING_BULL": 14.2
+      }
+    },
+    "LONDON_NY_OVERLAP": {
+      "bars_5m": 2916,
+      "mean_atr": 6.1088,
+      "mean_spread_usd": 0.079,
+      "mean_quote_arrival_rate_per_min": 305.46,
+      "mean_kaufman_er": 0.329,
+      "mean_adx_14": 26.11,
+      "regime_mix_pct": {
+        "HIGH_VOLATILITY": 73.8,
+        "SIDEWAYS": 10.8,
+        "TRENDING_BEAR": 7.1,
+        "TRENDING_BULL": 6.7,
+        "LOW_VOLATILITY": 1.6
+      }
+    },
+    "NY_POST_LONDON": {
+      "bars_5m": 4349,
+      "mean_atr": 4.503,
+      "mean_spread_usd": 0.0831,
+      "mean_quote_arrival_rate_per_min": 195.85,
+      "mean_kaufman_er": 0.3164,
+      "mean_adx_14": 23.8,
+      "regime_mix_pct": {
+        "LOW_VOLATILITY": 43.7,
+        "TRENDING_BEAR": 17.8,
+        "HIGH_VOLATILITY": 13.9,
+        "SIDEWAYS": 12.7,
+        "TRENDING_BULL": 11.9
+      }
+    },
+    "OFF_HOURS": {
+      "bars_5m": 1457,
+      "mean_atr": 3.0771,
+      "mean_spread_usd": 0.0736,
+      "mean_quote_arrival_rate_per_min": 100.98,
+      "mean_kaufman_er": 0.3306,
+      "mean_adx_14": 22.96,
+      "regime_mix_pct": {
+        "LOW_VOLATILITY": 78.0,
+        "TRENDING_BEAR": 8.4,
+        "SIDEWAYS": 7.8,
+        "TRENDING_BULL": 3.8,
+        "HIGH_VOLATILITY": 1.9,
+        "UNKNOWN": 0.1
+      }
+    }
+  },
+  "by_utc_hour_w3_trades_H0": {
+    "UTC_07": {
+      "n": 21,
+      "net_pnl": 213.88,
+      "mean_atr": 4.4497,
+      "mean_entry_spread_usd": 0.0833,
+      "mean_quote_arrival_rate_per_min": 219.98,
+      "mean_kaufman_er": 0.3507,
+      "mean_adx_14": 30.97,
+      "mean_score": 0.7476,
+      "buy_n": 7,
+      "sell_n": 14
+    },
+    "UTC_08": {
+      "n": 18,
+      "net_pnl": 43.51,
+      "mean_atr": 4.4229,
+      "mean_entry_spread_usd": 0.0661,
+      "mean_quote_arrival_rate_per_min": 213.68,
+      "mean_kaufman_er": 0.3943,
+      "mean_adx_14": 26.95,
+      "mean_score": 0.8109,
+      "buy_n": 4,
+      "sell_n": 14
+    },
+    "UTC_09": {
+      "n": 16,
+      "net_pnl": -140.13,
+      "mean_atr": 4.1603,
+      "mean_entry_spread_usd": 0.0744,
+      "mean_quote_arrival_rate_per_min": 206.07,
+      "mean_kaufman_er": 0.4184,
+      "mean_adx_14": 25.27,
+      "mean_score": 0.7746,
+      "buy_n": 3,
+      "sell_n": 13
+    },
+    "UTC_10": {
+      "n": 14,
+      "net_pnl": 108.14,
+      "mean_atr": 3.8371,
+      "mean_entry_spread_usd": 0.0629,
+      "mean_quote_arrival_rate_per_min": 186.71,
+      "mean_kaufman_er": 0.358,
+      "mean_adx_14": 25.0,
+      "mean_score": 0.7393,
+      "buy_n": 4,
+      "sell_n": 10
+    },
+    "UTC_11": {
+      "n": 16,
+      "net_pnl": 14.98,
+      "mean_atr": 4.0659,
+      "mean_entry_spread_usd": 0.0612,
+      "mean_quote_arrival_rate_per_min": 208.07,
+      "mean_kaufman_er": 0.4107,
+      "mean_adx_14": 25.56,
+      "mean_score": 0.7507,
+      "buy_n": 7,
+      "sell_n": 9
+    },
+    "UTC_12": {
+      "n": 15,
+      "net_pnl": 48.99,
+      "mean_atr": 4.4571,
+      "mean_entry_spread_usd": 0.072,
+      "mean_quote_arrival_rate_per_min": 270.89,
+      "mean_kaufman_er": 0.4074,
+      "mean_adx_14": 20.29,
+      "mean_score": 0.7713,
+      "buy_n": 4,
+      "sell_n": 11
+    },
+    "UTC_13": {
+      "n": 9,
+      "net_pnl": 271.09,
+      "mean_atr": 4.1555,
+      "mean_entry_spread_usd": 0.08,
+      "mean_quote_arrival_rate_per_min": 278.27,
+      "mean_kaufman_er": 0.4035,
+      "mean_adx_14": 24.8,
+      "mean_score": 0.7179,
+      "buy_n": 1,
+      "sell_n": 8
+    },
+    "UTC_14": {
+      "n": 1,
+      "net_pnl": -113.76,
+      "mean_atr": 4.4683,
+      "mean_entry_spread_usd": 0.05,
+      "mean_quote_arrival_rate_per_min": 230.8,
+      "mean_kaufman_er": 0.3397,
+      "mean_adx_14": 11.18,
+      "mean_score": 0.8467,
+      "buy_n": 0,
+      "sell_n": 1
+    },
+    "UTC_15": {
+      "n": 5,
+      "net_pnl": -38.93,
+      "mean_atr": 6.2943,
+      "mean_entry_spread_usd": 0.1,
+      "mean_quote_arrival_rate_per_min": 273.4,
+      "mean_kaufman_er": 0.4514,
+      "mean_adx_14": 28.3,
+      "mean_score": 0.8483,
+      "buy_n": 4,
+      "sell_n": 1
+    },
+    "UTC_16": {
+      "n": 27,
+      "net_pnl": -237.7,
+      "mean_atr": 5.7606,
+      "mean_entry_spread_usd": 0.067,
+      "mean_quote_arrival_rate_per_min": 273.12,
+      "mean_kaufman_er": 0.4569,
+      "mean_adx_14": 24.7,
+      "mean_score": 0.8377,
+      "buy_n": 7,
+      "sell_n": 20
+    },
+    "UTC_17": {
+      "n": 1,
+      "net_pnl": 41.4,
+      "mean_atr": 5.8145,
+      "mean_entry_spread_usd": 0.05,
+      "mean_quote_arrival_rate_per_min": 214.2,
+      "mean_kaufman_er": 0.2752,
+      "mean_adx_14": 20.0,
+      "mean_score": 0.8724,
+      "buy_n": 0,
+      "sell_n": 1
+    }
+  },
+  "by_utc_hour_w3_trades_H4a": {
+    "UTC_07": {
+      "n": 18,
+      "net_pnl": 175.62,
+      "mean_atr": 4.3301,
+      "mean_entry_spread_usd": 0.0889,
+      "mean_quote_arrival_rate_per_min": 213.61,
+      "mean_kaufman_er": 0.3459,
+      "mean_adx_14": 30.69,
+      "mean_score": 0.683,
+      "buy_n": 6,
+      "sell_n": 12
+    },
+    "UTC_08": {
+      "n": 11,
+      "net_pnl": 112.64,
+      "mean_atr": 4.1054,
+      "mean_entry_spread_usd": 0.0573,
+      "mean_quote_arrival_rate_per_min": 198.85,
+      "mean_kaufman_er": 0.4122,
+      "mean_adx_14": 27.51,
+      "mean_score": 0.6916,
+      "buy_n": 2,
+      "sell_n": 9
+    },
+    "UTC_09": {
+      "n": 11,
+      "net_pnl": -332.45,
+      "mean_atr": 4.5298,
+      "mean_entry_spread_usd": 0.0791,
+      "mean_quote_arrival_rate_per_min": 230.05,
+      "mean_kaufman_er": 0.4918,
+      "mean_adx_14": 28.66,
+      "mean_score": 0.6953,
+      "buy_n": 3,
+      "sell_n": 8
+    },
+    "UTC_10": {
+      "n": 10,
+      "net_pnl": 221.9,
+      "mean_atr": 3.6795,
+      "mean_entry_spread_usd": 0.072,
+      "mean_quote_arrival_rate_per_min": 178.76,
+      "mean_kaufman_er": 0.3976,
+      "mean_adx_14": 23.06,
+      "mean_score": 0.674,
+      "buy_n": 2,
+      "sell_n": 8
+    },
+    "UTC_11": {
+      "n": 11,
+      "net_pnl": 488.49,
+      "mean_atr": 4.2112,
+      "mean_entry_spread_usd": 0.06,
+      "mean_quote_arrival_rate_per_min": 223.27,
+      "mean_kaufman_er": 0.4302,
+      "mean_adx_14": 24.72,
+      "mean_score": 0.6671,
+      "buy_n": 5,
+      "sell_n": 6
+    },
+    "UTC_12": {
+      "n": 10,
+      "net_pnl": 186.57,
+      "mean_atr": 3.9513,
+      "mean_entry_spread_usd": 0.075,
+      "mean_quote_arrival_rate_per_min": 222.62,
+      "mean_kaufman_er": 0.385,
+      "mean_adx_14": 19.99,
+      "mean_score": 0.6812,
+      "buy_n": 3,
+      "sell_n": 7
+    },
+    "UTC_13": {
+      "n": 10,
+      "net_pnl": 594.07,
+      "mean_atr": 4.2627,
+      "mean_entry_spread_usd": 0.088,
+      "mean_quote_arrival_rate_per_min": 298.52,
+      "mean_kaufman_er": 0.4358,
+      "mean_adx_14": 24.07,
+      "mean_score": 0.657,
+      "buy_n": 1,
+      "sell_n": 9
+    },
+    "UTC_15": {
+      "n": 4,
+      "net_pnl": -2.82,
+      "mean_atr": 5.9651,
+      "mean_entry_spread_usd": 0.0675,
+      "mean_quote_arrival_rate_per_min": 293.4,
+      "mean_kaufman_er": 0.4422,
+      "mean_adx_14": 27.25,
+      "mean_score": 0.6693,
+      "buy_n": 2,
+      "sell_n": 2
+    },
+    "UTC_16": {
+      "n": 14,
+      "net_pnl": -186.3,
+      "mean_atr": 5.5987,
+      "mean_entry_spread_usd": 0.0707,
+      "mean_quote_arrival_rate_per_min": 268.27,
+      "mean_kaufman_er": 0.4826,
+      "mean_adx_14": 23.15,
+      "mean_score": 0.7021,
+      "buy_n": 6,
+      "sell_n": 8
+    }
+  }
+}

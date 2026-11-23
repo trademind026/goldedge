@@ -1,0 +1,14 @@
+{
+  "total_candidate_window_pairs": 39,
+  "fully_reconciled_pairs": 39,
+  "unverified_or_mismatched_pairs": 0,
+  "total_individual_trades_reconciled": 3791,
+  "total_trailing_stop_updates_verified": 91401,
+  "frozen_hashes": {
+    "task4_match": true,
+    "v2_w1_match": true,
+    "v2_w2_match": true,
+    "v2_w3_match": true
+  },
+  "all_checks_passed": true
+}
