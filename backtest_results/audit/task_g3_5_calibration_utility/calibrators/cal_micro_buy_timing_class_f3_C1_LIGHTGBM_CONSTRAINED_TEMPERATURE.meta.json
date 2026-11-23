@@ -1,0 +1,21 @@
+{
+  "calibrator_id": "cal_micro_buy_timing_class_f3_C1_LIGHTGBM_CONSTRAINED_TEMPERATURE",
+  "base_artifact_id": "micro_buy_timing_class_f3_C1_LIGHTGBM_CONSTRAINED",
+  "base_artifact_sha256": "6C3025E7E1D58A244849C3A5C281A007C8EE7DA15BC2B3D7A481055BD56BD434",
+  "method": "TEMPERATURE",
+  "horizon": "micro",
+  "target_name": "buy_timing_class",
+  "fold_id": 3,
+  "classes": [
+    "ENTER_NOW",
+    "WAIT_ADVERSE",
+    "NEUTRAL"
+  ],
+  "cal_start_utc": "2026-09-18T00:00:00Z",
+  "cal_end_utc": "2026-10-02T00:00:00Z",
+  "cal_n_samples": 96155,
+  "cal_unique_days": 12,
+  "internal_val_logloss": 0.955192,
+  "created_at_utc": "2026-11-23T10:20:32.444777+00:00",
+  "calibrator_sha256": "2DCAA585D9211221B8E184565B4D9961828EEC803F8BCC1AE0489C724BE54DF7"
+}

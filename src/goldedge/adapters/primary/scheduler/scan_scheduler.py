@@ -71,12 +71,26 @@ class ScanScheduler:
         shadow_mode = getattr(self.scan_market_uc, "shadow_mode", False)
         tracker = getattr(self.scan_market_uc, "shadow_tracker", None) if shadow_mode else None
         journal = getattr(self.scan_market_uc, "shadow_journal", None) if shadow_mode else None
+        hwm_ks = getattr(self.scan_market_uc, "hwm_kill_switch", None)
+        if hwm_ks is not None:
+            try:
+                hwm_state = hwm_ks.restore_all()
+                if hwm_state.halted:
+                    logger.critical(
+                        f"[HWM_RESTORE] Persistent 8% HWM Kill-Switch ACTIVE on startup "
+                        f"(scope={hwm_state.account_scope}, dd={hwm_state.trigger_drawdown_pct or hwm_state.drawdown_pct:.2f}%, "
+                        f"reason={hwm_state.halt_reason}). Entries remain HALTED."
+                    )
+            except Exception as exc:
+                logger.error(f"[HWM_RESTORE] Failed restoring persistent HWM risk state (fail-closed): {exc}")
         if tracker is not None and journal is not None and not getattr(tracker, "restored", True):
             restored_n = tracker.restore_from_events(journal.read_all())
             logger.info(f"[SHADOW_RESTORE] Reconstructed {restored_n} open virtual position(s) from journal.")
 
-        def _ingest_warmup_tick(dt: datetime, bid: float, ask: float, vol: float):
+        def _ingest_warmup_tick(dt: datetime, bid: float, ask: float, vol: Optional[float]):
             nonlocal warmed_ticks, first_ts, last_ts, cur_1m
+            if bid <= 0.0 or ask <= 0.0 or bid >= ask:
+                return
             if dt.tzinfo is None:
                 dt = dt.replace(tzinfo=timezone.utc)
             else:
@@ -122,8 +136,11 @@ class ScanScheduler:
                             low=cur_1m["low"],
                             close=cur_1m["close"],
                             tick_volume=cur_1m["tick_volume"],
-                            real_volume=0,
+                            tick_count=cur_1m["tick_volume"],
+                            tick_rate=float(cur_1m["tick_volume"]),
+                            real_volume=None,
                             spread=cur_1m["spread"],
+                            is_feed_gap=(bucket_1m - cur_1m["bucket"]) > 1,
                         )
                     )
                 cur_1m = {
@@ -171,7 +188,7 @@ class ScanScheduler:
                         ask = float(t.ask or bid)
                         if bid <= 0:
                             continue
-                        vol = float(t.volume if t.volume is not None else 1.0)
+                        vol = float(t.volume) if t.volume is not None else None
                         _ingest_warmup_tick(t.time, bid, ask, vol)
             except Exception as exc:
                 logger.warning(f"[WARMUP] DB tick warmup failed for {symbol}: {exc}")
@@ -199,7 +216,8 @@ class ScanScheduler:
                     dt = _parse_utc(t_str)
                     if last_ts is not None and dt <= last_ts:
                         continue
-                    vol = float(td.get("volume") or 1.0)
+                    raw_td_vol = td.get("volume")
+                    vol = float(raw_td_vol) if raw_td_vol is not None else None
                     _ingest_warmup_tick(dt, bid, ask, vol)
                     redis_ticks_to_save.append(
                         Tick(
@@ -208,7 +226,7 @@ class ScanScheduler:
                             bid=bid,
                             ask=ask,
                             last=round((bid + ask) / 2.0, 5),
-                            volume=int(vol) if td.get("volume") is not None else None,
+                            volume=int(raw_td_vol) if raw_td_vol is not None else None,
                         )
                     )
             except Exception as exc:
@@ -302,23 +320,31 @@ class ScanScheduler:
             if symbol not in settings.ACTIVE_SYMBOLS:
                 return
 
-            bid_raw = tick_data.get("bid") or tick_data.get("last")
-            if not bid_raw:
+            bid_raw = tick_data.get("bid")
+            ask_raw = tick_data.get("ask")
+            if bid_raw is None or ask_raw is None:
                 return
             bid = float(bid_raw)
-            ask = float(tick_data.get("ask") or bid)
+            ask = float(ask_raw)
+            # Consistent quote validity rule across historical and live pipelines
+            if bid <= 0.0 or ask <= 0.0 or bid >= ask:
+                return
             raw_vol = tick_data.get("volume")
-            volume = float(raw_vol) if raw_vol is not None else 1.0
+            volume = float(raw_vol) if raw_vol is not None else None
 
             tick_time_str = tick_data.get("time")
             if not tick_time_str:
                 return
             dt = _parse_utc(tick_time_str)
 
-            # Skip ticks already consumed during warmup (zero double-counting on restart)
+            # Skip stale ticks strictly earlier than last processed timestamp, or exact duplicate (dt, bid, ask)
             prev_ts = self._last_tick_ts.get(symbol)
-            if prev_ts is not None and dt <= prev_ts:
+            prev_q = getattr(self, "_last_tick_quote", {}).get(symbol)
+            if prev_ts is not None and (dt < prev_ts or (dt == prev_ts and prev_q == (bid, ask))):
                 return
+            if not hasattr(self, "_last_tick_quote"):
+                self._last_tick_quote = {}
+            self._last_tick_quote[symbol] = (bid, ask)
 
             # 1. Update Kalman Filter continuously on every tick
             kf = self.kalman_filters[symbol]
@@ -394,8 +420,11 @@ class ScanScheduler:
                     low=cur_1m["low"],
                     close=cur_1m["close"],
                     tick_volume=cur_1m["tick_volume"],
-                    real_volume=0,
+                    tick_count=cur_1m["tick_volume"],
+                    tick_rate=float(cur_1m["tick_volume"]),
+                    real_volume=None,
                     spread=cur_1m["spread"],
+                    is_feed_gap=(bucket_1m - cur_1m["bucket"]) > 1,
                 )
                 self._flush_ticks(symbol)
                 if self.candle_repo is not None:

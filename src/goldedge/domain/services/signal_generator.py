@@ -50,7 +50,12 @@ class SignalGeneratorService:
 
 
     @staticmethod
-    def generate_signals(df: pd.DataFrame, symbol: str, regime: MarketRegime) -> List[Signal]:
+    def generate_signals(
+        df: pd.DataFrame,
+        symbol: str,
+        regime: MarketRegime,
+        use_tick_intensity_features: bool = True,
+    ) -> List[Signal]:
         """
         Runs the active strategies for the current regime against the latest row in df.
         """
@@ -86,18 +91,22 @@ class SignalGeneratorService:
             if sig:
                 signals.append(sig)
 
-        if "vwap_momentum_breakout" in active_strategies:
+        if "vwap_momentum_breakout" in active_strategies and use_tick_intensity_features:
             sig = SignalGeneratorService._vwap_momentum_breakout(latest_row, symbol)
             if sig:
                 signals.append(sig)
 
         if "bullish_momentum" in active_strategies:
-            sig = SignalGeneratorService._bullish_momentum(latest_row, symbol)
+            sig = SignalGeneratorService._bullish_momentum(
+                latest_row, symbol, use_tick_intensity_features=use_tick_intensity_features
+            )
             if sig:
                 signals.append(sig)
 
         if "bearish_momentum" in active_strategies:
-            sig = SignalGeneratorService._bearish_momentum(latest_row, symbol)
+            sig = SignalGeneratorService._bearish_momentum(
+                latest_row, symbol, use_tick_intensity_features=use_tick_intensity_features
+            )
             if sig:
                 signals.append(sig)
 
@@ -115,18 +124,22 @@ class SignalGeneratorService:
     @staticmethod
     def _vwap_momentum_breakout(row: dict, symbol: str) -> Optional[Signal]:
         """
-        XAUUSD VWAP Breakout: requires strong institutional volume (2.5×).
-        Nifty reference had 2.0× which is too easy for gold's normal intraday swings.
+        XAUUSD Tick-Weighted Price Breakout: uses quote-arrival rate ratio (> 2.5x)
+        and `tick_weighted_price` (NEVER genuine traded-volume VWAP).
         """
-        required = ["close", "vwap", "rsi", "ema20", "ema50"]
+        twp_key = "tick_weighted_price" if ("tick_weighted_price" in row and not pd.isna(row["tick_weighted_price"])) else "vwap"
+        required = ["close", twp_key, "rsi", "ema20", "ema50"]
         if not all(k in row and not pd.isna(row[k]) for k in required):
             return None
 
+        tick_ratio = row.get("tick_rate_ratio", 0)
+        if tick_ratio is None or pd.isna(tick_ratio):
+            tick_ratio = 0.0
         conditions = {
-            "price_above_vwap":  row["close"] > row.get("vwap", 0),
-            "vwap_slope_rising": row.get("ema20_slope", 0) > 0.00005,   # meaningful slope
+            "price_above_tick_weighted_price": row["close"] > row.get(twp_key, 0),
+            "twp_slope_rising":  row.get("ema20_slope", 0) > 0.00005,   # meaningful slope
             "rsi_above_60":      row["rsi"] > 60,
-            "volume_surge_2x5": row.get("volume_ratio", 0) > 2.5,       # raised: real breakout only
+            "tick_rate_surge_2x5": tick_ratio > 2.5,
             "ema20_above_ema50": row["ema20"] > row["ema50"],
         }
 
@@ -142,30 +155,40 @@ class SignalGeneratorService:
         return None
 
     @staticmethod
-    def _bullish_momentum(row: dict, symbol: str) -> Optional[Signal]:
+    def _bullish_momentum(row: dict, symbol: str, use_tick_intensity_features: bool = True) -> Optional[Signal]:
         """
-        XAUUSD Bullish Momentum.
-        Volume raised to 2.0× OR strong EMA slope (trend conviction without volume spike).
+        XAUUSD Bullish Momentum (uses quote-arrival proxies `tick_weighted_price` and
+        `tick_rate_ratio` when `use_tick_intensity_features=True`, or price-only EMA/RSI when False).
         """
-        required = ["close", "vwap", "rsi", "ema20", "ema50"]
+        twp_key = "tick_weighted_price" if ("tick_weighted_price" in row and not pd.isna(row["tick_weighted_price"])) else "vwap"
+        required = ["close", "rsi", "ema20", "ema50"] + ([twp_key] if use_tick_intensity_features else [])
         if not all(k in row and not pd.isna(row[k]) for k in required):
             return None
 
         ema20_slope = row.get("ema20_slope", 0.0)
-        volume_ratio = row.get("volume_ratio", 0.0)
+        strong_slope = ema20_slope > 0.0002   # decisive uptrend on 1m bars
 
-        # Volume OR slope — either is sufficient conviction signal
-        strong_volume = volume_ratio > 2.0
-        strong_slope  = ema20_slope > 0.0002   # decisive uptrend on 1m bars
+        if use_tick_intensity_features:
+            tick_ratio = row.get("tick_rate_ratio", 0.0)
+            if tick_ratio is None or pd.isna(tick_ratio):
+                tick_ratio = 0.0
+            strong_quote_rate = tick_ratio > 2.0
+            conditions = {
+                "price_above_twp":    row["close"] > row.get(twp_key, 0),
+                "rsi_above_55":       row["rsi"] > 55,
+                "ema20_above_ema50":  row["ema20"] > row["ema50"],
+                "tick_rate_or_slope": strong_quote_rate or strong_slope,
+            }
+            req_count = 4
+        else:
+            conditions = {
+                "rsi_above_55":       row["rsi"] > 55,
+                "ema20_above_ema50":  row["ema20"] > row["ema50"],
+                "strong_slope":       strong_slope,
+            }
+            req_count = 3
 
-        conditions = {
-            "price_above_vwap":   row["close"] > row.get("vwap", 0),
-            "rsi_above_55":       row["rsi"] > 55,
-            "ema20_above_ema50":  row["ema20"] > row["ema50"],
-            "volume_or_slope":    strong_volume or strong_slope,
-        }
-
-        if sum(conditions.values()) >= 4:
+        if sum(conditions.values()) >= req_count:
             return Signal(
                 strategy="bullish_momentum",
                 direction=SignalDirection.BUY,
@@ -177,12 +200,13 @@ class SignalGeneratorService:
         return None
 
     @staticmethod
-    def _bearish_momentum(row: dict, symbol: str) -> Optional[Signal]:
+    def _bearish_momentum(row: dict, symbol: str, use_tick_intensity_features: bool = True) -> Optional[Signal]:
         """
-        XAUUSD Bearish Momentum (Experiment E — symmetric 4/4 + bearish candle confirmation).
-        Volume raised to 2.0× OR strong negative EMA slope, plus bearish candle close < open.
+        XAUUSD Bearish Momentum (uses quote-arrival proxies `tick_weighted_price` and
+        `tick_rate_ratio` when `use_tick_intensity_features=True`, or price-only EMA/RSI when False).
         """
-        required = ["close", "vwap", "rsi", "ema20", "ema50"]
+        twp_key = "tick_weighted_price" if ("tick_weighted_price" in row and not pd.isna(row["tick_weighted_price"])) else "vwap"
+        required = ["close", "rsi", "ema20", "ema50"] + ([twp_key] if use_tick_intensity_features else [])
         if not all(k in row and not pd.isna(row[k]) for k in required):
             return None
 
@@ -190,21 +214,31 @@ class SignalGeneratorService:
         if open_px is not None and not pd.isna(open_px) and float(row["close"]) >= float(open_px):
             return None
 
-        ema20_slope  = row.get("ema20_slope", 0.0)
-        volume_ratio = row.get("volume_ratio", 0.0)
+        ema20_slope = row.get("ema20_slope", 0.0)
+        strong_slope = ema20_slope < -0.0002   # decisive downtrend
 
-        strong_volume = volume_ratio > 2.0
-        strong_slope  = ema20_slope < -0.0002   # decisive downtrend
-
-        conditions = {
-            "price_below_vwap":  row["close"] < row.get("vwap", float("inf")),
-            "rsi_below_45":      row["rsi"] < 45,
-            "ema20_below_ema50": row["ema20"] < row["ema50"],
-            "volume_or_slope":   strong_volume or strong_slope,
-        }
+        if use_tick_intensity_features:
+            tick_ratio = row.get("tick_rate_ratio", 0.0)
+            if tick_ratio is None or pd.isna(tick_ratio):
+                tick_ratio = 0.0
+            strong_quote_rate = tick_ratio > 2.0
+            conditions = {
+                "price_below_twp":    row["close"] < row.get(twp_key, float("inf")),
+                "rsi_below_45":       row["rsi"] < 45,
+                "ema20_below_ema50":  row["ema20"] < row["ema50"],
+                "tick_rate_or_slope": strong_quote_rate or strong_slope,
+            }
+            req_count = 4
+        else:
+            conditions = {
+                "rsi_below_45":      row["rsi"] < 45,
+                "ema20_below_ema50": row["ema20"] < row["ema50"],
+                "strong_slope":      strong_slope,
+            }
+            req_count = 3
 
         met = sum(conditions.values())
-        if met == 4:
+        if met == req_count:
             return Signal(
                 strategy="bearish_momentum",
                 direction=SignalDirection.SELL,
@@ -279,7 +313,7 @@ class SignalGeneratorService:
         return None
 
     # ──────────────────────────────────────────────────────────────────────────
-    # INSTITUTIONAL ENGINES (STAGE 2)
+    # QUANTITATIVE ENGINES (STAGE 2 — PRICE / QUOTE-MICROSTRUCTURE)
     # ──────────────────────────────────────────────────────────────────────────
 
     @staticmethod
@@ -461,7 +495,7 @@ class SignalGeneratorService:
 
         pip_unit = PipCalculator.get_pip_unit(symbol)
         close = float(row.get("close", 0.0))
-        vol = float(row.get("tick_volume", row.get("volume", 1.0)))
+        quote_rate = float(row.get("tick_rate", row.get("tick_count", 0.0)) or 0.0)
         atr14 = float(row.get("atr", close * 0.0005))
         adr_est = atr14 * 10.0  # approximate Average Daily Range
 
@@ -476,11 +510,12 @@ class SignalGeneratorService:
         if or_range >= 0.75 * adr_est:
             return None
 
-        vol_avg = float(prior_df["tick_volume"].tail(20).mean()) if "tick_volume" in prior_df.columns else 1.0
-        vol_surge = vol >= 2.0 * vol_avg
+        rate_col = "tick_rate" if "tick_rate" in prior_df.columns else "tick_count"
+        rate_avg = float(prior_df[rate_col].tail(20).mean()) if rate_col in prior_df.columns else 0.0
+        tick_rate_surge = rate_avg > 0.0 and quote_rate >= 2.0 * rate_avg
 
         # BUY Breakout
-        if close > or_high and vol_surge:
+        if close > or_high and tick_rate_surge:
             sl_px = (or_high + or_low) / 2.0
             tp_px = close + (1.5 * or_range)
             sl_dist = abs(close - sl_px)
@@ -500,7 +535,7 @@ class SignalGeneratorService:
             )
 
         # SELL Breakout
-        if close < or_low and vol_surge:
+        if close < or_low and tick_rate_surge:
             sl_px = (or_high + or_low) / 2.0
             tp_px = close - (1.5 * or_range)
             sl_dist = abs(sl_px - close)

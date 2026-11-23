@@ -1,0 +1,30 @@
+{
+  "name": "H3B_CHANGE_A_ER50",
+  "config": {
+    "name": "H3B_CHANGE_A_ER50",
+    "session_close_utc": 15,
+    "early_fail_mins": 15,
+    "early_fail_min_mfe_atr": 0.4,
+    "min_score_threshold": 0.6,
+    "max_kaufman_er": 0.5,
+    "be_trigger_atr": 1.0
+  },
+  "trades": 172,
+  "unique_days": 81,
+  "win_rate_pct": 0.52,
+  "net_pnl_usd": 596.17,
+  "final_equity_usd": 10596.17,
+  "total_net_r": 11.9647,
+  "mean_net_r": 0.06956,
+  "pf": 1.224,
+  "closed_max_dd_usd": -321.52,
+  "closed_max_dd_pct": 3.0,
+  "mtm_max_dd_usd": -342.65,
+  "mtm_max_dd_pct": 3.2,
+  "hwm_kill_switch_halted": false,
+  "total_commission_usd": 124.81,
+  "total_slippage_usd": 12.66,
+  "trades_parquet": "backtest_results/audit/task_g3_6r_h3b_profitability_improvement/runs/H3B_CHANGE_A_ER50_trades.parquet",
+  "trades_parquet_sha256": "B1C4498FC98B477BC291DF71D29F19B7CABAA11788AF4FC96B53853152B10E44",
+  "elapsed_sec": 716.6
+}

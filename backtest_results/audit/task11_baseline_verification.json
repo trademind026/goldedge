@@ -1,0 +1,50 @@
+{
+  "frozen_hashes": {
+    "task4_match": true,
+    "v2_w1_match": true,
+    "v2_w2_match": true,
+    "v2_w3_match": true,
+    "v2_w3_journeys_match": true
+  },
+  "w3_reproduction": {
+    "H0": {
+      "n": 143,
+      "net_pnl": 211.48,
+      "mtm_dd_pct": 12.78,
+      "diff_vs_task10": 0.001
+    },
+    "H4a": {
+      "n": 99,
+      "net_pnl": 1257.7,
+      "mtm_dd_pct": 6.18,
+      "diff_vs_task10": 0.0041
+    }
+  },
+  "task10_reconciliation_ref": {
+    "W1": {
+      "frozen_trades": 118,
+      "sim_trades": 118,
+      "mismatch_count": 0,
+      "max_pnl_diff_usd": 0.0
+    },
+    "W2": {
+      "frozen_trades": 131,
+      "sim_trades": 131,
+      "mismatch_count": 0,
+      "max_pnl_diff_usd": 0.0
+    },
+    "W3": {
+      "frozen_trades": 143,
+      "sim_trades": 143,
+      "mismatch_count": 0,
+      "max_pnl_diff_usd": 0.0
+    },
+    "task9_cross_check": {
+      "H4a_pnl_diff_vs_task9": 0.0041,
+      "H5_pnl_diff_vs_task9": 0.0049,
+      "H1_pnl_diff_vs_task9": 0.0034,
+      "H7_pnl_diff_vs_task9": 0.0008
+    }
+  },
+  "bar5m_count_reconstructed": 18670
+}

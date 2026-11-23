@@ -1,40 +1,90 @@
-import { type RiskProfile } from "@/lib/api";
+"use client";
 
-export default function RiskProfileCard({ profile }: { profile: RiskProfile }) {
+import type { RiskProfile, RiskLevel, BacktestProfile } from "@/lib/api";
+import { fmtUsd, fmtWinRate } from "@/lib/backtestHelpers";
+
+interface Props {
+  level?: RiskLevel;
+  profile: RiskProfile;
+  active?: boolean;
+  onSelect?: (l: RiskLevel) => void;
+  context?: "live" | "backtest";
+  result?: BacktestProfile;
+}
+
+const colors: Record<RiskLevel, string> = {
+  low: "#4da6ff",
+  medium: "#e8c300",
+  high: "#00e87b",
+};
+
+export default function RiskProfileCard({
+  level = "medium",
+  profile,
+  active = false,
+  onSelect,
+  context = "backtest",
+  result,
+}: Props) {
+  const c = colors[level];
+  const ctxColor = context === "live" ? "#00e87b" : "#a78bfa";
+  const ctxLabel = context === "live" ? "LIVE" : "BACKTEST";
+  const hasResult = Boolean(result && (result.trades ?? 0) > 0);
+
   return (
-    <div style={{ background: "#0a0c10", padding: 20, borderRadius: 12, border: "1px solid #1a1a2e" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, color: "#fff" }}>
-          {profile.name} <span style={{ color: "#5a6270", fontSize: 13, fontWeight: 400 }}>({profile.context})</span>
-        </h3>
+    <button
+      type="button"
+      onClick={() => onSelect?.(level)}
+      className="text-left w-full p-4 transition-all"
+      style={{
+        background: active ? "#1e222c" : "#181c24",
+        border: `1px solid ${active ? c : "#252a33"}`,
+        color: active ? c : "#5a6270",
+      }}
+    >
+      <div className="flex items-center justify-between mb-3">
+        <div className="text-[11px] font-bold uppercase tracking-wider" style={{ color: active ? c : "#5a6270" }}>
+          {level} — {profile.name}
+        </div>
+        <span
+          className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5"
+          style={{ background: `${ctxColor}18`, color: ctxColor, border: `1px solid ${ctxColor}40` }}
+        >
+          {ctxLabel}
+        </span>
       </div>
-      
-      <div style={{ background: "#111318", borderRadius: 8, padding: 12 }}>
-        <table style={{ width: "100%", fontSize: 13, borderCollapse: "collapse" }}>
-          <tbody>
-            <tr style={{ borderBottom: "1px solid #1a1a2e" }}>
-              <td style={{ padding: "8px 0", color: "#5a6270" }}>Risk per Trade</td>
-              <td style={{ padding: "8px 0", textAlign: "right" }}>{profile.risk_per_trade_pct}%</td>
-            </tr>
-            <tr style={{ borderBottom: "1px solid #1a1a2e" }}>
-              <td style={{ padding: "8px 0", color: "#5a6270" }}>Max Daily Loss</td>
-              <td style={{ padding: "8px 0", textAlign: "right" }}>{profile.max_daily_loss_pct}%</td>
-            </tr>
-            <tr style={{ borderBottom: "1px solid #1a1a2e" }}>
-              <td style={{ padding: "8px 0", color: "#5a6270" }}>Max Trades/Day</td>
-              <td style={{ padding: "8px 0", textAlign: "right" }}>{profile.max_trades_per_day}</td>
-            </tr>
-            <tr style={{ borderBottom: "1px solid #1a1a2e" }}>
-              <td style={{ padding: "8px 0", color: "#5a6270" }}>SL / TP Multiplier</td>
-              <td style={{ padding: "8px 0", textAlign: "right" }}>{profile.sl_atr_multiplier}x / {profile.tp_atr_multiplier}x</td>
-            </tr>
-            <tr style={{ borderBottom: "1px solid #1a1a2e" }}>
-              <td style={{ padding: "8px 0", color: "#5a6270" }}>Min ML Score</td>
-              <td style={{ padding: "8px 0", textAlign: "right" }}>{profile.min_score_threshold}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 text-[11px]">
+        {[
+          ["Risk / trade", `${profile.risk_per_trade_pct}%`],
+          ["Max daily loss", `${profile.max_daily_loss_pct}%`],
+          ["SL ATR mult", `${profile.sl_atr_multiplier}×`],
+          ["TP ATR mult", `${profile.tp_atr_multiplier}×`],
+          ["Min score", `${profile.min_score_threshold.toFixed(2)}`],
+          ["Max trades/day", `${profile.max_trades_per_day}`],
+          ["Max consec loss", `${profile.max_consecutive_losses}`],
+          [
+            "Last run",
+            hasResult && result ? `${fmtUsd(result.pnl, true)} (${fmtWinRate(result.win_rate)})` : "—",
+          ],
+        ].map(([k, v]) => (
+          <div key={String(k)} className="flex justify-between gap-2">
+            <span style={{ color: "#5a6270" }}>{k}</span>
+            <span
+              className="font-semibold"
+              style={{
+                color:
+                  k === "Last run" && hasResult && result
+                    ? result.pnl >= 0
+                      ? "#00e87b"
+                      : "#ff3e3e"
+                    : "#c8cdd5",
+              }}
+            >
+              {v}
+            </span>
+          </div>
+        ))}
       </div>
-    </div>
+    </button>
   );
 }

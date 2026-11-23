@@ -1,0 +1,4084 @@
+{
+  "task": "G3.5_PHASE_B_PROBABILITY_CALIBRATION",
+  "generated_at_utc": "2026-11-23T10:20:55.196640+00:00",
+  "selection_rule": "Chronological 60/40 internal split inside reserved CALIBRATION fold; lowest internal val log-loss with 1e-4 parsimony tie-break; refit winner on full CALIBRATION fold. Zero OOT exposure.",
+  "macro_calibration": {
+    "fold_selection_strict_cal_only": [
+      {
+        "fold_id": 1,
+        "models": {
+          "B3_LOGISTIC_L2": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.907371
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.908734
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.910355
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.95299
+              }
+            },
+            "selected_method": "RAW",
+            "selected_internal_logloss": 0.907371,
+            "isotonic_allowed": true
+          },
+          "C1_LIGHTGBM_CONSTRAINED": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.906455
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.910968
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.914748
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.934023
+              }
+            },
+            "selected_method": "RAW",
+            "selected_internal_logloss": 0.906455,
+            "isotonic_allowed": true
+          }
+        }
+      },
+      {
+        "fold_id": 2,
+        "models": {
+          "B3_LOGISTIC_L2": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.883595
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.883982
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.884223
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.885408
+              }
+            },
+            "selected_method": "RAW",
+            "selected_internal_logloss": 0.883595,
+            "isotonic_allowed": true
+          },
+          "C1_LIGHTGBM_CONSTRAINED": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.876007
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.87726
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.877044
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.922816
+              }
+            },
+            "selected_method": "RAW",
+            "selected_internal_logloss": 0.876007,
+            "isotonic_allowed": true
+          }
+        }
+      },
+      {
+        "fold_id": 3,
+        "models": {
+          "B3_LOGISTIC_L2": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.812535
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.813957
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.81442
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.885428
+              }
+            },
+            "selected_method": "RAW",
+            "selected_internal_logloss": 0.812535,
+            "isotonic_allowed": true
+          },
+          "C1_LIGHTGBM_CONSTRAINED": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.81105
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.812137
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.810251
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.813622
+              }
+            },
+            "selected_method": "SIGMOID_OVR",
+            "selected_internal_logloss": 0.810251,
+            "isotonic_allowed": true
+          }
+        }
+      },
+      {
+        "fold_id": 4,
+        "models": {
+          "B3_LOGISTIC_L2": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.770442
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.770276
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.772695
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.85543
+              }
+            },
+            "selected_method": "TEMPERATURE",
+            "selected_internal_logloss": 0.770276,
+            "isotonic_allowed": true
+          },
+          "C1_LIGHTGBM_CONSTRAINED": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.765222
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.765651
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.766356
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.786246
+              }
+            },
+            "selected_method": "RAW",
+            "selected_internal_logloss": 0.765222,
+            "isotonic_allowed": true
+          }
+        }
+      }
+    ],
+    "pooled_oot_multiclass": {
+      "B1_TRAIN_PREVALENCE": {
+        "n_samples": 16113,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.87804,
+        "multiclass_brier": 0.50745,
+        "accuracy": 0.66046,
+        "ece_sensitivity": {
+          "ece_5bin": 0.02777,
+          "ece_10bin": 0.02777,
+          "ece_15bin": 0.02777
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.60,0.70]",
+            "count": 16113,
+            "mean_prob": 0.6327,
+            "emp_acc": 0.6605
+          }
+        ],
+        "roc_auc_ovr": {
+          "UP": 0.49754,
+          "DOWN": 0.48323,
+          "FLAT": 0.49917
+        },
+        "pr_auc_ovr": {
+          "UP": 0.16826,
+          "DOWN": 0.16959,
+          "FLAT": 0.656
+        },
+        "class_conditional": {
+          "UP": {
+            "mean_pred_prob": 0.17562,
+            "empirical_rate": 0.16608,
+            "brier": 0.13858
+          },
+          "DOWN": {
+            "mean_pred_prob": 0.19168,
+            "empirical_rate": 0.17346,
+            "brier": 0.14381
+          },
+          "FLAT": {
+            "mean_pred_prob": 0.63269,
+            "empirical_rate": 0.66046,
+            "brier": 0.22506
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.875125,
+          "se_day_block": 0.016252,
+          "ci95_low": 0.843272,
+          "ci95_high": 0.906978,
+          "mean_ex_best_day": 0.868252,
+          "mean_ex_worst_day": 0.881066
+        }
+      },
+      "B3_LOGISTIC_L2_raw": {
+        "n_samples": 16113,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.84192,
+        "multiclass_brier": 0.48312,
+        "accuracy": 0.65996,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01055,
+          "ece_10bin": 0.0113,
+          "ece_15bin": 0.01055
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 578,
+            "mean_prob": 0.3728,
+            "emp_acc": 0.3754
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 1217,
+            "mean_prob": 0.4526,
+            "emp_acc": 0.4363
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 2436,
+            "mean_prob": 0.5558,
+            "emp_acc": 0.5349
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 4458,
+            "mean_prob": 0.6554,
+            "emp_acc": 0.6411
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 5788,
+            "mean_prob": 0.7472,
+            "emp_acc": 0.7481
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 1635,
+            "mean_prob": 0.8288,
+            "emp_acc": 0.8532
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 1,
+            "mean_prob": 0.9025,
+            "emp_acc": 0.0
+          }
+        ],
+        "roc_auc_ovr": {
+          "UP": 0.62526,
+          "DOWN": 0.62339,
+          "FLAT": 0.65974
+        },
+        "pr_auc_ovr": {
+          "UP": 0.24172,
+          "DOWN": 0.24582,
+          "FLAT": 0.77842
+        },
+        "class_conditional": {
+          "UP": {
+            "mean_pred_prob": 0.15926,
+            "empirical_rate": 0.16608,
+            "brier": 0.13485
+          },
+          "DOWN": {
+            "mean_pred_prob": 0.17829,
+            "empirical_rate": 0.17346,
+            "brier": 0.13969
+          },
+          "FLAT": {
+            "mean_pred_prob": 0.66244,
+            "empirical_rate": 0.66046,
+            "brier": 0.20858
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.841875,
+          "se_day_block": 0.019154,
+          "ci95_low": 0.804332,
+          "ci95_high": 0.879417,
+          "mean_ex_best_day": 0.834975,
+          "mean_ex_worst_day": 0.850366
+        }
+      },
+      "B3_LOGISTIC_L2_cal": {
+        "n_samples": 16113,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.84283,
+        "multiclass_brier": 0.4837,
+        "accuracy": 0.65996,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01454,
+          "ece_10bin": 0.01486,
+          "ece_15bin": 0.01454
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 557,
+            "mean_prob": 0.3735,
+            "emp_acc": 0.3788
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 1175,
+            "mean_prob": 0.4525,
+            "emp_acc": 0.4332
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 2286,
+            "mean_prob": 0.5561,
+            "emp_acc": 0.5332
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 4283,
+            "mean_prob": 0.6553,
+            "emp_acc": 0.636
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 5901,
+            "mean_prob": 0.7488,
+            "emp_acc": 0.7397
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 1907,
+            "mean_prob": 0.8296,
+            "emp_acc": 0.8416
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 4,
+            "mean_prob": 0.9049,
+            "emp_acc": 0.25
+          }
+        ],
+        "roc_auc_ovr": {
+          "UP": 0.62593,
+          "DOWN": 0.62024,
+          "FLAT": 0.6579
+        },
+        "pr_auc_ovr": {
+          "UP": 0.24214,
+          "DOWN": 0.24437,
+          "FLAT": 0.77621
+        },
+        "class_conditional": {
+          "UP": {
+            "mean_pred_prob": 0.15622,
+            "empirical_rate": 0.16608,
+            "brier": 0.13488
+          },
+          "DOWN": {
+            "mean_pred_prob": 0.17529,
+            "empirical_rate": 0.17346,
+            "brier": 0.13986
+          },
+          "FLAT": {
+            "mean_pred_prob": 0.66849,
+            "empirical_rate": 0.66046,
+            "brier": 0.20896
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.843313,
+          "se_day_block": 0.019717,
+          "ci95_low": 0.804669,
+          "ci95_high": 0.881958,
+          "mean_ex_best_day": 0.835883,
+          "mean_ex_worst_day": 0.851824
+        }
+      },
+      "B3_LOGISTIC_L2_TEMPERATURE": {
+        "n_samples": 16113,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.84241,
+        "multiclass_brier": 0.48348,
+        "accuracy": 0.65996,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00577,
+          "ece_10bin": 0.00715,
+          "ece_15bin": 0.01244
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 577,
+            "mean_prob": 0.3732,
+            "emp_acc": 0.3761
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 1286,
+            "mean_prob": 0.4532,
+            "emp_acc": 0.4432
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 2528,
+            "mean_prob": 0.5566,
+            "emp_acc": 0.5384
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 4612,
+            "mean_prob": 0.6551,
+            "emp_acc": 0.6526
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 5586,
+            "mean_prob": 0.7472,
+            "emp_acc": 0.7488
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 1521,
+            "mean_prob": 0.8282,
+            "emp_acc": 0.8494
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 3,
+            "mean_prob": 0.9057,
+            "emp_acc": 0.3333
+          }
+        ],
+        "roc_auc_ovr": {
+          "UP": 0.62693,
+          "DOWN": 0.61913,
+          "FLAT": 0.65757
+        },
+        "pr_auc_ovr": {
+          "UP": 0.24243,
+          "DOWN": 0.2438,
+          "FLAT": 0.77629
+        },
+        "class_conditional": {
+          "UP": {
+            "mean_pred_prob": 0.16118,
+            "empirical_rate": 0.16608,
+            "brier": 0.13474
+          },
+          "DOWN": {
+            "mean_pred_prob": 0.18011,
+            "empirical_rate": 0.17346,
+            "brier": 0.13991
+          },
+          "FLAT": {
+            "mean_pred_prob": 0.65871,
+            "empirical_rate": 0.66046,
+            "brier": 0.20883
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.843171,
+          "se_day_block": 0.01931,
+          "ci95_low": 0.805324,
+          "ci95_high": 0.881018,
+          "mean_ex_best_day": 0.835739,
+          "mean_ex_worst_day": 0.851193
+        }
+      },
+      "B3_LOGISTIC_L2_SIGMOID_OVR": {
+        "n_samples": 16113,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.8419,
+        "multiclass_brier": 0.48329,
+        "accuracy": 0.65928,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00646,
+          "ece_10bin": 0.00722,
+          "ece_15bin": 0.01345
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 563,
+            "mean_prob": 0.3739,
+            "emp_acc": 0.3499
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 1338,
+            "mean_prob": 0.4525,
+            "emp_acc": 0.4484
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 2475,
+            "mean_prob": 0.5567,
+            "emp_acc": 0.5398
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 4539,
+            "mean_prob": 0.6551,
+            "emp_acc": 0.651
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 5673,
+            "mean_prob": 0.7474,
+            "emp_acc": 0.7481
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 1523,
+            "mean_prob": 0.8275,
+            "emp_acc": 0.8477
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 2,
+            "mean_prob": 0.9074,
+            "emp_acc": 0.0
+          }
+        ],
+        "roc_auc_ovr": {
+          "UP": 0.62781,
+          "DOWN": 0.62125,
+          "FLAT": 0.65735
+        },
+        "pr_auc_ovr": {
+          "UP": 0.24418,
+          "DOWN": 0.24729,
+          "FLAT": 0.77602
+        },
+        "class_conditional": {
+          "UP": {
+            "mean_pred_prob": 0.16534,
+            "empirical_rate": 0.16608,
+            "brier": 0.13468
+          },
+          "DOWN": {
+            "mean_pred_prob": 0.17588,
+            "empirical_rate": 0.17346,
+            "brier": 0.13967
+          },
+          "FLAT": {
+            "mean_pred_prob": 0.65878,
+            "empirical_rate": 0.66046,
+            "brier": 0.20894
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.842252,
+          "se_day_block": 0.019365,
+          "ci95_low": 0.804297,
+          "ci95_high": 0.880207,
+          "mean_ex_best_day": 0.834776,
+          "mean_ex_worst_day": 0.850337
+        }
+      },
+      "B3_LOGISTIC_L2_ISOTONIC_OVR": {
+        "n_samples": 16113,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.85852,
+        "multiclass_brier": 0.48492,
+        "accuracy": 0.6599,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00368,
+          "ece_10bin": 0.00579,
+          "ece_15bin": 0.01319
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 491,
+            "mean_prob": 0.3802,
+            "emp_acc": 0.389
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 1522,
+            "mean_prob": 0.441,
+            "emp_acc": 0.452
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 2652,
+            "mean_prob": 0.5565,
+            "emp_acc": 0.5449
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 3987,
+            "mean_prob": 0.6522,
+            "emp_acc": 0.6469
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 5860,
+            "mean_prob": 0.7473,
+            "emp_acc": 0.7461
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 1293,
+            "mean_prob": 0.8344,
+            "emp_acc": 0.8345
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 308,
+            "mean_prob": 0.9474,
+            "emp_acc": 0.9058
+          }
+        ],
+        "roc_auc_ovr": {
+          "UP": 0.62077,
+          "DOWN": 0.61929,
+          "FLAT": 0.65624
+        },
+        "pr_auc_ovr": {
+          "UP": 0.23811,
+          "DOWN": 0.24791,
+          "FLAT": 0.77623
+        },
+        "class_conditional": {
+          "UP": {
+            "mean_pred_prob": 0.16537,
+            "empirical_rate": 0.16608,
+            "brier": 0.13534
+          },
+          "DOWN": {
+            "mean_pred_prob": 0.17605,
+            "empirical_rate": 0.17346,
+            "brier": 0.13987
+          },
+          "FLAT": {
+            "mean_pred_prob": 0.65859,
+            "empirical_rate": 0.66046,
+            "brier": 0.20971
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.856721,
+          "se_day_block": 0.02022,
+          "ci95_low": 0.817091,
+          "ci95_high": 0.896352,
+          "mean_ex_best_day": 0.849006,
+          "mean_ex_worst_day": 0.865333
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_raw": {
+        "n_samples": 16113,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.84017,
+        "multiclass_brier": 0.48203,
+        "accuracy": 0.65922,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00698,
+          "ece_10bin": 0.00874,
+          "ece_15bin": 0.0098
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 501,
+            "mean_prob": 0.3759,
+            "emp_acc": 0.3633
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 1428,
+            "mean_prob": 0.4521,
+            "emp_acc": 0.4447
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 2680,
+            "mean_prob": 0.5541,
+            "emp_acc": 0.5265
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 4598,
+            "mean_prob": 0.6538,
+            "emp_acc": 0.6603
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 4787,
+            "mean_prob": 0.7471,
+            "emp_acc": 0.7441
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 1960,
+            "mean_prob": 0.8391,
+            "emp_acc": 0.8393
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 159,
+            "mean_prob": 0.915,
+            "emp_acc": 0.9497
+          }
+        ],
+        "roc_auc_ovr": {
+          "UP": 0.62688,
+          "DOWN": 0.62495,
+          "FLAT": 0.66331
+        },
+        "pr_auc_ovr": {
+          "UP": 0.2405,
+          "DOWN": 0.24322,
+          "FLAT": 0.78284
+        },
+        "class_conditional": {
+          "UP": {
+            "mean_pred_prob": 0.15915,
+            "empirical_rate": 0.16608,
+            "brier": 0.13475
+          },
+          "DOWN": {
+            "mean_pred_prob": 0.17941,
+            "empirical_rate": 0.17346,
+            "brier": 0.13964
+          },
+          "FLAT": {
+            "mean_pred_prob": 0.66144,
+            "empirical_rate": 0.66046,
+            "brier": 0.20763
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.840545,
+          "se_day_block": 0.018779,
+          "ci95_low": 0.803738,
+          "ci95_high": 0.877351,
+          "mean_ex_best_day": 0.834214,
+          "mean_ex_worst_day": 0.849611
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_cal": {
+        "n_samples": 16113,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.84043,
+        "multiclass_brier": 0.48207,
+        "accuracy": 0.65996,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00804,
+          "ece_10bin": 0.00926,
+          "ece_15bin": 0.0103
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 469,
+            "mean_prob": 0.3767,
+            "emp_acc": 0.3795
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 1407,
+            "mean_prob": 0.4527,
+            "emp_acc": 0.4471
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 2634,
+            "mean_prob": 0.5541,
+            "emp_acc": 0.519
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 4618,
+            "mean_prob": 0.6539,
+            "emp_acc": 0.6596
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 4942,
+            "mean_prob": 0.7468,
+            "emp_acc": 0.7448
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 1914,
+            "mean_prob": 0.8381,
+            "emp_acc": 0.8422
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 129,
+            "mean_prob": 0.9101,
+            "emp_acc": 0.938
+          }
+        ],
+        "roc_auc_ovr": {
+          "UP": 0.62549,
+          "DOWN": 0.62537,
+          "FLAT": 0.66348
+        },
+        "pr_auc_ovr": {
+          "UP": 0.24111,
+          "DOWN": 0.24505,
+          "FLAT": 0.78235
+        },
+        "class_conditional": {
+          "UP": {
+            "mean_pred_prob": 0.15873,
+            "empirical_rate": 0.16608,
+            "brier": 0.13482
+          },
+          "DOWN": {
+            "mean_pred_prob": 0.17891,
+            "empirical_rate": 0.17346,
+            "brier": 0.13963
+          },
+          "FLAT": {
+            "mean_pred_prob": 0.66236,
+            "empirical_rate": 0.66046,
+            "brier": 0.20762
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.839737,
+          "se_day_block": 0.018857,
+          "ci95_low": 0.802776,
+          "ci95_high": 0.876697,
+          "mean_ex_best_day": 0.833394,
+          "mean_ex_worst_day": 0.848792
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_TEMPERATURE": {
+        "n_samples": 16113,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.84046,
+        "multiclass_brier": 0.48225,
+        "accuracy": 0.65922,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00768,
+          "ece_10bin": 0.009,
+          "ece_15bin": 0.00956
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 508,
+            "mean_prob": 0.3763,
+            "emp_acc": 0.3642
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 1451,
+            "mean_prob": 0.4526,
+            "emp_acc": 0.4438
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 2706,
+            "mean_prob": 0.5543,
+            "emp_acc": 0.5307
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 4681,
+            "mean_prob": 0.6532,
+            "emp_acc": 0.6625
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 4673,
+            "mean_prob": 0.747,
+            "emp_acc": 0.7447
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 1936,
+            "mean_prob": 0.8381,
+            "emp_acc": 0.8414
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 158,
+            "mean_prob": 0.9183,
+            "emp_acc": 0.9304
+          }
+        ],
+        "roc_auc_ovr": {
+          "UP": 0.62791,
+          "DOWN": 0.62263,
+          "FLAT": 0.66248
+        },
+        "pr_auc_ovr": {
+          "UP": 0.24085,
+          "DOWN": 0.24182,
+          "FLAT": 0.78193
+        },
+        "class_conditional": {
+          "UP": {
+            "mean_pred_prob": 0.16003,
+            "empirical_rate": 0.16608,
+            "brier": 0.13469
+          },
+          "DOWN": {
+            "mean_pred_prob": 0.18024,
+            "empirical_rate": 0.17346,
+            "brier": 0.13978
+          },
+          "FLAT": {
+            "mean_pred_prob": 0.65973,
+            "empirical_rate": 0.66046,
+            "brier": 0.20777
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.841503,
+          "se_day_block": 0.018807,
+          "ci95_low": 0.804643,
+          "ci95_high": 0.878364,
+          "mean_ex_best_day": 0.83484,
+          "mean_ex_worst_day": 0.850139
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_SIGMOID_OVR": {
+        "n_samples": 16113,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.84036,
+        "multiclass_brier": 0.48224,
+        "accuracy": 0.66052,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00639,
+          "ece_10bin": 0.00759,
+          "ece_15bin": 0.0097
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 541,
+            "mean_prob": 0.3762,
+            "emp_acc": 0.3993
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 1422,
+            "mean_prob": 0.4541,
+            "emp_acc": 0.4494
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 2590,
+            "mean_prob": 0.5551,
+            "emp_acc": 0.5309
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 4654,
+            "mean_prob": 0.6535,
+            "emp_acc": 0.6577
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 4869,
+            "mean_prob": 0.7469,
+            "emp_acc": 0.7449
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 1923,
+            "mean_prob": 0.837,
+            "emp_acc": 0.8414
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 114,
+            "mean_prob": 0.9118,
+            "emp_acc": 0.9386
+          }
+        ],
+        "roc_auc_ovr": {
+          "UP": 0.62719,
+          "DOWN": 0.62409,
+          "FLAT": 0.66181
+        },
+        "pr_auc_ovr": {
+          "UP": 0.2438,
+          "DOWN": 0.24491,
+          "FLAT": 0.78105
+        },
+        "class_conditional": {
+          "UP": {
+            "mean_pred_prob": 0.16438,
+            "empirical_rate": 0.16608,
+            "brier": 0.13466
+          },
+          "DOWN": {
+            "mean_pred_prob": 0.17493,
+            "empirical_rate": 0.17346,
+            "brier": 0.13962
+          },
+          "FLAT": {
+            "mean_pred_prob": 0.66069,
+            "empirical_rate": 0.66046,
+            "brier": 0.20796
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.840272,
+          "se_day_block": 0.019038,
+          "ci95_low": 0.802957,
+          "ci95_high": 0.877587,
+          "mean_ex_best_day": 0.833404,
+          "mean_ex_worst_day": 0.849022
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_ISOTONIC_OVR": {
+        "n_samples": 16113,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.86238,
+        "multiclass_brier": 0.4844,
+        "accuracy": 0.65872,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00869,
+          "ece_10bin": 0.00869,
+          "ece_15bin": 0.00869
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 159,
+            "mean_prob": 0.3789,
+            "emp_acc": 0.3836
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 1936,
+            "mean_prob": 0.4494,
+            "emp_acc": 0.4303
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 2707,
+            "mean_prob": 0.5568,
+            "emp_acc": 0.5482
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 4775,
+            "mean_prob": 0.6645,
+            "emp_acc": 0.6614
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 4427,
+            "mean_prob": 0.7517,
+            "emp_acc": 0.7461
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 1776,
+            "mean_prob": 0.8409,
+            "emp_acc": 0.8277
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 333,
+            "mean_prob": 0.9641,
+            "emp_acc": 0.9159
+          }
+        ],
+        "roc_auc_ovr": {
+          "UP": 0.62097,
+          "DOWN": 0.62378,
+          "FLAT": 0.66051
+        },
+        "pr_auc_ovr": {
+          "UP": 0.23741,
+          "DOWN": 0.24509,
+          "FLAT": 0.78016
+        },
+        "class_conditional": {
+          "UP": {
+            "mean_pred_prob": 0.16444,
+            "empirical_rate": 0.16608,
+            "brier": 0.13542
+          },
+          "DOWN": {
+            "mean_pred_prob": 0.17547,
+            "empirical_rate": 0.17346,
+            "brier": 0.14006
+          },
+          "FLAT": {
+            "mean_pred_prob": 0.66009,
+            "empirical_rate": 0.66046,
+            "brier": 0.20893
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.860598,
+          "se_day_block": 0.020044,
+          "ci95_low": 0.821312,
+          "ci95_high": 0.899885,
+          "mean_ex_best_day": 0.853944,
+          "mean_ex_worst_day": 0.86952
+        }
+      }
+    },
+    "pooled_oot_binary_P_MOVE_net": {
+      "B1_TRAIN_PREVALENCE": {
+        "n_samples": 16113,
+        "positive_rate": 0.33954,
+        "mean_pred_prob": 0.36731,
+        "binary_log_loss": 0.64247,
+        "brier_score": 0.22506,
+        "roc_auc": 0.49917,
+        "pr_auc": 0.3423,
+        "calibration_slope": 0.2795,
+        "calibration_intercept": -0.5134,
+        "ece_sensitivity": {
+          "ece_5bin": 0.02777,
+          "ece_10bin": 0.02777,
+          "ece_15bin": 0.02777
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 16113,
+            "mean_prob": 0.3673,
+            "emp_rate": 0.3395
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.641129,
+          "se_day_block": 0.007237,
+          "ci95_low": 0.626945,
+          "ci95_high": 0.655313,
+          "mean_ex_best_day": 0.637983,
+          "mean_ex_worst_day": 0.643774
+        }
+      },
+      "B3_LOGISTIC_L2_raw": {
+        "n_samples": 16113,
+        "positive_rate": 0.33954,
+        "mean_pred_prob": 0.33756,
+        "binary_log_loss": 0.60528,
+        "brier_score": 0.20858,
+        "roc_auc": 0.65974,
+        "pr_auc": 0.48961,
+        "calibration_slope": 0.9883,
+        "calibration_intercept": 0.0021,
+        "ece_sensitivity": {
+          "ece_5bin": 0.0126,
+          "ece_10bin": 0.01335,
+          "ece_15bin": 0.01278
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 1,
+            "mean_prob": 0.0975,
+            "emp_rate": 1.0
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1635,
+            "mean_prob": 0.1712,
+            "emp_rate": 0.1468
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 5788,
+            "mean_prob": 0.2528,
+            "emp_rate": 0.2519
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4458,
+            "mean_prob": 0.3446,
+            "emp_rate": 0.3589
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2434,
+            "mean_prob": 0.4442,
+            "emp_rate": 0.4647
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1074,
+            "mean_prob": 0.5448,
+            "emp_rate": 0.5531
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 494,
+            "mean_prob": 0.6455,
+            "emp_rate": 0.5992
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 173,
+            "mean_prob": 0.7381,
+            "emp_rate": 0.6416
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 56,
+            "mean_prob": 0.8388,
+            "emp_rate": 0.7143
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.606337,
+          "se_day_block": 0.010332,
+          "ci95_low": 0.586087,
+          "ci95_high": 0.626587,
+          "mean_ex_best_day": 0.603047,
+          "mean_ex_worst_day": 0.61151
+        }
+      },
+      "B3_LOGISTIC_L2_cal": {
+        "n_samples": 16113,
+        "positive_rate": 0.33954,
+        "mean_pred_prob": 0.33151,
+        "binary_log_loss": 0.60618,
+        "brier_score": 0.20896,
+        "roc_auc": 0.6579,
+        "pr_auc": 0.48861,
+        "calibration_slope": 0.9601,
+        "calibration_intercept": 0.0121,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01634,
+          "ece_10bin": 0.01666,
+          "ece_15bin": 0.01634
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 4,
+            "mean_prob": 0.0951,
+            "emp_rate": 0.75
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1907,
+            "mean_prob": 0.1704,
+            "emp_rate": 0.1584
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 5901,
+            "mean_prob": 0.2512,
+            "emp_rate": 0.2603
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4283,
+            "mean_prob": 0.3447,
+            "emp_rate": 0.364
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2284,
+            "mean_prob": 0.4438,
+            "emp_rate": 0.4663
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1021,
+            "mean_prob": 0.5445,
+            "emp_rate": 0.5534
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 477,
+            "mean_prob": 0.6449,
+            "emp_rate": 0.6017
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 175,
+            "mean_prob": 0.7375,
+            "emp_rate": 0.6286
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 61,
+            "mean_prob": 0.8368,
+            "emp_rate": 0.7213
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.607746,
+          "se_day_block": 0.010829,
+          "ci95_low": 0.58652,
+          "ci95_high": 0.628972,
+          "mean_ex_best_day": 0.603911,
+          "mean_ex_worst_day": 0.612939
+        }
+      },
+      "B3_LOGISTIC_L2_TEMPERATURE": {
+        "n_samples": 16113,
+        "positive_rate": 0.33954,
+        "mean_pred_prob": 0.34129,
+        "binary_log_loss": 0.60591,
+        "brier_score": 0.20883,
+        "roc_auc": 0.65757,
+        "pr_auc": 0.48846,
+        "calibration_slope": 0.986,
+        "calibration_intercept": -0.0171,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00794,
+          "ece_10bin": 0.00932,
+          "ece_15bin": 0.01466
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 3,
+            "mean_prob": 0.0943,
+            "emp_rate": 0.6667
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1521,
+            "mean_prob": 0.1718,
+            "emp_rate": 0.1506
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 5586,
+            "mean_prob": 0.2528,
+            "emp_rate": 0.2512
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4612,
+            "mean_prob": 0.3449,
+            "emp_rate": 0.3474
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2526,
+            "mean_prob": 0.4434,
+            "emp_rate": 0.4612
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1140,
+            "mean_prob": 0.5438,
+            "emp_rate": 0.5465
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 495,
+            "mean_prob": 0.6452,
+            "emp_rate": 0.598
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 173,
+            "mean_prob": 0.7381,
+            "emp_rate": 0.6243
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 57,
+            "mean_prob": 0.8316,
+            "emp_rate": 0.7544
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.607741,
+          "se_day_block": 0.010408,
+          "ci95_low": 0.587342,
+          "ci95_high": 0.62814,
+          "mean_ex_best_day": 0.603906,
+          "mean_ex_worst_day": 0.612447
+        }
+      },
+      "B3_LOGISTIC_L2_SIGMOID_OVR": {
+        "n_samples": 16113,
+        "positive_rate": 0.33954,
+        "mean_pred_prob": 0.34122,
+        "binary_log_loss": 0.6062,
+        "brier_score": 0.20894,
+        "roc_auc": 0.65735,
+        "pr_auc": 0.48791,
+        "calibration_slope": 0.9728,
+        "calibration_intercept": -0.0251,
+        "ece_sensitivity": {
+          "ece_5bin": 0.0083,
+          "ece_10bin": 0.00946,
+          "ece_15bin": 0.01518
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 2,
+            "mean_prob": 0.0926,
+            "emp_rate": 1.0
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1523,
+            "mean_prob": 0.1725,
+            "emp_rate": 0.1523
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 5673,
+            "mean_prob": 0.2526,
+            "emp_rate": 0.2519
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4539,
+            "mean_prob": 0.3449,
+            "emp_rate": 0.349
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2470,
+            "mean_prob": 0.4432,
+            "emp_rate": 0.4603
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1158,
+            "mean_prob": 0.5443,
+            "emp_rate": 0.5415
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 502,
+            "mean_prob": 0.6449,
+            "emp_rate": 0.5936
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 185,
+            "mean_prob": 0.7371,
+            "emp_rate": 0.6378
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 61,
+            "mean_prob": 0.8406,
+            "emp_rate": 0.7213
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.60793,
+          "se_day_block": 0.010494,
+          "ci95_low": 0.587361,
+          "ci95_high": 0.628498,
+          "mean_ex_best_day": 0.604047,
+          "mean_ex_worst_day": 0.612715
+        }
+      },
+      "B3_LOGISTIC_L2_ISOTONIC_OVR": {
+        "n_samples": 16113,
+        "positive_rate": 0.33954,
+        "mean_pred_prob": 0.34141,
+        "binary_log_loss": 0.61327,
+        "brier_score": 0.20971,
+        "roc_auc": 0.65624,
+        "pr_auc": 0.48406,
+        "calibration_slope": 0.7752,
+        "calibration_intercept": -0.1489,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00677,
+          "ece_10bin": 0.00981,
+          "ece_15bin": 0.01661
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 308,
+            "mean_prob": 0.0526,
+            "emp_rate": 0.0942
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1293,
+            "mean_prob": 0.1656,
+            "emp_rate": 0.1655
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 5852,
+            "mean_prob": 0.2527,
+            "emp_rate": 0.2539
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 3962,
+            "mean_prob": 0.3476,
+            "emp_rate": 0.3526
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2593,
+            "mean_prob": 0.443,
+            "emp_rate": 0.4524
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1415,
+            "mean_prob": 0.5597,
+            "emp_rate": 0.5314
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 503,
+            "mean_prob": 0.626,
+            "emp_rate": 0.5984
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 43,
+            "mean_prob": 0.7511,
+            "emp_rate": 0.6744
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 96,
+            "mean_prob": 0.8388,
+            "emp_rate": 0.5833
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 48,
+            "mean_prob": 0.9668,
+            "emp_rate": 0.7083
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.613819,
+          "se_day_block": 0.011387,
+          "ci95_low": 0.5915,
+          "ci95_high": 0.636138,
+          "mean_ex_best_day": 0.609803,
+          "mean_ex_worst_day": 0.619009
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_raw": {
+        "n_samples": 16113,
+        "positive_rate": 0.33954,
+        "mean_pred_prob": 0.33856,
+        "binary_log_loss": 0.60274,
+        "brier_score": 0.20763,
+        "roc_auc": 0.66331,
+        "pr_auc": 0.49158,
+        "calibration_slope": 0.9883,
+        "calibration_intercept": -0.0025,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00767,
+          "ece_10bin": 0.00982,
+          "ece_15bin": 0.0105
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 159,
+            "mean_prob": 0.085,
+            "emp_rate": 0.0503
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1960,
+            "mean_prob": 0.1609,
+            "emp_rate": 0.1607
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 4787,
+            "mean_prob": 0.2529,
+            "emp_rate": 0.2559
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4598,
+            "mean_prob": 0.3462,
+            "emp_rate": 0.3397
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2678,
+            "mean_prob": 0.4459,
+            "emp_rate": 0.4731
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1283,
+            "mean_prob": 0.5449,
+            "emp_rate": 0.5425
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 498,
+            "mean_prob": 0.6418,
+            "emp_rate": 0.6004
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 148,
+            "mean_prob": 0.7372,
+            "emp_rate": 0.6622
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 2,
+            "mean_prob": 0.8101,
+            "emp_rate": 0.5
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.603831,
+          "se_day_block": 0.010198,
+          "ci95_low": 0.583842,
+          "ci95_high": 0.62382,
+          "mean_ex_best_day": 0.600814,
+          "mean_ex_worst_day": 0.609563
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_cal": {
+        "n_samples": 16113,
+        "positive_rate": 0.33954,
+        "mean_pred_prob": 0.33764,
+        "binary_log_loss": 0.6028,
+        "brier_score": 0.20762,
+        "roc_auc": 0.66348,
+        "pr_auc": 0.49171,
+        "calibration_slope": 1.0067,
+        "calibration_intercept": 0.0135,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00875,
+          "ece_10bin": 0.01072,
+          "ece_15bin": 0.01143
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 129,
+            "mean_prob": 0.0899,
+            "emp_rate": 0.062
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1914,
+            "mean_prob": 0.1619,
+            "emp_rate": 0.1578
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 4942,
+            "mean_prob": 0.2532,
+            "emp_rate": 0.2552
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4618,
+            "mean_prob": 0.3461,
+            "emp_rate": 0.3404
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2631,
+            "mean_prob": 0.4459,
+            "emp_rate": 0.4808
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1251,
+            "mean_prob": 0.5444,
+            "emp_rate": 0.5396
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 495,
+            "mean_prob": 0.6413,
+            "emp_rate": 0.6061
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 133,
+            "mean_prob": 0.7357,
+            "emp_rate": 0.6617
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.603785,
+          "se_day_block": 0.010218,
+          "ci95_low": 0.583757,
+          "ci95_high": 0.623813,
+          "mean_ex_best_day": 0.600767,
+          "mean_ex_worst_day": 0.609517
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_TEMPERATURE": {
+        "n_samples": 16113,
+        "positive_rate": 0.33954,
+        "mean_pred_prob": 0.34027,
+        "binary_log_loss": 0.6031,
+        "brier_score": 0.20777,
+        "roc_auc": 0.66248,
+        "pr_auc": 0.49118,
+        "calibration_slope": 0.9861,
+        "calibration_intercept": -0.012,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00848,
+          "ece_10bin": 0.0098,
+          "ece_15bin": 0.01094
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 158,
+            "mean_prob": 0.0817,
+            "emp_rate": 0.0696
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1936,
+            "mean_prob": 0.1619,
+            "emp_rate": 0.1586
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 4673,
+            "mean_prob": 0.253,
+            "emp_rate": 0.2553
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4681,
+            "mean_prob": 0.3468,
+            "emp_rate": 0.3375
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2703,
+            "mean_prob": 0.4456,
+            "emp_rate": 0.4687
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1309,
+            "mean_prob": 0.5447,
+            "emp_rate": 0.5447
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 508,
+            "mean_prob": 0.6419,
+            "emp_rate": 0.6004
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 142,
+            "mean_prob": 0.7375,
+            "emp_rate": 0.6549
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 3,
+            "mean_prob": 0.809,
+            "emp_rate": 0.6667
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.604819,
+          "se_day_block": 0.010117,
+          "ci95_low": 0.584991,
+          "ci95_high": 0.624647,
+          "mean_ex_best_day": 0.601494,
+          "mean_ex_worst_day": 0.610121
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_SIGMOID_OVR": {
+        "n_samples": 16113,
+        "positive_rate": 0.33954,
+        "mean_pred_prob": 0.33931,
+        "binary_log_loss": 0.60358,
+        "brier_score": 0.20796,
+        "roc_auc": 0.66181,
+        "pr_auc": 0.48969,
+        "calibration_slope": 0.9897,
+        "calibration_intercept": -0.0052,
+        "ece_sensitivity": {
+          "ece_5bin": 0.0075,
+          "ece_10bin": 0.0088,
+          "ece_15bin": 0.01177
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 114,
+            "mean_prob": 0.0882,
+            "emp_rate": 0.0614
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1923,
+            "mean_prob": 0.163,
+            "emp_rate": 0.1586
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 4869,
+            "mean_prob": 0.2531,
+            "emp_rate": 0.2551
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4654,
+            "mean_prob": 0.3465,
+            "emp_rate": 0.3423
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2589,
+            "mean_prob": 0.4449,
+            "emp_rate": 0.4693
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1282,
+            "mean_prob": 0.5435,
+            "emp_rate": 0.5429
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 545,
+            "mean_prob": 0.6392,
+            "emp_rate": 0.5798
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 126,
+            "mean_prob": 0.7386,
+            "emp_rate": 0.7222
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 11,
+            "mean_prob": 0.8114,
+            "emp_rate": 0.5455
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.605068,
+          "se_day_block": 0.010318,
+          "ci95_low": 0.584844,
+          "ci95_high": 0.625291,
+          "mean_ex_best_day": 0.601665,
+          "mean_ex_worst_day": 0.610505
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_ISOTONIC_OVR": {
+        "n_samples": 16113,
+        "positive_rate": 0.33954,
+        "mean_pred_prob": 0.33991,
+        "binary_log_loss": 0.62045,
+        "brier_score": 0.20893,
+        "roc_auc": 0.66051,
+        "pr_auc": 0.48666,
+        "calibration_slope": 0.6205,
+        "calibration_intercept": -0.2411,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00993,
+          "ece_10bin": 0.01003,
+          "ece_15bin": 0.01322
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 333,
+            "mean_prob": 0.0359,
+            "emp_rate": 0.0841
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1768,
+            "mean_prob": 0.1591,
+            "emp_rate": 0.1719
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 4412,
+            "mean_prob": 0.2483,
+            "emp_rate": 0.2525
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4725,
+            "mean_prob": 0.3352,
+            "emp_rate": 0.335
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2609,
+            "mean_prob": 0.4424,
+            "emp_rate": 0.4488
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1719,
+            "mean_prob": 0.5488,
+            "emp_rate": 0.5509
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 234,
+            "mean_prob": 0.6397,
+            "emp_rate": 0.5684
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 183,
+            "mean_prob": 0.7401,
+            "emp_rate": 0.5628
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 49,
+            "mean_prob": 0.8448,
+            "emp_rate": 0.5918
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 81,
+            "mean_prob": 0.9933,
+            "emp_rate": 0.7284
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.620899,
+          "se_day_block": 0.01121,
+          "ci95_low": 0.598927,
+          "ci95_high": 0.64287,
+          "mean_ex_best_day": 0.617064,
+          "mean_ex_worst_day": 0.626444
+        }
+      }
+    },
+    "pooled_oot_binary_P_MOVE_raw": {
+      "B1_TRAIN_PREVALENCE": {
+        "n_samples": 16113,
+        "positive_rate": 0.34959,
+        "mean_pred_prob": 0.36731,
+        "binary_log_loss": 0.64795,
+        "brier_score": 0.22773,
+        "roc_auc": 0.49826,
+        "pr_auc": 0.35192,
+        "calibration_slope": 0.2607,
+        "calibration_intercept": -0.479,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01771,
+          "ece_10bin": 0.01771,
+          "ece_15bin": 0.01771
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 16113,
+            "mean_prob": 0.3673,
+            "emp_rate": 0.3496
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.645766,
+          "se_day_block": 0.00728,
+          "ci95_low": 0.631498,
+          "ci95_high": 0.660034,
+          "mean_ex_best_day": 0.642686,
+          "mean_ex_worst_day": 0.648476
+        }
+      },
+      "B3_LOGISTIC_L2_raw": {
+        "n_samples": 16113,
+        "positive_rate": 0.34959,
+        "mean_pred_prob": 0.33756,
+        "binary_log_loss": 0.61257,
+        "brier_score": 0.2119,
+        "roc_auc": 0.65759,
+        "pr_auc": 0.49785,
+        "calibration_slope": 0.9768,
+        "calibration_intercept": 0.0425,
+        "ece_sensitivity": {
+          "ece_5bin": 0.02042,
+          "ece_10bin": 0.02053,
+          "ece_15bin": 0.02042
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 1,
+            "mean_prob": 0.0975,
+            "emp_rate": 1.0
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1635,
+            "mean_prob": 0.1712,
+            "emp_rate": 0.1547
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 5788,
+            "mean_prob": 0.2528,
+            "emp_rate": 0.2624
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4458,
+            "mean_prob": 0.3446,
+            "emp_rate": 0.3703
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2434,
+            "mean_prob": 0.4442,
+            "emp_rate": 0.4725
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1074,
+            "mean_prob": 0.5448,
+            "emp_rate": 0.5652
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 494,
+            "mean_prob": 0.6455,
+            "emp_rate": 0.6093
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 173,
+            "mean_prob": 0.7381,
+            "emp_rate": 0.6416
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 56,
+            "mean_prob": 0.8388,
+            "emp_rate": 0.7143
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.612497,
+          "se_day_block": 0.010339,
+          "ci95_low": 0.592233,
+          "ci95_high": 0.632762,
+          "mean_ex_best_day": 0.609294,
+          "mean_ex_worst_day": 0.617757
+        }
+      },
+      "B3_LOGISTIC_L2_cal": {
+        "n_samples": 16113,
+        "positive_rate": 0.34959,
+        "mean_pred_prob": 0.33151,
+        "binary_log_loss": 0.61384,
+        "brier_score": 0.21242,
+        "roc_auc": 0.65564,
+        "pr_auc": 0.49681,
+        "calibration_slope": 0.9481,
+        "calibration_intercept": 0.0517,
+        "ece_sensitivity": {
+          "ece_5bin": 0.02404,
+          "ece_10bin": 0.02436,
+          "ece_15bin": 0.02404
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 4,
+            "mean_prob": 0.0951,
+            "emp_rate": 0.75
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1907,
+            "mean_prob": 0.1704,
+            "emp_rate": 0.1657
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 5901,
+            "mean_prob": 0.2512,
+            "emp_rate": 0.2713
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4283,
+            "mean_prob": 0.3447,
+            "emp_rate": 0.3747
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2284,
+            "mean_prob": 0.4438,
+            "emp_rate": 0.4746
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1021,
+            "mean_prob": 0.5445,
+            "emp_rate": 0.5661
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 477,
+            "mean_prob": 0.6449,
+            "emp_rate": 0.6122
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 175,
+            "mean_prob": 0.7375,
+            "emp_rate": 0.6286
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 61,
+            "mean_prob": 0.8368,
+            "emp_rate": 0.7213
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.614221,
+          "se_day_block": 0.010841,
+          "ci95_low": 0.592973,
+          "ci95_high": 0.635469,
+          "mean_ex_best_day": 0.610477,
+          "mean_ex_worst_day": 0.619505
+        }
+      },
+      "B3_LOGISTIC_L2_TEMPERATURE": {
+        "n_samples": 16113,
+        "positive_rate": 0.34959,
+        "mean_pred_prob": 0.34129,
+        "binary_log_loss": 0.61311,
+        "brier_score": 0.21211,
+        "roc_auc": 0.65522,
+        "pr_auc": 0.49661,
+        "calibration_slope": 0.9728,
+        "calibration_intercept": 0.0224,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01564,
+          "ece_10bin": 0.01585,
+          "ece_15bin": 0.01564
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 3,
+            "mean_prob": 0.0943,
+            "emp_rate": 0.6667
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1521,
+            "mean_prob": 0.1718,
+            "emp_rate": 0.1598
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 5586,
+            "mean_prob": 0.2528,
+            "emp_rate": 0.2619
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4612,
+            "mean_prob": 0.3449,
+            "emp_rate": 0.3575
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2526,
+            "mean_prob": 0.4434,
+            "emp_rate": 0.4699
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1140,
+            "mean_prob": 0.5438,
+            "emp_rate": 0.5588
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 495,
+            "mean_prob": 0.6452,
+            "emp_rate": 0.6081
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 173,
+            "mean_prob": 0.7381,
+            "emp_rate": 0.6243
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 57,
+            "mean_prob": 0.8316,
+            "emp_rate": 0.7544
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.613836,
+          "se_day_block": 0.01041,
+          "ci95_low": 0.593432,
+          "ci95_high": 0.634241,
+          "mean_ex_best_day": 0.610087,
+          "mean_ex_worst_day": 0.618628
+        }
+      },
+      "B3_LOGISTIC_L2_SIGMOID_OVR": {
+        "n_samples": 16113,
+        "positive_rate": 0.34959,
+        "mean_pred_prob": 0.34122,
+        "binary_log_loss": 0.61343,
+        "brier_score": 0.21223,
+        "roc_auc": 0.655,
+        "pr_auc": 0.49599,
+        "calibration_slope": 0.9597,
+        "calibration_intercept": 0.0144,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01612,
+          "ece_10bin": 0.01634,
+          "ece_15bin": 0.01612
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 2,
+            "mean_prob": 0.0926,
+            "emp_rate": 1.0
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1523,
+            "mean_prob": 0.1725,
+            "emp_rate": 0.1609
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 5673,
+            "mean_prob": 0.2526,
+            "emp_rate": 0.2628
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4539,
+            "mean_prob": 0.3449,
+            "emp_rate": 0.3591
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2470,
+            "mean_prob": 0.4432,
+            "emp_rate": 0.4692
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1158,
+            "mean_prob": 0.5443,
+            "emp_rate": 0.5535
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 502,
+            "mean_prob": 0.6449,
+            "emp_rate": 0.6036
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 185,
+            "mean_prob": 0.7371,
+            "emp_rate": 0.6378
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 61,
+            "mean_prob": 0.8406,
+            "emp_rate": 0.7213
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.61405,
+          "se_day_block": 0.010499,
+          "ci95_low": 0.593472,
+          "ci95_high": 0.634629,
+          "mean_ex_best_day": 0.610254,
+          "mean_ex_worst_day": 0.618921
+        }
+      },
+      "B3_LOGISTIC_L2_ISOTONIC_OVR": {
+        "n_samples": 16113,
+        "positive_rate": 0.34959,
+        "mean_pred_prob": 0.34141,
+        "binary_log_loss": 0.62041,
+        "brier_score": 0.21292,
+        "roc_auc": 0.65412,
+        "pr_auc": 0.49243,
+        "calibration_slope": 0.7654,
+        "calibration_intercept": -0.1079,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01452,
+          "ece_10bin": 0.01712,
+          "ece_15bin": 0.0202
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 308,
+            "mean_prob": 0.0526,
+            "emp_rate": 0.1006
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1293,
+            "mean_prob": 0.1656,
+            "emp_rate": 0.1709
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 5852,
+            "mean_prob": 0.2527,
+            "emp_rate": 0.265
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 3962,
+            "mean_prob": 0.3476,
+            "emp_rate": 0.364
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2593,
+            "mean_prob": 0.443,
+            "emp_rate": 0.4605
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1415,
+            "mean_prob": 0.5597,
+            "emp_rate": 0.5449
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 503,
+            "mean_prob": 0.626,
+            "emp_rate": 0.6004
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 43,
+            "mean_prob": 0.7511,
+            "emp_rate": 0.7209
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 96,
+            "mean_prob": 0.8388,
+            "emp_rate": 0.5833
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 48,
+            "mean_prob": 0.9668,
+            "emp_rate": 0.7083
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.61987,
+          "se_day_block": 0.011385,
+          "ci95_low": 0.597556,
+          "ci95_high": 0.642184,
+          "mean_ex_best_day": 0.615939,
+          "mean_ex_worst_day": 0.625145
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_raw": {
+        "n_samples": 16113,
+        "positive_rate": 0.34959,
+        "mean_pred_prob": 0.33856,
+        "binary_log_loss": 0.61012,
+        "brier_score": 0.21097,
+        "roc_auc": 0.66076,
+        "pr_auc": 0.49946,
+        "calibration_slope": 0.9733,
+        "calibration_intercept": 0.0361,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01455,
+          "ece_10bin": 0.01511,
+          "ece_15bin": 0.0155
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 159,
+            "mean_prob": 0.085,
+            "emp_rate": 0.0566
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1960,
+            "mean_prob": 0.1609,
+            "emp_rate": 0.1679
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 4787,
+            "mean_prob": 0.2529,
+            "emp_rate": 0.2684
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4598,
+            "mean_prob": 0.3462,
+            "emp_rate": 0.3493
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2678,
+            "mean_prob": 0.4459,
+            "emp_rate": 0.4824
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1283,
+            "mean_prob": 0.5449,
+            "emp_rate": 0.5534
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 498,
+            "mean_prob": 0.6418,
+            "emp_rate": 0.6084
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 148,
+            "mean_prob": 0.7372,
+            "emp_rate": 0.6622
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 2,
+            "mean_prob": 0.8101,
+            "emp_rate": 0.5
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.610047,
+          "se_day_block": 0.010203,
+          "ci95_low": 0.590049,
+          "ci95_high": 0.630044,
+          "mean_ex_best_day": 0.607117,
+          "mean_ex_worst_day": 0.615866
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_cal": {
+        "n_samples": 16113,
+        "positive_rate": 0.34959,
+        "mean_pred_prob": 0.33764,
+        "binary_log_loss": 0.61023,
+        "brier_score": 0.21098,
+        "roc_auc": 0.66089,
+        "pr_auc": 0.49952,
+        "calibration_slope": 0.9912,
+        "calibration_intercept": 0.0517,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01484,
+          "ece_10bin": 0.01516,
+          "ece_15bin": 0.01647
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 129,
+            "mean_prob": 0.0899,
+            "emp_rate": 0.0698
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1914,
+            "mean_prob": 0.1619,
+            "emp_rate": 0.1651
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 4942,
+            "mean_prob": 0.2532,
+            "emp_rate": 0.2675
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4618,
+            "mean_prob": 0.3461,
+            "emp_rate": 0.3502
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2631,
+            "mean_prob": 0.4459,
+            "emp_rate": 0.4899
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1251,
+            "mean_prob": 0.5444,
+            "emp_rate": 0.55
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 495,
+            "mean_prob": 0.6413,
+            "emp_rate": 0.6141
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 133,
+            "mean_prob": 0.7357,
+            "emp_rate": 0.6617
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.610042,
+          "se_day_block": 0.010224,
+          "ci95_low": 0.590003,
+          "ci95_high": 0.630081,
+          "mean_ex_best_day": 0.607112,
+          "mean_ex_worst_day": 0.615862
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_TEMPERATURE": {
+        "n_samples": 16113,
+        "positive_rate": 0.34959,
+        "mean_pred_prob": 0.34027,
+        "binary_log_loss": 0.61048,
+        "brier_score": 0.2111,
+        "roc_auc": 0.65983,
+        "pr_auc": 0.49897,
+        "calibration_slope": 0.9697,
+        "calibration_intercept": 0.0259,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01296,
+          "ece_10bin": 0.01307,
+          "ece_15bin": 0.01545
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 158,
+            "mean_prob": 0.0817,
+            "emp_rate": 0.0759
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1936,
+            "mean_prob": 0.1619,
+            "emp_rate": 0.1663
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 4673,
+            "mean_prob": 0.253,
+            "emp_rate": 0.2677
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4681,
+            "mean_prob": 0.3468,
+            "emp_rate": 0.3476
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2703,
+            "mean_prob": 0.4456,
+            "emp_rate": 0.4772
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1309,
+            "mean_prob": 0.5447,
+            "emp_rate": 0.5554
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 508,
+            "mean_prob": 0.6419,
+            "emp_rate": 0.6083
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 142,
+            "mean_prob": 0.7375,
+            "emp_rate": 0.6549
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 3,
+            "mean_prob": 0.809,
+            "emp_rate": 0.6667
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.61104,
+          "se_day_block": 0.010117,
+          "ci95_low": 0.59121,
+          "ci95_high": 0.63087,
+          "mean_ex_best_day": 0.607803,
+          "mean_ex_worst_day": 0.616429
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_SIGMOID_OVR": {
+        "n_samples": 16113,
+        "positive_rate": 0.34959,
+        "mean_pred_prob": 0.33931,
+        "binary_log_loss": 0.61103,
+        "brier_score": 0.21133,
+        "roc_auc": 0.65914,
+        "pr_auc": 0.4973,
+        "calibration_slope": 0.9732,
+        "calibration_intercept": 0.0324,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01443,
+          "ece_10bin": 0.01469,
+          "ece_15bin": 0.01699
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 114,
+            "mean_prob": 0.0882,
+            "emp_rate": 0.0702
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1923,
+            "mean_prob": 0.163,
+            "emp_rate": 0.1659
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 4869,
+            "mean_prob": 0.2531,
+            "emp_rate": 0.2672
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4654,
+            "mean_prob": 0.3465,
+            "emp_rate": 0.3524
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2589,
+            "mean_prob": 0.4449,
+            "emp_rate": 0.4786
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1282,
+            "mean_prob": 0.5435,
+            "emp_rate": 0.553
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 545,
+            "mean_prob": 0.6392,
+            "emp_rate": 0.5872
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 126,
+            "mean_prob": 0.7386,
+            "emp_rate": 0.7222
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 11,
+            "mean_prob": 0.8114,
+            "emp_rate": 0.5455
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.611348,
+          "se_day_block": 0.010327,
+          "ci95_low": 0.591107,
+          "ci95_high": 0.631588,
+          "mean_ex_best_day": 0.608033,
+          "mean_ex_worst_day": 0.616873
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_ISOTONIC_OVR": {
+        "n_samples": 16113,
+        "positive_rate": 0.34959,
+        "mean_pred_prob": 0.33991,
+        "binary_log_loss": 0.62804,
+        "brier_score": 0.2123,
+        "roc_auc": 0.65751,
+        "pr_auc": 0.49448,
+        "calibration_slope": 0.6082,
+        "calibration_intercept": -0.2024,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01948,
+          "ece_10bin": 0.01948,
+          "ece_15bin": 0.01985
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.00,0.10]",
+            "count": 333,
+            "mean_prob": 0.0359,
+            "emp_rate": 0.0901
+          },
+          {
+            "bin": "[0.10,0.20]",
+            "count": 1768,
+            "mean_prob": 0.1591,
+            "emp_rate": 0.1804
+          },
+          {
+            "bin": "[0.20,0.30]",
+            "count": 4412,
+            "mean_prob": 0.2483,
+            "emp_rate": 0.2652
+          },
+          {
+            "bin": "[0.30,0.40]",
+            "count": 4725,
+            "mean_prob": 0.3352,
+            "emp_rate": 0.3448
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 2609,
+            "mean_prob": 0.4424,
+            "emp_rate": 0.4573
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1719,
+            "mean_prob": 0.5488,
+            "emp_rate": 0.5608
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 234,
+            "mean_prob": 0.6397,
+            "emp_rate": 0.5769
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 183,
+            "mean_prob": 0.7401,
+            "emp_rate": 0.5738
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 49,
+            "mean_prob": 0.8448,
+            "emp_rate": 0.5918
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 81,
+            "mean_prob": 0.9933,
+            "emp_rate": 0.7284
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.62731,
+          "se_day_block": 0.011196,
+          "ci95_low": 0.605366,
+          "ci95_high": 0.649253,
+          "mean_ex_best_day": 0.623519,
+          "mean_ex_worst_day": 0.632945
+        }
+      }
+    },
+    "cal_vs_raw_paired_day_block": {
+      "B3_LOGISTIC_L2": {
+        "multiclass_ll_cal_minus_raw": {
+          "n_days": 72,
+          "mean_diff_per_day": 0.001439,
+          "se_day_block": 0.000901,
+          "ci95_low": -0.000327,
+          "ci95_high": 0.003204,
+          "significant_95pct": false,
+          "mean_diff_excluding_best_day": 0.001863,
+          "single_day_fragile": false
+        },
+        "binary_P_MOVE_ll_cal_minus_raw": {
+          "n_days": 72,
+          "mean_diff_per_day": 0.001409,
+          "se_day_block": 0.000884,
+          "ci95_low": -0.000324,
+          "ci95_high": 0.003143,
+          "significant_95pct": false,
+          "mean_diff_excluding_best_day": 0.001832,
+          "single_day_fragile": false
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED": {
+        "multiclass_ll_cal_minus_raw": {
+          "n_days": 72,
+          "mean_diff_per_day": -0.000808,
+          "se_day_block": 0.000815,
+          "ci95_low": -0.002406,
+          "ci95_high": 0.00079,
+          "significant_95pct": false,
+          "mean_diff_excluding_best_day": -0.000241,
+          "single_day_fragile": false
+        },
+        "binary_P_MOVE_ll_cal_minus_raw": {
+          "n_days": 72,
+          "mean_diff_per_day": -4.6e-05,
+          "se_day_block": 0.000178,
+          "ci95_low": -0.000395,
+          "ci95_high": 0.000303,
+          "significant_95pct": false,
+          "mean_diff_excluding_best_day": 7.8e-05,
+          "single_day_fragile": true
+        }
+      }
+    }
+  },
+  "micro_calibration": {
+    "fold_selection_strict_cal_only": [
+      {
+        "fold_id": 1,
+        "models": {
+          "B3_LOGISTIC_L2": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.975863
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.97689
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.9773
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.977723
+              }
+            },
+            "selected_method": "RAW",
+            "selected_internal_logloss": 0.975863,
+            "isotonic_allowed": true
+          },
+          "C1_LIGHTGBM_CONSTRAINED": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.975281
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.976285
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.976778
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.976937
+              }
+            },
+            "selected_method": "RAW",
+            "selected_internal_logloss": 0.975281,
+            "isotonic_allowed": true
+          }
+        }
+      },
+      {
+        "fold_id": 2,
+        "models": {
+          "B3_LOGISTIC_L2": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.970761
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.970765
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.970915
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.971566
+              }
+            },
+            "selected_method": "RAW",
+            "selected_internal_logloss": 0.970761,
+            "isotonic_allowed": true
+          },
+          "C1_LIGHTGBM_CONSTRAINED": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.970104
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.970099
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.970078
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.970732
+              }
+            },
+            "selected_method": "RAW",
+            "selected_internal_logloss": 0.970104,
+            "isotonic_allowed": true
+          }
+        }
+      },
+      {
+        "fold_id": 3,
+        "models": {
+          "B3_LOGISTIC_L2": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.957148
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.956793
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.956617
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.955948
+              }
+            },
+            "selected_method": "ISOTONIC_OVR",
+            "selected_internal_logloss": 0.955948,
+            "isotonic_allowed": true
+          },
+          "C1_LIGHTGBM_CONSTRAINED": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.955503
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.955192
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.955102
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.955133
+              }
+            },
+            "selected_method": "TEMPERATURE",
+            "selected_internal_logloss": 0.955192,
+            "isotonic_allowed": true
+          }
+        }
+      },
+      {
+        "fold_id": 4,
+        "models": {
+          "B3_LOGISTIC_L2": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.971218
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.971102
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.970568
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.971295
+              }
+            },
+            "selected_method": "SIGMOID_OVR",
+            "selected_internal_logloss": 0.970568,
+            "isotonic_allowed": true
+          },
+          "C1_LIGHTGBM_CONSTRAINED": {
+            "cal_unique_days": 12,
+            "cal_fit_days": 7,
+            "cal_sel_days": 5,
+            "candidates_evaluated": {
+              "RAW": {
+                "cal_internal_sel_logloss": 0.968776
+              },
+              "TEMPERATURE": {
+                "cal_internal_sel_logloss": 0.968527
+              },
+              "SIGMOID_OVR": {
+                "cal_internal_sel_logloss": 0.968446
+              },
+              "ISOTONIC_OVR": {
+                "cal_internal_sel_logloss": 0.969549
+              }
+            },
+            "selected_method": "TEMPERATURE",
+            "selected_internal_logloss": 0.968527,
+            "isotonic_allowed": true
+          }
+        }
+      }
+    ],
+    "pooled_oot_buy_strict_gt": {
+      "B1_TRAIN_PREVALENCE": {
+        "n_samples": 555308,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.97965,
+        "multiclass_brier": 0.5997,
+        "accuracy": 0.44189,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00339,
+          "ece_10bin": 0.00339,
+          "ece_15bin": 0.00339
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.40,0.50]",
+            "count": 555308,
+            "mean_prob": 0.4385,
+            "emp_acc": 0.4419
+          }
+        ],
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.49864,
+          "WAIT_ADVERSE": 0.49736,
+          "NEUTRAL": 0.50434
+        },
+        "pr_auc_ovr": {
+          "ENTER_NOW": 0.43581,
+          "WAIT_ADVERSE": 0.43956,
+          "NEUTRAL": 0.12207
+        },
+        "class_conditional": {
+          "ENTER_NOW": {
+            "mean_pred_prob": 0.43032,
+            "empirical_rate": 0.43628,
+            "brier": 0.24598
+          },
+          "WAIT_ADVERSE": {
+            "mean_pred_prob": 0.4385,
+            "empirical_rate": 0.44189,
+            "brier": 0.24665
+          },
+          "NEUTRAL": {
+            "mean_pred_prob": 0.13118,
+            "empirical_rate": 0.12183,
+            "brier": 0.10708
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.978457,
+          "se_day_block": 0.001942,
+          "ci95_low": 0.97465,
+          "ci95_high": 0.982264,
+          "mean_ex_best_day": 0.977999,
+          "mean_ex_worst_day": 0.979046
+        }
+      },
+      "B3_LOGISTIC_L2_raw": {
+        "n_samples": 555308,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.96658,
+        "multiclass_brier": 0.59492,
+        "accuracy": 0.44433,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00518,
+          "ece_10bin": 0.00518,
+          "ece_15bin": 0.00519
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 7638,
+            "mean_prob": 0.3797,
+            "emp_acc": 0.3806
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 544335,
+            "mean_prob": 0.45,
+            "emp_acc": 0.4449
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 3309,
+            "mean_prob": 0.5242,
+            "emp_acc": 0.4956
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 26,
+            "mean_prob": 0.6081,
+            "emp_acc": 0.6923
+          }
+        ],
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.5329,
+          "WAIT_ADVERSE": 0.52298,
+          "NEUTRAL": 0.63318
+        },
+        "pr_auc_ovr": {
+          "ENTER_NOW": 0.45901,
+          "WAIT_ADVERSE": 0.45701,
+          "NEUTRAL": 0.20426
+        },
+        "class_conditional": {
+          "ENTER_NOW": {
+            "mean_pred_prob": 0.43589,
+            "empirical_rate": 0.43628,
+            "brier": 0.2449
+          },
+          "WAIT_ADVERSE": {
+            "mean_pred_prob": 0.44237,
+            "empirical_rate": 0.44189,
+            "brier": 0.24611
+          },
+          "NEUTRAL": {
+            "mean_pred_prob": 0.12174,
+            "empirical_rate": 0.12183,
+            "brier": 0.10391
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.965356,
+          "se_day_block": 0.002144,
+          "ci95_low": 0.961153,
+          "ci95_high": 0.969559,
+          "mean_ex_best_day": 0.964768,
+          "mean_ex_worst_day": 0.966062
+        }
+      },
+      "B3_LOGISTIC_L2_cal": {
+        "n_samples": 555308,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.96661,
+        "multiclass_brier": 0.59493,
+        "accuracy": 0.44511,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00533,
+          "ece_10bin": 0.00533,
+          "ece_15bin": 0.00533
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 8579,
+            "mean_prob": 0.3819,
+            "emp_acc": 0.3841
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 542416,
+            "mean_prob": 0.4508,
+            "emp_acc": 0.4459
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 4098,
+            "mean_prob": 0.5294,
+            "emp_acc": 0.4683
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 174,
+            "mean_prob": 0.6175,
+            "emp_acc": 0.5172
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 14,
+            "mean_prob": 0.7353,
+            "emp_acc": 0.7143
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 17,
+            "mean_prob": 0.842,
+            "emp_acc": 0.6471
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 10,
+            "mean_prob": 1.0,
+            "emp_acc": 0.8
+          }
+        ],
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.53285,
+          "WAIT_ADVERSE": 0.5242,
+          "NEUTRAL": 0.63257
+        },
+        "pr_auc_ovr": {
+          "ENTER_NOW": 0.45871,
+          "WAIT_ADVERSE": 0.45868,
+          "NEUTRAL": 0.20304
+        },
+        "class_conditional": {
+          "ENTER_NOW": {
+            "mean_pred_prob": 0.43317,
+            "empirical_rate": 0.43628,
+            "brier": 0.24492
+          },
+          "WAIT_ADVERSE": {
+            "mean_pred_prob": 0.44428,
+            "empirical_rate": 0.44189,
+            "brier": 0.24609
+          },
+          "NEUTRAL": {
+            "mean_pred_prob": 0.12256,
+            "empirical_rate": 0.12183,
+            "brier": 0.10392
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.965704,
+          "se_day_block": 0.002143,
+          "ci95_low": 0.961504,
+          "ci95_high": 0.969904,
+          "mean_ex_best_day": 0.965121,
+          "mean_ex_worst_day": 0.966344
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_raw": {
+        "n_samples": 555308,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.9651,
+        "multiclass_brier": 0.59446,
+        "accuracy": 0.44443,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00465,
+          "ece_10bin": 0.00473,
+          "ece_15bin": 0.0047
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 15951,
+            "mean_prob": 0.3861,
+            "emp_acc": 0.3871
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 538058,
+            "mean_prob": 0.4507,
+            "emp_acc": 0.4459
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1299,
+            "mean_prob": 0.5125,
+            "emp_acc": 0.5304
+          }
+        ],
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.53321,
+          "WAIT_ADVERSE": 0.5251,
+          "NEUTRAL": 0.63889
+        },
+        "pr_auc_ovr": {
+          "ENTER_NOW": 0.45901,
+          "WAIT_ADVERSE": 0.45999,
+          "NEUTRAL": 0.20726
+        },
+        "class_conditional": {
+          "ENTER_NOW": {
+            "mean_pred_prob": 0.43516,
+            "empirical_rate": 0.43628,
+            "brier": 0.24486
+          },
+          "WAIT_ADVERSE": {
+            "mean_pred_prob": 0.44299,
+            "empirical_rate": 0.44189,
+            "brier": 0.24602
+          },
+          "NEUTRAL": {
+            "mean_pred_prob": 0.12185,
+            "empirical_rate": 0.12183,
+            "brier": 0.10358
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.963791,
+          "se_day_block": 0.002194,
+          "ci95_low": 0.959491,
+          "ci95_high": 0.968091,
+          "mean_ex_best_day": 0.963173,
+          "mean_ex_worst_day": 0.96452
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_cal": {
+        "n_samples": 555308,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.96529,
+        "multiclass_brier": 0.59452,
+        "accuracy": 0.44443,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00462,
+          "ece_10bin": 0.00475,
+          "ece_15bin": 0.00469
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 16573,
+            "mean_prob": 0.3862,
+            "emp_acc": 0.3903
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 537361,
+            "mean_prob": 0.4506,
+            "emp_acc": 0.4459
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1370,
+            "mean_prob": 0.5124,
+            "emp_acc": 0.538
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 4,
+            "mean_prob": 0.6055,
+            "emp_acc": 0.75
+          }
+        ],
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.53297,
+          "WAIT_ADVERSE": 0.52473,
+          "NEUTRAL": 0.63794
+        },
+        "pr_auc_ovr": {
+          "ENTER_NOW": 0.45887,
+          "WAIT_ADVERSE": 0.45982,
+          "NEUTRAL": 0.20662
+        },
+        "class_conditional": {
+          "ENTER_NOW": {
+            "mean_pred_prob": 0.43501,
+            "empirical_rate": 0.43628,
+            "brier": 0.24487
+          },
+          "WAIT_ADVERSE": {
+            "mean_pred_prob": 0.44275,
+            "empirical_rate": 0.44189,
+            "brier": 0.24603
+          },
+          "NEUTRAL": {
+            "mean_pred_prob": 0.12224,
+            "empirical_rate": 0.12183,
+            "brier": 0.10362
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.964041,
+          "se_day_block": 0.00218,
+          "ci95_low": 0.959767,
+          "ci95_high": 0.968314,
+          "mean_ex_best_day": 0.963427,
+          "mean_ex_worst_day": 0.964725
+        }
+      }
+    },
+    "pooled_oot_buy_half_tick": {
+      "B1_TRAIN_PREVALENCE": {
+        "n_samples": 555308,
+        "unique_days": 72,
+        "multiclass_log_loss": 1.00101,
+        "multiclass_brier": 0.61052,
+        "accuracy": 0.43306,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00545,
+          "ece_10bin": 0.00545,
+          "ece_15bin": 0.00545
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.40,0.50]",
+            "count": 555308,
+            "mean_prob": 0.4385,
+            "emp_acc": 0.4331
+          }
+        ],
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.49778,
+          "WAIT_ADVERSE": 0.49797,
+          "NEUTRAL": 0.50299
+        },
+        "pr_auc_ovr": {
+          "ENTER_NOW": 0.42634,
+          "WAIT_ADVERSE": 0.43108,
+          "NEUTRAL": 0.13958
+        },
+        "class_conditional": {
+          "ENTER_NOW": {
+            "mean_pred_prob": 0.43032,
+            "empirical_rate": 0.42728,
+            "brier": 0.24473
+          },
+          "WAIT_ADVERSE": {
+            "mean_pred_prob": 0.4385,
+            "empirical_rate": 0.43306,
+            "brier": 0.24556
+          },
+          "NEUTRAL": {
+            "mean_pred_prob": 0.13118,
+            "empirical_rate": 0.13967,
+            "brier": 0.12023
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.999813,
+          "se_day_block": 0.00211,
+          "ci95_low": 0.995678,
+          "ci95_high": 1.003949,
+          "mean_ex_best_day": 0.999319,
+          "mean_ex_worst_day": 1.00041
+        }
+      },
+      "B3_LOGISTIC_L2_raw": {
+        "n_samples": 555308,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.99043,
+        "multiclass_brier": 0.60622,
+        "accuracy": 0.4358,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01369,
+          "ece_10bin": 0.01369,
+          "ece_15bin": 0.01374
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 7638,
+            "mean_prob": 0.3797,
+            "emp_acc": 0.3758
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 544335,
+            "mean_prob": 0.45,
+            "emp_acc": 0.4362
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 3309,
+            "mean_prob": 0.5242,
+            "emp_acc": 0.5005
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 26,
+            "mean_prob": 0.6081,
+            "emp_acc": 0.7308
+          }
+        ],
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.53315,
+          "WAIT_ADVERSE": 0.5237,
+          "NEUTRAL": 0.62023
+        },
+        "pr_auc_ovr": {
+          "ENTER_NOW": 0.45035,
+          "WAIT_ADVERSE": 0.44895,
+          "NEUTRAL": 0.21885
+        },
+        "class_conditional": {
+          "ENTER_NOW": {
+            "mean_pred_prob": 0.43589,
+            "empirical_rate": 0.42728,
+            "brier": 0.24376
+          },
+          "WAIT_ADVERSE": {
+            "mean_pred_prob": 0.44237,
+            "empirical_rate": 0.43306,
+            "brier": 0.24508
+          },
+          "NEUTRAL": {
+            "mean_pred_prob": 0.12174,
+            "empirical_rate": 0.13967,
+            "brier": 0.11738
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.988948,
+          "se_day_block": 0.002189,
+          "ci95_low": 0.984657,
+          "ci95_high": 0.993239,
+          "mean_ex_best_day": 0.988364,
+          "mean_ex_worst_day": 0.989597
+        }
+      },
+      "B3_LOGISTIC_L2_cal": {
+        "n_samples": 555308,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.99056,
+        "multiclass_brier": 0.60618,
+        "accuracy": 0.43658,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01379,
+          "ece_10bin": 0.01379,
+          "ece_15bin": 0.01379
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 8579,
+            "mean_prob": 0.3819,
+            "emp_acc": 0.3795
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 542416,
+            "mean_prob": 0.4508,
+            "emp_acc": 0.4371
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 4098,
+            "mean_prob": 0.5294,
+            "emp_acc": 0.4744
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 174,
+            "mean_prob": 0.6175,
+            "emp_acc": 0.5402
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 14,
+            "mean_prob": 0.7353,
+            "emp_acc": 0.7143
+          },
+          {
+            "bin": "[0.80,0.90]",
+            "count": 17,
+            "mean_prob": 0.842,
+            "emp_acc": 0.6471
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 10,
+            "mean_prob": 1.0,
+            "emp_acc": 0.8
+          }
+        ],
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.53317,
+          "WAIT_ADVERSE": 0.5247,
+          "NEUTRAL": 0.61936
+        },
+        "pr_auc_ovr": {
+          "ENTER_NOW": 0.45013,
+          "WAIT_ADVERSE": 0.45034,
+          "NEUTRAL": 0.21779
+        },
+        "class_conditional": {
+          "ENTER_NOW": {
+            "mean_pred_prob": 0.43317,
+            "empirical_rate": 0.42728,
+            "brier": 0.24372
+          },
+          "WAIT_ADVERSE": {
+            "mean_pred_prob": 0.44428,
+            "empirical_rate": 0.43306,
+            "brier": 0.2451
+          },
+          "NEUTRAL": {
+            "mean_pred_prob": 0.12256,
+            "empirical_rate": 0.13967,
+            "brier": 0.11736
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.989415,
+          "se_day_block": 0.002234,
+          "ci95_low": 0.985036,
+          "ci95_high": 0.993794,
+          "mean_ex_best_day": 0.988837,
+          "mean_ex_worst_day": 0.990064
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_raw": {
+        "n_samples": 555308,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.98933,
+        "multiclass_brier": 0.60574,
+        "accuracy": 0.43566,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01335,
+          "ece_10bin": 0.01342,
+          "ece_15bin": 0.01341
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 15951,
+            "mean_prob": 0.3861,
+            "emp_acc": 0.3802
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 538058,
+            "mean_prob": 0.4507,
+            "emp_acc": 0.4371
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1299,
+            "mean_prob": 0.5125,
+            "emp_acc": 0.5266
+          }
+        ],
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.53337,
+          "WAIT_ADVERSE": 0.5256,
+          "NEUTRAL": 0.62461
+        },
+        "pr_auc_ovr": {
+          "ENTER_NOW": 0.45009,
+          "WAIT_ADVERSE": 0.45152,
+          "NEUTRAL": 0.22184
+        },
+        "class_conditional": {
+          "ENTER_NOW": {
+            "mean_pred_prob": 0.43516,
+            "empirical_rate": 0.42728,
+            "brier": 0.2437
+          },
+          "WAIT_ADVERSE": {
+            "mean_pred_prob": 0.44299,
+            "empirical_rate": 0.43306,
+            "brier": 0.245
+          },
+          "NEUTRAL": {
+            "mean_pred_prob": 0.12185,
+            "empirical_rate": 0.13967,
+            "brier": 0.11704
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.987973,
+          "se_day_block": 0.002211,
+          "ci95_low": 0.983639,
+          "ci95_high": 0.992307,
+          "mean_ex_best_day": 0.987346,
+          "mean_ex_worst_day": 0.988621
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_cal": {
+        "n_samples": 555308,
+        "unique_days": 72,
+        "multiclass_log_loss": 0.98943,
+        "multiclass_brier": 0.60579,
+        "accuracy": 0.43566,
+        "ece_sensitivity": {
+          "ece_5bin": 0.01314,
+          "ece_10bin": 0.01326,
+          "ece_15bin": 0.01321
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 16573,
+            "mean_prob": 0.3862,
+            "emp_acc": 0.383
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 537361,
+            "mean_prob": 0.4506,
+            "emp_acc": 0.437
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 1370,
+            "mean_prob": 0.5124,
+            "emp_acc": 0.535
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 4,
+            "mean_prob": 0.6055,
+            "emp_acc": 0.75
+          }
+        ],
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.53312,
+          "WAIT_ADVERSE": 0.52517,
+          "NEUTRAL": 0.62361
+        },
+        "pr_auc_ovr": {
+          "ENTER_NOW": 0.44998,
+          "WAIT_ADVERSE": 0.4513,
+          "NEUTRAL": 0.22118
+        },
+        "class_conditional": {
+          "ENTER_NOW": {
+            "mean_pred_prob": 0.43501,
+            "empirical_rate": 0.42728,
+            "brier": 0.24371
+          },
+          "WAIT_ADVERSE": {
+            "mean_pred_prob": 0.44275,
+            "empirical_rate": 0.43306,
+            "brier": 0.24501
+          },
+          "NEUTRAL": {
+            "mean_pred_prob": 0.12224,
+            "empirical_rate": 0.13967,
+            "brier": 0.11707
+          }
+        },
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.98818,
+          "se_day_block": 0.00226,
+          "ci95_low": 0.98375,
+          "ci95_high": 0.99261,
+          "mean_ex_best_day": 0.987557,
+          "mean_ex_worst_day": 0.988814
+        }
+      }
+    },
+    "pooled_oot_conditional_enter_vs_wait": {
+      "B3_LOGISTIC_L2_raw": {
+        "n_samples": 487654,
+        "positive_rate": 0.4968,
+        "mean_pred_prob": 0.49635,
+        "binary_log_loss": 0.6931,
+        "brier_score": 0.24998,
+        "roc_auc": 0.50695,
+        "pr_auc": 0.50194,
+        "calibration_slope": 0.5601,
+        "calibration_intercept": -0.0049,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00045,
+          "ece_10bin": 0.00477,
+          "ece_15bin": 0.00071
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.40,0.50]",
+            "count": 295382,
+            "mean_prob": 0.4893,
+            "emp_rate": 0.4936
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 192272,
+            "mean_prob": 0.5072,
+            "emp_rate": 0.5017
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.693142,
+          "se_day_block": 8.7e-05,
+          "ci95_low": 0.69297,
+          "ci95_high": 0.693313,
+          "mean_ex_best_day": 0.693106,
+          "mean_ex_worst_day": 0.693184
+        }
+      },
+      "B3_LOGISTIC_L2_cal": {
+        "n_samples": 487654,
+        "positive_rate": 0.4968,
+        "mean_pred_prob": 0.49366,
+        "binary_log_loss": 0.69311,
+        "brier_score": 0.24997,
+        "roc_auc": 0.5079,
+        "pr_auc": 0.50242,
+        "calibration_slope": 0.5333,
+        "calibration_intercept": 0.0009,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00315,
+          "ece_10bin": 0.00509,
+          "ece_15bin": 0.00342
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 140,
+            "mean_prob": 0.3597,
+            "emp_rate": 0.3571
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 345059,
+            "mean_prob": 0.488,
+            "emp_rate": 0.4939
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 142447,
+            "mean_prob": 0.5074,
+            "emp_rate": 0.504
+          },
+          {
+            "bin": "[0.60,0.70]",
+            "count": 1,
+            "mean_prob": 0.6929,
+            "emp_rate": 0.0
+          },
+          {
+            "bin": "[0.70,0.80]",
+            "count": 1,
+            "mean_prob": 0.748,
+            "emp_rate": 1.0
+          },
+          {
+            "bin": "[0.90,1.00]",
+            "count": 6,
+            "mean_prob": 0.9999,
+            "emp_rate": 0.6667
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.693171,
+          "se_day_block": 9e-05,
+          "ci95_low": 0.692994,
+          "ci95_high": 0.693347,
+          "mean_ex_best_day": 0.693136,
+          "mean_ex_worst_day": 0.693199
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_raw": {
+        "n_samples": 487654,
+        "positive_rate": 0.4968,
+        "mean_pred_prob": 0.49558,
+        "binary_log_loss": 0.69312,
+        "brier_score": 0.24999,
+        "roc_auc": 0.50604,
+        "pr_auc": 0.50117,
+        "calibration_slope": 0.5123,
+        "calibration_intercept": -0.0038,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00122,
+          "ece_10bin": 0.00574,
+          "ece_15bin": 0.00142
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 770,
+            "mean_prob": 0.3764,
+            "emp_rate": 0.387
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 309673,
+            "mean_prob": 0.4888,
+            "emp_rate": 0.4942
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 177211,
+            "mean_prob": 0.508,
+            "emp_rate": 0.5018
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.693075,
+          "se_day_block": 0.000112,
+          "ci95_low": 0.692855,
+          "ci95_high": 0.693295,
+          "mean_ex_best_day": 0.693038,
+          "mean_ex_worst_day": 0.69315
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED_cal": {
+        "n_samples": 487654,
+        "positive_rate": 0.4968,
+        "mean_pred_prob": 0.49563,
+        "binary_log_loss": 0.69312,
+        "brier_score": 0.24999,
+        "roc_auc": 0.50607,
+        "pr_auc": 0.50121,
+        "calibration_slope": 0.5099,
+        "calibration_intercept": -0.0039,
+        "ece_sensitivity": {
+          "ece_5bin": 0.00117,
+          "ece_10bin": 0.00572,
+          "ece_15bin": 0.00136
+        },
+        "reliability_10bin": [
+          {
+            "bin": "[0.30,0.40]",
+            "count": 734,
+            "mean_prob": 0.376,
+            "emp_rate": 0.3896
+          },
+          {
+            "bin": "[0.40,0.50]",
+            "count": 309709,
+            "mean_prob": 0.4888,
+            "emp_rate": 0.4942
+          },
+          {
+            "bin": "[0.50,0.60]",
+            "count": 177211,
+            "mean_prob": 0.508,
+            "emp_rate": 0.5018
+          }
+        ],
+        "day_block_log_loss": {
+          "n_days": 72,
+          "mean": 0.693082,
+          "se_day_block": 0.00011,
+          "ci95_low": 0.692866,
+          "ci95_high": 0.693299,
+          "mean_ex_best_day": 0.693045,
+          "mean_ex_worst_day": 0.693153
+        }
+      }
+    },
+    "cal_vs_raw_paired_day_block": {
+      "B3_LOGISTIC_L2": {
+        "multiclass_ll_cal_minus_raw": {
+          "n_days": 72,
+          "mean_diff_per_day": 0.000348,
+          "se_day_block": 0.000269,
+          "ci95_low": -0.00018,
+          "ci95_high": 0.000875,
+          "significant_95pct": false,
+          "mean_diff_excluding_best_day": 0.000371,
+          "single_day_fragile": false
+        }
+      },
+      "C1_LIGHTGBM_CONSTRAINED": {
+        "multiclass_ll_cal_minus_raw": {
+          "n_days": 72,
+          "mean_diff_per_day": 0.00025,
+          "se_day_block": 7.8e-05,
+          "ci95_low": 9.6e-05,
+          "ci95_high": 0.000404,
+          "significant_95pct": false,
+          "mean_diff_excluding_best_day": 0.000269,
+          "single_day_fragile": false
+        }
+      }
+    }
+  },
+  "elapsed_sec": 33.79
+}

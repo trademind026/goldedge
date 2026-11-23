@@ -1,0 +1,241 @@
+{
+  "generated_at_utc": "2026-11-21T19:36:58.628289+00:00",
+  "git_commit": "1bf6c45b3f5b790e3212c9b5b7a683d6fd5e3622",
+  "safety": {
+    "SHADOW_MODE": true,
+    "TRADING_MODE": "demo",
+    "market_orders": 0,
+    "market_trades": 0
+  },
+  "frozen_hashes_sha256": {
+    "frozen_111_baseline_trades.csv": "73306E1529ADC48284BCE9AB6AC35122F33B9999D2464AF441867EB3BB6CF168",
+    "frozen_v2_w1_trades.csv": null,
+    "frozen_v2_w2_trades.csv": null,
+    "frozen_v2_w3_trades.csv": null,
+    "frozen_v2_manifest.json": "76E59A299F60DE0F42A32FC54592EBD1C504163B1E2E4DCCEFABB87627DDAAD3",
+    "task8_app_comparison.json": "A6BF9DD24DC6E13BB15D216FC6CE66F2168A8A2F67677F6631FB96B7CA7B79C4",
+    "task11a_candidate_reconciliation.json": "8B2FAEC0270A9E051AFE3E45A4E05DA26A57D5B80E369D3505506DD96F9597BA",
+    "task12_trade_count_reconciliation.json": "A5F3E264CBF8FB744D02BAB5854EBDEED0483479EC3871EDA16E2ACF61E3F243",
+    "g1_original_70_baseline_trades.csv": "27200EEA2C7FF4842FC586DD1131EE450247D0BCCBCF3E2F77ECA6952D2CCDC4",
+    "g1_original_70_baseline_journeys.json": "8BBC59E10DAECF3D061DCC5DC5DD8438E7183A61B0FBD34C13DAEBDEAF1E2807",
+    "g1_original_db_run.json": "C277534DC2152E0787D10AF57EF441D18215884329AE2662F37C8FFF095A233D"
+  },
+  "baseline_db_run_summary": {
+    "run_id": "bt_20261121_191649_a03728",
+    "symbol": "XAUUSD",
+    "risk": "medium",
+    "exit_agent": "Kalman",
+    "strategy_mode": "candidate_15_e1",
+    "start_date": "2026-08-13",
+    "end_date": "2026-11-19",
+    "trades": 70,
+    "win_rate": 0.5428571428571428,
+    "pnl": 162.2590324347948,
+    "max_dd": -822.0686824096765,
+    "pf": 1.0783916865641459,
+    "metrics_summary": {
+      "roi": 8.94,
+      "max_win": 206.82,
+      "max_loss": -112.98,
+      "max_margin": 992.95,
+      "mtm_max_dd": -885.52,
+      "days_traded": 30,
+      "final_equity": 10162.26,
+      "closed_max_dd": -822.07,
+      "mtm_peak_time": "2026-09-14 12:36:30.082000",
+      "strategy_mode": "candidate_15_e1",
+      "mtm_max_dd_pct": 8.02,
+      "total_swap_usd": 0.0,
+      "avg_pnl_per_day": 5.41,
+      "hwm_kill_switch": {
+        "halted": true,
+        "account_id": "",
+        "halt_count": 1,
+        "hwm_equity": 11047.7777,
+        "updated_at": "2026-10-26T13:36:14.256000+00:00",
+        "halt_reason": "8% HWM Kill-Switch triggered: drawdown 8.0154% >= 8.00% (HWM=$11,047.78, equity=$10,162.26)",
+        "reset_count": 0,
+        "trigger_hwm": 11047.7777,
+        "drawdown_pct": 8.0154,
+        "account_scope": "backtest:XAUUSD",
+        "last_reset_at": null,
+        "last_reset_by": null,
+        "current_equity": 10162.259,
+        "halt_timestamp": "2026-10-26T13:36:14.256000+00:00",
+        "initial_equity": 10000.0,
+        "trades_blocked": 102,
+        "trigger_equity": 10162.259,
+        "account_currency": "USD",
+        "max_drawdown_pct": 8.0154,
+        "trades_prevented": 102,
+        "last_reset_reason": null,
+        "persistence_degraded": false,
+        "trigger_drawdown_pct": 8.0154,
+        "emergency_exit_status": "ALL_CLOSED_CONFIRMED",
+        "emergency_exit_details": [
+          {
+            "error": null,
+            "status": "CONFIRMED_CLOSED",
+            "symbol": "XAUUSD",
+            "ticket": 72361,
+            "direction": "SELL",
+            "exit_reason": "HWM_KILL_SWITCH_8PCT",
+            "requested_at": "2026-10-26T13:36:14.256000",
+            "filled_volume": 0.16,
+            "retry_attempts": 1,
+            "requested_price": 4005.49,
+            "remaining_volume": 0.0,
+            "requested_volume": 0.16,
+            "actual_execution_price": 4005.49
+          }
+        ],
+        "open_positions_at_trigger": 1
+      },
+      "initial_capital": 10000.0,
+      "mtm_peak_equity": 11047.78,
+      "mtm_trough_time": "2026-10-26 13:36:14.256000",
+      "required_capital": 1815.02,
+      "total_sl_gap_usd": -56.97,
+      "worst_sl_gap_usd": -6.28,
+      "avg_pnl_per_trade": 2.32,
+      "closed_max_dd_pct": 7.48,
+      "kalman_comparison": null,
+      "mtm_trough_equity": 10162.26,
+      "commission_per_lot": 0.0,
+      "sl_slippage_events": 35,
+      "strategy_breakdown": {
+        "bearish_momentum": {
+          "pf": 1.19,
+          "pnl": 231.76,
+          "wins": 27,
+          "losses": 18,
+          "trades": 46,
+          "avg_pnl": 5.04,
+          "win_rate": 58.7
+        },
+        "bullish_momentum": {
+          "pf": 0.92,
+          "pnl": -69.5,
+          "wins": 11,
+          "losses": 13,
+          "trades": 24,
+          "avg_pnl": -2.9,
+          "win_rate": 45.83
+        }
+      },
+      "total_slippage_usd": 0.0,
+      "direction_breakdown": {
+        "BUY": {
+          "pf": 0.92,
+          "pnl": -69.5,
+          "wins": 11,
+          "losses": 13,
+          "trades": 24,
+          "avg_pnl": -2.9,
+          "win_rate": 45.83
+        },
+        "SELL": {
+          "pf": 1.19,
+          "pnl": 231.76,
+          "wins": 27,
+          "losses": 18,
+          "trades": 46,
+          "avg_pnl": 5.04,
+          "win_rate": 58.7
+        }
+      },
+      "raw_tick_mtm_max_dd": -885.52,
+      "max_planned_risk_pct": 0.997,
+      "total_commission_usd": 0.0,
+      "exit_reason_breakdown": {
+        "SL": {
+          "pnl": -1366.03,
+          "wins": 0,
+          "count": 13,
+          "win_rate": 0.0
+        },
+        "TARGET": {
+          "pnl": 998.16,
+          "wins": 5,
+          "count": 5,
+          "win_rate": 100.0
+        },
+        "BREAKEVEN": {
+          "pnl": 24.05,
+          "wins": 9,
+          "count": 11,
+          "win_rate": 81.82
+        },
+        "TRAILING_SL": {
+          "pnl": 218.0,
+          "wins": 3,
+          "count": 3,
+          "win_rate": 100.0
+        },
+        "TIME_SQUEEZE": {
+          "pnl": 62.07,
+          "wins": 4,
+          "count": 5,
+          "win_rate": 80.0
+        },
+        "EARLY_FAIL_15M": {
+          "pnl": -250.65,
+          "wins": 0,
+          "count": 7,
+          "win_rate": 0.0
+        },
+        "KALMAN_TIGHTEN": {
+          "pnl": 366.93,
+          "wins": 5,
+          "count": 5,
+          "win_rate": 100.0
+        },
+        "HWM_KILL_SWITCH_8PCT": {
+          "pnl": -34.4,
+          "wins": 0,
+          "count": 1,
+          "win_rate": 0.0
+        },
+        "KALMAN_VELOCITY_REVERSAL": {
+          "pnl": 144.13,
+          "wins": 12,
+          "count": 20,
+          "win_rate": 60.0
+        }
+      },
+      "max_realized_loss_pct": 1.045,
+      "mtm_max_dd_initial_pct": 8.86,
+      "inverted_quotes_skipped": 11612,
+      "zero_spread_ticks_skipped": 433
+    }
+  },
+  "dataset_xauusd_2026_08_13_to_2026_11_19": {
+    "total_rows": 19959291,
+    "valid_rows": 19947246,
+    "inverted_rows": 11612,
+    "zero_spread_rows": 433,
+    "non_positive_rows": 0,
+    "distinct_days": 85,
+    "non_null_volume_rows": 0,
+    "min_time_utc": "2026-08-13T00:00:00.153000+00:00",
+    "max_time_utc": "2026-11-19T11:45:39.744483+00:00",
+    "duplicate_timestamps": 0,
+    "duplicate_rows_total": 0,
+    "warmup_2026_08_09_to_13_rows": 0,
+    "all_db_rows": 19959291,
+    "all_db_min_time_utc": "2026-08-13T00:00:00.153000+00:00",
+    "all_db_max_time_utc": "2026-11-19T11:45:39.744483+00:00",
+    "fingerprint_full_20260813_20261119": {
+      "rows": 19959291,
+      "stream_sha256": "896F3213DC505D72CD6B60023EC79862E1C272F66E3E3695AE22CA45FD4DC000"
+    },
+    "fingerprint_warmup_20260813_20260817": {
+      "rows": 508219,
+      "stream_sha256": "CFA4D41E04B9D092B98AA51747FEFD4F6C36B2EA98A0A7DCA47047B3EA0B39B5"
+    },
+    "fingerprint_warmed_20260817_20261119": {
+      "rows": 19451072,
+      "stream_sha256": "E6074F50C6572CAD02B3B3B6D93C8323E04AAACE3A8B965D4F7D3D0A6AA71372"
+    }
+  }
+}

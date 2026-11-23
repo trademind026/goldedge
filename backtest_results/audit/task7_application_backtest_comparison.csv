@@ -1,0 +1,7 @@
+run_label,trades,wins,losses,breakevens,win_rate_pct,gross_pnl_usd,commission_usd,slippage_usd,swap_cost_usd,swap_pnl_usd,net_pnl_usd,final_equity_usd,profit_factor,closed_max_dd_usd,closed_max_dd_pct,mtm_max_dd_usd,mtm_max_dd_pct,mtm_max_dd_initial_pct,buy_trades,buy_net_pnl_usd,sell_trades,sell_net_pnl_usd
+"Task 7 Zero-Cost Parity ($0, no swap)",118,66,51,1,55.9322,400.64,0.0,0.0,0.0,-0.0,400.64,10400.64,1.0926,-1267.2,11.4809,-1354.97,12.2033,13.5497,29,-386.54,89,787.18
+"Task 4 Frozen ($7/lot fixed + 0.30p, no swap)",118,64,53,1,54.2373,256.0,125.3,103.26,0.0,-0.0,130.7,10130.7,1.0303,-995.77,9.81,-1301.95,12.83,13.02,29,-423.89,89,554.59
+Task 7 Verified Demo ($12/M per side + NY17Z Swap + 0.00p),118,64,54,0,54.2373,321.13,177.46,0.0,0.0,-0.0,143.67,10143.67,1.0334,-1312.65,11.9988,-1385.44,12.6028,13.8544,29,-438.6,89,582.28
+Task 7 Verified Demo ($12/M per side + NY17Z Swap + 0.0533p),118,65,53,0,55.0847,293.35,177.26,18.19,0.0,-0.0,116.09,10116.09,1.027,-1333.53,12.191,-1406.47,12.7955,14.0647,29,-437.53,89,553.63
+Task 7 Verified Demo ($12/M per side + NY17Z Swap + 0.30p),118,63,55,0,53.3898,218.37,176.57,102.0,0.0,-0.0,41.8,10041.8,1.0097,-1378.21,12.626,-1448.29,13.2073,14.4829,29,-451.33,89,493.13
+Research: Verified Demo NO tick-intensity features (+0.0533p),126,68,58,0,53.9683,180.84,190.1,19.62,0.0,-0.0,-9.26,9990.74,0.998,-1190.67,10.9097,-1289.09,11.7268,12.8909,28,-84.54,98,75.29

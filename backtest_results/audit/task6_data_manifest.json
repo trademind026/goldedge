@@ -1,0 +1,107 @@
+{
+  "generated_at_utc": "2026-11-18T15:51:47.167384+00:00",
+  "outcome_tag": "HISTORICAL_DATA_BASELINE_V1",
+  "database_inventory": {
+    "market_ticks_total_rows": 18032686,
+    "market_ticks_min_time": "2026-08-20 00:00:00.148+00",
+    "market_ticks_max_time": "2026-11-18 15:49:38.609311+00",
+    "sub_millisecond_ticks": 178173,
+    "sub_second_ticks": 18018633,
+    "utc_days_count": 78,
+    "market_bars_1m_rows": 17413,
+    "market_bars_1m_min": "2026-08-06 00:00:00+00",
+    "market_bars_1m_max": "2026-11-18 15:48:00+00",
+    "timescaledb_chunks_total": 13,
+    "timescaledb_chunks_compressed": 11,
+    "timescaledb_jobs": [
+      {
+        "job_id": 3,
+        "application_name": "Job History Log Retention Policy [3]",
+        "schedule_interval": "06:00:00",
+        "scheduled": true,
+        "next_start": "2026-11-18 18:00:00+00"
+      },
+      {
+        "job_id": 1000,
+        "application_name": "Columnstore Policy [1000]",
+        "schedule_interval": "12:00:00",
+        "scheduled": true,
+        "next_start": "2026-11-19 00:18:44.664197+00"
+      }
+    ]
+  },
+  "database_quality_totals": {
+    "rows": 18033101,
+    "valid": 18021056,
+    "inverted": 11612,
+    "zero_spread": 433,
+    "invalid": 0,
+    "vol_null": 18033101,
+    "vol_one": 0,
+    "vol_other": 0,
+    "dup_ts": 0
+  },
+  "archive_summary": {
+    "archive_sha256": "df275212fb54a91d89ed20b56edcad470e56847d6bb0bf633918da116a4e0e06",
+    "zip_crc_test_result": "OK",
+    "market_ticks_rows": 18703145,
+    "earliest_tick_utc": "2026-08-13T00:00:00.153000+00:00",
+    "latest_tick_utc": "2026-11-17T09:01:45.604319+00:00",
+    "aug13_19_missing_from_db_totals": {
+      "rows": 743099,
+      "valid": 742546,
+      "inverted": 545,
+      "zero_spread": 8,
+      "invalid": 0,
+      "vol_null": 743099,
+      "vol_one": 0,
+      "vol_other": 0,
+      "dup_ts": 0
+    },
+    "db_overlap_exact_day_matches": "76 / 77",
+    "non_matching_shared_days": [
+      {
+        "utc_day": "2026-11-17",
+        "archive_rows": 68863,
+        "db_rows": 72576,
+        "archive_last": "2026-11-17T09:01:45.604319+00:00",
+        "db_last": "2026-11-17T09:18:11.266953+00:00",
+        "archive_sha": "62c9c80e147fae7a7b2eda79593b8e33b9b6183e270fbe0bd86012aa3fe7abb3",
+        "db_sha": "027cac46807c4ed5b6ce899451a8f9e5d5b5a5bcf77dc20832be57269253791a",
+        "note": "Archive taken mid-day 2026-11-17 before live ticks appended"
+      }
+    ],
+    "aug19_to_aug20_boundary_gap_sec": 1.287
+  },
+  "task4_replay_fingerprint_check": {
+    "recorded_task4_rows": 17303717,
+    "current_db_rows": 17303717,
+    "recorded_task4_sha256": "b5ebbaeadbb99e8d2b8a1fdb7d357b8899dfb7385b4b8dc5a3d27b5d06ea2870",
+    "current_db_sha256": "b5ebbaeadbb99e8d2b8a1fdb7d357b8899dfb7385b4b8dc5a3d27b5d06ea2870",
+    "exact_match": true
+  },
+  "trade_window_overlap_check": {
+    "frozen_111": {
+      "label": "frozen_111",
+      "total_trades": 111,
+      "unique_entry_days": 47,
+      "trades_in_dropped_aug13_19": 1,
+      "trades_in_warmup_aug20_23": 5,
+      "days_in_dropped_week": [
+        "2026-08-19"
+      ],
+      "days_in_warmup_week": [
+        "2026-08-21"
+      ]
+    },
+    "task4_118": {
+      "label": "task4_118",
+      "total_trades": 118,
+      "unique_entry_days": 48,
+      "trades_in_dropped_aug13_19": 0,
+      "trades_in_warmup_aug20_23": 0,
+      "days_in_dropped_week": [],
+      "days_in_warmup_week": []
+    }
+  }
+}

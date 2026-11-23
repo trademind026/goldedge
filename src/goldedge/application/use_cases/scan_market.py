@@ -11,6 +11,7 @@ from ...domain.ports.outbound.market_data import IMarketDataProvider
 from ...domain.ports.outbound.shadow_journal import IShadowJournal
 from ...domain.ports.outbound.trade_repo import ITradeRepository
 from ...domain.services.denoise_service import DenoiseService
+from ...domain.services.hwm_kill_switch_service import HwmKillSwitchService
 from ...domain.services.indicator_service import IndicatorService
 from ...domain.services.mtf_trend import (
     aggregate_ohlcv_bars,
@@ -26,6 +27,7 @@ from ...domain.models.signal import ScoredSignal
 from ...config.settings import settings
 from ...config.risk_profiles import get_profile
 from ..services.execution_context import resolve_execution_context
+from ..services.hwm_emergency_exit import HwmEmergencyLiquidator
 
 from .execute_trade import ExecuteTradeUseCase
 
@@ -73,6 +75,8 @@ class ScanMarketUseCase:
         shadow_mode: Optional[bool] = None,
         shadow_journal: Optional[IShadowJournal] = None,
         shadow_tracker: Optional[ShadowValidationTracker] = None,
+        hwm_kill_switch: Optional[HwmKillSwitchService] = None,
+        emergency_liquidator: Optional[HwmEmergencyLiquidator] = None,
     ):
         self.candle_repo = candle_repo
         self.event_bus = event_bus
@@ -86,6 +90,10 @@ class ScanMarketUseCase:
         self.shadow_mode = settings.SHADOW_MODE if shadow_mode is None else bool(shadow_mode)
         self.shadow_journal = shadow_journal
         self.shadow_tracker = shadow_tracker or ShadowValidationTracker(contract_size=100.0)
+        self.hwm_kill_switch = hwm_kill_switch
+        self.emergency_liquidator = emergency_liquidator or (
+            HwmEmergencyLiquidator(hwm_kill_switch) if hwm_kill_switch is not None else None
+        )
 
         self.regime_detector = RegimeDetectorService()
         self.trade_scorer = TradeScorer(w_ml=0.0, w_quant=1.0)
@@ -185,16 +193,20 @@ class ScanMarketUseCase:
         last_row = df.iloc[-1]
         latest_atr = float(last_row.get("atr", 0.0) or 0.0)
         latest_rsi = float(last_row.get("rsi", 50.0) or 50.0)
-        latest_vwap = float(last_row.get("vwap", 0.0) or 0.0)
+        raw_twp = last_row.get("tick_weighted_price", None)
+        latest_twp = float(raw_twp) if (raw_twp is not None and not math.isnan(float(raw_twp))) else 0.0
+        raw_real_vwap = last_row.get("vwap", None)
+        genuine_vwap = float(raw_real_vwap) if (raw_real_vwap is not None and not math.isnan(float(raw_real_vwap))) else None
         latest_close = float(last_row.get("close", 0.0) or 0.0)
         ema20_5m = float(last_row.get("ema20", 0.0) or 0.0)
         ema50_5m = float(last_row.get("ema50", 0.0) or 0.0)
         ema20_slope = float(last_row.get("ema20_slope", 0.0) or 0.0)
-        vwap_dist = float((latest_close - latest_vwap) / latest_close) if latest_close else 0.0
-        dist_to_vwap_atr = float((latest_close - latest_vwap) / latest_atr) if latest_atr > 1e-9 else 0.0
+        twp_dist = float((latest_close - latest_twp) / latest_close) if (latest_close and latest_twp) else 0.0
+        dist_to_twp_atr = float((latest_close - latest_twp) / latest_atr) if (latest_atr > 1e-9 and latest_twp) else 0.0
         w20_low = float(df["low"].iloc[-21:-1].min()) if len(df) >= 21 else float(df["low"].min())
         dist_to_swing_low_atr = float((latest_close - w20_low) / latest_atr) if latest_atr > 1e-9 else 0.0
-        vol_ratio = float(last_row.get("volume_ratio", 1.0) or 1.0)
+        raw_trr = last_row.get("tick_rate_ratio", 1.0)
+        tick_rate_ratio = float(raw_trr) if (raw_trr is not None and not math.isnan(float(raw_trr))) else 1.0
         atr_tail = df["atr"].dropna().tail(20)
         atr_mean_20 = float(atr_tail.mean()) if len(atr_tail) > 0 else latest_atr
         atr_ratio = float(latest_atr / atr_mean_20) if atr_mean_20 > 1e-9 else 1.0
@@ -209,8 +221,8 @@ class ScanMarketUseCase:
             "shannon_entropy": shannon_entropy,
             "kaufman_er": kaufman_er,
             "ema20_slope": ema20_slope,
-            "vwap_dist": vwap_dist,
-            "volume_ratio": vol_ratio,
+            "tick_weighted_price_dist": twp_dist,
+            "tick_rate_ratio": tick_rate_ratio,
             "utc_hour": closed_5m_ts.hour,
         }
 
@@ -248,13 +260,14 @@ class ScanMarketUseCase:
             ridge_pred = None
             if self.expected_pnl_model is not None:
                 hour_angle = 2.0 * math.pi * (float(closed_5m_ts.hour) / 24.0)
+                # Legacy observation-only 11-feature frozen Ridge artifact schema mapping
                 ridge_pred = self.expected_pnl_model.predict_expected_pnl({
                     "rsi": latest_rsi,
                     "atr_ratio": atr_ratio,
-                    "volume_ratio": vol_ratio,
+                    "volume_ratio": tick_rate_ratio,
                     "ema20_slope": ema20_slope,
                     "ema_spread": float((ema20_5m - ema50_5m) / ema50_5m) if ema50_5m else 0.0,
-                    "vwap_dist": vwap_dist,
+                    "vwap_dist": twp_dist,
                     "kalman_velocity": float(kalman_features.get("kalman_vel", 0.0) or 0.0),
                     "spread_mean": float(spread if spread is not None else 0.07),
                     "hour_sin": math.sin(hour_angle),
@@ -355,7 +368,7 @@ class ScanMarketUseCase:
                         kalman_velocity=round(float(kalman_features.get("kalman_vel", 0.0) or 0.0), 6),
                         kalman_acceleration=round(float(kalman_features.get("kalman_accel", 0.0) or 0.0), 6),
                         distance_to_swing_low_atr=round(dist_to_swing_low_atr, 4),
-                        distance_to_vwap_atr=round(dist_to_vwap_atr, 4),
+                        distance_to_vwap_atr=round(dist_to_twp_atr, 4),
                         planned_risk_usd=planned_risk_usd,
                         planned_risk_pct=planned_risk_pct,
                     )
@@ -375,10 +388,12 @@ class ScanMarketUseCase:
                 "h1_ema20": round(h1_ema20, 4) if h1_ema20 is not None else None,
                 "h1_ema50": round(h1_ema50, 4) if h1_ema50 is not None else None,
                 "rsi": round(latest_rsi, 3),
-                "vwap": round(latest_vwap, 4),
+                "tick_weighted_price": round(latest_twp, 4),
+                "tick_rate_ratio": round(tick_rate_ratio, 4),
+                "vwap": round(genuine_vwap, 4) if genuine_vwap is not None else None,
                 "atr": round(latest_atr, 4),
                 "distance_to_swing_low_atr": round(dist_to_swing_low_atr, 4),
-                "distance_to_vwap_atr": round(dist_to_vwap_atr, 4),
+                "distance_to_tick_weighted_price_atr": round(dist_to_twp_atr, 4),
                 "kaufman_er": round(kaufman_er, 4),
                 "shannon_entropy": round(shannon_entropy, 4),
                 "regime": regime.value,
@@ -409,7 +424,8 @@ class ScanMarketUseCase:
                     f"[SHADOW_ROLLOVER] {symbol} bar_5m={closed_5m_ts.strftime('%Y-%m-%dT%H:%MZ')} "
                     f"k_p={telemetry['kalman_price']} k_v={telemetry['kalman_vel']} k_a={telemetry['kalman_accel']} | "
                     f"h1={htf_trend}(ema20={telemetry['h1_ema20']},ema50={telemetry['h1_ema50']}) | "
-                    f"rsi={telemetry['rsi']} vwap={telemetry['vwap']} atr={telemetry['atr']} regime={regime.value} | "
+                    f"rsi={telemetry['rsi']} twp={telemetry['tick_weighted_price']} tick_rate_ratio={telemetry['tick_rate_ratio']} "
+                    f"vwap={telemetry['vwap']} atr={telemetry['atr']} regime={regime.value} | "
                     f"dir={chosen_dir} score={telemetry['score']} gate={gate_reason} | "
                     f"bid={live_bid} ask={live_ask} sl={telemetry['sl']} tp={telemetry['tp']} "
                     f"ridge={telemetry['ridge_pred_pnl']} order_placed=False"
@@ -426,6 +442,18 @@ class ScanMarketUseCase:
         if not scored_signals:
             return {"event": "LIVE_ROLLOVER", "status": gate_reason, "symbol": symbol, "order_placed": False}
 
+        if self.hwm_kill_switch is not None:
+            allowed_pre, halt_msg = self.hwm_kill_switch.can_open_new_position(symbol=symbol)
+            if not allowed_pre:
+                logger.warning(f"Blocking new live entry on {symbol}: {halt_msg}")
+                return {
+                    "event": "LIVE_ROLLOVER",
+                    "status": "HWM_KILL_SWITCH_8PCT",
+                    "reason": halt_msg,
+                    "symbol": symbol,
+                    "order_placed": False,
+                }
+
         if self.broker is None or self.trade_repo is None:
             logger.error("ScanMarketUseCase requires broker and trade_repo to resolve live execution context.")
             return {"event": "LIVE_ROLLOVER", "status": "BROKER_OR_REPO_MISSING", "symbol": symbol, "order_placed": False}
@@ -439,6 +467,33 @@ class ScanMarketUseCase:
         if ctx is None:
             logger.warning(f"Skipping execution for {symbol}: live execution context unavailable.")
             return {"event": "LIVE_ROLLOVER", "status": "CONTEXT_UNAVAILABLE", "symbol": symbol, "order_placed": False}
+
+        if self.hwm_kill_switch is not None:
+            open_cnt = len(self.broker.get_open_positions() or []) if hasattr(self.broker, "get_open_positions") else 0
+            eval_res = self.hwm_kill_switch.evaluate_equity(
+                current_equity=ctx.account_equity,
+                timestamp=cutoff_5m,
+                open_positions_count=open_cnt,
+                symbol=symbol,
+            )
+            if eval_res.halted:
+                if open_cnt > 0 and self.emergency_liquidator is not None:
+                    q_map = {symbol: (live_bid, live_ask)} if (live_bid and live_ask and live_bid < live_ask) else None
+                    self.emergency_liquidator.liquidate_open_positions(
+                        broker=self.broker,
+                        trade_repo=self.trade_repo,
+                        market_data=self.market_data,
+                        event_bus=self.event_bus,
+                        quotes_by_symbol=q_map,
+                        now=cutoff_5m,
+                    )
+                return {
+                    "event": "LIVE_ROLLOVER",
+                    "status": "HWM_KILL_SWITCH_8PCT",
+                    "reason": eval_res.reason,
+                    "symbol": symbol,
+                    "order_placed": False,
+                }
 
         for scored_trade in scored_signals:
             logger.info(f"Signal Approved by Scorer: {scored_trade.strategy} | {scored_trade.direction} | Score: {scored_trade.final_score}")
@@ -456,7 +511,7 @@ class ScanMarketUseCase:
                 ml_probability=scored_trade.ml_probability
             )
 
-            self.execute_trade_uc.execute(
+            ticket = self.execute_trade_uc.execute(
                 scored_signal=scored_sig,
                 current_spread=ctx.current_spread_pips,
                 recent_median_spread=ctx.recent_median_spread_pips,
@@ -464,8 +519,9 @@ class ScanMarketUseCase:
                 current_daily_loss_pct=ctx.current_daily_loss_pct,
                 current_streak=ctx.current_streak,
                 entry_price=exec_entry,
-                atr_value=latest_atr
+                atr_value=latest_atr,
+                account_equity=ctx.account_equity,
             )
-            break
+            return {"event": "LIVE_ROLLOVER", "status": "EXECUTED" if ticket else "REJECTED", "symbol": symbol, "order_placed": bool(ticket)}
 
-        return {"event": "LIVE_ROLLOVER", "status": "EXECUTED", "symbol": symbol, "order_placed": True}
+        return {"event": "LIVE_ROLLOVER", "status": "NO_EXECUTION", "symbol": symbol, "order_placed": False}

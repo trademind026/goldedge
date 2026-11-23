@@ -1,0 +1,21 @@
+{
+  "calibrator_id": "cal_macro_net_010_f3_B3_LOGISTIC_L2_RAW",
+  "base_artifact_id": "macro_net_010_f3_B3_LOGISTIC_L2",
+  "base_artifact_sha256": "BFB1D378BE948ABA4EFBC48B1CAAF29454060C1D3AAE2173D283D6E8E01897C6",
+  "method": "RAW",
+  "horizon": "macro",
+  "target_name": "net_class_010",
+  "fold_id": 3,
+  "classes": [
+    "UP",
+    "DOWN",
+    "FLAT"
+  ],
+  "cal_start_utc": "2026-09-18T00:00:00Z",
+  "cal_end_utc": "2026-10-02T00:00:00Z",
+  "cal_n_samples": 2708,
+  "cal_unique_days": 12,
+  "internal_val_logloss": 0.812535,
+  "created_at_utc": "2026-11-23T10:20:23.857679+00:00",
+  "calibrator_sha256": "701C142506DA26AAE96CB2E3C9F866FD47C5433965EA93D1C6156A12A2EEAEC1"
+}

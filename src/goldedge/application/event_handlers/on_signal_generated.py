@@ -62,4 +62,5 @@ class OnSignalGeneratedHandler:
             current_streak=ctx.current_streak,
             entry_price=sig.entry_price,
             atr_value=atr_value,
+            account_equity=ctx.account_equity,
         )

@@ -59,7 +59,13 @@ class TickRepository(ITickRepository):
 
     def get_ticks_as_df(self, symbol: str, start_time, end_time):
         import pandas as pd
-        sql = "SELECT time, symbol, bid, ask, last as price, 1 as volume FROM market_ticks WHERE symbol = %(symbol)s AND time >= %(start)s AND time <= %(end)s ORDER BY time ASC"
+        # Preserve NULL real volume honestly; quote arrival count is computed explicitly per candle.
+        sql = (
+            "SELECT time, symbol, bid, ask, last as price, volume AS real_volume "
+            "FROM market_ticks "
+            "WHERE symbol = %(symbol)s AND time >= %(start)s AND time < %(end)s "
+            "ORDER BY time ASC"
+        )
         params = {"symbol": symbol, "start": start_time, "end": end_time}
         return pd.read_sql(sql, self.engine, params=params)
 

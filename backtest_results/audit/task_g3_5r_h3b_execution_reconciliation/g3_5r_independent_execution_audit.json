@@ -1,0 +1,26 @@
+{
+  "task": "G3.5R_PHASE_F_INDEPENDENT_EXECUTION_AUDIT",
+  "generated_at_utc": "2026-11-23T11:01:03.671059+00:00",
+  "clean_room_zero_goldedge_imports": true,
+  "original_trade_count": 112,
+  "matched_trade_count": 112,
+  "unmatched_trade_count": 0,
+  "entry_price_mismatches": 0,
+  "exit_price_mismatches": 0,
+  "e1_event_mismatches": 0,
+  "exit_reason_mismatches": 0,
+  "commission_mismatches": 0,
+  "pnl_mismatches": 0,
+  "net_r_mismatches": 0,
+  "indep_total_r": 0.77248,
+  "app_total_r": 0.77251,
+  "total_r_diff": -3e-05,
+  "indep_cum_r_max_dd": -10.9091,
+  "app_cum_r_max_dd": -10.9091,
+  "frozen_baselines_intact": {
+    "frozen_111": true,
+    "frozen_70": true
+  },
+  "overall_status": "PASS",
+  "elapsed_sec": 3.75
+}

@@ -470,8 +470,8 @@ class ForexTickReplayEngine:
                     "shannon_entropy": rolling_entropy,
                     "kaufman_er": 0.45,
                     "ema20_slope": float(latest_row.get("ema20_slope", 0.0)),
-                    "vwap_dist": float(latest_row.get("vwap_dist", 0.0)),
-                    "volume_ratio": float(latest_row.get("volume_ratio", 1.0)),
+                    "tick_weighted_price_dist": float(latest_row.get("tick_weighted_price_dist", 0.0)),
+                    "tick_rate_ratio": float(latest_row.get("tick_rate_ratio", 1.0)),
                     "utc_hour": minute_ts.hour,
                 }
 

@@ -1,0 +1,32 @@
+{
+  "task": "G3.5R_PHASE_B_CANDIDATE_UNIVERSE_AUDIT",
+  "generated_at_utc": "2026-11-23T10:55:57.710738+00:00",
+  "original_counts": {
+    "app_candidates": 112,
+    "sim_candidates": 112
+  },
+  "exact_112_universe_identical": true,
+  "exact_timestamp_match": true,
+  "exact_direction_match": true,
+  "unique_days": 39,
+  "unrounded_totals": {
+    "app_total_r": 0.77251,
+    "app_mean_r": 0.006897,
+    "sim_total_r": -13.01877,
+    "sim_mean_r": -0.116239,
+    "discrepancy_sim_minus_app_r": -13.79128
+  },
+  "mismatch_classification_counts": {
+    "COST_MISMATCH": 10,
+    "EXACT_MATCH": 30,
+    "SIZING_MISMATCH": 54,
+    "E1_MISMATCH": 18
+  },
+  "atr_corruption_summary": {
+    "n_trades_with_corrupted_atr": 54,
+    "pct_of_112_trades": 48.21,
+    "total_diff_r_from_atr_corrupted_trades": -14.10044,
+    "total_diff_r_from_non_corrupted_trades": 0.30916
+  },
+  "reconciliation_parquet_sha256": "B32FD32311A93099B7F442918BB10B4F721A0552783C0BED0984D3E377DB3D33"
+}

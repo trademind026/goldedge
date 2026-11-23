@@ -1,0 +1,125 @@
+{
+  "task": "G3.6R.1_FROZEN_CONFIG_MANIFEST",
+  "created_before_backfill_utc": "2026-11-23T12:00:34.378605+00:00",
+  "safety_locks": {
+    "SHADOW_MODE": "True",
+    "TRADING_MODE": "demo # Options: demo, live, backtest",
+    "market_orders": 0,
+    "market_trades": 0,
+    "HWM_MAX_DRAWDOWN_PCT": 8.0
+  },
+  "frozen_configurations": {
+    "H0_ORIGINAL": {
+      "params": {
+        "symbol": "XAUUSD",
+        "starting_capital_usd": 10000.0,
+        "risk_per_trade_pct": 0.5,
+        "commission_per_million_usd_per_side": 12.0,
+        "slippage_pips_per_side": 0.0533,
+        "hwm_max_drawdown_pct": 8.0,
+        "use_kalman_exit": false,
+        "be_trigger_atr": 1.0,
+        "sl_atr_mult": 1.5,
+        "tp_atr_mult": 3.0,
+        "max_concurrent_positions": 1,
+        "swap_per_lot_night": 0.0,
+        "session_close_utc": 17,
+        "early_fail_mins": null,
+        "early_fail_min_mfe_atr": null,
+        "min_score_threshold": 0.6,
+        "max_kaufman_er": null
+      },
+      "config_sha256": "7090C8204E598E192B7088A22A82ABD9898717AE104AA578D2CE551BAB487D30"
+    },
+    "H3B_FROZEN": {
+      "params": {
+        "symbol": "XAUUSD",
+        "starting_capital_usd": 10000.0,
+        "risk_per_trade_pct": 0.5,
+        "commission_per_million_usd_per_side": 12.0,
+        "slippage_pips_per_side": 0.0533,
+        "hwm_max_drawdown_pct": 8.0,
+        "use_kalman_exit": false,
+        "be_trigger_atr": 1.0,
+        "sl_atr_mult": 1.5,
+        "tp_atr_mult": 3.0,
+        "max_concurrent_positions": 1,
+        "swap_per_lot_night": 0.0,
+        "session_close_utc": 15,
+        "early_fail_mins": 15,
+        "early_fail_min_mfe_atr": 0.4,
+        "min_score_threshold": 0.6,
+        "max_kaufman_er": null
+      },
+      "config_sha256": "5877969B0FC5F5AACAC2093601CF56CFD3ECF0736F98996703F3E701C360B310"
+    },
+    "H3B_CHANGE_A_ER50": {
+      "params": {
+        "symbol": "XAUUSD",
+        "starting_capital_usd": 10000.0,
+        "risk_per_trade_pct": 0.5,
+        "commission_per_million_usd_per_side": 12.0,
+        "slippage_pips_per_side": 0.0533,
+        "hwm_max_drawdown_pct": 8.0,
+        "use_kalman_exit": false,
+        "be_trigger_atr": 1.0,
+        "sl_atr_mult": 1.5,
+        "tp_atr_mult": 3.0,
+        "max_concurrent_positions": 1,
+        "swap_per_lot_night": 0.0,
+        "session_close_utc": 15,
+        "early_fail_mins": 15,
+        "early_fail_min_mfe_atr": 0.4,
+        "min_score_threshold": 0.6,
+        "max_kaufman_er": 0.5
+      },
+      "config_sha256": "26D7FABD862DFE76105E96BA566617F670C5587D95E37E3F92AAF9F2A2C85E83"
+    },
+    "H3B_CHANGE_C_SCORE68": {
+      "params": {
+        "symbol": "XAUUSD",
+        "starting_capital_usd": 10000.0,
+        "risk_per_trade_pct": 0.5,
+        "commission_per_million_usd_per_side": 12.0,
+        "slippage_pips_per_side": 0.0533,
+        "hwm_max_drawdown_pct": 8.0,
+        "use_kalman_exit": false,
+        "be_trigger_atr": 1.0,
+        "sl_atr_mult": 1.5,
+        "tp_atr_mult": 3.0,
+        "max_concurrent_positions": 1,
+        "swap_per_lot_night": 0.0,
+        "session_close_utc": 15,
+        "early_fail_mins": 15,
+        "early_fail_min_mfe_atr": 0.4,
+        "min_score_threshold": 0.68,
+        "max_kaufman_er": null
+      },
+      "config_sha256": "A0737B3779FC025DEF47FF84C39D024DFFEE67B580B5E33417A1E96A29894839"
+    }
+  },
+  "prespecified_candidates_for_fdr": [
+    "H3B_CHANGE_A_ER50",
+    "H3B_CHANGE_C_SCORE68"
+  ],
+  "code_sha256": {
+    "src/goldedge/application/use_cases/run_backtest.py": "8C2B9134DA87AE2B2ABC52582E98538A55A0ED4C47D203E89EA9158D1C1A4674",
+    "src/goldedge/domain/services/signal_generator.py": "A4B8E13E9D6A1F936044A4EB649A97CC14EEC9847A253D77F228F23E27D76303",
+    "src/goldedge/domain/services/sizing_service.py": "6BA518B635CC82FBFCC7753E4CAA1EF4E2477565640F54F806C8BC79F0F38784",
+    "src/goldedge/domain/services/denoise_service.py": "4A8DFE3A32BCEA243A9C40565A110EAE938C5016922D525B2CCCCD539837C136",
+    "src/goldedge/config/settings.py": "CC1BECE982F805CA13ABF43F9FE786E2C0769F33F228554DFC049CF55CE8A3FB"
+  },
+  "prior_frozen_artifacts_sha256": {
+    "backtest_results/frozen_111_baseline_trades.csv": "73306E1529ADC48284BCE9AB6AC35122F33B9999D2464AF441867EB3BB6CF168",
+    "backtest_results/audit/task_g3_6r_h3b_profitability_improvement/g3_6r_controlled_experiments.json": "5AC6CC96F1555F4FFF4524D49E65BBA2B6A0EC0DC7E8F6D5C5EE9E02C3480695"
+  },
+  "existing_verified_may_nov_dataset_snapshot": {
+    "market_ticks_rows": 19959292,
+    "market_ticks_min_utc": "2026-08-13T00:00:00.153000+00:00",
+    "market_ticks_max_utc": "2026-11-22T16:00:02.669772+00:00",
+    "market_ticks_staged_expansion_rows": 18403826,
+    "market_ticks_staged_expansion_min_utc": "2026-05-13T00:00:00.098000+00:00",
+    "market_ticks_staged_expansion_max_utc": "2026-08-12T23:59:59.494000+00:00",
+    "preservation_rule": "READ-ONLY; new extended history MUST be stored in isolated table `market_ticks_extended_pre202605`."
+  }
+}

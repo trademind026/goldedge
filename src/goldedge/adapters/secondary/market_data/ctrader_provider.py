@@ -93,13 +93,25 @@ class CTraderMarketDataProvider(IMarketDataProvider):
         def save_chunk(bids, asks):
             if not bids or not asks:
                 return 0
-            df_bids = pd.DataFrame(bids).sort_values("timestamp")
-            df_asks = pd.DataFrame(asks).sort_values("timestamp")
-            df = pd.merge_asof(df_bids, df_asks, on="timestamp", direction="backward")
-            df = df.ffill().bfill()
-            df["last"] = (df["bid"] + df["ask"]) / 2
+            df_bids = pd.DataFrame(bids).drop_duplicates(subset=["timestamp"], keep="last").sort_values("timestamp")
+            df_asks = pd.DataFrame(asks).drop_duplicates(subset=["timestamp"], keep="last").sort_values("timestamp")
+            # Causal union: only forward-fill prior quote states (never backward-fill future quotes)
+            df = pd.merge(df_bids, df_asks, on="timestamp", how="outer").sort_values("timestamp")
+            df["bid"] = df["bid"].ffill()
+            df["ask"] = df["ask"].ffill()
+            df = df.dropna(subset=["bid", "ask"])
+            # Reject inverted/zero-spread/non-positive quotes at ingestion
+            valid_mask = (df["bid"] > 0.0) & (df["ask"] > 0.0) & (df["bid"] < df["ask"])
+            dropped = int((~valid_mask).sum())
+            if dropped:
+                logger.warning(f"Dropped {dropped} invalid/inverted quote rows (bid >= ask) in historical chunk.")
+            df = df[valid_mask].copy()
+            if df.empty:
+                return 0
+            df["last"] = (df["bid"] + df["ask"]) / 2.0
+            df["volume"] = None  # Spot cTrader feed emits quote updates only; never fabricate volume=1
             df["symbol"] = symbol
-            df = df[["timestamp", "symbol", "bid", "ask", "last"]]
+            df = df[["timestamp", "symbol", "bid", "ask", "last", "volume"]]
             df.rename(columns={"timestamp": "time"}, inplace=True)
             df.to_sql("market_ticks", engine, if_exists="append", index=False,
                       method=insert_on_conflict_nothing, chunksize=5000)
@@ -179,15 +191,19 @@ class CTraderMarketDataProvider(IMarketDataProvider):
                         total_saved += saved
                         logger.info(f"  Saved {saved} ticks. Grand Total: {total_saved}")
 
-                        # Walk cursor backwards
+                        # Walk cursor backwards using the latest of both streams' oldest timestamps
+                        # so neither BID nor ASK intermediate windows are skipped.
                         oldest_b = min(t.timestamp for t in b_ticks) if b_ticks else current_end
                         oldest_a = min(t.timestamp for t in a_ticks) if a_ticks else current_end
-                        earliest = min(oldest_b, oldest_a)
-
-                        if current_end == earliest:
-                            current_end = earliest - timedelta(milliseconds=1)
+                        if b_ticks and a_ticks:
+                            next_end = max(oldest_b, oldest_a)
                         else:
-                            current_end = earliest
+                            next_end = min(oldest_b, oldest_a)
+
+                        if next_end >= current_end:
+                            current_end = current_end - timedelta(milliseconds=1)
+                        else:
+                            current_end = next_end
 
                         if max_returned < 1000:
                             break

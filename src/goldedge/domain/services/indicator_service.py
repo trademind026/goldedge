@@ -43,26 +43,43 @@ class IndicatorService:
             data = []
             for b in bars:
                 if isinstance(b, dict):
+                    tc = int(b.get("tick_count", b.get("tick_volume", 0)) or 0)
+                    tr = float(b["tick_rate"]) if b.get("tick_rate") is not None else float(tc)
+                    rv = b.get("real_volume", None)
                     data.append({
-                        "time":   b["time"],
-                        "symbol": b.get("symbol", ""),
-                        "open":   b["open"],
-                        "high":   b["high"],
-                        "low":    b["low"],
-                        "close":  b["close"],
-                        "volume": b.get("tick_volume", b.get("volume", 0)),
+                        "time":        b["time"],
+                        "symbol":      b.get("symbol", ""),
+                        "open":        b["open"],
+                        "high":        b["high"],
+                        "low":         b["low"],
+                        "close":       b["close"],
+                        "tick_count":  tc,
+                        "tick_rate":   tr,
+                        "real_volume": rv,
                     })
                 else:
+                    tc = int(getattr(b, "tick_count", None) if getattr(b, "tick_count", None) is not None else getattr(b, "tick_volume", 0) or 0)
+                    tr_raw = getattr(b, "tick_rate", None)
+                    tr = float(tr_raw) if tr_raw is not None else float(tc)
+                    rv = getattr(b, "real_volume", None)
                     data.append({
-                        "time":   b.time,
-                        "symbol": b.symbol,
-                        "open":   b.open,
-                        "high":   b.high,
-                        "low":    b.low,
-                        "close":  b.close,
-                        "volume": getattr(b, "tick_volume", getattr(b, "volume", 0)),
+                        "time":        b.time,
+                        "symbol":      b.symbol,
+                        "open":        b.open,
+                        "high":        b.high,
+                        "low":         b.low,
+                        "close":       b.close,
+                        "tick_count":  tc,
+                        "tick_rate":   tr,
+                        "real_volume": rv,
                     })
             df = pd.DataFrame(data)
+        if "tick_count" not in df.columns:
+            df["tick_count"] = df["tick_volume"] if "tick_volume" in df.columns else 0
+        if "tick_rate" not in df.columns:
+            df["tick_rate"] = df["tick_count"].astype(float)
+        if "real_volume" not in df.columns:
+            df["real_volume"] = None
 
         if "time" in df.columns:
             df.set_index("time", inplace=True)
@@ -96,31 +113,40 @@ class IndicatorService:
             # Bollinger Width: measures band squeeze (low = potential breakout)
             df["bb_width"] = (df["bollinger_upper"] - df["bollinger_lower"]) / df["bollinger_mid"]
 
-        # ── 4. VWAP (Session-Reset, Daily UTC) ───────────────────────────────
-        # Research: For 24h Forex/Gold, use Session VWAP resetting at 00:00 UTC.
-        # Rolling VWAP (no reset) accumulates stale price-volume history and loses
-        # its value as a fair-value benchmark after the first 2–3 hours.
-        # pandas_ta vwap() resets based on datetime index date — which naturally
-        # resets at midnight UTC when ticks are stored in UTC (our case).
+        # ── 4. Tick-Weighted Session Average Price vs Genuine VWAP ───────────
+        # cTrader spot gold provides quote updates (`tick_count`) with NO traded volume.
+        # Rename quote-weighted price explicitly to `tick_weighted_price` and only
+        # compute genuine `vwap` when non-null positive `real_volume` is provided.
         try:
-            df["vwap"] = ta.vwap(df["high"], df["low"], df["close"], df["volume"])
-            df["vwap_dist"] = (df["close"] - df["vwap"]) / df["vwap"]
+            df["tick_weighted_price"] = ta.vwap(df["high"], df["low"], df["close"], df["tick_count"])
+            df["tick_weighted_price_dist"] = (df["close"] - df["tick_weighted_price"]) / df["tick_weighted_price"]
         except Exception:
-            # Fallback: if index lacks date info, use rolling 200-period VWAP
-            cumvol  = df["volume"].cumsum()
-            cumtpv  = (df["close"] * df["volume"]).cumsum()
-            df["vwap"] = cumtpv / cumvol.replace(0, np.nan)
-            df["vwap_dist"] = (df["close"] - df["vwap"]) / df["vwap"].replace(0, np.nan)
-            df["vwap_dist"] = df["vwap_dist"].fillna(0.0)
+            cumcnt = df["tick_count"].cumsum()
+            cumtpc = (df["close"] * df["tick_count"]).cumsum()
+            df["tick_weighted_price"] = cumtpc / cumcnt.replace(0, np.nan)
+            df["tick_weighted_price_dist"] = (
+                (df["close"] - df["tick_weighted_price"]) / df["tick_weighted_price"].replace(0, np.nan)
+            ).fillna(0.0)
 
-        # ── 5. Volume Ratio ──────────────────────────────────────────────────
-        # Volume Ratio = current volume / 20-bar rolling average.
-        # Spike threshold raised from 1.5× → 2.0× to match signal generator calibration.
-        # Research: On XAUUSD, 1.5× is normal intraday variation.
-        #           A real institutional breakout shows 2.0–3.0× average volume.
-        df["vol_sma20"]   = ta.sma(df["volume"], length=20)
-        df["volume_ratio"] = df["volume"] / df["vol_sma20"].replace(0, np.nan)
-        df["volume_spike"] = (df["volume_ratio"] > 2.0).astype(int)   # was 1.5×
+        has_genuine_real_vol = bool(
+            df["real_volume"].notna().any() and (pd.to_numeric(df["real_volume"], errors="coerce").fillna(0) > 0).any()
+        )
+        if has_genuine_real_vol:
+            rv_pos = pd.to_numeric(df["real_volume"], errors="coerce").fillna(0.0)
+            try:
+                df["vwap"] = ta.vwap(df["high"], df["low"], df["close"], rv_pos)
+            except Exception:
+                cum_rv = rv_pos.cumsum()
+                df["vwap"] = (df["close"] * rv_pos).cumsum() / cum_rv.replace(0, np.nan)
+            df["vwap_dist"] = ((df["close"] - df["vwap"]) / df["vwap"].replace(0, np.nan)).fillna(0.0)
+        else:
+            df["vwap"] = np.nan
+            df["vwap_dist"] = np.nan
+
+        # ── 5. Quote-Arrival Rate Ratio (quotes/min vs 20-bar SMA; NOT traded volume) ─
+        df["tick_rate_sma20"] = ta.sma(df["tick_rate"], length=20)
+        df["tick_rate_ratio"] = df["tick_rate"] / df["tick_rate_sma20"].replace(0, np.nan)
+        df["tick_rate_spike"] = (df["tick_rate_ratio"] > 2.0).astype(int)
 
         # ── 6. EMA-20 Slope ──────────────────────────────────────────────────
         # Measures 5-bar % change in EMA20. For XAUUSD 1m bars at $4500:

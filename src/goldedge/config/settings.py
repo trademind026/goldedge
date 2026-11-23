@@ -30,7 +30,11 @@ class Settings(BaseSettings):
     SHADOW_MODE: bool = Field(True, description="Keep real/demo order placement OFF and emit shadow rollover telemetry")
     SHADOW_LOG_PATH: str = Field("backtest_results/shadow_live_rollovers.jsonl", description="Shadow rollover JSONL log file")
     KALMAN_WARMUP_HOURS: int = Field(24, description="Lookback hours of market_ticks replayed on startup for Kalman warmup")
+    HWM_MAX_DRAWDOWN_PCT: float = Field(8.0, description="Hard High-Water-Mark equity drawdown kill-switch threshold (%)")
+    HWM_INITIAL_EQUITY: float = Field(10000.0, description="Fallback initial equity if no persistent HWM record exists")
+    HWM_RESET_SECRET: str = Field("", description="Optional authorization token required to reset active 8% HWM halt")
     BROKER_TYPE: str = Field("ctrader", description="ctrader or mt5")
+    BROKER_COMMISSION_PROFILE: str = Field("fusion_ctrader_demo", description="Broker commission profile (fusion_ctrader_demo, fixed_per_lot, or zero)")
     
     # --- Database ---
     DB_URL: str = Field(

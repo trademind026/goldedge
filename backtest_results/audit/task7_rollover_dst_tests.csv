@@ -1,0 +1,11 @@
+case_name,start_utc,end_utc,direction,lots,events_count,expected_rollover_utc_hour,actual_rollover_utc_hour,expected_swap_pnl_usd,actual_swap_pnl_usd,passed
+summer_edt_weekday_buy_1lot,2026-09-01T20:00:00+00:00,2026-09-01T21:05:00+00:00,BUY,1.0,1,21,21,-56.53,-56.53,True
+summer_edt_weekday_sell_1lot,2026-09-01T20:00:00+00:00,2026-09-01T21:05:00+00:00,SELL,1.0,1,21,21,26.77,26.77,True
+wednesday_triple_swap_buy_1lot,2026-09-02T20:00:00+00:00,2026-09-02T21:05:00+00:00,BUY,1.0,1,21,21,-169.59,-169.59,True
+wednesday_triple_swap_sell_1lot,2026-09-02T20:00:00+00:00,2026-09-02T21:05:00+00:00,SELL,1.0,1,21,21,80.31,80.31,True
+winter_est_2130z_no_premature_rollover,2026-11-16T20:00:00+00:00,2026-11-16T21:30:00+00:00,BUY,1.0,0,-1,-1,0.0,0.0,True
+winter_est_2200z_rollover_fires,2026-11-16T20:00:00+00:00,2026-11-16T22:05:00+00:00,BUY,1.0,1,22,22,-56.53,-56.53,True
+dst_fallback_nov02_est_2200z,2026-11-02T21:00:00+00:00,2026-11-02T22:01:00+00:00,SELL,1.0,1,22,22,26.77,26.77,True
+dst_spring_mar09_edt_2100z,2026-03-09T20:00:00+00:00,2026-03-09T21:01:00+00:00,BUY,1.0,1,21,21,-56.53,-56.53,True
+weekend_fri_to_mon_charges_only_fri,2026-09-04T18:00:00+00:00,2026-09-07T10:00:00+00:00,BUY,1.0,1,21,21,-56.53,-56.53,True
+intraday_before_rollover_zero_swap,2026-09-02T10:00:00+00:00,2026-09-02T20:59:00+00:00,BUY,1.0,0,-1,-1,0.0,0.0,True

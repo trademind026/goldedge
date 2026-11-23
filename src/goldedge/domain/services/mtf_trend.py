@@ -30,7 +30,13 @@ def aggregate_ohlcv_bars(bars_1m: Sequence[Any], period_minutes: int) -> list[di
         h = float(_get_field(bar, "high", o))
         l = float(_get_field(bar, "low", o))
         c = float(_get_field(bar, "close", o))
-        v = float(_get_field(bar, "volume", _get_field(bar, "tick_volume", 1.0)) or 1.0)
+        # Use explicit tick_count / tick_volume (valid quote updates per bar); never fabricate real traded volume
+        tc_raw = _get_field(bar, "tick_count", None)
+        if tc_raw is None:
+            tc_raw = _get_field(bar, "tick_volume", 0)
+        tc = int(tc_raw or 0)
+        rv_raw = _get_field(bar, "real_volume", None)
+        rv = int(rv_raw) if rv_raw is not None else None
         if bucket_epoch not in buckets:
             buckets[bucket_epoch] = {
                 "time": datetime.fromtimestamp(bucket_epoch, tz=timezone.utc),
@@ -38,7 +44,12 @@ def aggregate_ohlcv_bars(bars_1m: Sequence[Any], period_minutes: int) -> list[di
                 "high": h,
                 "low": l,
                 "close": c,
-                "volume": v,
+                "tick_count": tc,
+                "tick_volume": tc,
+                "tick_rate": round(tc / float(period_minutes), 4),
+                "real_volume": rv,
+                "observed_1m_bars": 1,
+                "is_feed_gap": True if period_minutes > 1 else False,
             }
         else:
             b = buckets[bucket_epoch]
@@ -47,7 +58,13 @@ def aggregate_ohlcv_bars(bars_1m: Sequence[Any], period_minutes: int) -> list[di
             if l < b["low"]:
                 b["low"] = l
             b["close"] = c
-            b["volume"] += v
+            b["tick_count"] += tc
+            b["tick_volume"] += tc
+            b["tick_rate"] = round(b["tick_count"] / float(period_minutes), 4)
+            b["observed_1m_bars"] += 1
+            b["is_feed_gap"] = b["observed_1m_bars"] < period_minutes
+            if rv is not None:
+                b["real_volume"] = (b["real_volume"] or 0) + rv
 
     return [buckets[k] for k in sorted(buckets.keys())]
 
@@ -57,6 +74,7 @@ class RollingBarAggregator:
 
     def __init__(self, period_minutes: int, maxlen: int = 200):
         from collections import deque
+        self.period_minutes = period_minutes
         self.period_secs = period_minutes * 60
         self.bars: deque[dict] = deque(maxlen=maxlen)
         self._current_bucket: int | None = None
@@ -72,7 +90,12 @@ class RollingBarAggregator:
         h = float(candle["high"])
         l = float(candle["low"])
         c = float(candle["close"])
-        v = float(candle.get("volume", 1.0) or 1.0)
+        tc_raw = candle.get("tick_count", None)
+        if tc_raw is None:
+            tc_raw = candle.get("tick_volume", 0)
+        tc = int(tc_raw or 0)
+        rv_raw = candle.get("real_volume", None)
+        rv = int(rv_raw) if rv_raw is not None else None
 
         closed_prior = False
         if self._current_bucket is None or bucket != self._current_bucket:
@@ -86,7 +109,12 @@ class RollingBarAggregator:
                 "high": h,
                 "low": l,
                 "close": c,
-                "volume": v,
+                "tick_count": tc,
+                "tick_volume": tc,
+                "tick_rate": round(tc / float(self.period_minutes), 4),
+                "real_volume": rv,
+                "observed_1m_bars": 1,
+                "is_feed_gap": True if self.period_minutes > 1 else False,
             }
         else:
             b = self._current_bar
@@ -95,7 +123,13 @@ class RollingBarAggregator:
             if l < b["low"]:
                 b["low"] = l
             b["close"] = c
-            b["volume"] += v
+            b["tick_count"] += tc
+            b["tick_volume"] += tc
+            b["tick_rate"] = round(b["tick_count"] / float(self.period_minutes), 4)
+            b["observed_1m_bars"] += 1
+            b["is_feed_gap"] = b["observed_1m_bars"] < self.period_minutes
+            if rv is not None:
+                b["real_volume"] = (b["real_volume"] or 0) + rv
         return closed_prior
 
     def closed_closes(self) -> list[float]:

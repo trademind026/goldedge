@@ -1,0 +1,21 @@
+{
+  "calibrator_id": "cal_micro_buy_timing_class_f2_B3_LOGISTIC_L2_RAW",
+  "base_artifact_id": "micro_buy_timing_class_f2_B3_LOGISTIC_L2",
+  "base_artifact_sha256": "B4E8535BC0B6BEC4A5E8D800157A6629DB52692A7A49F24C04505D269D41AD93",
+  "method": "RAW",
+  "horizon": "micro",
+  "target_name": "buy_timing_class",
+  "fold_id": 2,
+  "classes": [
+    "ENTER_NOW",
+    "WAIT_ADVERSE",
+    "NEUTRAL"
+  ],
+  "cal_start_utc": "2026-08-21T00:00:00Z",
+  "cal_end_utc": "2026-09-04T00:00:00Z",
+  "cal_n_samples": 97127,
+  "cal_unique_days": 12,
+  "internal_val_logloss": 0.970761,
+  "created_at_utc": "2026-11-23T10:20:28.497936+00:00",
+  "calibrator_sha256": "551C38F72CA53CC13905241F35BFD77D67B1A8B11550BA3A698039E450B18ED1"
+}

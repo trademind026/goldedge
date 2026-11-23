@@ -57,7 +57,7 @@ class TestShadowValidation(unittest.TestCase):
         ref_last = None
         ref_prev_vel = 0.0
 
-        kf = VolumeAdaptiveKalmanFilter()
+        kf = VolumeAdaptiveKalmanFilter(adapt_to_volume=True)
         rng = np.random.default_rng(42)
         prices = 3850.0 + np.cumsum(rng.normal(0.0, 0.08, size=5000))
         volumes = rng.integers(0, 10, size=5000).astype(float)

@@ -1,0 +1,34 @@
+{
+  "generated_at_utc": "2026-11-18T14:38:46.212480+00:00",
+  "symbol": "XAUUSD",
+  "warmup": {
+    "window": "warmup_4d",
+    "start_utc": "2026-08-20T00:00:00+00:00",
+    "end_utc": "2026-08-24T00:00:00+00:00",
+    "row_count": 563212,
+    "min_time": "2026-08-20T00:00:00.148000+00:00",
+    "max_time": "2026-08-23T23:59:59.622000+00:00",
+    "inverted_quotes": 203,
+    "zero_spread_quotes": 9,
+    "min_bid": 4450.69,
+    "max_bid": 4632.19,
+    "min_ask": 4450.8,
+    "max_ask": 4632.26,
+    "stream_sha256": "ffbe8329235641536538dc736ee19a6eb11bb07557842ae626de4ba498cafd56"
+  },
+  "replay": {
+    "window": "replay_85d",
+    "start_utc": "2026-08-24T00:00:00+00:00",
+    "end_utc": "2026-11-16T20:01:23+00:00",
+    "row_count": 17303717,
+    "min_time": "2026-08-24T00:00:00.159000+00:00",
+    "max_time": "2026-11-16T20:01:22.987805+00:00",
+    "inverted_quotes": 11409,
+    "zero_spread_quotes": 424,
+    "min_bid": 3832.36,
+    "max_bid": 4696.78,
+    "min_ask": 3832.44,
+    "max_ask": 4696.86,
+    "stream_sha256": "b5ebbaeadbb99e8d2b8a1fdb7d357b8899dfb7385b4b8dc5a3d27b5d06ea2870"
+  }
+}

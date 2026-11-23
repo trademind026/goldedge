@@ -102,13 +102,15 @@ class CandleRepository(ICandleRepository):
                 min(bid) AS low,
                 last(bid, time) AS close,
                 count(*) AS tick_volume,
-                0 AS real_volume,
+                NULL::bigint AS real_volume,
                 GREATEST(0, ROUND((last(ask, time) - last(bid, time)) / 0.01))::int AS spread
             FROM market_ticks
             WHERE symbol = :symbol
               AND time >= :start
               AND time < :end_exclusive
               AND bid > 0
+              AND ask > 0
+              AND bid < ask
             GROUP BY bucket_time, symbol
             ON CONFLICT (symbol, time) DO NOTHING
         """)

@@ -1,0 +1,26 @@
+# Task 6 — Volume Semantics Audit Report
+
+## 1. Empirical Source-Data Reality (0% Real Traded Volume)
+
+| Data Source | Rows Audited | Actual Broker Volume (`> 1`) | Synthetic Constant (`= 1`) | Missing (`NULL`) | Origin / API Explanation |
+| :--- | ---: | ---: | ---: | ---: | :--- |
+| **TimescaleDB `market_ticks` (`2026-08-20 .. 2026-11-18`)** | `18,033,101` | `0` (`0.00%`) | `0` (`0.00%`) | **`18,033,101` (`100.00%`)** | Live [`ctrader_live.py`](file:///d:/gigs/goldedge/src/goldedge/adapters/primary/market_data/ctrader_live.py#L120-L136) (`ProtoOASpotEvent`) & historical [`ctrader_provider.py`](file:///d:/gigs/goldedge/src/goldedge/adapters/secondary/market_data/ctrader_provider.py#L164-L185) (`get_tick_data`) provide `(timestamp, bid, ask)` only; [`scan_scheduler.py`](file:///d:/gigs/goldedge/src/goldedge/adapters/primary/scheduler/scan_scheduler.py#L310-L337) persists `volume=None` when broker tick volume is absent. |
+| **Archive `csv_goldedge_20261117_143146.zip` (`2026-08-13 .. 2026-08-19`)** | `743,099` | `0` (`0.00%`) | `0` (`0.00%`) | **`743,099` (`100.00%`)** | Same cTrader historical tick schema (`time,symbol,bid,ask,last,volume,flags`) exported from TimescaleDB with empty `volume`. |
+| **Repository Read Layer (`TickRepository.get_ticks_as_df`)** | Runtime query | `0` | **`100%` coerced to `1`** | `0` (hidden by SQL) | [`tick_repository.py:63`](file:///d:/gigs/goldedge/src/goldedge/adapters/secondary/db/tick_repository.py#L63) runs `COALESCE(volume, 1) as volume`, fabricating `volume = 1` per quote update. |
+
+> [!IMPORTANT]
+> **Classification Rule:** GoldEdge's `volume` in backtest and live execution **is strictly synthetic quote-arrival frequency (`1` per valid or streamed quote tick, summed to `ticks/minute`)**, **NOT** actual traded ounces, contracts, or institutional order-flow volume.
+
+---
+
+## 2. Downstream Components Affected (Exact Code Inventory)
+
+| Component | File / Lines | Intended Design Assumption | Actual Behavior Under `COALESCE(volume, 1)` | Impact Assessment |
+| :--- | :--- | :--- | :--- | :--- |
+| **1. `VolumeAdaptiveKalmanFilter`** | [`denoise_service.py:76-107`](file:///d:/gigs/goldedge/src/goldedge/domain/services/denoise_service.py#L76-L107) | `r_i = r_base * (volatility_factor / vol_factor)` trusts high-volume ticks more | `vol_factor = volume if volume > 1.0 else 1.0` evaluates to **`1.0` on 100% of ticks**! | Volume-adaptivity is **completely inactive**; Kalman adapts strictly on tick-to-tick `price_diff` (`[r_base/3, 3*r_base]`). Re-run determinism unaffected. |
+| **2. 1-Minute Candle Aggregation (`Backtest`)** | [`run_backtest.py:506,673`](file:///d:/gigs/goldedge/src/goldedge/application/use_cases/run_backtest.py#L506) | OHLCV bar `volume = int(vols.sum())` | Sums `1` per tick -> equals **quote updates per minute (`tick_volume`)**. | Valid proxy for **activity/liquidity arrival rate** only; misleading if called traded volume. |
+| **3. 1-Minute Candle Aggregation (`Live`)** | [`scan_scheduler.py:124-144,396`](file:///d:/gigs/goldedge/src/goldedge/adapters/primary/scheduler/scan_scheduler.py#L124-L144) | `market_bars_1m` `tick_volume` vs `real_volume` | Increments `tick_volume += 1` per tick, stores `real_volume = 0`. | Matches backtest `int(vols.sum())` in tick-count semantics (parity intact when both count every tick). |
+| **4. `IndicatorService` (`VWAP`, `volume_ratio`, `volume_spike`)** | [`indicator_service.py:106-123`](file:///d:/gigs/goldedge/src/goldedge/domain/services/indicator_service.py#L106-L123) | Volume-Weighted Average Price & institutional volume spikes (`> 2.0x`) | Computes **Tick-Frequency-Weighted VWAP** and **`volume_ratio` = quote rate / 20m SMA quote rate**. | Misnamed as real volume, though quote-frequency weighting is empirically reproducible and non-lookahead. |
+| **5. `SignalGeneratorService`** | [`signal_generator.py:116-207`](file:///d:/gigs/goldedge/src/goldedge/domain/services/signal_generator.py#L116-L207) | `vwap_momentum_breakout` (`volume_ratio > 2.5`), `bullish_momentum` (`> 2.0 or slope`), `bearish_momentum` (`> 2.0 or slope`), VWAP bias | Gates trades on **quote-burst intensity (`2.0x–2.5x` tick count)** and tick-weighted VWAP. | Preserved untouched for Task 4–6; future strategy research must treat `volume_ratio` explicitly as *tick arrival intensity*. |
+| **6. `TradeScorer`** | [`trade_scorer.py:146-152`](file:///d:/gigs/goldedge/src/goldedge/domain/services/trade_scorer.py#L146-L152) | Penalizes low institutional volume (`vol_ratio < 0.70` -> `0.75x`; sideways `< 1.10` -> `0.85x`) + `10%` `vwap_dist` weight | Penalizes quiet **quote-arrival intervals** and scores distance from tick-count VWAP. | Functional activity/session liquidity proxy only; **never claim institutional lot volume confirmation**. |
+| **7. Secondary / Research Modules** | [`charts.py`](file:///d:/gigs/goldedge/src/goldedge/adapters/primary/rest_api/routes/charts.py#L99), `gold_kalman_filter.py`, `lgbm_meta_labeler.py`, `macro_feature_engine.py`, `microstructure_feature_engine.py` | Microstructure / CVD / Volume Z-score / Meta-labeler | Ingests `tick_volume` or defaults missing `volume` to `1.0` (e.g., signed tick-direction pseudo-CVD). | **Cannot support genuine order-flow volume claims** on XAUUSD spot FX/CFD data from cTrader. |

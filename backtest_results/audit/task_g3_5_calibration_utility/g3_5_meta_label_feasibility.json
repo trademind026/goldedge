@@ -1,0 +1,44 @@
+{
+  "task": "G3.5_PHASE_E_META_LABEL_FEASIBILITY",
+  "generated_at_utc": "2026-11-23T10:45:28.427182+00:00",
+  "period_utc": [
+    "2026-05-17T00:00:00Z",
+    "2026-11-19T12:00:00Z"
+  ],
+  "total_h3b_opportunities": 215,
+  "unique_signal_days": 87,
+  "mean_opportunities_per_active_day": 2.471,
+  "day_clustered_kish_n_eff": 63.06,
+  "overlapping_concurrent_trades": 0,
+  "direction_counts": {
+    "BUY": 77,
+    "SELL": 138
+  },
+  "outcome_counts": {
+    "wins": 109,
+    "losses": 106,
+    "win_rate_pct": 50.7,
+    "win_rate_95pct_ci_eff": [
+      38.36,
+      63.04
+    ],
+    "mean_net_r": 0.02725,
+    "day_block_net_r": {
+      "n_days": 87,
+      "mean": -0.040214,
+      "se_day_block": 0.076782,
+      "ci95_low": -0.190707,
+      "ci95_high": 0.11028,
+      "mean_ex_best_day": -0.063401,
+      "mean_ex_worst_day": -0.028095
+    }
+  },
+  "regime_distribution": {
+    "TRENDING_BEAR": 80,
+    "TRENDING_BULL": 75,
+    "SIDEWAYS": 58,
+    "LOW_VOLATILITY": 2
+  },
+  "verdict": "META_LABEL_RESEARCH_NOT_FEASIBLE",
+  "rationale": "Across 6.2 months, frozen H3b generated only 215 opportunities across 87 active days (N_eff = 63.06). Splitting into 4-way purged Train/Val/Cal/Test leaves < 120 training trades per fold, too small for complex tree meta-labeling without severe overfitting risk; only ultra-low-DOF (1-3 feature) linear/rule research or 12-24+ months of history / prospective shadow accumulation is scientifically justified."
+}

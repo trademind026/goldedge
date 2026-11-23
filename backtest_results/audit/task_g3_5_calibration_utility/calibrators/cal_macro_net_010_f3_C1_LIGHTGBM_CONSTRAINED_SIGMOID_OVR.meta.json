@@ -1,0 +1,21 @@
+{
+  "calibrator_id": "cal_macro_net_010_f3_C1_LIGHTGBM_CONSTRAINED_SIGMOID_OVR",
+  "base_artifact_id": "macro_net_010_f3_C1_LIGHTGBM_CONSTRAINED",
+  "base_artifact_sha256": "327DC9388986ACD4B3A7DFD33C6778D0E698CFCDAE258815006CF4E2DAC6BDB5",
+  "method": "SIGMOID_OVR",
+  "horizon": "macro",
+  "target_name": "net_class_010",
+  "fold_id": 3,
+  "classes": [
+    "UP",
+    "DOWN",
+    "FLAT"
+  ],
+  "cal_start_utc": "2026-09-18T00:00:00Z",
+  "cal_end_utc": "2026-10-02T00:00:00Z",
+  "cal_n_samples": 2708,
+  "cal_unique_days": 12,
+  "internal_val_logloss": 0.810251,
+  "created_at_utc": "2026-11-23T10:20:23.944763+00:00",
+  "calibrator_sha256": "9828740C660EF5E275EDC13834F260F3F2586FA9B226AFD3155B2B2489CEAF30"
+}

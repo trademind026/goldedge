@@ -1,0 +1,147 @@
+{
+  "task": "G3.6R_COST_STRESS",
+  "generated_at_utc": "2026-11-23T11:39:11.529350+00:00",
+  "results": {
+    "NORMAL_1_0X": {
+      "H0_ORIGINAL": {
+        "n": 265,
+        "unique_days": 102,
+        "win_rate_pct": 52.08,
+        "net_pnl_usd": -301.47,
+        "total_net_r": -6.3421,
+        "mean_net_r": -0.02393,
+        "pf": 0.935
+      },
+      "H3B_FROZEN": {
+        "n": 215,
+        "unique_days": 87,
+        "win_rate_pct": 50.7,
+        "net_pnl_usd": 263.64,
+        "total_net_r": 5.8582,
+        "mean_net_r": 0.02725,
+        "pf": 1.072
+      },
+      "H3B_CHANGE_A_ER50": {
+        "n": 172,
+        "unique_days": 81,
+        "win_rate_pct": 52.33,
+        "net_pnl_usd": 596.17,
+        "total_net_r": 11.9647,
+        "mean_net_r": 0.06956,
+        "pf": 1.224
+      },
+      "H3B_CHANGE_B_BE14": {
+        "n": 201,
+        "unique_days": 87,
+        "win_rate_pct": 47.76,
+        "net_pnl_usd": 421.09,
+        "total_net_r": 9.3038,
+        "mean_net_r": 0.04629,
+        "pf": 1.107
+      },
+      "H3B_CHANGE_C_SCORE68": {
+        "n": 177,
+        "unique_days": 82,
+        "win_rate_pct": 51.41,
+        "net_pnl_usd": 512.53,
+        "total_net_r": 10.6924,
+        "mean_net_r": 0.06041,
+        "pf": 1.172
+      }
+    },
+    "MODERATE_1_5X": {
+      "H0_ORIGINAL": {
+        "n": 265,
+        "unique_days": 102,
+        "win_rate_pct": 47.55,
+        "net_pnl_usd": -398.71,
+        "total_net_r": -8.4626,
+        "mean_net_r": -0.03193,
+        "pf": 0.915
+      },
+      "H3B_FROZEN": {
+        "n": 215,
+        "unique_days": 87,
+        "win_rate_pct": 46.51,
+        "net_pnl_usd": 176.83,
+        "total_net_r": 4.0473,
+        "mean_net_r": 0.01882,
+        "pf": 1.047
+      },
+      "H3B_CHANGE_A_ER50": {
+        "n": 172,
+        "unique_days": 81,
+        "win_rate_pct": 47.67,
+        "net_pnl_usd": 527.44,
+        "total_net_r": 10.5317,
+        "mean_net_r": 0.06123,
+        "pf": 1.195
+      },
+      "H3B_CHANGE_B_BE14": {
+        "n": 201,
+        "unique_days": 87,
+        "win_rate_pct": 46.77,
+        "net_pnl_usd": 340.13,
+        "total_net_r": 7.6184,
+        "mean_net_r": 0.0379,
+        "pf": 1.085
+      },
+      "H3B_CHANGE_C_SCORE68": {
+        "n": 177,
+        "unique_days": 82,
+        "win_rate_pct": 48.02,
+        "net_pnl_usd": 439.38,
+        "total_net_r": 9.1978,
+        "mean_net_r": 0.05196,
+        "pf": 1.145
+      }
+    },
+    "SEVERE_2_0X": {
+      "H0_ORIGINAL": {
+        "n": 265,
+        "unique_days": 102,
+        "win_rate_pct": 39.25,
+        "net_pnl_usd": -495.95,
+        "total_net_r": -10.5831,
+        "mean_net_r": -0.03994,
+        "pf": 0.895
+      },
+      "H3B_FROZEN": {
+        "n": 215,
+        "unique_days": 87,
+        "win_rate_pct": 38.14,
+        "net_pnl_usd": 90.02,
+        "total_net_r": 2.2364,
+        "mean_net_r": 0.0104,
+        "pf": 1.024
+      },
+      "H3B_CHANGE_A_ER50": {
+        "n": 172,
+        "unique_days": 81,
+        "win_rate_pct": 39.53,
+        "net_pnl_usd": 458.7,
+        "total_net_r": 9.0987,
+        "mean_net_r": 0.0529,
+        "pf": 1.168
+      },
+      "H3B_CHANGE_B_BE14": {
+        "n": 201,
+        "unique_days": 87,
+        "win_rate_pct": 45.27,
+        "net_pnl_usd": 259.17,
+        "total_net_r": 5.933,
+        "mean_net_r": 0.02952,
+        "pf": 1.064
+      },
+      "H3B_CHANGE_C_SCORE68": {
+        "n": 177,
+        "unique_days": 82,
+        "win_rate_pct": 40.11,
+        "net_pnl_usd": 366.23,
+        "total_net_r": 7.7031,
+        "mean_net_r": 0.04352,
+        "pf": 1.119
+      }
+    }
+  }
+}

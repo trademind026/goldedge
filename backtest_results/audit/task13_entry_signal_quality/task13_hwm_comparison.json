@@ -1,0 +1,224 @@
+{
+  "W1": {
+    "H0_BASELINE_V2__HWM8": {
+      "unprotected_ref": "H0_BASELINE_V2",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 15,
+      "unprotected_trades": 15,
+      "trades_prevented_by_halt": 0,
+      "qualified_signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 303.78,
+      "net_pnl_unprotected_usd": 303.78,
+      "mtm_dd_protected_pct": 3.33,
+      "mtm_dd_unprotected_pct": 3.33,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -208.35,
+        "LONDON_NY_OVERLAP": -104.33,
+        "LONDON_PRE_OVERLAP": -99.88
+      },
+      "count_definitions": "executed = trades closed incl. the trigger trade; prevented trades = unprotected trades minus executed (counterfactual); signals blocked = qualified post-halt 5m signals rejected by halt"
+    },
+    "H4a_SCORE_CAP_080__HWM8": {
+      "unprotected_ref": "H4a_SCORE_CAP_080",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 9,
+      "unprotected_trades": 9,
+      "trades_prevented_by_halt": 0,
+      "qualified_signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 238.79,
+      "net_pnl_unprotected_usd": 238.79,
+      "mtm_dd_protected_pct": 2.16,
+      "mtm_dd_unprotected_pct": 2.16,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -100.15
+      },
+      "count_definitions": "executed = trades closed incl. the trigger trade; prevented trades = unprotected trades minus executed (counterfactual); signals blocked = qualified post-halt 5m signals rejected by halt"
+    },
+    "E02_H0__HWM8": {
+      "unprotected_ref": "E02_H0",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 14,
+      "unprotected_trades": 14,
+      "trades_prevented_by_halt": 0,
+      "qualified_signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 427.79,
+      "net_pnl_unprotected_usd": 427.79,
+      "mtm_dd_protected_pct": 3.32,
+      "mtm_dd_unprotected_pct": 3.32,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -208.35,
+        "LONDON_PRE_OVERLAP": -105.75
+      },
+      "count_definitions": "executed = trades closed incl. the trigger trade; prevented trades = unprotected trades minus executed (counterfactual); signals blocked = qualified post-halt 5m signals rejected by halt"
+    },
+    "E13_H0__HWM8": {
+      "unprotected_ref": "E13_H0",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 14,
+      "unprotected_trades": 14,
+      "trades_prevented_by_halt": 0,
+      "qualified_signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 370.23,
+      "net_pnl_unprotected_usd": 370.23,
+      "mtm_dd_protected_pct": 3.33,
+      "mtm_dd_unprotected_pct": 3.33,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -208.35,
+        "LONDON_NY_OVERLAP": -104.33
+      },
+      "count_definitions": "executed = trades closed incl. the trigger trade; prevented trades = unprotected trades minus executed (counterfactual); signals blocked = qualified post-halt 5m signals rejected by halt"
+    }
+  },
+  "W2": {
+    "H0_BASELINE_V2__HWM8": {
+      "unprotected_ref": "H0_BASELINE_V2",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 14,
+      "unprotected_trades": 14,
+      "trades_prevented_by_halt": 0,
+      "qualified_signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 661.64,
+      "net_pnl_unprotected_usd": 661.64,
+      "mtm_dd_protected_pct": 2.09,
+      "mtm_dd_unprotected_pct": 2.09,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -97.57,
+        "LONDON_NY_OVERLAP": -102.56,
+        "LONDON_PRE_OVERLAP": -87.73
+      },
+      "count_definitions": "executed = trades closed incl. the trigger trade; prevented trades = unprotected trades minus executed (counterfactual); signals blocked = qualified post-halt 5m signals rejected by halt"
+    },
+    "H4a_SCORE_CAP_080__HWM8": {
+      "unprotected_ref": "H4a_SCORE_CAP_080",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 9,
+      "unprotected_trades": 9,
+      "trades_prevented_by_halt": 0,
+      "qualified_signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 755.35,
+      "net_pnl_unprotected_usd": 755.35,
+      "mtm_dd_protected_pct": 1.4,
+      "mtm_dd_unprotected_pct": 1.4,
+      "losing_dollars_by_dst_session": {
+        "LONDON_PRE_OVERLAP": -87.73
+      },
+      "count_definitions": "executed = trades closed incl. the trigger trade; prevented trades = unprotected trades minus executed (counterfactual); signals blocked = qualified post-halt 5m signals rejected by halt"
+    },
+    "E02_H0__HWM8": {
+      "unprotected_ref": "E02_H0",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 13,
+      "unprotected_trades": 13,
+      "trades_prevented_by_halt": 0,
+      "qualified_signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 909.35,
+      "net_pnl_unprotected_usd": 909.35,
+      "mtm_dd_protected_pct": 2.09,
+      "mtm_dd_unprotected_pct": 2.09,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -97.57,
+        "LONDON_PRE_OVERLAP": -93.57
+      },
+      "count_definitions": "executed = trades closed incl. the trigger trade; prevented trades = unprotected trades minus executed (counterfactual); signals blocked = qualified post-halt 5m signals rejected by halt"
+    },
+    "E13_H0__HWM8": {
+      "unprotected_ref": "E13_H0",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 11,
+      "unprotected_trades": 11,
+      "trades_prevented_by_halt": 0,
+      "qualified_signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 710.6,
+      "net_pnl_unprotected_usd": 710.6,
+      "mtm_dd_protected_pct": 2.09,
+      "mtm_dd_unprotected_pct": 2.09,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -97.57,
+        "LONDON_PRE_OVERLAP": -87.73
+      },
+      "count_definitions": "executed = trades closed incl. the trigger trade; prevented trades = unprotected trades minus executed (counterfactual); signals blocked = qualified post-halt 5m signals rejected by halt"
+    }
+  },
+  "W3": {
+    "H0_BASELINE_V2__HWM8": {
+      "unprotected_ref": "H0_BASELINE_V2",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 15,
+      "unprotected_trades": 15,
+      "trades_prevented_by_halt": 0,
+      "qualified_signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 416.47,
+      "net_pnl_unprotected_usd": 416.47,
+      "mtm_dd_protected_pct": 2.09,
+      "mtm_dd_unprotected_pct": 2.09,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -205.77,
+        "LONDON_NY_OVERLAP": -102.56,
+        "LONDON_PRE_OVERLAP": -87.73
+      },
+      "count_definitions": "executed = trades closed incl. the trigger trade; prevented trades = unprotected trades minus executed (counterfactual); signals blocked = qualified post-halt 5m signals rejected by halt"
+    },
+    "H4a_SCORE_CAP_080__HWM8": {
+      "unprotected_ref": "H4a_SCORE_CAP_080",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 9,
+      "unprotected_trades": 9,
+      "trades_prevented_by_halt": 0,
+      "qualified_signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 624.66,
+      "net_pnl_unprotected_usd": 624.66,
+      "mtm_dd_protected_pct": 1.8,
+      "mtm_dd_unprotected_pct": 1.8,
+      "losing_dollars_by_dst_session": {
+        "LONDON_PRE_OVERLAP": -87.73
+      },
+      "count_definitions": "executed = trades closed incl. the trigger trade; prevented trades = unprotected trades minus executed (counterfactual); signals blocked = qualified post-halt 5m signals rejected by halt"
+    },
+    "E02_H0__HWM8": {
+      "unprotected_ref": "E02_H0",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 14,
+      "unprotected_trades": 14,
+      "trades_prevented_by_halt": 0,
+      "qualified_signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 708.07,
+      "net_pnl_unprotected_usd": 708.07,
+      "mtm_dd_protected_pct": 2.09,
+      "mtm_dd_unprotected_pct": 2.09,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -205.77,
+        "LONDON_PRE_OVERLAP": -87.73
+      },
+      "count_definitions": "executed = trades closed incl. the trigger trade; prevented trades = unprotected trades minus executed (counterfactual); signals blocked = qualified post-halt 5m signals rejected by halt"
+    },
+    "E13_H0__HWM8": {
+      "unprotected_ref": "E13_H0",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 12,
+      "unprotected_trades": 12,
+      "trades_prevented_by_halt": 0,
+      "qualified_signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 470.22,
+      "net_pnl_unprotected_usd": 470.22,
+      "mtm_dd_protected_pct": 2.09,
+      "mtm_dd_unprotected_pct": 2.09,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -205.77,
+        "LONDON_PRE_OVERLAP": -87.73
+      },
+      "count_definitions": "executed = trades closed incl. the trigger trade; prevented trades = unprotected trades minus executed (counterfactual); signals blocked = qualified post-halt 5m signals rejected by halt"
+    }
+  }
+}

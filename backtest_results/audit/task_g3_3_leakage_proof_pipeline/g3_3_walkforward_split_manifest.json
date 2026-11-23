@@ -1,0 +1,204 @@
+{
+  "task": "G3.3_PHASE_C_WALKFORWARD_SPLIT_MANIFEST",
+  "generated_at_utc": "2026-11-22T17:25:15.004877+00:00",
+  "macro_purge_policy": "Exact per-row event_end >= eval_start exclusion + 60m embargo",
+  "micro_purge_policy": "Exact per-row 30th-tick event_end >= eval_start exclusion + 300s embargo",
+  "all_folds_strict_purge_holds": true,
+  "folds": [
+    {
+      "fold_id": 1,
+      "shared_utc_boundaries": {
+        "train": [
+          "2026-08-13T00:00:00Z",
+          "2026-09-18T00:00:00Z"
+        ],
+        "inner_val": [
+          "2026-09-18T00:00:00Z",
+          "2026-09-25T00:00:00Z"
+        ],
+        "calibration": [
+          "2026-09-25T00:00:00Z",
+          "2026-10-02T00:00:00Z"
+        ],
+        "out_of_time_test": [
+          "2026-10-02T00:00:00Z",
+          "2026-10-16T00:00:00Z"
+        ]
+      },
+      "macro": {
+        "embargo_sec": 3600.0,
+        "train_n": 6930,
+        "val_n": 1348,
+        "cal_n": 1348,
+        "test_n": 2718,
+        "boundary_purge_embargo_counts": {
+          "train_to_val_purged": 2,
+          "train_to_val_embargoed": 10,
+          "val_to_cal_purged": 2,
+          "val_to_cal_embargoed": 10,
+          "cal_to_test_purged": 2,
+          "cal_to_test_embargoed": 10
+        },
+        "max_train_label_end_utc": 1789686599.382,
+        "val_start_utc_epoch": 1789689600.0,
+        "max_val_label_end_utc": 1790291399.885,
+        "cal_start_utc_epoch": 1790294400.0,
+        "max_cal_label_end_utc": 1790896199.838,
+        "test_start_utc_epoch": 1790899200.0,
+        "strict_purge_holds": true
+      },
+      "micro": {
+        "embargo_sec": 300.0,
+        "train_n": 241780,
+        "val_n": 47127,
+        "cal_n": 49003,
+        "test_n": 87734,
+        "boundary_purge_embargo_counts": {
+          "train_to_val_purged": 0,
+          "train_to_val_embargoed": 14,
+          "val_to_cal_purged": 0,
+          "val_to_cal_embargoed": 25,
+          "cal_to_test_purged": 0,
+          "cal_to_test_embargoed": 18
+        },
+        "max_train_label_end_utc": 1789689308.445,
+        "val_start_utc_epoch": 1789689600.0,
+        "max_val_label_end_utc": 1790294100.467,
+        "cal_start_utc_epoch": 1790294400.0,
+        "max_cal_label_end_utc": 1790898908.208,
+        "test_start_utc_epoch": 1790899200.0,
+        "strict_purge_holds": true
+      }
+    },
+    {
+      "fold_id": 2,
+      "shared_utc_boundaries": {
+        "train": [
+          "2026-08-13T00:00:00Z",
+          "2026-10-02T00:00:00Z"
+        ],
+        "inner_val": [
+          "2026-10-02T00:00:00Z",
+          "2026-10-09T00:00:00Z"
+        ],
+        "calibration": [
+          "2026-10-09T00:00:00Z",
+          "2026-10-16T00:00:00Z"
+        ],
+        "out_of_time_test": [
+          "2026-10-16T00:00:00Z",
+          "2026-10-30T00:00:00Z"
+        ]
+      },
+      "macro": {
+        "embargo_sec": 3600.0,
+        "train_n": 9650,
+        "val_n": 1348,
+        "cal_n": 1346,
+        "test_n": 2720,
+        "boundary_purge_embargo_counts": {
+          "train_to_val_purged": 2,
+          "train_to_val_embargoed": 10,
+          "val_to_cal_purged": 2,
+          "val_to_cal_embargoed": 10,
+          "cal_to_test_purged": 2,
+          "cal_to_test_embargoed": 10
+        },
+        "max_train_label_end_utc": 1790896199.838,
+        "val_start_utc_epoch": 1790899200.0,
+        "max_val_label_end_utc": 1791500999.873,
+        "cal_start_utc_epoch": 1791504000.0,
+        "max_cal_label_end_utc": 1792105797.862,
+        "test_start_utc_epoch": 1792108800.0,
+        "strict_purge_holds": true
+      },
+      "micro": {
+        "embargo_sec": 300.0,
+        "train_n": 337949,
+        "val_n": 45536,
+        "cal_n": 42160,
+        "test_n": 91943,
+        "boundary_purge_embargo_counts": {
+          "train_to_val_purged": 0,
+          "train_to_val_embargoed": 18,
+          "val_to_cal_purged": 0,
+          "val_to_cal_embargoed": 21,
+          "cal_to_test_purged": 0,
+          "cal_to_test_embargoed": 17
+        },
+        "max_train_label_end_utc": 1790898908.208,
+        "val_start_utc_epoch": 1790899200.0,
+        "max_val_label_end_utc": 1791503701.797,
+        "cal_start_utc_epoch": 1791504000.0,
+        "max_cal_label_end_utc": 1792108514.059,
+        "test_start_utc_epoch": 1792108800.0,
+        "strict_purge_holds": true
+      }
+    },
+    {
+      "fold_id": 3,
+      "shared_utc_boundaries": {
+        "train": [
+          "2026-08-13T00:00:00Z",
+          "2026-10-16T00:00:00Z"
+        ],
+        "inner_val": [
+          "2026-10-16T00:00:00Z",
+          "2026-10-23T00:00:00Z"
+        ],
+        "calibration": [
+          "2026-10-23T00:00:00Z",
+          "2026-10-30T00:00:00Z"
+        ],
+        "out_of_time_test": [
+          "2026-10-30T00:00:00Z",
+          "2026-11-19T12:00:00Z"
+        ]
+      },
+      "macro": {
+        "embargo_sec": 3600.0,
+        "train_n": 12368,
+        "val_n": 1348,
+        "cal_n": 1348,
+        "test_n": 3904,
+        "boundary_purge_embargo_counts": {
+          "train_to_val_purged": 2,
+          "train_to_val_embargoed": 10,
+          "val_to_cal_purged": 2,
+          "val_to_cal_embargoed": 10,
+          "cal_to_test_purged": 2,
+          "cal_to_test_embargoed": 10
+        },
+        "max_train_label_end_utc": 1792105797.862,
+        "val_start_utc_epoch": 1792108800.0,
+        "max_val_label_end_utc": 1792710599.907,
+        "cal_start_utc_epoch": 1792713600.0,
+        "max_cal_label_end_utc": 1793315399.618,
+        "test_start_utc_epoch": 1793318400.0,
+        "strict_purge_holds": true
+      },
+      "micro": {
+        "embargo_sec": 300.0,
+        "train_n": 425684,
+        "val_n": 45466,
+        "cal_n": 46434,
+        "test_n": 147162,
+        "boundary_purge_embargo_counts": {
+          "train_to_val_purged": 0,
+          "train_to_val_embargoed": 17,
+          "val_to_cal_purged": 0,
+          "val_to_cal_embargoed": 22,
+          "cal_to_test_purged": 0,
+          "cal_to_test_embargoed": 21
+        },
+        "max_train_label_end_utc": 1792108514.059,
+        "val_start_utc_epoch": 1792108800.0,
+        "max_val_label_end_utc": 1792713311.448,
+        "cal_start_utc_epoch": 1792713600.0,
+        "max_cal_label_end_utc": 1793318105.034,
+        "test_start_utc_epoch": 1793318400.0,
+        "strict_purge_holds": true
+      }
+    }
+  ]
+}

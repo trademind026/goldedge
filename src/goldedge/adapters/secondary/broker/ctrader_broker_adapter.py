@@ -43,6 +43,7 @@ class CTraderBrokerAdapter(IBrokerAdapter):
         self._pending_futures: Dict[str, asyncio.Future] = {}
         self._pending_by_payload: Dict[int, asyncio.Future] = {}
         self._loop: Optional[asyncio.AbstractEventLoop] = None
+        self._last_close_results: Dict[int, Dict[str, Any]] = {}
 
     def _run_async(self, coro, timeout: float = 10.0):
         """Run an async coroutine on the API client's event loop."""
@@ -199,9 +200,20 @@ class CTraderBrokerAdapter(IBrokerAdapter):
         digits = int(getattr(trader, "moneyDigits", 2) or 2)
         divisor = float(10 ** digits)
         balance = float(trader.balance) / divisor
+        # Query open positions so unrealized swap/commission are accounted for alongside MTM equity
+        try:
+            open_pos = await self._get_open_positions_async()
+        except Exception:
+            open_pos = []
+        open_swap_comm = sum(float(getattr(p, "swap", 0.0) or 0.0) + float(getattr(p, "commission", 0.0) or 0.0) for p in open_pos)
+        equity = balance + open_swap_comm
         return {
+            "account_id": str(self.account_id),
             "balance": balance,
-            "equity": balance,
+            "equity": equity,
+            "unrealized_pnl": open_swap_comm if open_pos else 0.0,
+            "has_open_positions": bool(open_pos),
+            "currency": "USD",
             "margin": 0.0,
             "leverage": float(getattr(trader, "leverageInCents", 10000)) / 100.0,
         }
@@ -278,7 +290,21 @@ class CTraderBrokerAdapter(IBrokerAdapter):
         )
         ev = msg_pb2.ProtoOAExecutionEvent()
         ev.ParseFromString(resp_env.payload)
-        return not bool(getattr(ev, "errorCode", ""))
+        err = str(getattr(ev, "errorCode", "") or "")
+        exec_px = None
+        if ev.HasField("deal") and getattr(ev.deal, "executionPrice", 0):
+            exec_px = float(ev.deal.executionPrice)
+        elif ev.HasField("order") and getattr(ev.order, "executionPrice", 0):
+            exec_px = float(ev.order.executionPrice)
+        self._last_close_results[int(ticket)] = {
+            "success": not bool(err),
+            "execution_price": exec_px,
+            "error": err or None,
+        }
+        return not bool(err)
+
+    def get_last_close_result(self, ticket: int) -> Optional[Dict[str, Any]]:
+        return self._last_close_results.get(int(ticket))
 
     def close_position(self, ticket: int, volume: Optional[float] = None) -> bool:
         if not self._connected and not self.connect():
@@ -345,7 +371,21 @@ class CTraderBrokerAdapter(IBrokerAdapter):
         )
         ev = msg_pb2.ProtoOAExecutionEvent()
         ev.ParseFromString(resp_env.payload)
-        return not bool(getattr(ev, "errorCode", ""))
+        err = str(getattr(ev, "errorCode", "") or "")
+        exec_px = None
+        if ev.HasField("deal") and getattr(ev.deal, "executionPrice", 0):
+            exec_px = float(ev.deal.executionPrice)
+        elif ev.HasField("order") and getattr(ev.order, "executionPrice", 0):
+            exec_px = float(ev.order.executionPrice)
+        self._last_close_results[int(ticket)] = {
+            "success": not bool(err),
+            "execution_price": exec_px,
+            "error": err or None,
+        }
+        return not bool(err)
+
+    def get_last_close_result(self, ticket: int) -> Optional[Dict[str, Any]]:
+        return self._last_close_results.get(int(ticket))
 
     def modify_position(self, ticket: int, sl: Optional[float] = None, tp: Optional[float] = None) -> bool:
         if not self._connected and not self.connect():

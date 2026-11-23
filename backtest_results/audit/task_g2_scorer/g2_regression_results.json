@@ -1,0 +1,94 @@
+{
+  "generated_at_utc": "2026-11-22T00:25:43.180409+00:00",
+  "total_suites": 6,
+  "total_tests_ran": 42,
+  "total_skipped": 0,
+  "all_suites_passed": true,
+  "suites": [
+    {
+      "file": "test_task_g2_validation.py",
+      "exit_code": 0,
+      "passed": true,
+      "tests_ran": 6,
+      "skipped": 0,
+      "duration_secs": 29.753,
+      "tail_output": "  warnings.warn(\n/app/src/goldedge/domain/services/indicator_service.py:85: Pandas4Warning: The inplace keyword in DataFrame.set_index is deprecated and will be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  df.set_index(\"time\", inplace=True)\nok\ntest_hexagonal_pure_python_and_legacy_mode_unchanged (__main__.TestTaskG2Validation.test_hexagonal_pure_python_and_legacy_mode_unchanged) ... ok\ntest_safety_locks_unchanged (__main__.TestTaskG2Validation.test_safety_locks_unchanged) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 29.753s\n\nOK"
+    },
+    {
+      "file": "test_task_g1_validation.py",
+      "exit_code": 0,
+      "passed": true,
+      "tests_ran": 6,
+      "skipped": 0,
+      "duration_secs": 0.346,
+      "tail_output": "/usr/local/lib/python3.12/site-packages/pandas/core/series.py:848: Pandas4Warning: Series.values returning an ndarray that drops timezone information for DatetimeTZDtype is deprecated. In a future version, this will return the underlying DatetimeArray instead. Use 'Series.dt.tz_convert(None).to_numpy()' to get a NumPy array of UTC values, or 'Series.array' to get the ExtensionArray.\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#whatsnew-310-deprecations-values for more details.\n  warnings.warn(\n/app/src/goldedge/domain/services/indicator_service.py:85: Pandas4Warning: The inplace keyword in DataFrame.set_index is deprecated and will be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  df.set_index(\"time\", inplace=True)\nok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.346s\n\nOK"
+    },
+    {
+      "file": "test_remediation_b1_b6.py",
+      "exit_code": 0,
+      "passed": true,
+      "tests_ran": 4,
+      "skipped": 0,
+      "duration_secs": 0.275,
+      "tail_output": "/usr/local/lib/python3.12/site-packages/pandas/core/series.py:848: Pandas4Warning: Series.values returning an ndarray that drops timezone information for DatetimeTZDtype is deprecated. In a future version, this will return the underlying DatetimeArray instead. Use 'Series.dt.tz_convert(None).to_numpy()' to get a NumPy array of UTC values, or 'Series.array' to get the ExtensionArray.\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#whatsnew-310-deprecations-values for more details.\n  warnings.warn(\n/usr/local/lib/python3.12/site-packages/pandas/core/series.py:848: Pandas4Warning: Series.values returning an ndarray that drops timezone information for DatetimeTZDtype is deprecated. In a future version, this will return the underlying DatetimeArray instead. Use 'Series.dt.tz_convert(None).to_numpy()' to get a NumPy array of UTC values, or 'Series.array' to get the ExtensionArray.\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#whatsnew-310-deprecations-values for more details.\n  warnings.warn(\nok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.275s\n\nOK"
+    },
+    {
+      "file": "test_shadow_validation.py",
+      "exit_code": 0,
+      "passed": true,
+      "tests_ran": 8,
+      "skipped": 0,
+      "duration_secs": 0.473,
+      "tail_output": "/app/src/goldedge/domain/services/indicator_service.py:85: Pandas4Warning: The inplace keyword in DataFrame.set_index is deprecated and will be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  df.set_index(\"time\", inplace=True)\nok\ntest_shadow_journal_dedup_and_restart_recovery (__main__.TestShadowValidation.test_shadow_journal_dedup_and_restart_recovery) ... ok\ntest_shadow_tracker_separates_buy_and_sell_stats (__main__.TestShadowValidation.test_shadow_tracker_separates_buy_and_sell_stats) ... ok\ntest_shadow_tracker_three_independent_portfolios_and_hwm_alerts (__main__.TestShadowValidation.test_shadow_tracker_three_independent_portfolios_and_hwm_alerts) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.473s\n\nOK"
+    },
+    {
+      "file": "test_task6c_validation.py",
+      "exit_code": 0,
+      "passed": true,
+      "tests_ran": 3,
+      "skipped": 0,
+      "duration_secs": 3.196,
+      "tail_output": "/usr/local/lib/python3.12/site-packages/pandas/core/series.py:848: Pandas4Warning: Series.values returning an ndarray that drops timezone information for DatetimeTZDtype is deprecated. In a future version, this will return the underlying DatetimeArray instead. Use 'Series.dt.tz_convert(None).to_numpy()' to get a NumPy array of UTC values, or 'Series.array' to get the ExtensionArray.\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#whatsnew-310-deprecations-values for more details.\n  warnings.warn(\n/usr/local/lib/python3.12/site-packages/pandas/core/series.py:848: Pandas4Warning: Series.values returning an ndarray that drops timezone information for DatetimeTZDtype is deprecated. In a future version, this will return the underlying DatetimeArray instead. Use 'Series.dt.tz_convert(None).to_numpy()' to get a NumPy array of UTC values, or 'Series.array' to get the ExtensionArray.\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#whatsnew-310-deprecations-values for more details.\n  warnings.warn(\nok\n\n----------------------------------------------------------------------\nRan 3 tests in 3.196s\n\nOK"
+    },
+    {
+      "file": "test_task8_hwm_kill_switch.py",
+      "exit_code": 0,
+      "passed": true,
+      "tests_ran": 15,
+      "skipped": 0,
+      "duration_secs": 1.063,
+      "tail_output": "test_15_container_singleton_and_flask_hwm_routes (__main__.TestTask8HwmKillSwitch.test_15_container_singleton_and_flask_hwm_routes) ... /app/src/goldedge/config/settings.py:7: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/\n  class Settings(BaseSettings):\n/app/src/goldedge/config/settings.py:7: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.14/migration/\n  class Settings(BaseSettings):\n2026-11-22 00:25:42,774 - goldedge.adapters.secondary.db.connection_pool - INFO - SQLAlchemy engine created (pool_size=5, max_overflow=10)\n2026-11-22 00:25:42,777 - goldedge.adapters.secondary.ml.ridge_pnl_adapter - INFO - Loaded Ridge expected-PnL model from models/gold_ridge_pnl.pkl (11 features, trained_on=165).\nok\n\n----------------------------------------------------------------------\nRan 15 tests in 1.063s\n\nOK"
+    }
+  ],
+  "safety_locks": {
+    "SHADOW_MODE": true,
+    "TRADING_MODE": "demo",
+    "HWM_MAX_DRAWDOWN_PCT": 8.0,
+    "market_orders_count": 0,
+    "market_trades_count": 0
+  },
+  "shadow_journal": {
+    "path": "/app/backtest_results/shadow_live_rollovers.jsonl",
+    "event_lines": 366,
+    "last_timestamp": null
+  },
+  "postgres_backtest_run_row": {
+    "run_id": "g2_verified_full_20261122",
+    "trades": 68,
+    "pnl": 338.91469743843163,
+    "pf": 1.1745770188137323,
+    "scorer_mode": "g2_calibrated",
+    "mtm_max_dd_pct": "8.02"
+  },
+  "live_http_api_checks": {
+    "history_detail_status": 200,
+    "history_detail_trades": 68,
+    "history_detail_pnl": 338.91469743843163,
+    "history_detail_scorer_mode": "g2_calibrated",
+    "invalid_scorer_mode_status": 400,
+    "invalid_scorer_mode_body": {
+      "error": "scorer_mode must be one of ['legacy', 'g2_calibrated']"
+    }
+  },
+  "all_checks_passed": true
+}

@@ -1,0 +1,46 @@
+{
+  "task": "G3.2_PHASE_E_INDEPENDENT_RECONCILIATION",
+  "generated_at_utc": "2026-11-22T17:04:49.417991+00:00",
+  "clean_room_zero_goldedge_imports": true,
+  "overall_status": "PASS",
+  "macro_independent_check": {
+    "coverage_pct": 100.0,
+    "days_checked": 85,
+    "rows_checked": 19004,
+    "mismatches": 0,
+    "error_samples": []
+  },
+  "micro_independent_check": {
+    "strategy": "Stratified + boundary-focused across all 85 active days (first/last 25 per day, 150 evenly spaced, top-25 widest spreads, top-25 slowest elapsed_sec)",
+    "days_checked": 85,
+    "rows_checked": 20429,
+    "mismatches": 0,
+    "error_samples": []
+  },
+  "macro_5m_bucket_accounting": {
+    "raw_5m_buckets_g3_1": 19394,
+    "quarantined_sunday_5m_buckets": 1,
+    "ml_eligible_5m_buckets": 19393,
+    "generated_labels": 19004,
+    "exclusions_total": 389,
+    "exclusions_breakdown": {
+      "WARMUP_LT_100_5M_BARS": 100,
+      "INCOMPLETE_15M_HORIZON_GAP_OR_END": 212,
+      "NO_EXECUTABLE_ENTRY_TICK_WITHIN_60S": 77
+    },
+    "unaccounted_rows": 0,
+    "exact_reconciliation_pass": true
+  },
+  "boundary_edge_cases": {
+    "1_missing_future_ticks_excluded": true,
+    "2_weekend_closures_and_quarantined_sunday_excluded": true,
+    "3_high_spread_rows_penalized_correctly": true,
+    "4_equal_or_nonmonotonic_timestamps_zero_violations": true,
+    "5_invalid_quotes_zero_present": true,
+    "6_session_transitions_all_5_sessions_covered": true,
+    "7_stop_target_same_minute_tick_resolved": true,
+    "8_end_of_history_incomplete_samples_excluded": true,
+    "9_candle_close_to_first_tick_boundary_causal": true
+  },
+  "elapsed_sec": 32.61
+}

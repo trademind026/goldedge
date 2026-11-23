@@ -8,7 +8,9 @@ from ..domain.services.gold_kalman_exit_agent import GoldKalmanExitAgent
 from ..domain.services.gold_decision_rules import GoldDecisionRules
 from ..adapters.features.gold_kalman_filter import StreamingGoldKalmanFilter
 from ..adapters.broker.gold_order_manager import GoldOrderManager
+from ...application.services.hwm_emergency_exit import HwmEmergencyLiquidator
 from ...domain.models.trade import Position, TradeStatus
+from ...domain.services.hwm_kill_switch_service import HwmKillSwitchService
 
 logger = logging.getLogger("live_execution_engine")
 
@@ -32,7 +34,9 @@ class ForexLiveExecutionEngine:
         default_mode: str = "paper",
         initial_balance: float = 10000.0,
         leverage: float = 100.0,
-        redis_client: Optional[Any] = None
+        redis_client: Optional[Any] = None,
+        hwm_kill_switch: Optional[HwmKillSwitchService] = None,
+        emergency_liquidator: Optional[HwmEmergencyLiquidator] = None,
     ):
         self.symbol = symbol
         self.mode = default_mode.lower()
@@ -43,15 +47,22 @@ class ForexLiveExecutionEngine:
             default_leverage=leverage
         )
         self.redis_client = redis_client
+        self.hwm_kill_switch = hwm_kill_switch or HwmKillSwitchService(
+            max_drawdown_pct=8.0,
+            initial_equity=initial_balance,
+            default_account_scope=f"{self.mode}:{symbol}",
+        )
+        self.emergency_liquidator = emergency_liquidator or HwmEmergencyLiquidator(self.hwm_kill_switch)
 
         # Kalman & Exit Agents
         self.kalman_filter = StreamingGoldKalmanFilter()
         self.exit_agents: Dict[int, GoldKalmanExitAgent] = {}
         self.decision_rules = GoldDecisionRules()
 
-        # Engine State
-        self.status: str = "awaiting_ticks"  # "idle" | "awaiting_ticks" | "scanning" | "trading" | "rollover_freeze" | "broker_disconnected"
-        self.halted: bool = False
+        # Engine State — restore persisted HWM halt status cleanly on startup
+        restored_state = self.hwm_kill_switch.restore_all()
+        self.halted: bool = bool(restored_state.halted)
+        self.status: str = "halted_hwm_8pct" if self.halted else "awaiting_ticks"
         self.last_tick_price: Optional[float] = None
         self.last_tick_bid: Optional[float] = None
         self.last_tick_ask: Optional[float] = None
@@ -115,12 +126,44 @@ class ForexLiveExecutionEngine:
         spread = max(0.01, ask - bid)
         k_price, k_vel, vel_z = self.kalman_filter.update(price, volume, spread)
 
+        # 1.5 Persistent 8% HWM Kill-Switch Check (Intrabar MTM Equity)
+        if bid > 0.0 and ask > 0.0 and bid < ask:
+            self.order_manager.update_paper_tick(self.symbol, price, bid, ask)
+            open_positions = self.order_manager.get_open_positions(self.symbol)
+            acct_summary = self.order_manager.get_account_summary()
+            live_eq = (
+                acct_summary.get("live_equity", 0.0)
+                if self.mode in ("live", "demo") and acct_summary.get("live_connected", False)
+                else acct_summary.get("paper_equity", self.order_manager.paper_equity)
+            )
+            if self.mode in ("live", "demo") and not acct_summary.get("live_connected", False):
+                live_eq = None
+            if live_eq is not None and live_eq > 0.0:
+                eval_res = self.hwm_kill_switch.evaluate_equity(
+                    current_equity=float(live_eq),
+                    timestamp=now,
+                    open_positions_count=len(open_positions),
+                    symbol=self.symbol,
+                )
+                if eval_res.halted:
+                    self.halted = True
+                    self.status = "halted_hwm_8pct"
+                    if eval_res.newly_triggered:
+                        self.add_alert("critical", eval_res.reason)
+                    if open_positions:
+                        self.emergency_liquidator.liquidate_open_positions(
+                            broker=self.order_manager,
+                            quotes_by_symbol={self.symbol: (float(bid), float(ask))},
+                            now=now,
+                        )
+                    return
+
         # 2. Rollover Freeze Gate (21:00 - 22:00 UTC or wide spread > $0.60)
         is_rollover_hour = (now.hour == 21) or (now.hour == 22 and now.minute < 15)
-        if is_rollover_hour or spread > GoldPipEngine.MAX_SPREAD_DOLLARS:
+        if self.halted:
+            self.status = "halted_hwm_8pct"
+        elif is_rollover_hour or spread > GoldPipEngine.MAX_SPREAD_DOLLARS:
             self.status = "rollover_freeze"
-        elif self.halted:
-            self.status = "idle"
         else:
             open_positions = self.order_manager.get_open_positions(self.symbol)
             self.status = "trading" if open_positions else "scanning"
@@ -277,24 +320,67 @@ class ForexLiveExecutionEngine:
             return True, "Position closed"
         return False, "Failed to close position"
 
-    def kill_switch(self) -> List[int]:
-        """EMERGENCY: Closes ALL open positions and disables trading engine."""
+    def kill_switch(self, authorized_by: str = "operator", reason: str = "Manual emergency kill-switch") -> List[int]:
+        """EMERGENCY: Persists halt FIRST, closes ALL open positions with executable quotes & audit."""
         self.halted = True
-        self.status = "idle"
-        closed_tickets = []
+        self.status = "halted_hwm_8pct"
         positions = self.order_manager.get_open_positions()
-        for p in positions:
-            if self.order_manager.close_position(p.ticket):
-                closed_tickets.append(p.ticket)
-                self.exit_agents.pop(p.ticket, None)
+        self.hwm_kill_switch.trigger_manual_halt(
+            reason=reason,
+            open_positions_count=len(positions),
+            authorized_by=authorized_by,
+        )
+        quotes = (
+            {self.symbol: (float(self.last_tick_bid), float(self.last_tick_ask))}
+            if (self.last_tick_bid and self.last_tick_ask and self.last_tick_bid < self.last_tick_ask)
+            else None
+        )
+        records = self.emergency_liquidator.liquidate_open_positions(
+            broker=self.order_manager,
+            quotes_by_symbol=quotes,
+            now=datetime.now(timezone.utc),
+        )
+        closed_tickets = [r.ticket for r in records if r.status == "CONFIRMED_CLOSED"]
+        for t in closed_tickets:
+            self.exit_agents.pop(t, None)
 
-        self.add_alert("critical", f"EMERGENCY KILL SWITCH ACTIVATED: Closed {len(closed_tickets)} positions.")
+        self.add_alert("critical", f"EMERGENCY KILL SWITCH ACTIVATED: Confirmed closed {len(closed_tickets)}/{len(records)} positions.")
         return closed_tickets
+
+    def reset_hwm_kill_switch(
+        self,
+        authorized_by: str,
+        reason: str,
+        current_equity: Optional[float] = None,
+        auth_token: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Explicitly authorize resetting an active halt with immutable audit trail."""
+        eq = current_equity
+        if eq is None:
+            summary = self.order_manager.get_account_summary()
+            eq = (
+                summary.get("live_equity", 0.0)
+                if self.mode in ("live", "demo") and summary.get("live_connected", False)
+                else summary.get("paper_equity", self.order_manager.paper_equity)
+            )
+        new_state = self.hwm_kill_switch.reset(
+            authorized_by=authorized_by,
+            reason=reason,
+            current_equity=float(eq),
+            auth_token=auth_token,
+        )
+        self.halted = bool(new_state.halted)
+        self.status = "awaiting_ticks" if not self.halted else "halted_hwm_8pct"
+        self.add_alert("info", f"HWM Kill-Switch reset by {authorized_by}: {reason}")
+        return new_state.to_dict()
 
     def execute_suggestion(self, suggestion_id: str, lots: Optional[float] = None) -> Optional[int]:
         """Executes a qualified suggestion or manual entry."""
-        if self.halted or self.status == "rollover_freeze":
-            self.add_alert("warning", f"Execution blocked: Engine status is {self.status.upper()}")
+        allowed, halt_msg = self.hwm_kill_switch.can_open_new_position(symbol=self.symbol)
+        if not allowed or self.halted or self.status in ("rollover_freeze", "halted_hwm_8pct"):
+            if not allowed:
+                self.halted = True
+            self.add_alert("warning", f"Execution blocked: {halt_msg if not allowed else self.status.upper()}")
             return None
 
         if self.last_tick_price is None:
@@ -450,6 +536,7 @@ class ForexLiveExecutionEngine:
             "suggestions": self.suggestions,
             "closed_positions": closed_positions,
             "system_alerts": self.system_alerts,
+            "hwm_risk": self.hwm_kill_switch.get_state().to_dict(),
             "latency_ms": latency_ms,
             "last_updated": datetime.now(timezone.utc).isoformat()
         }

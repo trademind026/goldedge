@@ -1,0 +1,44 @@
+{
+  "W1": {
+    "window_id": "W1",
+    "app_trades": 118,
+    "ind_trades": 118,
+    "mismatch_count": 0,
+    "trailing_journey_mismatches": 0,
+    "max_pnl_diff_usd": 0.0,
+    "app_final_equity": 10116.5438,
+    "ind_final_equity": 10116.5438,
+    "app_closed_dd_usd": -1333.0761,
+    "ind_closed_dd_usd": -1333.0761,
+    "app_mtm_dd_usd": -1406.0206,
+    "ind_mtm_dd_usd": -1406.0206
+  },
+  "W2": {
+    "window_id": "W2",
+    "app_trades": 131,
+    "ind_trades": 131,
+    "mismatch_count": 0,
+    "trailing_journey_mismatches": 0,
+    "max_pnl_diff_usd": 0.0,
+    "app_final_equity": 10151.6914,
+    "ind_final_equity": 10151.6914,
+    "app_closed_dd_usd": -1336.2787,
+    "ind_closed_dd_usd": -1336.2787,
+    "app_mtm_dd_usd": -1409.2233,
+    "ind_mtm_dd_usd": -1409.2233
+  },
+  "W3": {
+    "window_id": "W3",
+    "app_trades": 143,
+    "ind_trades": 143,
+    "mismatch_count": 0,
+    "trailing_journey_mismatches": 0,
+    "max_pnl_diff_usd": 0.0,
+    "app_final_equity": 10211.479,
+    "ind_final_equity": 10211.479,
+    "app_closed_dd_usd": -1336.2787,
+    "ind_closed_dd_usd": -1336.2787,
+    "app_mtm_dd_usd": -1409.2233,
+    "ind_mtm_dd_usd": -1409.2233
+  }
+}

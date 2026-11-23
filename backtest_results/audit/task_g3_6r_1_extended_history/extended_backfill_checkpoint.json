@@ -1,0 +1,596 @@
+{
+  "updated_at_utc": "2026-11-23T12:58:23.185790+00:00",
+  "target_table": "market_ticks_extended_pre202605",
+  "completed_count": 84,
+  "total_chunks": 591,
+  "completed_chunks": {
+    "20250421_00_20250421_12": {
+      "bids": 106813,
+      "asks": 107086,
+      "invalid_dropped": 0,
+      "merged": 110314,
+      "inserted": 110314
+    },
+    "20250421_12_20250422_00": {
+      "bids": 112882,
+      "asks": 113062,
+      "invalid_dropped": 0,
+      "merged": 117600,
+      "inserted": 117600
+    },
+    "20250422_00_20250422_12": {
+      "bids": 140614,
+      "asks": 140655,
+      "invalid_dropped": 0,
+      "merged": 143902,
+      "inserted": 143902
+    },
+    "20250422_12_20250423_00": {
+      "bids": 149680,
+      "asks": 150066,
+      "invalid_dropped": 3,
+      "merged": 154303,
+      "inserted": 154303
+    },
+    "20250423_00_20250423_12": {
+      "bids": 131625,
+      "asks": 131563,
+      "invalid_dropped": 1,
+      "merged": 134884,
+      "inserted": 134884
+    },
+    "20250423_12_20250424_00": {
+      "bids": 124839,
+      "asks": 125067,
+      "invalid_dropped": 0,
+      "merged": 127906,
+      "inserted": 127906
+    },
+    "20250424_00_20250424_12": {
+      "bids": 113309,
+      "asks": 113538,
+      "invalid_dropped": 0,
+      "merged": 116520,
+      "inserted": 116520
+    },
+    "20250424_12_20250425_00": {
+      "bids": 98516,
+      "asks": 98572,
+      "invalid_dropped": 1,
+      "merged": 104223,
+      "inserted": 104223
+    },
+    "20250425_00_20250425_12": {
+      "bids": 116000,
+      "asks": 116202,
+      "invalid_dropped": 0,
+      "merged": 119462,
+      "inserted": 119462
+    },
+    "20250425_12_20250426_00": {
+      "bids": 92078,
+      "asks": 92341,
+      "invalid_dropped": 0,
+      "merged": 97211,
+      "inserted": 97211
+    },
+    "20250427_12_20250428_00": {
+      "bids": 11038,
+      "asks": 10986,
+      "invalid_dropped": 0,
+      "merged": 11390,
+      "inserted": 11390
+    },
+    "20250428_00_20250428_12": {
+      "bids": 94698,
+      "asks": 94679,
+      "invalid_dropped": 0,
+      "merged": 98234,
+      "inserted": 98234
+    },
+    "20250428_12_20250429_00": {
+      "bids": 100314,
+      "asks": 100297,
+      "invalid_dropped": 0,
+      "merged": 105665,
+      "inserted": 105665
+    },
+    "20250429_00_20250429_12": {
+      "bids": 83976,
+      "asks": 84175,
+      "invalid_dropped": 0,
+      "merged": 88269,
+      "inserted": 88269
+    },
+    "20250429_12_20250430_00": {
+      "bids": 91069,
+      "asks": 91225,
+      "invalid_dropped": 0,
+      "merged": 96989,
+      "inserted": 96989
+    },
+    "20250430_00_20250430_12": {
+      "bids": 86191,
+      "asks": 87561,
+      "invalid_dropped": 0,
+      "merged": 91323,
+      "inserted": 91323
+    },
+    "20250430_12_20250501_00": {
+      "bids": 107877,
+      "asks": 108395,
+      "invalid_dropped": 0,
+      "merged": 112838,
+      "inserted": 112838
+    },
+    "20250501_00_20250501_12": {
+      "bids": 89567,
+      "asks": 89898,
+      "invalid_dropped": 0,
+      "merged": 93982,
+      "inserted": 93982
+    },
+    "20250501_12_20250502_00": {
+      "bids": 95788,
+      "asks": 95890,
+      "invalid_dropped": 0,
+      "merged": 100899,
+      "inserted": 100899
+    },
+    "20250502_00_20250502_12": {
+      "bids": 77417,
+      "asks": 77499,
+      "invalid_dropped": 0,
+      "merged": 80804,
+      "inserted": 80804
+    },
+    "20250502_12_20250503_00": {
+      "bids": 105403,
+      "asks": 105610,
+      "invalid_dropped": 0,
+      "merged": 110576,
+      "inserted": 110576
+    },
+    "20250504_12_20250505_00": {
+      "bids": 9542,
+      "asks": 9525,
+      "invalid_dropped": 0,
+      "merged": 9801,
+      "inserted": 9801
+    },
+    "20250505_00_20250505_12": {
+      "bids": 94894,
+      "asks": 94588,
+      "invalid_dropped": 0,
+      "merged": 98387,
+      "inserted": 98387
+    },
+    "20250505_12_20250506_00": {
+      "bids": 93008,
+      "asks": 93294,
+      "invalid_dropped": 0,
+      "merged": 98812,
+      "inserted": 98812
+    },
+    "20250506_00_20250506_12": {
+      "bids": 114525,
+      "asks": 114469,
+      "invalid_dropped": 0,
+      "merged": 118281,
+      "inserted": 118281
+    },
+    "20250506_12_20250507_00": {
+      "bids": 121350,
+      "asks": 121453,
+      "invalid_dropped": 0,
+      "merged": 126599,
+      "inserted": 126599
+    },
+    "20250507_00_20250507_12": {
+      "bids": 104276,
+      "asks": 105019,
+      "invalid_dropped": 1,
+      "merged": 108832,
+      "inserted": 108832
+    },
+    "20250507_12_20250508_00": {
+      "bids": 104100,
+      "asks": 104625,
+      "invalid_dropped": 0,
+      "merged": 109466,
+      "inserted": 109466
+    },
+    "20250508_00_20250508_12": {
+      "bids": 112401,
+      "asks": 112547,
+      "invalid_dropped": 0,
+      "merged": 115922,
+      "inserted": 115922
+    },
+    "20250508_12_20250509_00": {
+      "bids": 113346,
+      "asks": 113603,
+      "invalid_dropped": 0,
+      "merged": 118185,
+      "inserted": 118185
+    },
+    "20250509_00_20250509_12": {
+      "bids": 106816,
+      "asks": 106943,
+      "invalid_dropped": 0,
+      "merged": 110007,
+      "inserted": 110007
+    },
+    "20250509_12_20250510_00": {
+      "bids": 85423,
+      "asks": 85555,
+      "invalid_dropped": 0,
+      "merged": 90392,
+      "inserted": 90392
+    },
+    "20250511_12_20250512_00": {
+      "bids": 14709,
+      "asks": 14835,
+      "invalid_dropped": 0,
+      "merged": 15207,
+      "inserted": 15207
+    },
+    "20250512_00_20250512_12": {
+      "bids": 129034,
+      "asks": 129516,
+      "invalid_dropped": 0,
+      "merged": 134031,
+      "inserted": 134031
+    },
+    "20250512_12_20250513_00": {
+      "bids": 104632,
+      "asks": 104823,
+      "invalid_dropped": 0,
+      "merged": 108664,
+      "inserted": 108664
+    },
+    "20250513_00_20250513_12": {
+      "bids": 94838,
+      "asks": 94763,
+      "invalid_dropped": 0,
+      "merged": 98690,
+      "inserted": 98690
+    },
+    "20250513_12_20250514_00": {
+      "bids": 90820,
+      "asks": 90880,
+      "invalid_dropped": 0,
+      "merged": 96514,
+      "inserted": 96514
+    },
+    "20250514_00_20250514_12": {
+      "bids": 107589,
+      "asks": 108159,
+      "invalid_dropped": 0,
+      "merged": 113009,
+      "inserted": 113009
+    },
+    "20250514_12_20250515_00": {
+      "bids": 115548,
+      "asks": 115920,
+      "invalid_dropped": 0,
+      "merged": 121167,
+      "inserted": 121167
+    },
+    "20250515_00_20250515_12": {
+      "bids": 117845,
+      "asks": 117625,
+      "invalid_dropped": 0,
+      "merged": 121923,
+      "inserted": 121923
+    },
+    "20250515_12_20250516_00": {
+      "bids": 105251,
+      "asks": 104844,
+      "invalid_dropped": 0,
+      "merged": 110304,
+      "inserted": 110304
+    },
+    "20250516_00_20250516_12": {
+      "bids": 111700,
+      "asks": 111746,
+      "invalid_dropped": 0,
+      "merged": 115302,
+      "inserted": 115302
+    },
+    "20250516_12_20250517_00": {
+      "bids": 86539,
+      "asks": 86620,
+      "invalid_dropped": 0,
+      "merged": 91637,
+      "inserted": 91637
+    },
+    "20250518_12_20250519_00": {
+      "bids": 13725,
+      "asks": 13725,
+      "invalid_dropped": 0,
+      "merged": 13938,
+      "inserted": 13938
+    },
+    "20250519_00_20250519_12": {
+      "bids": 92619,
+      "asks": 92766,
+      "invalid_dropped": 0,
+      "merged": 96100,
+      "inserted": 96100
+    },
+    "20250519_12_20250520_00": {
+      "bids": 82874,
+      "asks": 82888,
+      "invalid_dropped": 0,
+      "merged": 88047,
+      "inserted": 88047
+    },
+    "20250520_00_20250520_12": {
+      "bids": 92795,
+      "asks": 92982,
+      "invalid_dropped": 0,
+      "merged": 96827,
+      "inserted": 96827
+    },
+    "20250520_12_20250521_00": {
+      "bids": 101868,
+      "asks": 102195,
+      "invalid_dropped": 0,
+      "merged": 106702,
+      "inserted": 106702
+    },
+    "20250521_00_20250521_12": {
+      "bids": 99351,
+      "asks": 99587,
+      "invalid_dropped": 0,
+      "merged": 103132,
+      "inserted": 103132
+    },
+    "20250521_12_20250522_00": {
+      "bids": 104025,
+      "asks": 104048,
+      "invalid_dropped": 0,
+      "merged": 109069,
+      "inserted": 109069
+    },
+    "20250522_00_20250522_12": {
+      "bids": 113797,
+      "asks": 113964,
+      "invalid_dropped": 0,
+      "merged": 115845,
+      "inserted": 115845
+    },
+    "20250522_12_20250523_00": {
+      "bids": 106266,
+      "asks": 106452,
+      "invalid_dropped": 1,
+      "merged": 108789,
+      "inserted": 108789
+    },
+    "20250523_00_20250523_12": {
+      "bids": 99577,
+      "asks": 99739,
+      "invalid_dropped": 0,
+      "merged": 101430,
+      "inserted": 101430
+    },
+    "20250523_12_20250524_00": {
+      "bids": 102618,
+      "asks": 102813,
+      "invalid_dropped": 0,
+      "merged": 104080,
+      "inserted": 104080
+    },
+    "20250525_12_20250526_00": {
+      "bids": 9497,
+      "asks": 9500,
+      "invalid_dropped": 1,
+      "merged": 9761,
+      "inserted": 9761
+    },
+    "20250526_00_20250526_12": {
+      "bids": 73551,
+      "asks": 73613,
+      "invalid_dropped": 0,
+      "merged": 75654,
+      "inserted": 75654
+    },
+    "20250526_12_20250527_00": {
+      "bids": 37348,
+      "asks": 37385,
+      "invalid_dropped": 0,
+      "merged": 38839,
+      "inserted": 38839
+    },
+    "20250527_00_20250527_12": {
+      "bids": 103714,
+      "asks": 104054,
+      "invalid_dropped": 0,
+      "merged": 106094,
+      "inserted": 106094
+    },
+    "20250527_12_20250528_00": {
+      "bids": 84777,
+      "asks": 84846,
+      "invalid_dropped": 0,
+      "merged": 88393,
+      "inserted": 88393
+    },
+    "20250528_00_20250528_12": {
+      "bids": 89896,
+      "asks": 90027,
+      "invalid_dropped": 0,
+      "merged": 91850,
+      "inserted": 91850
+    },
+    "20250528_12_20250529_00": {
+      "bids": 101138,
+      "asks": 101307,
+      "invalid_dropped": 0,
+      "merged": 104240,
+      "inserted": 104240
+    },
+    "20250529_00_20250529_12": {
+      "bids": 105297,
+      "asks": 105433,
+      "invalid_dropped": 0,
+      "merged": 107333,
+      "inserted": 107333
+    },
+    "20250529_12_20250530_00": {
+      "bids": 89523,
+      "asks": 89564,
+      "invalid_dropped": 0,
+      "merged": 91698,
+      "inserted": 91698
+    },
+    "20250530_00_20250530_12": {
+      "bids": 86941,
+      "asks": 87089,
+      "invalid_dropped": 0,
+      "merged": 89742,
+      "inserted": 89742
+    },
+    "20250530_12_20250531_00": {
+      "bids": 87410,
+      "asks": 87475,
+      "invalid_dropped": 0,
+      "merged": 89327,
+      "inserted": 89327
+    },
+    "20250601_12_20250602_00": {
+      "bids": 9774,
+      "asks": 9767,
+      "invalid_dropped": 0,
+      "merged": 10096,
+      "inserted": 10096
+    },
+    "20250602_00_20250602_12": {
+      "bids": 90335,
+      "asks": 90600,
+      "invalid_dropped": 0,
+      "merged": 92714,
+      "inserted": 92714
+    },
+    "20250602_12_20250603_00": {
+      "bids": 90872,
+      "asks": 90893,
+      "invalid_dropped": 0,
+      "merged": 92831,
+      "inserted": 92831
+    },
+    "20250603_00_20250603_12": {
+      "bids": 93931,
+      "asks": 94260,
+      "invalid_dropped": 0,
+      "merged": 96691,
+      "inserted": 96691
+    },
+    "20250603_12_20250604_00": {
+      "bids": 73587,
+      "asks": 73629,
+      "invalid_dropped": 0,
+      "merged": 75604,
+      "inserted": 75604
+    },
+    "20250604_00_20250604_12": {
+      "bids": 89027,
+      "asks": 89312,
+      "invalid_dropped": 0,
+      "merged": 91631,
+      "inserted": 91631
+    },
+    "20250604_12_20250605_00": {
+      "bids": 78617,
+      "asks": 78878,
+      "invalid_dropped": 0,
+      "merged": 80827,
+      "inserted": 80827
+    },
+    "20250605_00_20250605_12": {
+      "bids": 91978,
+      "asks": 92201,
+      "invalid_dropped": 0,
+      "merged": 94459,
+      "inserted": 94459
+    },
+    "20250605_12_20250606_00": {
+      "bids": 116724,
+      "asks": 116732,
+      "invalid_dropped": 1,
+      "merged": 118390,
+      "inserted": 118390
+    },
+    "20250606_00_20250606_12": {
+      "bids": 90177,
+      "asks": 90359,
+      "invalid_dropped": 0,
+      "merged": 92497,
+      "inserted": 92497
+    },
+    "20250606_12_20250607_00": {
+      "bids": 98528,
+      "asks": 98554,
+      "invalid_dropped": 0,
+      "merged": 99775,
+      "inserted": 99775
+    },
+    "20250608_12_20250609_00": {
+      "bids": 8060,
+      "asks": 8127,
+      "invalid_dropped": 0,
+      "merged": 8468,
+      "inserted": 8468
+    },
+    "20250609_00_20250609_12": {
+      "bids": 85737,
+      "asks": 85804,
+      "invalid_dropped": 0,
+      "merged": 88459,
+      "inserted": 88459
+    },
+    "20250609_12_20250610_00": {
+      "bids": 75646,
+      "asks": 75772,
+      "invalid_dropped": 0,
+      "merged": 77887,
+      "inserted": 77887
+    },
+    "20250610_00_20250610_12": {
+      "bids": 91331,
+      "asks": 91492,
+      "invalid_dropped": 0,
+      "merged": 94008,
+      "inserted": 94008
+    },
+    "20250610_12_20250611_00": {
+      "bids": 82604,
+      "asks": 82593,
+      "invalid_dropped": 0,
+      "merged": 84730,
+      "inserted": 84730
+    },
+    "20250611_00_20250611_12": {
+      "bids": 79898,
+      "asks": 79935,
+      "invalid_dropped": 0,
+      "merged": 82695,
+      "inserted": 82695
+    },
+    "20250611_12_20250612_00": {
+      "bids": 104967,
+      "asks": 104986,
+      "invalid_dropped": 0,
+      "merged": 107123,
+      "inserted": 107123
+    },
+    "20250612_00_20250612_12": {
+      "bids": 106425,
+      "asks": 106461,
+      "invalid_dropped": 0,
+      "merged": 108965,
+      "inserted": 108965
+    }
+  }
+}

@@ -1,0 +1,6 @@
+scenario,description,trades,wins,losses,breakevens,win_rate_pct,gross_mid_pnl_usd,spread_cost_usd,commission_usd,slippage_usd,swap_usd,net_pnl_usd,pf,final_equity_usd,closed_max_dd_usd,closed_max_dd_pct,mtm_max_dd_usd,mtm_max_dd_pct,max_identity_error_usd
+A_zero_cost,"Zero-cost reference ($0 comm, 0.0p slip, $0 swap)",118,66,51,1,55.93,589.46,188.82,0.0,0.0,0.0,400.64,1.0926,10400.64,-1267.2,11.48,-1354.97,12.2,0.0
+B_task4_stress_7usd_03p,"Task 4 baseline stress ($7/lot RT comm, 0.3p/side slip, $0 swap)",118,64,53,1,54.24,540.66,181.4,125.3,103.26,0.0,130.7,1.0303,10130.7,-1339.65,12.22,-1412.95,12.83,0.0
+C0_verified_broker_demo_median_0p,Verified broker notional comm ($12/$1M/side) + 0.0p demo median slip + actual swap ($0),118,64,54,0,54.24,505.01,183.88,177.46,0.0,0.0,143.67,1.0334,10143.67,-1312.65,12.0,-1385.44,12.6,0.0
+C_verified_broker_demo_mean,Verified broker notional comm ($12/$1M/side) + 0.0533p demo mean slip + actual swap ($0),118,65,53,0,55.08,495.01,183.46,177.26,18.19,0.0,116.09,1.027,10116.09,-1333.53,12.19,-1406.47,12.8,0.0
+D_conservative_p95_spread_03p_slip,Verified broker notional comm ($12/$1M/side) + p95 spread floor ($0.12) + 0.3p/side slip + actual swap ($0),118,55,63,0,46.61,511.51,256.1,176.27,101.82,0.0,-22.68,0.9948,9977.32,-1404.65,12.88,-1475.22,13.47,0.0

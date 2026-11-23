@@ -1,0 +1,201 @@
+{
+  "task": "G3.5R_REGRESSION_RESULTS",
+  "generated_at_utc": "2026-11-23T11:02:08.080746+00:00",
+  "overall_status": "PASS",
+  "suites_passed": 12,
+  "suites_total": 12,
+  "results": [
+    {
+      "suite": "test_task_g3_5r_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 1.06,
+      "summary_tail": [
+        "test_clean_room_auditor_zero_goldedge_imports (__main__.TestTaskG35RValidation.test_clean_room_auditor_zero_goldedge_imports) ... ok",
+        "test_phase_e_all_14_synthetic_and_adversarial_scenarios (__main__.TestTaskG35RValidation.test_phase_e_all_14_synthetic_and_adversarial_scenarios) ... ok",
+        "test_safety_locks_and_reconciled_baseline (__main__.TestTaskG35RValidation.test_safety_locks_and_reconciled_baseline) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 3 tests in 0.007s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task_g3_5_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 1.04,
+      "summary_tail": [
+        "test_clean_room_script_zero_goldedge_imports (__main__.TestTaskG35Validation.test_clean_room_script_zero_goldedge_imports) ... ok",
+        "test_phase_h_all_14_adversarial_fault_injections (__main__.TestTaskG35Validation.test_phase_h_all_14_adversarial_fault_injections) ... ok",
+        "test_safety_locks_and_frozen_baselines (__main__.TestTaskG35Validation.test_safety_locks_and_frozen_baselines) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 3 tests in 0.046s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task_g3_4_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 1.35,
+      "summary_tail": [
+        "/usr/local/lib/python3.12/site-packages/lightgbm/sklearn.py:1106: LGBMDeprecationWarning: The argument 'eval_set' is deprecated, use 'eval_X' and 'eval_y' instead.",
+        "  eval_set = _validate_eval_set_Xy(eval_set=eval_set, eval_X=eval_X, eval_y=eval_y)",
+        "ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 3 tests in 0.379s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task_g3_3_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 0.97,
+      "summary_tail": [
+        "test_domain_training_contract_pure_python_hexagonal (__main__.TestTaskG33Validation.test_domain_training_contract_pure_python_hexagonal) ... ok",
+        "test_phase_e4_all_10_discrete_tick_edge_cases (__main__.TestTaskG33Validation.test_phase_e4_all_10_discrete_tick_edge_cases) ... ok",
+        "test_phase_h_all_13_adversarial_fault_injections (__main__.TestTaskG33Validation.test_phase_h_all_13_adversarial_fault_injections) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 5 tests in 0.012s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task_g3_2_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 0.15,
+      "summary_tail": [
+        "test_phase_a_d_e_deliverables_pass (__main__.TestTaskG32Validation.test_phase_a_d_e_deliverables_pass) ... ok",
+        "test_safety_locks_and_frozen_artifacts (__main__.TestTaskG32Validation.test_safety_locks_and_frozen_artifacts) ... ok",
+        "test_tick_chronological_barrier_ordering_same_minute (__main__.TestTaskG32Validation.test_tick_chronological_barrier_ordering_same_minute) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 8 tests in 0.011s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task_g3_1_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 0.39,
+      "summary_tail": [
+        "test_phase_h_reconciliation_pass (__main__.TestTaskG31Validation.test_phase_h_reconciliation_pass) ... ok",
+        "test_quarantine_and_843_bar_reconciliation_in_audit_json (__main__.TestTaskG31Validation.test_quarantine_and_843_bar_reconciliation_in_audit_json) ... ok",
+        "test_safety_locks_and_frozen_artifacts (__main__.TestTaskG31Validation.test_safety_locks_and_frozen_artifacts) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 9 tests in 0.035s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task_g2_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 39.32,
+      "summary_tail": [
+        "ok",
+        "test_hexagonal_pure_python_and_legacy_mode_unchanged (__main__.TestTaskG2Validation.test_hexagonal_pure_python_and_legacy_mode_unchanged) ... ok",
+        "test_safety_locks_unchanged (__main__.TestTaskG2Validation.test_safety_locks_unchanged) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 6 tests in 37.733s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task_g1_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 1.83,
+      "summary_tail": [
+        "See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.",
+        "  df.set_index(\"time\", inplace=True)",
+        "ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 6 tests in 0.355s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_remediation_b1_b6.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 1.36,
+      "summary_tail": [
+        "See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#whatsnew-310-deprecations-values for more details.",
+        "  warnings.warn(",
+        "ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 4 tests in 0.334s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_shadow_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 1.48,
+      "summary_tail": [
+        "test_shadow_journal_dedup_and_restart_recovery (__main__.TestShadowValidation.test_shadow_journal_dedup_and_restart_recovery) ... ok",
+        "test_shadow_tracker_separates_buy_and_sell_stats (__main__.TestShadowValidation.test_shadow_tracker_separates_buy_and_sell_stats) ... ok",
+        "test_shadow_tracker_three_independent_portfolios_and_hwm_alerts (__main__.TestShadowValidation.test_shadow_tracker_three_independent_portfolios_and_hwm_alerts) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 8 tests in 0.444s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task6c_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 5.09,
+      "summary_tail": [
+        "See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#whatsnew-310-deprecations-values for more details.",
+        "  warnings.warn(",
+        "ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 3 tests in 4.183s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task8_hwm_kill_switch.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 2.25,
+      "summary_tail": [
+        "2026-11-23 11:01:18,592 - goldedge.adapters.secondary.db.connection_pool - INFO - SQLAlchemy engine created (pool_size=5, max_overflow=10)",
+        "2026-11-23 11:01:18,594 - goldedge.adapters.secondary.ml.ridge_pnl_adapter - INFO - Loaded Ridge expected-PnL model from models/gold_ridge_pnl.pkl (11 features, trained_on=165).",
+        "ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 15 tests in 1.089s",
+        "",
+        "OK"
+      ]
+    }
+  ]
+}

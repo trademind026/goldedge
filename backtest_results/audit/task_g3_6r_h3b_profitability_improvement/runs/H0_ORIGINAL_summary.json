@@ -1,0 +1,30 @@
+{
+  "name": "H0_ORIGINAL",
+  "config": {
+    "name": "H0_ORIGINAL",
+    "session_close_utc": 17,
+    "early_fail_mins": null,
+    "early_fail_min_mfe_atr": null,
+    "min_score_threshold": 0.6,
+    "max_kaufman_er": null,
+    "be_trigger_atr": 1.0
+  },
+  "trades": 265,
+  "unique_days": 102,
+  "win_rate_pct": 0.52,
+  "net_pnl_usd": -301.47,
+  "final_equity_usd": 9698.53,
+  "total_net_r": -6.342,
+  "mean_net_r": -0.02393,
+  "pf": 0.935,
+  "closed_max_dd_usd": -649.28,
+  "closed_max_dd_pct": 6.36,
+  "mtm_max_dd_usd": -696.63,
+  "mtm_max_dd_pct": 6.8,
+  "hwm_kill_switch_halted": false,
+  "total_commission_usd": 176.43,
+  "total_slippage_usd": 18.04,
+  "trades_parquet": "backtest_results/audit/task_g3_6r_h3b_profitability_improvement/runs/H0_ORIGINAL_trades.parquet",
+  "trades_parquet_sha256": "AA324D5564EE2E92B3C363DA6C3AA3D74044626A03023167493B12F17AE9D955",
+  "elapsed_sec": 727.3
+}

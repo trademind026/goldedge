@@ -1,0 +1,1917 @@
+{
+  "task": "G3.1_PHASE_A_HISTORICAL_DATA_AUDIT",
+  "generated_at_utc": "2026-11-22T16:26:29.304544+00:00",
+  "git_head": "unknown",
+  "tables": {
+    "market_ticks": {
+      "row_count": 19959292,
+      "min_time": "2026-08-13T00:00:00.153000+00:00",
+      "max_time": "2026-11-22T16:00:02.669772+00:00",
+      "columns": [
+        {
+          "name": "time",
+          "type": "timestamp with time zone",
+          "nullable": "NO"
+        },
+        {
+          "name": "symbol",
+          "type": "character varying",
+          "nullable": "NO"
+        },
+        {
+          "name": "bid",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "ask",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "last",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "volume",
+          "type": "bigint",
+          "nullable": "YES"
+        },
+        {
+          "name": "flags",
+          "type": "integer",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "market_ticks_pkey",
+          "def": "CREATE UNIQUE INDEX market_ticks_pkey ON public.market_ticks USING btree (symbol, \"time\")"
+        },
+        {
+          "name": "market_ticks_time_idx",
+          "def": "CREATE INDEX market_ticks_time_idx ON public.market_ticks USING btree (\"time\" DESC)"
+        }
+      ]
+    },
+    "market_bars_1m": {
+      "row_count": 20175,
+      "min_time": "2026-08-06T00:00:00+00:00",
+      "max_time": "2026-11-19T11:45:00+00:00",
+      "columns": [
+        {
+          "name": "time",
+          "type": "timestamp with time zone",
+          "nullable": "NO"
+        },
+        {
+          "name": "symbol",
+          "type": "character varying",
+          "nullable": "NO"
+        },
+        {
+          "name": "open",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "high",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "low",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "close",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "tick_volume",
+          "type": "bigint",
+          "nullable": "NO"
+        },
+        {
+          "name": "real_volume",
+          "type": "bigint",
+          "nullable": "YES"
+        },
+        {
+          "name": "spread",
+          "type": "integer",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "market_bars_1m_pkey",
+          "def": "CREATE UNIQUE INDEX market_bars_1m_pkey ON public.market_bars_1m USING btree (symbol, \"time\")"
+        },
+        {
+          "name": "market_bars_1m_time_idx",
+          "def": "CREATE INDEX market_bars_1m_time_idx ON public.market_bars_1m USING btree (\"time\" DESC)"
+        }
+      ]
+    },
+    "market_bars_1m_quote_semantics_v1": {
+      "row_count": 96020,
+      "min_time": "2026-08-13T00:00:00+00:00",
+      "max_time": "2026-11-18T18:08:00+00:00",
+      "columns": [
+        {
+          "name": "time",
+          "type": "timestamp with time zone",
+          "nullable": "NO"
+        },
+        {
+          "name": "symbol",
+          "type": "character varying",
+          "nullable": "NO"
+        },
+        {
+          "name": "open",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "high",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "low",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "close",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "tick_count",
+          "type": "bigint",
+          "nullable": "NO"
+        },
+        {
+          "name": "tick_rate",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "real_volume",
+          "type": "bigint",
+          "nullable": "YES"
+        },
+        {
+          "name": "spread_points",
+          "type": "integer",
+          "nullable": "NO"
+        },
+        {
+          "name": "raw_quote_count",
+          "type": "bigint",
+          "nullable": "NO"
+        },
+        {
+          "name": "invalid_quote_count",
+          "type": "bigint",
+          "nullable": "NO"
+        },
+        {
+          "name": "is_feed_gap",
+          "type": "boolean",
+          "nullable": "NO"
+        },
+        {
+          "name": "semantic_version",
+          "type": "character varying",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "market_bars_1m_quote_semantics_v1_pkey",
+          "def": "CREATE UNIQUE INDEX market_bars_1m_quote_semantics_v1_pkey ON public.market_bars_1m_quote_semantics_v1 USING btree (symbol, \"time\")"
+        }
+      ]
+    },
+    "v_market_ticks_quote_semantics_v1": {
+      "row_count": 19959292,
+      "min_time": "2026-08-13T00:00:00.153000+00:00",
+      "max_time": "2026-11-22T16:00:02.669772+00:00",
+      "columns": [
+        {
+          "name": "time",
+          "type": "timestamp with time zone",
+          "nullable": "YES"
+        },
+        {
+          "name": "symbol",
+          "type": "character varying",
+          "nullable": "YES"
+        },
+        {
+          "name": "bid",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "ask",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "price",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "real_volume",
+          "type": "bigint",
+          "nullable": "YES"
+        },
+        {
+          "name": "flags",
+          "type": "integer",
+          "nullable": "YES"
+        },
+        {
+          "name": "is_valid_quote",
+          "type": "boolean",
+          "nullable": "YES"
+        },
+        {
+          "name": "tick_count_unit",
+          "type": "integer",
+          "nullable": "YES"
+        },
+        {
+          "name": "is_quarantined",
+          "type": "boolean",
+          "nullable": "YES"
+        },
+        {
+          "name": "is_ml_eligible_quote",
+          "type": "boolean",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": []
+    },
+    "v_market_bars_1m_timeline_v1": {
+      "row_count": 122162,
+      "min_time": "2026-08-24T00:00:00+00:00",
+      "max_time": "2026-11-16T20:01:00+00:00",
+      "columns": [
+        {
+          "name": "time",
+          "type": "timestamp with time zone",
+          "nullable": "YES"
+        },
+        {
+          "name": "symbol",
+          "type": "character varying",
+          "nullable": "YES"
+        },
+        {
+          "name": "open",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "high",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "low",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "close",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "tick_count",
+          "type": "bigint",
+          "nullable": "YES"
+        },
+        {
+          "name": "tick_rate",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "real_volume",
+          "type": "bigint",
+          "nullable": "YES"
+        },
+        {
+          "name": "spread_points",
+          "type": "integer",
+          "nullable": "YES"
+        },
+        {
+          "name": "raw_quote_count",
+          "type": "bigint",
+          "nullable": "YES"
+        },
+        {
+          "name": "invalid_quote_count",
+          "type": "bigint",
+          "nullable": "YES"
+        },
+        {
+          "name": "is_feed_gap",
+          "type": "boolean",
+          "nullable": "YES"
+        },
+        {
+          "name": "semantic_version",
+          "type": "character varying",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": []
+    },
+    "market_features": {
+      "row_count": 0,
+      "min_time": null,
+      "max_time": null,
+      "columns": [
+        {
+          "name": "time",
+          "type": "timestamp with time zone",
+          "nullable": "NO"
+        },
+        {
+          "name": "symbol",
+          "type": "character varying",
+          "nullable": "NO"
+        },
+        {
+          "name": "atr_14",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "rsi_14",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "macd_line",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "macd_signal",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "session_asia",
+          "type": "boolean",
+          "nullable": "YES"
+        },
+        {
+          "name": "session_london",
+          "type": "boolean",
+          "nullable": "YES"
+        },
+        {
+          "name": "session_ny",
+          "type": "boolean",
+          "nullable": "YES"
+        },
+        {
+          "name": "session_overlap",
+          "type": "boolean",
+          "nullable": "YES"
+        },
+        {
+          "name": "close_kalman",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "kalman_vel",
+          "type": "double precision",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "market_features_pkey",
+          "def": "CREATE UNIQUE INDEX market_features_pkey ON public.market_features USING btree (symbol, \"time\")"
+        }
+      ]
+    },
+    "market_signals": {
+      "row_count": 0,
+      "min_time": null,
+      "max_time": null,
+      "columns": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": "NO"
+        },
+        {
+          "name": "time",
+          "type": "timestamp with time zone",
+          "nullable": "NO"
+        },
+        {
+          "name": "symbol",
+          "type": "character varying",
+          "nullable": "NO"
+        },
+        {
+          "name": "direction",
+          "type": "character varying",
+          "nullable": "NO"
+        },
+        {
+          "name": "strategy",
+          "type": "character varying",
+          "nullable": "NO"
+        },
+        {
+          "name": "score",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "regime",
+          "type": "character varying",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "market_signals_pkey",
+          "def": "CREATE UNIQUE INDEX market_signals_pkey ON public.market_signals USING btree (id)"
+        },
+        {
+          "name": "idx_market_signals_time",
+          "def": "CREATE INDEX idx_market_signals_time ON public.market_signals USING btree (\"time\")"
+        }
+      ]
+    },
+    "market_orders": {
+      "row_count": 0,
+      "min_time": null,
+      "max_time": null,
+      "columns": [
+        {
+          "name": "ticket",
+          "type": "bigint",
+          "nullable": "NO"
+        },
+        {
+          "name": "signal_id",
+          "type": "integer",
+          "nullable": "YES"
+        },
+        {
+          "name": "time_setup",
+          "type": "timestamp with time zone",
+          "nullable": "NO"
+        },
+        {
+          "name": "symbol",
+          "type": "character varying",
+          "nullable": "NO"
+        },
+        {
+          "name": "type",
+          "type": "character varying",
+          "nullable": "NO"
+        },
+        {
+          "name": "volume",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "price",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "sl",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "tp",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "market_orders_pkey",
+          "def": "CREATE UNIQUE INDEX market_orders_pkey ON public.market_orders USING btree (ticket)"
+        },
+        {
+          "name": "idx_market_orders_time",
+          "def": "CREATE INDEX idx_market_orders_time ON public.market_orders USING btree (time_setup)"
+        }
+      ]
+    },
+    "market_trades": {
+      "row_count": 0,
+      "min_time": null,
+      "max_time": null,
+      "columns": [
+        {
+          "name": "ticket",
+          "type": "bigint",
+          "nullable": "NO"
+        },
+        {
+          "name": "time_execution",
+          "type": "timestamp with time zone",
+          "nullable": "NO"
+        },
+        {
+          "name": "time_closing",
+          "type": "timestamp with time zone",
+          "nullable": "YES"
+        },
+        {
+          "name": "symbol",
+          "type": "character varying",
+          "nullable": "NO"
+        },
+        {
+          "name": "type",
+          "type": "character varying",
+          "nullable": "NO"
+        },
+        {
+          "name": "volume",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "price_open",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "price_sl",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "price_tp",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "price_close",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "commission",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "swap",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "profit",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "nullable": "NO"
+        },
+        {
+          "name": "ml_score",
+          "type": "double precision",
+          "nullable": "YES"
+        },
+        {
+          "name": "risk_profile",
+          "type": "character varying",
+          "nullable": "YES"
+        },
+        {
+          "name": "journey_log",
+          "type": "jsonb",
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "market_trades_pkey",
+          "def": "CREATE UNIQUE INDEX market_trades_pkey ON public.market_trades USING btree (ticket)"
+        },
+        {
+          "name": "idx_market_trades_time",
+          "def": "CREATE INDEX idx_market_trades_time ON public.market_trades USING btree (time_execution)"
+        },
+        {
+          "name": "idx_market_trades_status",
+          "def": "CREATE INDEX idx_market_trades_status ON public.market_trades USING btree (status)"
+        },
+        {
+          "name": "idx_market_trades_journey",
+          "def": "CREATE INDEX idx_market_trades_journey ON public.market_trades USING gin (journey_log)"
+        }
+      ]
+    },
+    "backtest_runs": {
+      "row_count": 12,
+      "min_time": null,
+      "max_time": null,
+      "columns": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": "NO"
+        },
+        {
+          "name": "run_id",
+          "type": "text",
+          "nullable": "NO"
+        },
+        {
+          "name": "symbol",
+          "type": "text",
+          "nullable": "NO"
+        },
+        {
+          "name": "risk",
+          "type": "text",
+          "nullable": "NO"
+        },
+        {
+          "name": "exit_agent",
+          "type": "text",
+          "nullable": "NO"
+        },
+        {
+          "name": "start_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "end_date",
+          "type": "date",
+          "nullable": "NO"
+        },
+        {
+          "name": "trades",
+          "type": "integer",
+          "nullable": "NO"
+        },
+        {
+          "name": "win_rate",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "pnl",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "max_dd",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "pf",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "avg_win",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "avg_loss",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "rr",
+          "type": "double precision",
+          "nullable": "NO"
+        },
+        {
+          "name": "equity_curve",
+          "type": "jsonb",
+          "nullable": "NO"
+        },
+        {
+          "name": "trade_list",
+          "type": "jsonb",
+          "nullable": "NO"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": "NO"
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": "NO"
+        },
+        {
+          "name": "strategy_mode",
+          "type": "text",
+          "nullable": "NO"
+        },
+        {
+          "name": "error",
+          "type": "text",
+          "nullable": "YES"
+        },
+        {
+          "name": "metrics",
+          "type": "jsonb",
+          "nullable": "NO"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "backtest_runs_pkey",
+          "def": "CREATE UNIQUE INDEX backtest_runs_pkey ON public.backtest_runs USING btree (id)"
+        },
+        {
+          "name": "backtest_runs_run_id_key",
+          "def": "CREATE UNIQUE INDEX backtest_runs_run_id_key ON public.backtest_runs USING btree (run_id)"
+        },
+        {
+          "name": "idx_backtest_runs_created_at",
+          "def": "CREATE INDEX idx_backtest_runs_created_at ON public.backtest_runs USING btree (created_at DESC)"
+        },
+        {
+          "name": "idx_backtest_runs_risk",
+          "def": "CREATE INDEX idx_backtest_runs_risk ON public.backtest_runs USING btree (risk)"
+        }
+      ]
+    }
+  },
+  "market_ticks_symbols": {
+    "XAUUSD": {
+      "row_count": 19959292,
+      "min_time": "2026-08-13T00:00:00.153000+00:00",
+      "max_time": "2026-11-22T16:00:02.669772+00:00"
+    }
+  },
+  "xauusd_summary": {
+    "total_raw_ticks": 19959292,
+    "total_valid_ticks": 19947247,
+    "total_invalid_ticks": 12045,
+    "valid_pct": 99.939652,
+    "raw_min_time_utc": "2026-08-13T00:00:00.153000+00:00",
+    "raw_max_time_utc": "2026-11-22T16:00:02.669772+00:00",
+    "valid_min_time_utc": "2026-08-13T00:00:00.153000+00:00",
+    "valid_max_time_utc": "2026-11-22T16:00:02.669772+00:00",
+    "non_null_volume_rows": 0,
+    "positive_volume_rows": 0,
+    "g2_reference_total_ticks": 19959291,
+    "delta_vs_g2_reference": 1
+  },
+  "timestamp_semantics": {
+    "column_type": "timestamp with time zone (UTC stored)",
+    "primary_key_prevents_exact_dups": "(symbol, time)",
+    "sub_millisecond_rows": 406203,
+    "whole_second_rows": 15241,
+    "distinct_millisecond_timestamps": 19957772,
+    "millisecond_collision_rows": 1520
+  },
+  "quote_validity": {
+    "null_bid_or_ask": 0,
+    "nonpositive_price": 0,
+    "inverted_bid_gt_ask": 11612,
+    "zero_spread_bid_eq_ask": 433,
+    "valid_strict_bid_lt_ask": 19947247
+  },
+  "spread_distribution": {
+    "n_valid_quotes": 19947247,
+    "min_usd": 0.01,
+    "p01_usd": 0.03,
+    "p05_usd": 0.03,
+    "p25_usd": 0.05,
+    "p50_median_usd": 0.07,
+    "p75_usd": 0.09,
+    "p95_usd": 0.12,
+    "p99_usd": 0.2,
+    "max_usd": 7.2,
+    "max_spread_time_utc": "2026-09-10T22:00:00.471000+00:00",
+    "mean_usd": 0.07402,
+    "std_usd": 0.05867,
+    "count_gt_1_usd": 4509,
+    "count_gt_2_usd": 2163,
+    "count_gt_5_usd": 15,
+    "count_gt_10_usd": 0
+  },
+  "price_jump_anomalies": {
+    "counts": {
+      "gt_2_within_1s": 759,
+      "gt_5_within_1s": 47,
+      "gt_10_within_1s": 7,
+      "gt_5_within_60s": 48,
+      "gt_10_within_60s": 8,
+      "gt_20_within_60s": 4
+    },
+    "top_20_jumps_within_60s": [
+      {
+        "time_utc": "2026-09-04T12:30:06.841000+00:00",
+        "dt_sec": 5.776,
+        "prev_mid": 4472.87,
+        "next_mid": 4427.6,
+        "abs_jump_usd": 45.27
+      },
+      {
+        "time_utc": "2026-09-11T12:30:01.461000+00:00",
+        "dt_sec": 0.305,
+        "prev_mid": 4347.44,
+        "next_mid": 4311.26,
+        "abs_jump_usd": 36.18
+      },
+      {
+        "time_utc": "2026-10-02T12:30:02.053000+00:00",
+        "dt_sec": 0.957,
+        "prev_mid": 4187.925,
+        "next_mid": 4214.04,
+        "abs_jump_usd": 26.115
+      },
+      {
+        "time_utc": "2026-10-14T12:30:01.443000+00:00",
+        "dt_sec": 0.245,
+        "prev_mid": 4153.52,
+        "next_mid": 4130.01,
+        "abs_jump_usd": 23.51
+      },
+      {
+        "time_utc": "2026-11-10T13:30:06.369000+00:00",
+        "dt_sec": 0.243,
+        "prev_mid": 4069.825,
+        "next_mid": 4051.075,
+        "abs_jump_usd": 18.75
+      },
+      {
+        "time_utc": "2026-09-03T12:30:06.338000+00:00",
+        "dt_sec": 0.261,
+        "prev_mid": 4465.415,
+        "next_mid": 4447.6,
+        "abs_jump_usd": 17.815
+      },
+      {
+        "time_utc": "2026-11-06T13:30:01.837000+00:00",
+        "dt_sec": 0.674,
+        "prev_mid": 4061.415,
+        "next_mid": 4043.745,
+        "abs_jump_usd": 17.67
+      },
+      {
+        "time_utc": "2026-09-10T22:00:00.590000+00:00",
+        "dt_sec": 0.119,
+        "prev_mid": 4336.88,
+        "next_mid": 4320.53,
+        "abs_jump_usd": 16.35
+      }
+    ]
+  },
+  "stale_identical_quotes": {
+    "out_of_order_timestamps": 0,
+    "consecutive_identical_bid_ask_count": 380,
+    "consecutive_identical_pct": 0.0019,
+    "max_consecutive_identical_run": 7
+  },
+  "session_quote_frequency": {
+    "ASIA_00_07": {
+      "valid_ticks": 5988879,
+      "valid_1m_bars": 29664,
+      "ticks_per_min": 201.89
+    },
+    "LONDON_07_12": {
+      "valid_ticks": 4040655,
+      "valid_1m_bars": 21286,
+      "ticks_per_min": 189.83
+    },
+    "OVERLAP_12_17": {
+      "valid_ticks": 6011724,
+      "valid_1m_bars": 21001,
+      "ticks_per_min": 286.26
+    },
+    "NY_17_20": {
+      "valid_ticks": 2575951,
+      "valid_1m_bars": 12509,
+      "ticks_per_min": 205.93
+    },
+    "OFF_20_24": {
+      "valid_ticks": 1330038,
+      "valid_1m_bars": 12403,
+      "ticks_per_min": 107.24
+    }
+  },
+  "monthly_quote_frequency": {
+    "2026-08": {
+      "raw_ticks": 3595340,
+      "valid_ticks": 3593870,
+      "active_days": 16,
+      "valid_1m_bars": 17924,
+      "ticks_per_valid_1m_bar": 200.51,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.12
+    },
+    "2026-09": {
+      "raw_ticks": 6255156,
+      "valid_ticks": 6251226,
+      "active_days": 26,
+      "valid_1m_bars": 30185,
+      "ticks_per_valid_1m_bar": 207.1,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.12
+    },
+    "2026-10": {
+      "raw_ticks": 6000589,
+      "valid_ticks": 5995531,
+      "active_days": 26,
+      "valid_1m_bars": 30209,
+      "ticks_per_valid_1m_bar": 198.47,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "2026-11": {
+      "raw_ticks": 4108207,
+      "valid_ticks": 4106620,
+      "active_days": 18,
+      "valid_1m_bars": 18545,
+      "ticks_per_valid_1m_bar": 221.44,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    }
+  },
+  "hourly_quote_frequency": {
+    "00": {
+      "session": "ASIA_00_07",
+      "valid_ticks": 853628,
+      "valid_1m_bars": 4260,
+      "ticks_per_min": 200.38,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "01": {
+      "session": "ASIA_00_07",
+      "valid_ticks": 1166210,
+      "valid_1m_bars": 4260,
+      "ticks_per_min": 273.76,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "02": {
+      "session": "ASIA_00_07",
+      "valid_ticks": 917485,
+      "valid_1m_bars": 4235,
+      "ticks_per_min": 216.64,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "03": {
+      "session": "ASIA_00_07",
+      "valid_ticks": 723043,
+      "valid_1m_bars": 4200,
+      "ticks_per_min": 172.15,
+      "median_spread_usd": 0.06,
+      "p95_spread_usd": 0.11
+    },
+    "04": {
+      "session": "ASIA_00_07",
+      "valid_ticks": 565323,
+      "valid_1m_bars": 4199,
+      "ticks_per_min": 134.63,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "05": {
+      "session": "ASIA_00_07",
+      "valid_ticks": 844367,
+      "valid_1m_bars": 4250,
+      "ticks_per_min": 198.67,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "06": {
+      "session": "ASIA_00_07",
+      "valid_ticks": 918823,
+      "valid_1m_bars": 4260,
+      "ticks_per_min": 215.69,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "07": {
+      "session": "LONDON_07_12",
+      "valid_ticks": 854011,
+      "valid_1m_bars": 4260,
+      "ticks_per_min": 200.47,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "08": {
+      "session": "LONDON_07_12",
+      "valid_ticks": 886264,
+      "valid_1m_bars": 4260,
+      "ticks_per_min": 208.04,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "09": {
+      "session": "LONDON_07_12",
+      "valid_ticks": 792239,
+      "valid_1m_bars": 4260,
+      "ticks_per_min": 185.97,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "10": {
+      "session": "LONDON_07_12",
+      "valid_ticks": 719953,
+      "valid_1m_bars": 4260,
+      "ticks_per_min": 169.0,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "11": {
+      "session": "LONDON_07_12",
+      "valid_ticks": 788188,
+      "valid_1m_bars": 4246,
+      "ticks_per_min": 185.63,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.12
+    },
+    "12": {
+      "session": "OVERLAP_12_17",
+      "valid_ticks": 1039656,
+      "valid_1m_bars": 4200,
+      "ticks_per_min": 247.54,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.13
+    },
+    "13": {
+      "session": "OVERLAP_12_17",
+      "valid_ticks": 1352188,
+      "valid_1m_bars": 4200,
+      "ticks_per_min": 321.95,
+      "median_spread_usd": 0.08,
+      "p95_spread_usd": 0.13
+    },
+    "14": {
+      "session": "OVERLAP_12_17",
+      "valid_ticks": 1373436,
+      "valid_1m_bars": 4200,
+      "ticks_per_min": 327.01,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.12
+    },
+    "15": {
+      "session": "OVERLAP_12_17",
+      "valid_ticks": 1227201,
+      "valid_1m_bars": 4200,
+      "ticks_per_min": 292.19,
+      "median_spread_usd": 0.06,
+      "p95_spread_usd": 0.12
+    },
+    "16": {
+      "session": "OVERLAP_12_17",
+      "valid_ticks": 1019243,
+      "valid_1m_bars": 4201,
+      "ticks_per_min": 242.62,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "17": {
+      "session": "NY_17_20",
+      "valid_ticks": 898314,
+      "valid_1m_bars": 4200,
+      "ticks_per_min": 213.88,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "18": {
+      "session": "NY_17_20",
+      "valid_ticks": 843879,
+      "valid_1m_bars": 4170,
+      "ticks_per_min": 202.37,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.12
+    },
+    "19": {
+      "session": "NY_17_20",
+      "valid_ticks": 833758,
+      "valid_1m_bars": 4139,
+      "ticks_per_min": 201.44,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "20": {
+      "session": "OFF_20_24",
+      "valid_ticks": 476269,
+      "valid_1m_bars": 4084,
+      "ticks_per_min": 116.62,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.2
+    },
+    "21": {
+      "session": "OFF_20_24",
+      "valid_ticks": 82450,
+      "valid_1m_bars": 769,
+      "ticks_per_min": 107.22,
+      "median_spread_usd": 0.08,
+      "p95_spread_usd": 0.21
+    },
+    "22": {
+      "session": "OFF_20_24",
+      "valid_ticks": 303510,
+      "valid_1m_bars": 3353,
+      "ticks_per_min": 90.52,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    },
+    "23": {
+      "session": "OFF_20_24",
+      "valid_ticks": 467809,
+      "valid_1m_bars": 4197,
+      "ticks_per_min": 111.46,
+      "median_spread_usd": 0.07,
+      "p95_spread_usd": 0.11
+    }
+  },
+  "gaps_summary": {
+    "gaps_1m_to_5m_count": 8,
+    "total_gaps_ge_5m": 75,
+    "weekend_closures": 14,
+    "daily_rollovers": 54,
+    "rollover_adjacent_lulls": 4,
+    "intraday_feed_outages_ge_5m": 3,
+    "total_intraday_outage_minutes": 4940.64,
+    "trading_days_total_weekdays": 72,
+    "trading_days_ok": 69,
+    "trading_days_partial_outage": 1,
+    "trading_days_severe_outage": 1,
+    "trading_days_no_data_weekdays": 1
+  },
+  "intraday_outages_ge_5m": [
+    {
+      "start_utc": "2026-09-07T18:29:59.753000+00:00",
+      "end_utc": "2026-09-07T22:00:01.903000+00:00",
+      "duration_min": 210.04,
+      "classification": "INTRADAY_FEED_OUTAGE",
+      "mid_before": 4406.325,
+      "mid_after": 4412.165,
+      "price_gap_usd": 5.84
+    },
+    {
+      "start_utc": "2026-11-19T02:34:27.202844+00:00",
+      "end_utc": "2026-11-19T05:10:40.289086+00:00",
+      "duration_min": 156.22,
+      "classification": "INTRADAY_FEED_OUTAGE",
+      "mid_before": 3743.01,
+      "mid_after": 3730.74,
+      "price_gap_usd": -12.27
+    },
+    {
+      "start_utc": "2026-11-19T11:45:39.744483+00:00",
+      "end_utc": "2026-11-22T16:00:02.669772+00:00",
+      "duration_min": 4574.38,
+      "classification": "INTRADAY_FEED_OUTAGE",
+      "mid_before": 3725.76,
+      "mid_after": 3538.01,
+      "price_gap_usd": -187.75
+    }
+  ],
+  "rollover_and_weekend_gaps": [
+    {
+      "start_utc": "2026-08-13T20:58:59.923000+00:00",
+      "end_utc": "2026-08-13T22:00:00.526000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4351.2,
+      "mid_after": 4352.72,
+      "price_gap_usd": 1.52
+    },
+    {
+      "start_utc": "2026-08-14T20:58:59.836000+00:00",
+      "end_utc": "2026-08-16T22:01:00.021000+00:00",
+      "duration_min": 2942.0,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 4376.68,
+      "mid_after": 4380.045,
+      "price_gap_usd": 3.365
+    },
+    {
+      "start_utc": "2026-08-17T20:58:59.738000+00:00",
+      "end_utc": "2026-08-17T22:00:00.583000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4416.74,
+      "mid_after": 4418.685,
+      "price_gap_usd": 1.945
+    },
+    {
+      "start_utc": "2026-08-18T20:58:59.880000+00:00",
+      "end_utc": "2026-08-18T22:00:00.577000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4334.36,
+      "mid_after": 4339.965,
+      "price_gap_usd": 5.605
+    },
+    {
+      "start_utc": "2026-08-19T20:58:59.504000+00:00",
+      "end_utc": "2026-08-19T22:00:00.332000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4523.02,
+      "mid_after": 4521.21,
+      "price_gap_usd": -1.81
+    },
+    {
+      "start_utc": "2026-08-20T20:58:59.697000+00:00",
+      "end_utc": "2026-08-20T22:00:01.093000+00:00",
+      "duration_min": 61.02,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4519.31,
+      "mid_after": 4517.39,
+      "price_gap_usd": -1.92
+    },
+    {
+      "start_utc": "2026-08-21T20:58:59.042000+00:00",
+      "end_utc": "2026-08-23T22:01:00.006000+00:00",
+      "duration_min": 2942.02,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 4603.9,
+      "mid_after": 4624.175,
+      "price_gap_usd": 20.275
+    },
+    {
+      "start_utc": "2026-08-24T20:58:59.647000+00:00",
+      "end_utc": "2026-08-24T22:00:00.505000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4651.85,
+      "mid_after": 4651.37,
+      "price_gap_usd": -0.48
+    },
+    {
+      "start_utc": "2026-08-25T20:58:57.787000+00:00",
+      "end_utc": "2026-08-25T22:00:00.539000+00:00",
+      "duration_min": 61.05,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4658.805,
+      "mid_after": 4654.61,
+      "price_gap_usd": -4.195
+    },
+    {
+      "start_utc": "2026-08-26T20:58:55.468000+00:00",
+      "end_utc": "2026-08-26T22:00:00.601000+00:00",
+      "duration_min": 61.09,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4594.67,
+      "mid_after": 4596.425,
+      "price_gap_usd": 1.755
+    },
+    {
+      "start_utc": "2026-08-27T20:58:59.920000+00:00",
+      "end_utc": "2026-08-27T22:00:00.471000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4601.78,
+      "mid_after": 4603.115,
+      "price_gap_usd": 1.335
+    },
+    {
+      "start_utc": "2026-08-28T20:58:59.631000+00:00",
+      "end_utc": "2026-08-30T22:01:00.010000+00:00",
+      "duration_min": 2942.01,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 4455.11,
+      "mid_after": 4437.555,
+      "price_gap_usd": -17.555
+    },
+    {
+      "start_utc": "2026-08-31T20:58:59.566000+00:00",
+      "end_utc": "2026-08-31T22:00:00.563000+00:00",
+      "duration_min": 61.02,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4449.18,
+      "mid_after": 4448.285,
+      "price_gap_usd": -0.895
+    },
+    {
+      "start_utc": "2026-09-01T20:58:59.841000+00:00",
+      "end_utc": "2026-09-01T22:00:00.661000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4328.32,
+      "mid_after": 4331.315,
+      "price_gap_usd": 2.995
+    },
+    {
+      "start_utc": "2026-09-02T20:58:59.940000+00:00",
+      "end_utc": "2026-09-02T22:00:00.613000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4388.15,
+      "mid_after": 4391.84,
+      "price_gap_usd": 3.69
+    },
+    {
+      "start_utc": "2026-09-03T20:58:58.615000+00:00",
+      "end_utc": "2026-09-03T22:00:00.547000+00:00",
+      "duration_min": 61.03,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4473.22,
+      "mid_after": 4470.61,
+      "price_gap_usd": -2.61
+    },
+    {
+      "start_utc": "2026-09-04T20:58:56.864000+00:00",
+      "end_utc": "2026-09-06T22:01:00.020000+00:00",
+      "duration_min": 2942.05,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 4430.36,
+      "mid_after": 4423.265,
+      "price_gap_usd": -7.095
+    },
+    {
+      "start_utc": "2026-09-08T20:58:59.890000+00:00",
+      "end_utc": "2026-09-08T22:00:00.569000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4355.48,
+      "mid_after": 4360.29,
+      "price_gap_usd": 4.81
+    },
+    {
+      "start_utc": "2026-09-09T20:58:59.659000+00:00",
+      "end_utc": "2026-09-09T22:00:00.551000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4401.745,
+      "mid_after": 4408.48,
+      "price_gap_usd": 6.735
+    },
+    {
+      "start_utc": "2026-09-10T20:58:59.257000+00:00",
+      "end_utc": "2026-09-10T22:00:00.346000+00:00",
+      "duration_min": 61.02,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4316.68,
+      "mid_after": 4336.88,
+      "price_gap_usd": 20.2
+    },
+    {
+      "start_utc": "2026-09-11T20:58:59.867000+00:00",
+      "end_utc": "2026-09-13T22:01:00.004000+00:00",
+      "duration_min": 2942.0,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 4348.77,
+      "mid_after": 4337.055,
+      "price_gap_usd": -11.715
+    },
+    {
+      "start_utc": "2026-09-14T20:58:59.260000+00:00",
+      "end_utc": "2026-09-14T22:00:00.520000+00:00",
+      "duration_min": 61.02,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4298.805,
+      "mid_after": 4300.71,
+      "price_gap_usd": 1.905
+    },
+    {
+      "start_utc": "2026-09-15T20:58:59.450000+00:00",
+      "end_utc": "2026-09-15T22:00:00.536000+00:00",
+      "duration_min": 61.02,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4294.09,
+      "mid_after": 4295.105,
+      "price_gap_usd": 1.015
+    },
+    {
+      "start_utc": "2026-09-16T20:58:59.916000+00:00",
+      "end_utc": "2026-09-16T22:00:00.325000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4264.11,
+      "mid_after": 4263.69,
+      "price_gap_usd": -0.42
+    },
+    {
+      "start_utc": "2026-09-17T20:58:55.897000+00:00",
+      "end_utc": "2026-09-17T22:00:00.506000+00:00",
+      "duration_min": 61.08,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4341.79,
+      "mid_after": 4348.36,
+      "price_gap_usd": 6.57
+    },
+    {
+      "start_utc": "2026-09-18T20:58:56.439000+00:00",
+      "end_utc": "2026-09-20T22:01:00.024000+00:00",
+      "duration_min": 2942.06,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 4377.99,
+      "mid_after": 4376.255,
+      "price_gap_usd": -1.735
+    },
+    {
+      "start_utc": "2026-09-21T20:58:56.416000+00:00",
+      "end_utc": "2026-09-21T22:00:00.489000+00:00",
+      "duration_min": 61.07,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4343.65,
+      "mid_after": 4344.655,
+      "price_gap_usd": 1.005
+    },
+    {
+      "start_utc": "2026-09-22T20:58:59.776000+00:00",
+      "end_utc": "2026-09-22T22:00:00.511000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4358.49,
+      "mid_after": 4357.86,
+      "price_gap_usd": -0.63
+    },
+    {
+      "start_utc": "2026-09-23T20:58:59.999000+00:00",
+      "end_utc": "2026-09-23T22:00:00.531000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4287.54,
+      "mid_after": 4289.215,
+      "price_gap_usd": 1.675
+    },
+    {
+      "start_utc": "2026-09-24T20:58:59.641000+00:00",
+      "end_utc": "2026-09-24T22:00:00.345000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4274.005,
+      "mid_after": 4268.4,
+      "price_gap_usd": -5.605
+    },
+    {
+      "start_utc": "2026-09-25T20:58:59.940000+00:00",
+      "end_utc": "2026-09-27T22:01:00.025000+00:00",
+      "duration_min": 2942.0,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 4285.24,
+      "mid_after": 4269.435,
+      "price_gap_usd": -15.805
+    },
+    {
+      "start_utc": "2026-09-28T20:58:59.548000+00:00",
+      "end_utc": "2026-09-28T22:00:00.637000+00:00",
+      "duration_min": 61.02,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4115.09,
+      "mid_after": 4125.465,
+      "price_gap_usd": 10.375
+    },
+    {
+      "start_utc": "2026-09-29T20:58:59.886000+00:00",
+      "end_utc": "2026-09-29T22:00:00.545000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4182.445,
+      "mid_after": 4183.92,
+      "price_gap_usd": 1.475
+    },
+    {
+      "start_utc": "2026-09-30T20:58:59.841000+00:00",
+      "end_utc": "2026-09-30T22:00:00.555000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4157.145,
+      "mid_after": 4164.7,
+      "price_gap_usd": 7.555
+    },
+    {
+      "start_utc": "2026-10-01T20:58:59.812000+00:00",
+      "end_utc": "2026-10-01T22:00:00.531000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4177.39,
+      "mid_after": 4174.92,
+      "price_gap_usd": -2.47
+    },
+    {
+      "start_utc": "2026-10-02T20:58:59.783000+00:00",
+      "end_utc": "2026-10-04T22:01:00.046000+00:00",
+      "duration_min": 2942.0,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 4140.52,
+      "mid_after": 4135.335,
+      "price_gap_usd": -5.185
+    },
+    {
+      "start_utc": "2026-10-05T20:58:59.048000+00:00",
+      "end_utc": "2026-10-05T22:00:00.618000+00:00",
+      "duration_min": 61.03,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4140.45,
+      "mid_after": 4142.235,
+      "price_gap_usd": 1.785
+    },
+    {
+      "start_utc": "2026-10-06T20:58:55.592000+00:00",
+      "end_utc": "2026-10-06T22:00:00.608000+00:00",
+      "duration_min": 61.08,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4163.87,
+      "mid_after": 4166.4,
+      "price_gap_usd": 2.53
+    },
+    {
+      "start_utc": "2026-10-07T20:58:59.997000+00:00",
+      "end_utc": "2026-10-07T22:00:00.559000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4110.89,
+      "mid_after": 4114.835,
+      "price_gap_usd": 3.945
+    },
+    {
+      "start_utc": "2026-10-08T20:58:36.578000+00:00",
+      "end_utc": "2026-10-08T22:00:00.583000+00:00",
+      "duration_min": 61.4,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4133.64,
+      "mid_after": 4137.01,
+      "price_gap_usd": 3.37
+    },
+    {
+      "start_utc": "2026-10-09T20:58:59.072000+00:00",
+      "end_utc": "2026-10-11T22:01:00.014000+00:00",
+      "duration_min": 2942.02,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 4194.29,
+      "mid_after": 4191.515,
+      "price_gap_usd": -2.775
+    },
+    {
+      "start_utc": "2026-10-12T20:58:58.540000+00:00",
+      "end_utc": "2026-10-12T22:00:00.535000+00:00",
+      "duration_min": 61.03,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4171.7,
+      "mid_after": 4170.985,
+      "price_gap_usd": -0.715
+    },
+    {
+      "start_utc": "2026-10-13T20:58:59.960000+00:00",
+      "end_utc": "2026-10-13T22:00:00.493000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4161.05,
+      "mid_after": 4162.21,
+      "price_gap_usd": 1.16
+    },
+    {
+      "start_utc": "2026-10-14T20:58:59.953000+00:00",
+      "end_utc": "2026-10-14T22:00:00.765000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4105.1,
+      "mid_after": 4107.7,
+      "price_gap_usd": 2.6
+    },
+    {
+      "start_utc": "2026-10-15T20:58:59.371000+00:00",
+      "end_utc": "2026-10-15T22:00:00.476000+00:00",
+      "duration_min": 61.02,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4170.72,
+      "mid_after": 4172.365,
+      "price_gap_usd": 1.645
+    },
+    {
+      "start_utc": "2026-10-16T20:58:59.588000+00:00",
+      "end_utc": "2026-10-18T22:01:00.007000+00:00",
+      "duration_min": 2942.01,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 4165.64,
+      "mid_after": 4163.45,
+      "price_gap_usd": -2.19
+    },
+    {
+      "start_utc": "2026-10-19T20:58:53.249000+00:00",
+      "end_utc": "2026-10-19T22:00:00.510000+00:00",
+      "duration_min": 61.12,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4140.58,
+      "mid_after": 4145.295,
+      "price_gap_usd": 4.715
+    },
+    {
+      "start_utc": "2026-10-20T20:58:59.594000+00:00",
+      "end_utc": "2026-10-20T22:00:00.520000+00:00",
+      "duration_min": 61.02,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4125.31,
+      "mid_after": 4126.2,
+      "price_gap_usd": 0.89
+    },
+    {
+      "start_utc": "2026-10-21T20:58:59.653000+00:00",
+      "end_utc": "2026-10-21T22:00:00.492000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4141.24,
+      "mid_after": 4142.67,
+      "price_gap_usd": 1.43
+    },
+    {
+      "start_utc": "2026-10-22T20:58:59.112000+00:00",
+      "end_utc": "2026-10-22T22:00:00.500000+00:00",
+      "duration_min": 61.02,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4024.46,
+      "mid_after": 4026.145,
+      "price_gap_usd": 1.685
+    },
+    {
+      "start_utc": "2026-10-23T20:58:59.882000+00:00",
+      "end_utc": "2026-10-25T22:01:00.014000+00:00",
+      "duration_min": 2942.0,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 3995.865,
+      "mid_after": 4000.58,
+      "price_gap_usd": 4.715
+    },
+    {
+      "start_utc": "2026-10-26T20:58:57.500000+00:00",
+      "end_utc": "2026-10-26T22:00:00.604000+00:00",
+      "duration_min": 61.05,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4017.11,
+      "mid_after": 4018.8,
+      "price_gap_usd": 1.69
+    },
+    {
+      "start_utc": "2026-10-27T20:58:59.976000+00:00",
+      "end_utc": "2026-10-27T22:00:00.598000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4060.33,
+      "mid_after": 4060.94,
+      "price_gap_usd": 0.61
+    },
+    {
+      "start_utc": "2026-10-28T20:58:59.892000+00:00",
+      "end_utc": "2026-10-28T22:00:00.410000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4067.475,
+      "mid_after": 4068.69,
+      "price_gap_usd": 1.215
+    },
+    {
+      "start_utc": "2026-10-29T20:58:59.994000+00:00",
+      "end_utc": "2026-10-29T22:00:00.597000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4021.39,
+      "mid_after": 4028.65,
+      "price_gap_usd": 7.26
+    },
+    {
+      "start_utc": "2026-10-30T20:58:59.988000+00:00",
+      "end_utc": "2026-11-01T23:01:00.010000+00:00",
+      "duration_min": 3002.0,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 3875.36,
+      "mid_after": 3883.91,
+      "price_gap_usd": 8.55
+    },
+    {
+      "start_utc": "2026-11-02T21:58:58.224000+00:00",
+      "end_utc": "2026-11-02T23:00:08.186000+00:00",
+      "duration_min": 61.17,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 3946.63,
+      "mid_after": 3949.46,
+      "price_gap_usd": 2.83
+    },
+    {
+      "start_utc": "2026-11-03T21:58:58.392000+00:00",
+      "end_utc": "2026-11-03T23:00:00.617000+00:00",
+      "duration_min": 61.04,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 3930.35,
+      "mid_after": 3931.29,
+      "price_gap_usd": 0.94
+    },
+    {
+      "start_utc": "2026-11-04T21:58:59.285000+00:00",
+      "end_utc": "2026-11-04T23:00:00.715000+00:00",
+      "duration_min": 61.02,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4060.18,
+      "mid_after": 4065.11,
+      "price_gap_usd": 4.93
+    },
+    {
+      "start_utc": "2026-11-05T21:58:59.989000+00:00",
+      "end_utc": "2026-11-05T23:00:00.767000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4088.87,
+      "mid_after": 4089.175,
+      "price_gap_usd": 0.305
+    },
+    {
+      "start_utc": "2026-11-06T21:58:59.997000+00:00",
+      "end_utc": "2026-11-08T23:01:00.011000+00:00",
+      "duration_min": 2942.0,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 4070.29,
+      "mid_after": 4060.04,
+      "price_gap_usd": -10.25
+    },
+    {
+      "start_utc": "2026-11-09T21:58:59.089000+00:00",
+      "end_utc": "2026-11-09T23:00:00.642000+00:00",
+      "duration_min": 61.03,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4141.19,
+      "mid_after": 4139.135,
+      "price_gap_usd": -2.055
+    },
+    {
+      "start_utc": "2026-11-10T21:58:59.342000+00:00",
+      "end_utc": "2026-11-10T23:00:00.632000+00:00",
+      "duration_min": 61.02,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 4032.92,
+      "mid_after": 4036.79,
+      "price_gap_usd": 3.87
+    },
+    {
+      "start_utc": "2026-11-11T21:58:59.826000+00:00",
+      "end_utc": "2026-11-11T23:00:00.550000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 3987.8,
+      "mid_after": 3991.855,
+      "price_gap_usd": 4.055
+    },
+    {
+      "start_utc": "2026-11-12T21:58:59.989000+00:00",
+      "end_utc": "2026-11-12T23:00:00.585000+00:00",
+      "duration_min": 61.01,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 3877.7,
+      "mid_after": 3875.04,
+      "price_gap_usd": -2.66
+    },
+    {
+      "start_utc": "2026-11-13T21:58:59.216000+00:00",
+      "end_utc": "2026-11-15T23:01:00.009000+00:00",
+      "duration_min": 2942.01,
+      "classification": "WEEKEND_CLOSURE",
+      "mid_before": 3884.665,
+      "mid_after": 3880.035,
+      "price_gap_usd": -4.63
+    },
+    {
+      "start_utc": "2026-11-16T21:59:03.527234+00:00",
+      "end_utc": "2026-11-16T22:08:13.083438+00:00",
+      "duration_min": 9.16,
+      "classification": "ROLLOVER_ADJACENT_LULL",
+      "mid_before": 3856.29,
+      "mid_after": 3856.29,
+      "price_gap_usd": 0.0
+    },
+    {
+      "start_utc": "2026-11-16T22:08:13.083438+00:00",
+      "end_utc": "2026-11-16T22:15:08.853594+00:00",
+      "duration_min": 6.93,
+      "classification": "ROLLOVER_ADJACENT_LULL",
+      "mid_before": 3856.29,
+      "mid_after": 3856.29,
+      "price_gap_usd": 0.0
+    },
+    {
+      "start_utc": "2026-11-16T22:16:48.731170+00:00",
+      "end_utc": "2026-11-16T22:46:13.461031+00:00",
+      "duration_min": 29.41,
+      "classification": "ROLLOVER_ADJACENT_LULL",
+      "mid_before": 3856.29,
+      "mid_after": 3856.29,
+      "price_gap_usd": 0.0
+    },
+    {
+      "start_utc": "2026-11-16T22:48:09.073827+00:00",
+      "end_utc": "2026-11-16T22:57:39.532067+00:00",
+      "duration_min": 9.51,
+      "classification": "ROLLOVER_ADJACENT_LULL",
+      "mid_before": 3856.29,
+      "mid_after": 3856.29,
+      "price_gap_usd": 0.0
+    },
+    {
+      "start_utc": "2026-11-17T21:58:59.655000+00:00",
+      "end_utc": "2026-11-17T23:00:05.462000+00:00",
+      "duration_min": 61.1,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 3849.335,
+      "mid_after": 3852.5,
+      "price_gap_usd": 3.165
+    },
+    {
+      "start_utc": "2026-11-18T21:59:03.617992+00:00",
+      "end_utc": "2026-11-18T23:00:09.036494+00:00",
+      "duration_min": 61.09,
+      "classification": "DAILY_ROLLOVER",
+      "mid_before": 3724.86,
+      "mid_after": 3728.32,
+      "price_gap_usd": 3.46
+    }
+  ],
+  "bar_table_comparison": {
+    "raw_ticks_all_valid_1m_buckets": 96863,
+    "ml_eligible_1m_buckets_excl_quarantined": 96862,
+    "raw_ticks_approved_window_1m_buckets": 86473,
+    "market_bars_1m_rows": 20175,
+    "market_bars_1m_min": "2026-08-06T00:00:00+00:00",
+    "market_bars_1m_max": "2026-11-19T11:45:00+00:00",
+    "market_bars_1m_quote_semantics_v1_rows": 96020,
+    "market_bars_1m_quote_semantics_v1_min": "2026-08-13T00:00:00+00:00",
+    "market_bars_1m_quote_semantics_v1_max": "2026-11-18T18:08:00+00:00",
+    "diff_all_valid_vs_qs_v1_bars": 843,
+    "diff_843_exact_breakdown": [
+      {
+        "day_utc": "2026-11-18",
+        "bars_only_in_market_ticks": 291,
+        "min_utc": "2026-11-18T18:09:00+00:00",
+        "max_utc": "2026-11-18T23:59:00+00:00",
+        "reason": "POST_QS_V1_MATERIALIZATION_CUTOFF_LIVE_TICKS_AFTER_2026_11_18_18_08Z"
+      },
+      {
+        "day_utc": "2026-11-19",
+        "bars_only_in_market_ticks": 551,
+        "min_utc": "2026-11-19T00:00:00+00:00",
+        "max_utc": "2026-11-19T11:45:00+00:00",
+        "reason": "POST_QS_V1_MATERIALIZATION_CUTOFF_LIVE_TICKS_AFTER_2026_11_18_18_08Z"
+      },
+      {
+        "day_utc": "2026-11-22",
+        "bars_only_in_market_ticks": 1,
+        "min_utc": "2026-11-22T16:00:00+00:00",
+        "max_utc": "2026-11-22T16:00:00+00:00",
+        "reason": "QUARANTINED_OFF_SESSION_SUNDAY_SNAPSHOT"
+      }
+    ],
+    "unexplained_diff_bars": 0,
+    "legacy_market_bars_1m_coverage_gap_bars": 76688
+  },
+  "non_xauusd_sample": [],
+  "quarantined_off_session_ticks": {
+    "quarantined_count": 1,
+    "ml_eligible_valid_ticks": 19947246,
+    "ml_eligible_max_time_utc": "2026-11-19T11:45:39.744483+00:00",
+    "root_cause": "Sunday 2026-11-22 16:00:02.669772Z quote (bid=3537.89, ask=3538.13) arrived hours before Fusion Markets' Sunday ~22:00-23:00 UTC XAUUSD session open because ctrader_live.py forwarded a SpotEvent reconnect snapshot with timestamp_ms=None, which LiveTickerService stamped with local UTC wall clock.",
+    "quarantine_policy": "Non-destructive quarantine in market_ticks_quarantine + v_market_ticks_quote_semantics_v1.is_ml_eligible_quote=FALSE for Saturday UTC and Sunday < 21:00 UTC ticks; raw market_ticks preserved untouched.",
+    "records": [
+      {
+        "symbol": "XAUUSD",
+        "time_utc": "2026-11-22T16:00:02.669772+00:00",
+        "reason": "OFF_SESSION_WEEKEND_QUOTE_BEFORE_SUNDAY_21_UTC",
+        "quarantined_at_utc": "2026-11-22T16:22:25.397394+00:00"
+      }
+    ]
+  },
+  "elapsed_sec": 89.28
+}

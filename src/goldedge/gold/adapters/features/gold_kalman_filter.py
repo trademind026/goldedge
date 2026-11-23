@@ -16,7 +16,8 @@ def apply_gold_adaptive_kalman(
     State vector: [Price ($), Velocity ($/bar)]
     - Measurement variance R dynamically expands during wide spreads ($0.35 - $0.60+)
       and volatility spikes.
-    - Measurement variance R contracts during high tick volume (institutional participation).
+    - Genuine volume scaling only activates when genuine traded `volume_series`
+      is explicitly passed; Spot CFD `tick_volume` is NEVER treated as institutional volume.
     - Zero look-ahead bias: all rolling metrics use lagged (shift(1)) windows.
     """
     n = len(price_series)

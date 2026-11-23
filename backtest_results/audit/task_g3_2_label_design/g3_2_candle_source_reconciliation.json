@@ -1,0 +1,33 @@
+{
+  "task": "G3.2_PHASE_A1_CANDLE_SOURCE_RECONCILIATION",
+  "generated_at_utc": "2026-11-22T16:44:34.436850+00:00",
+  "status": "PASS",
+  "authoritative_tick_source": "v_market_ticks_quote_semantics_v1 (WHERE is_ml_eligible_quote = TRUE)",
+  "authoritative_1m_bar_table": "market_bars_1m_quote_semantics_v1 (refreshed via refresh_market_bars_1m_quote_semantics_v1)",
+  "continuous_refresh_function": "public.refresh_market_bars_1m_quote_semantics_v1(p_symbol, p_start, p_end)",
+  "tick_counts": {
+    "raw_ticks": 19959292,
+    "valid_ticks": 19947247,
+    "quarantined_ticks": 1,
+    "ml_eligible_ticks": 19947246,
+    "ml_eligible_min_utc": "2026-08-13T00:00:00.153000+00:00",
+    "ml_eligible_max_utc": "2026-11-19T11:45:39.744483+00:00"
+  },
+  "candle_1m_reconciliation": {
+    "independent_reconstructed_bars": 96862,
+    "market_bars_1m_quote_semantics_v1_bars": 96862,
+    "only_in_table": 0,
+    "only_in_independent": 0,
+    "ohlc_tickcount_spread_mismatches": 0,
+    "forward_filled_rows": 0
+  },
+  "timeline_view_v1": {
+    "total_minute_grid": 141826,
+    "min_utc": "2026-08-13T00:00:00+00:00",
+    "max_utc": "2026-11-19T11:45:00+00:00",
+    "observed_bars": 96862,
+    "unfilled_gap_minutes": 44964
+  },
+  "dataset_fingerprint_string": "XAUUSD|ml_ticks=19947246|bars=96862|min=2026-08-13T00:00:00.153000+00:00|max=2026-11-19T11:45:39.744483+00:00|o=408982739.1300|c=408982181.2100|tc=19947246",
+  "dataset_fingerprint_sha256": "0180A22F36A4B66DD780FC88B22A70F4542DC8F397236B9460D72BE91098F8E1"
+}

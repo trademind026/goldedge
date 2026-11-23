@@ -1,0 +1,469 @@
+{
+  "W1": {
+    "H0_HWM8": {
+      "unprotected_ref": "H0_BASELINE_V2",
+      "hwm_triggered": true,
+      "halt_details": {
+        "trigger_time_utc": "2026-10-16T07:39:25.668000+00:00",
+        "trades_before_halt_inc_trigger": 65,
+        "peak_equity_usd": 10991.94,
+        "equity_at_trigger_usd": 10109.35,
+        "trigger_dd_pct": 8.0294,
+        "trigger_session": "LONDON_PRE_OVERLAP",
+        "trigger_utc_hour": 7
+      },
+      "trades_executed": 65,
+      "unprotected_trades": 118,
+      "trades_prevented_by_halt": 53,
+      "signals_blocked_post_halt": 124,
+      "net_pnl_protected_usd": 109.26,
+      "net_pnl_unprotected_usd": 116.54,
+      "mtm_dd_protected_pct": 8.03,
+      "mtm_dd_unprotected_pct": 12.79,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -877.84,
+        "LONDON_NY_OVERLAP": -420.57,
+        "LONDON_PRE_OVERLAP": -1207.7
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -165.69,
+        "UTC_08": -196.02,
+        "UTC_10": -211.9,
+        "UTC_11": -634.09,
+        "UTC_12": -420.57,
+        "UTC_15": -97.58,
+        "UTC_16": -780.26
+      }
+    },
+    "H4a_HWM8": {
+      "unprotected_ref": "H4a_SCORE_CAP_080",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 82,
+      "unprotected_trades": 82,
+      "trades_prevented_by_halt": 0,
+      "signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 892.29,
+      "net_pnl_unprotected_usd": 892.29,
+      "mtm_dd_protected_pct": 6.09,
+      "mtm_dd_unprotected_pct": 6.09,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -403.98,
+        "LONDON_PRE_OVERLAP": -1524.96,
+        "LONDON_NY_OVERLAP": -645.0
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -214.06,
+        "UTC_08": -367.77,
+        "UTC_09": -510.08,
+        "UTC_10": -109.59,
+        "UTC_11": -323.46,
+        "UTC_12": -321.42,
+        "UTC_13": -112.55,
+        "UTC_15": -91.47,
+        "UTC_16": -523.54
+      }
+    },
+    "S07_H0_NO_NYPOST_HWM8": {
+      "unprotected_ref": "S07_H0_NO_NY_POST_LDN",
+      "hwm_triggered": true,
+      "halt_details": {
+        "trigger_time_utc": "2026-10-20T07:48:15.898000+00:00",
+        "trades_before_halt_inc_trigger": 51,
+        "peak_equity_usd": 11346.17,
+        "equity_at_trigger_usd": 10436.66,
+        "trigger_dd_pct": 8.016,
+        "trigger_session": "LONDON_PRE_OVERLAP",
+        "trigger_utc_hour": 7
+      },
+      "trades_executed": 51,
+      "unprotected_trades": 98,
+      "trades_prevented_by_halt": 47,
+      "signals_blocked_post_halt": 99,
+      "net_pnl_protected_usd": 436.57,
+      "net_pnl_unprotected_usd": 722.76,
+      "mtm_dd_protected_pct": 8.02,
+      "mtm_dd_unprotected_pct": 11.11,
+      "losing_dollars_by_dst_session": {
+        "LONDON_NY_OVERLAP": -429.26,
+        "LONDON_PRE_OVERLAP": -1418.15
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -344.02,
+        "UTC_08": -196.02,
+        "UTC_10": -223.72,
+        "UTC_11": -654.39,
+        "UTC_12": -429.26
+      }
+    },
+    "S15_H4a_NOTRANS_HWM8": {
+      "unprotected_ref": "S15_H4a_NO_TRANS_15M",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 59,
+      "unprotected_trades": 59,
+      "trades_prevented_by_halt": 0,
+      "signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 962.77,
+      "net_pnl_unprotected_usd": 962.77,
+      "mtm_dd_protected_pct": 5.23,
+      "mtm_dd_unprotected_pct": 5.23,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -339.0,
+        "LONDON_PRE_OVERLAP": -1052.62,
+        "LONDON_NY_OVERLAP": -216.3
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -106.49,
+        "UTC_08": -258.06,
+        "UTC_09": -365.1,
+        "UTC_10": -109.59,
+        "UTC_11": -213.38,
+        "UTC_12": -104.83,
+        "UTC_13": -111.47,
+        "UTC_16": -339.0
+      }
+    },
+    "S17_H4a_NOF30_HWM8": {
+      "unprotected_ref": "S17_H4a_NO_FIRST30M",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 67,
+      "unprotected_trades": 67,
+      "trades_prevented_by_halt": 0,
+      "signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 869.16,
+      "net_pnl_unprotected_usd": 869.16,
+      "mtm_dd_protected_pct": 5.12,
+      "mtm_dd_unprotected_pct": 5.12,
+      "losing_dollars_by_dst_session": {
+        "NY_POST_LONDON": -403.98,
+        "LONDON_PRE_OVERLAP": -1309.64,
+        "LONDON_NY_OVERLAP": -330.67
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -110.54,
+        "UTC_08": -255.74,
+        "UTC_09": -515.79,
+        "UTC_10": -104.11,
+        "UTC_11": -323.46,
+        "UTC_13": -112.55,
+        "UTC_15": -91.47,
+        "UTC_16": -530.63
+      }
+    }
+  },
+  "W2": {
+    "H0_HWM8": {
+      "unprotected_ref": "H0_BASELINE_V2",
+      "hwm_triggered": true,
+      "halt_details": {
+        "trigger_time_utc": "2026-10-16T07:39:25.668000+00:00",
+        "trades_before_halt_inc_trigger": 78,
+        "peak_equity_usd": 11030.29,
+        "equity_at_trigger_usd": 10146.75,
+        "trigger_dd_pct": 8.0102,
+        "trigger_session": "LONDON_PRE_OVERLAP",
+        "trigger_utc_hour": 7
+      },
+      "trades_executed": 78,
+      "unprotected_trades": 131,
+      "trades_prevented_by_halt": 53,
+      "signals_blocked_post_halt": 124,
+      "net_pnl_protected_usd": 146.64,
+      "net_pnl_unprotected_usd": 151.69,
+      "mtm_dd_protected_pct": 8.01,
+      "mtm_dd_unprotected_pct": 12.78,
+      "losing_dollars_by_dst_session": {
+        "LONDON_PRE_OVERLAP": -1427.16,
+        "NY_POST_LONDON": -1050.43,
+        "LONDON_NY_OVERLAP": -420.57
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -272.81,
+        "UTC_08": -196.02,
+        "UTC_09": -11.29,
+        "UTC_10": -211.9,
+        "UTC_11": -735.14,
+        "UTC_12": -420.57,
+        "UTC_15": -97.58,
+        "UTC_16": -952.85
+      }
+    },
+    "H4a_HWM8": {
+      "unprotected_ref": "H4a_SCORE_CAP_080",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 91,
+      "unprotected_trades": 91,
+      "trades_prevented_by_halt": 0,
+      "signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 929.38,
+      "net_pnl_unprotected_usd": 929.38,
+      "mtm_dd_protected_pct": 6.18,
+      "mtm_dd_unprotected_pct": 6.18,
+      "losing_dollars_by_dst_session": {
+        "LONDON_PRE_OVERLAP": -1733.79,
+        "NY_POST_LONDON": -499.61,
+        "LONDON_NY_OVERLAP": -652.48
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -318.04,
+        "UTC_08": -367.77,
+        "UTC_09": -610.05,
+        "UTC_10": -109.59,
+        "UTC_11": -328.34,
+        "UTC_12": -328.9,
+        "UTC_13": -112.55,
+        "UTC_15": -91.47,
+        "UTC_16": -619.17
+      }
+    },
+    "S07_H0_NO_NYPOST_HWM8": {
+      "unprotected_ref": "S07_H0_NO_NY_POST_LDN",
+      "hwm_triggered": true,
+      "halt_details": {
+        "trigger_time_utc": "2026-10-20T07:48:12.501000+00:00",
+        "trades_before_halt_inc_trigger": 58,
+        "peak_equity_usd": 11420.27,
+        "equity_at_trigger_usd": 10506.2,
+        "trigger_dd_pct": 8.0039,
+        "trigger_session": "LONDON_PRE_OVERLAP",
+        "trigger_utc_hour": 7
+      },
+      "trades_executed": 58,
+      "unprotected_trades": 105,
+      "trades_prevented_by_halt": 47,
+      "signals_blocked_post_halt": 99,
+      "net_pnl_protected_usd": 506.11,
+      "net_pnl_unprotected_usd": 782.27,
+      "mtm_dd_protected_pct": 8.0,
+      "mtm_dd_unprotected_pct": 11.18,
+      "losing_dollars_by_dst_session": {
+        "LONDON_PRE_OVERLAP": -1639.1,
+        "LONDON_NY_OVERLAP": -429.26
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -446.93,
+        "UTC_08": -201.72,
+        "UTC_09": -11.29,
+        "UTC_10": -223.72,
+        "UTC_11": -755.44,
+        "UTC_12": -429.26
+      }
+    },
+    "S15_H4a_NOTRANS_HWM8": {
+      "unprotected_ref": "S15_H4a_NO_TRANS_15M",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 66,
+      "unprotected_trades": 66,
+      "trades_prevented_by_halt": 0,
+      "signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 912.34,
+      "net_pnl_unprotected_usd": 912.34,
+      "mtm_dd_protected_pct": 5.25,
+      "mtm_dd_unprotected_pct": 5.25,
+      "losing_dollars_by_dst_session": {
+        "LONDON_PRE_OVERLAP": -1157.35,
+        "NY_POST_LONDON": -434.63,
+        "LONDON_NY_OVERLAP": -216.3
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -211.24,
+        "UTC_08": -258.04,
+        "UTC_09": -365.1,
+        "UTC_10": -109.59,
+        "UTC_11": -213.38,
+        "UTC_12": -104.83,
+        "UTC_13": -111.47,
+        "UTC_16": -434.63
+      }
+    },
+    "S17_H4a_NOF30_HWM8": {
+      "unprotected_ref": "S17_H4a_NO_FIRST30M",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 76,
+      "unprotected_trades": 76,
+      "trades_prevented_by_halt": 0,
+      "signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 1122.03,
+      "net_pnl_unprotected_usd": 1122.03,
+      "mtm_dd_protected_pct": 5.07,
+      "mtm_dd_unprotected_pct": 5.07,
+      "losing_dollars_by_dst_session": {
+        "LONDON_PRE_OVERLAP": -1528.73,
+        "NY_POST_LONDON": -507.22,
+        "LONDON_NY_OVERLAP": -330.67
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -206.49,
+        "UTC_08": -258.64,
+        "UTC_09": -625.67,
+        "UTC_10": -109.59,
+        "UTC_11": -328.34,
+        "UTC_13": -112.55,
+        "UTC_15": -91.47,
+        "UTC_16": -633.87
+      }
+    }
+  },
+  "W3": {
+    "H0_HWM8": {
+      "unprotected_ref": "H0_BASELINE_V2",
+      "hwm_triggered": true,
+      "halt_details": {
+        "trigger_time_utc": "2026-10-16T07:39:25.668000+00:00",
+        "trades_before_halt_inc_trigger": 78,
+        "peak_equity_usd": 11030.29,
+        "equity_at_trigger_usd": 10146.75,
+        "trigger_dd_pct": 8.0102,
+        "trigger_session": "LONDON_PRE_OVERLAP",
+        "trigger_utc_hour": 7
+      },
+      "trades_executed": 78,
+      "unprotected_trades": 143,
+      "trades_prevented_by_halt": 65,
+      "signals_blocked_post_halt": 149,
+      "net_pnl_protected_usd": 146.64,
+      "net_pnl_unprotected_usd": 211.48,
+      "mtm_dd_protected_pct": 8.01,
+      "mtm_dd_unprotected_pct": 12.78,
+      "losing_dollars_by_dst_session": {
+        "LONDON_PRE_OVERLAP": -1427.16,
+        "NY_POST_LONDON": -1050.43,
+        "LONDON_NY_OVERLAP": -420.57
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -272.81,
+        "UTC_08": -196.02,
+        "UTC_09": -11.29,
+        "UTC_10": -211.9,
+        "UTC_11": -735.14,
+        "UTC_12": -420.57,
+        "UTC_15": -97.58,
+        "UTC_16": -952.85
+      }
+    },
+    "H4a_HWM8": {
+      "unprotected_ref": "H4a_SCORE_CAP_080",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 99,
+      "unprotected_trades": 99,
+      "trades_prevented_by_halt": 0,
+      "signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 1257.7,
+      "net_pnl_unprotected_usd": 1257.7,
+      "mtm_dd_protected_pct": 6.18,
+      "mtm_dd_unprotected_pct": 6.18,
+      "losing_dollars_by_dst_session": {
+        "LONDON_PRE_OVERLAP": -1878.35,
+        "NY_POST_LONDON": -499.61,
+        "LONDON_NY_OVERLAP": -762.73
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -318.04,
+        "UTC_08": -367.77,
+        "UTC_09": -610.05,
+        "UTC_10": -142.88,
+        "UTC_11": -328.34,
+        "UTC_12": -440.17,
+        "UTC_13": -222.8,
+        "UTC_15": -91.47,
+        "UTC_16": -619.17
+      }
+    },
+    "S07_H0_NO_NYPOST_HWM8": {
+      "unprotected_ref": "S07_H0_NO_NY_POST_LDN",
+      "hwm_triggered": true,
+      "halt_details": {
+        "trigger_time_utc": "2026-10-20T07:48:12.501000+00:00",
+        "trades_before_halt_inc_trigger": 58,
+        "peak_equity_usd": 11420.27,
+        "equity_at_trigger_usd": 10506.2,
+        "trigger_dd_pct": 8.0039,
+        "trigger_session": "LONDON_PRE_OVERLAP",
+        "trigger_utc_hour": 7
+      },
+      "trades_executed": 58,
+      "unprotected_trades": 117,
+      "trades_prevented_by_halt": 59,
+      "signals_blocked_post_halt": 122,
+      "net_pnl_protected_usd": 506.11,
+      "net_pnl_unprotected_usd": 838.07,
+      "mtm_dd_protected_pct": 8.0,
+      "mtm_dd_unprotected_pct": 11.18,
+      "losing_dollars_by_dst_session": {
+        "LONDON_PRE_OVERLAP": -1639.1,
+        "LONDON_NY_OVERLAP": -429.26
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -446.93,
+        "UTC_08": -201.72,
+        "UTC_09": -11.29,
+        "UTC_10": -223.72,
+        "UTC_11": -755.44,
+        "UTC_12": -429.26
+      }
+    },
+    "S15_H4a_NOTRANS_HWM8": {
+      "unprotected_ref": "S15_H4a_NO_TRANS_15M",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 72,
+      "unprotected_trades": 72,
+      "trades_prevented_by_halt": 0,
+      "signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 1475.06,
+      "net_pnl_unprotected_usd": 1475.06,
+      "mtm_dd_protected_pct": 5.25,
+      "mtm_dd_unprotected_pct": 5.25,
+      "losing_dollars_by_dst_session": {
+        "LONDON_PRE_OVERLAP": -1190.64,
+        "NY_POST_LONDON": -434.63,
+        "LONDON_NY_OVERLAP": -216.3
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -211.24,
+        "UTC_08": -258.04,
+        "UTC_09": -365.1,
+        "UTC_10": -142.88,
+        "UTC_11": -213.38,
+        "UTC_12": -104.83,
+        "UTC_13": -111.47,
+        "UTC_16": -434.63
+      }
+    },
+    "S17_H4a_NOF30_HWM8": {
+      "unprotected_ref": "S17_H4a_NO_FIRST30M",
+      "hwm_triggered": false,
+      "halt_details": null,
+      "trades_executed": 83,
+      "unprotected_trades": 83,
+      "trades_prevented_by_halt": 0,
+      "signals_blocked_post_halt": 0,
+      "net_pnl_protected_usd": 1572.09,
+      "net_pnl_unprotected_usd": 1572.09,
+      "mtm_dd_protected_pct": 5.07,
+      "mtm_dd_unprotected_pct": 5.07,
+      "losing_dollars_by_dst_session": {
+        "LONDON_PRE_OVERLAP": -1674.8,
+        "NY_POST_LONDON": -507.22,
+        "LONDON_NY_OVERLAP": -330.67
+      },
+      "losing_dollars_by_utc_hour": {
+        "UTC_07": -206.49,
+        "UTC_08": -258.64,
+        "UTC_09": -625.67,
+        "UTC_10": -144.39,
+        "UTC_11": -328.34,
+        "UTC_12": -111.27,
+        "UTC_13": -112.55,
+        "UTC_15": -91.47,
+        "UTC_16": -633.87
+      }
+    }
+  }
+}

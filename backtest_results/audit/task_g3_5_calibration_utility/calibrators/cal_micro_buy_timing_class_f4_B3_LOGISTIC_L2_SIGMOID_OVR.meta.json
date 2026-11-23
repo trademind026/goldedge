@@ -1,0 +1,21 @@
+{
+  "calibrator_id": "cal_micro_buy_timing_class_f4_B3_LOGISTIC_L2_SIGMOID_OVR",
+  "base_artifact_id": "micro_buy_timing_class_f4_B3_LOGISTIC_L2",
+  "base_artifact_sha256": "B9C6B9C7B8635C6E038B80887576D9A460B457ED1F9C6A8CF0176E09CB2793FF",
+  "method": "SIGMOID_OVR",
+  "horizon": "micro",
+  "target_name": "buy_timing_class",
+  "fold_id": 4,
+  "classes": [
+    "ENTER_NOW",
+    "WAIT_ADVERSE",
+    "NEUTRAL"
+  ],
+  "cal_start_utc": "2026-10-16T00:00:00Z",
+  "cal_end_utc": "2026-10-30T00:00:00Z",
+  "cal_n_samples": 91922,
+  "cal_unique_days": 12,
+  "internal_val_logloss": 0.970568,
+  "created_at_utc": "2026-11-23T10:20:33.654561+00:00",
+  "calibrator_sha256": "80CD6BA4A497B58AE24F1ED28DD3871DF7692D05048291340B613383A08D6489"
+}

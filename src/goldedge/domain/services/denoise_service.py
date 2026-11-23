@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import pandas as pd
 from scipy.stats import entropy
@@ -6,25 +7,16 @@ from typing import Optional
 
 class VolumeAdaptiveKalmanFilter:
     """
-    HFT-Optimized 2D Kalman Filter (State: [Price, Velocity]).
-    Uses a pre-allocated NumPy ring buffer for zero-allocation state tracking
-    during live streaming of high-frequency XAUUSD ticks.
+    2D Constant-Velocity Kinematic Kalman Filter (State: [Price, Velocity]).
+    Adapted for quote-only Spot Gold (XAUUSD) ticks.
 
-    XAUUSD-specific calibration (empirically validated):
-      q_p   = 1e-4  : Position noise — controls price tracking responsiveness.
-                      Unchanged from original; appropriate for $4000–$5000 price scale.
-      q_v   = 1e-4  : Velocity noise — RAISED from 3e-5.
-                      Original 3e-5 was too slow; velocity took 50+ ticks to adapt
-                      to momentum shifts. 1e-4 makes the velocity state track
-                      XAUUSD momentum changes within 10–15 ticks.
-      r_base = 1e-2 : Base measurement noise. Kept same — adaptive formula handles
-                      session-specific noise (spread bounce vs informed volume).
-
-    Adaptive R formula (Volume + Volatility):
-      R_i = r_base * (price_diff / volume)
-      - High volume (informed flow) → small R → trust the tick price
-      - High volatility (noise/spread) → large R → trust the Kalman model
-      This is empirically validated for tick-level Forex data (see Kalman 2024 research).
+    Note on Volume Semantics (QUOTE_ARRIVAL_SEMANTICS_V1):
+      Spot CFD broker feeds (cTrader) emit bid/ask quote updates with NO genuine
+      traded volume (`real_volume` is NULL). By default (`adapt_to_volume=False`),
+      measurement variance `R` adapts strictly from price microstructure innovation
+      (`price_diff`) with `vol_factor = 1.0`, eliminating any dependency on
+      synthetic or fabricated volume=1 constants. It never substitutes quote
+      arrival frequency (`tick_count`) as traded volume.
     """
 
     def __init__(
@@ -33,11 +25,13 @@ class VolumeAdaptiveKalmanFilter:
         q_p: float = 1e-4,
         q_v: float = 3e-5,    # REVERTED from 1e-4: 1e-4 was too sensitive to micro-noise
         r_base: float = 1e-2,
+        adapt_to_volume: bool = False,
     ):
         self.buffer_size = buffer_size
         self.q_p = float(q_p)
         self.q_v = float(q_v)
         self.r_base = float(r_base)
+        self.adapt_to_volume = bool(adapt_to_volume)
         self._r_min = self.r_base / 3.0
         self._r_max = self.r_base * 3.0
 
@@ -73,14 +67,15 @@ class VolumeAdaptiveKalmanFilter:
         return np.array([[self._p00, self._p01],
                          [self._p10, self._p11]])
 
-    def update_tick(self, price: float, volume: float) -> tuple[float, float]:
+    def update_tick(self, price: float, volume: Optional[float] = None) -> tuple[float, float]:
         """
         Processes a single tick using scalar 2x2 Kalman equations (zero per-tick allocations).
+        When broker `volume` (`real_volume`) is None/unavailable (e.g., spot cTrader quotes),
+        uses `vol_factor = 1.0` (quote-only price-diff mode) rather than fabricating volume.
         Returns (kalman_price, kalman_velocity).
         Velocity units: $/tick (e.g., 0.01 = Gold moved $0.01 since last tick).
         """
         price = float(price)
-        volume = float(volume)
 
         # Initialize state on first tick
         if self.idx == 0:
@@ -96,8 +91,12 @@ class VolumeAdaptiveKalmanFilter:
         price_diff = abs(price - last_price) if last_price else 0.0
         self.last_price = price
 
-        # Adaptive R: High volume = trust tick; High volatility = trust model
-        vol_factor = volume if volume > 1.0 else 1.0
+        # Adaptive R: Decoupled from synthetic volume on quote-only Spot CFD feeds.
+        # Only scales down R when `adapt_to_volume=True` AND genuine non-null real_volume (> 1) is supplied.
+        if self.adapt_to_volume and volume is not None and float(volume) > 1.0:
+            vol_factor = float(volume)
+        else:
+            vol_factor = 1.0
         volatility_factor = price_diff if price_diff > 0.0001 else 0.0001
         r_i = self.r_base * (volatility_factor / vol_factor)
         if r_i < self._r_min:
@@ -204,6 +203,38 @@ class DenoiseService:
         probs = counts / counts.sum()
         probs = probs[probs > 0]
         return float(entropy(probs, base=2))
+
+    @staticmethod
+    def compute_rolling_entropy_5m_norm(returns: pd.Series, window: int = 30) -> float:
+        """
+        Calculates Shannon Entropy normalized by log2(10) using 5m XAUUSD return bins
+        (scaled sqrt(5)x from 1m bins), bounded cleanly in [0.0, 1.0].
+        """
+        if len(returns) < window:
+            return 1.0
+
+        recent = returns.iloc[-window:]
+        bins = [
+            -np.inf,
+            -0.001120,
+            -0.000450,
+            -0.000220,
+            -0.000110,
+            0.0,
+            0.000110,
+            0.000220,
+            0.000450,
+            0.001120,
+            np.inf,
+        ]
+        counts, _ = np.histogram(recent, bins=bins)
+        tot = counts.sum()
+        if tot <= 0:
+            return 1.0
+        probs = counts / tot
+        probs = probs[probs > 0]
+        ent_bits = float(entropy(probs, base=2))
+        return min(1.0, max(0.0, ent_bits / math.log2(10.0)))
 
     @staticmethod
     def compute_kaufman_er(series: pd.Series, window: int = 10) -> float:

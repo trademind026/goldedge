@@ -1,0 +1,214 @@
+{
+  "task": "G3.4_PHASE_H_ECONOMIC_RELEVANCE",
+  "governance_warning": "Research-only OOT probability quintile diagnostics. NOT a verified RunBacktestUseCase portfolio backtest (deferred to G3.6).",
+  "macro_C1_p_UP_quintiles_vs_BUY_outcomes": [
+    {
+      "quintile": "Q1_LOW",
+      "n": 3223,
+      "mean_pred_prob": 0.0765,
+      "mean_15m_ret_net_bps": -0.782,
+      "h3b_sim_n": 3071,
+      "mean_h3b_sim_r": -0.0905
+    },
+    {
+      "quintile": "Q2",
+      "n": 3222,
+      "mean_pred_prob": 0.1189,
+      "mean_15m_ret_net_bps": -0.948,
+      "h3b_sim_n": 2961,
+      "mean_h3b_sim_r": -0.1012
+    },
+    {
+      "quintile": "Q3",
+      "n": 3223,
+      "mean_pred_prob": 0.1514,
+      "mean_15m_ret_net_bps": -0.369,
+      "h3b_sim_n": 2918,
+      "mean_h3b_sim_r": -0.0774
+    },
+    {
+      "quintile": "Q4",
+      "n": 3222,
+      "mean_pred_prob": 0.1884,
+      "mean_15m_ret_net_bps": -0.818,
+      "h3b_sim_n": 2957,
+      "mean_h3b_sim_r": -0.033
+    },
+    {
+      "quintile": "Q5_HIGH",
+      "n": 3223,
+      "mean_pred_prob": 0.2606,
+      "mean_15m_ret_net_bps": -0.177,
+      "h3b_sim_n": 3017,
+      "mean_h3b_sim_r": -0.0575
+    }
+  ],
+  "macro_C1_p_DOWN_quintiles_vs_SELL_outcomes": [
+    {
+      "quintile": "Q1_LOW",
+      "n": 3223,
+      "mean_pred_prob": 0.0947,
+      "mean_15m_ret_net_bps": -0.111,
+      "h3b_sim_n": 3054,
+      "mean_h3b_sim_r": 0.0373
+    },
+    {
+      "quintile": "Q2",
+      "n": 3222,
+      "mean_pred_prob": 0.1378,
+      "mean_15m_ret_net_bps": -0.07,
+      "h3b_sim_n": 2986,
+      "mean_h3b_sim_r": 0.0173
+    },
+    {
+      "quintile": "Q3",
+      "n": 3223,
+      "mean_pred_prob": 0.168,
+      "mean_15m_ret_net_bps": -0.096,
+      "h3b_sim_n": 2953,
+      "mean_h3b_sim_r": 0.0119
+    },
+    {
+      "quintile": "Q4",
+      "n": 3222,
+      "mean_pred_prob": 0.207,
+      "mean_15m_ret_net_bps": -0.433,
+      "h3b_sim_n": 2937,
+      "mean_h3b_sim_r": 0.0046
+    },
+    {
+      "quintile": "Q5_HIGH",
+      "n": 3223,
+      "mean_pred_prob": 0.2896,
+      "mean_15m_ret_net_bps": -0.473,
+      "h3b_sim_n": 2994,
+      "mean_h3b_sim_r": -0.0112
+    }
+  ],
+  "macro_B3_p_UP_quintiles_vs_BUY_outcomes": [
+    {
+      "quintile": "Q1_LOW",
+      "n": 3223,
+      "mean_pred_prob": 0.0889,
+      "mean_15m_ret_net_bps": -0.682,
+      "h3b_sim_n": 2944,
+      "mean_h3b_sim_r": -0.0787
+    },
+    {
+      "quintile": "Q2",
+      "n": 3222,
+      "mean_pred_prob": 0.1207,
+      "mean_15m_ret_net_bps": -0.802,
+      "h3b_sim_n": 2990,
+      "mean_h3b_sim_r": -0.1026
+    },
+    {
+      "quintile": "Q3",
+      "n": 3223,
+      "mean_pred_prob": 0.1471,
+      "mean_15m_ret_net_bps": -0.697,
+      "h3b_sim_n": 2983,
+      "mean_h3b_sim_r": -0.0753
+    },
+    {
+      "quintile": "Q4",
+      "n": 3222,
+      "mean_pred_prob": 0.1809,
+      "mean_15m_ret_net_bps": -0.678,
+      "h3b_sim_n": 2987,
+      "mean_h3b_sim_r": -0.0517
+    },
+    {
+      "quintile": "Q5_HIGH",
+      "n": 3223,
+      "mean_pred_prob": 0.2588,
+      "mean_15m_ret_net_bps": -0.234,
+      "h3b_sim_n": 3020,
+      "mean_h3b_sim_r": -0.0521
+    }
+  ],
+  "macro_B3_p_DOWN_quintiles_vs_SELL_outcomes": [
+    {
+      "quintile": "Q1_LOW",
+      "n": 3223,
+      "mean_pred_prob": 0.1025,
+      "mean_15m_ret_net_bps": -0.089,
+      "h3b_sim_n": 3022,
+      "mean_h3b_sim_r": 0.0358
+    },
+    {
+      "quintile": "Q2",
+      "n": 3222,
+      "mean_pred_prob": 0.1362,
+      "mean_15m_ret_net_bps": -0.07,
+      "h3b_sim_n": 3004,
+      "mean_h3b_sim_r": 0.0172
+    },
+    {
+      "quintile": "Q3",
+      "n": 3223,
+      "mean_pred_prob": 0.1641,
+      "mean_15m_ret_net_bps": -0.128,
+      "h3b_sim_n": 2979,
+      "mean_h3b_sim_r": 0.0144
+    },
+    {
+      "quintile": "Q4",
+      "n": 3222,
+      "mean_pred_prob": 0.2031,
+      "mean_15m_ret_net_bps": -0.541,
+      "h3b_sim_n": 2956,
+      "mean_h3b_sim_r": -0.0006
+    },
+    {
+      "quintile": "Q5_HIGH",
+      "n": 3223,
+      "mean_pred_prob": 0.2856,
+      "mean_15m_ret_net_bps": -0.355,
+      "h3b_sim_n": 2963,
+      "mean_h3b_sim_r": -0.0069
+    }
+  ],
+  "micro_C1_p_ENTER_NOW_quintiles_vs_BUY_timing_adv": [
+    {
+      "quintile": "Q1_LOW",
+      "n": 111062,
+      "mean_p_ENTER_NOW": 0.3834,
+      "mean_p_WAIT_ADVERSE": 0.4146,
+      "mean_buy_timing_adv_usd": -0.01109,
+      "empirical_enter_now_pct": 38.77
+    },
+    {
+      "quintile": "Q2",
+      "n": 111061,
+      "mean_p_ENTER_NOW": 0.4232,
+      "mean_p_WAIT_ADVERSE": 0.437,
+      "mean_buy_timing_adv_usd": -0.00311,
+      "empirical_enter_now_pct": 42.43
+    },
+    {
+      "quintile": "Q3",
+      "n": 111062,
+      "mean_p_ENTER_NOW": 0.4422,
+      "mean_p_WAIT_ADVERSE": 0.4487,
+      "mean_buy_timing_adv_usd": 0.00534,
+      "empirical_enter_now_pct": 44.47
+    },
+    {
+      "quintile": "Q4",
+      "n": 111061,
+      "mean_p_ENTER_NOW": 0.4555,
+      "mean_p_WAIT_ADVERSE": 0.4566,
+      "mean_buy_timing_adv_usd": 0.00333,
+      "empirical_enter_now_pct": 45.71
+    },
+    {
+      "quintile": "Q5_HIGH",
+      "n": 111062,
+      "mean_p_ENTER_NOW": 0.4716,
+      "mean_p_WAIT_ADVERSE": 0.458,
+      "mean_buy_timing_adv_usd": 0.00168,
+      "empirical_enter_now_pct": 46.76
+    }
+  ]
+}

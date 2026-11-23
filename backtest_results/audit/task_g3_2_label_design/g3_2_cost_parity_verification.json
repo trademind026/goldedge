@@ -1,0 +1,105 @@
+{
+  "task": "G3.2_PHASE_A2_COST_PARITY_VERIFICATION",
+  "generated_at_utc": "2026-11-22T16:44:34.440230+00:00",
+  "status": "PASS",
+  "reconciliation_verdict": "RESOLVED: Actual configured Fusion Markets cTrader demo schedule (account 48439552, settings.BROKER_COMMISSION_PROFILE='fusion_ctrader_demo') is $12.00 per $1,000,000 notional per side ($24/$1M round-trip = 0.24 bps), verified across 15/15 demo deals in Task 5 & G1. At median XAUUSD price $4,179.94, this equals $10.03/lot ($0.1003/oz) RT \u2014 2.23x HIGHER than the stale $4.50/lot ($0.045/oz) shorthand cited in G3.1. All G3.2 labels use the verified $12/$1M/side notional commission + 0.0533 pips/side slippage ($0.01066/oz RT) + executable bid/ask spread + swap.",
+  "configured_application_settings": {
+    "BROKER_TYPE": "ctrader",
+    "TRADING_MODE": "demo",
+    "BROKER_COMMISSION_PROFILE": "fusion_ctrader_demo",
+    "account_id": 48439552,
+    "commission_type": "USD_PER_MILLION_USD",
+    "commission_rate_per_million_per_side_usd": 12.0,
+    "contract_size_oz_per_lot": 100.0,
+    "slippage_pips_per_side": 0.0533,
+    "pip_size_usd": 0.1,
+    "slippage_usd_per_oz_per_side": 0.00533,
+    "slippage_usd_per_oz_rt": 0.01066,
+    "swap_long_pips": -5.653,
+    "swap_short_pips": 2.677,
+    "swap_triple_weekday": "WEDNESDAY",
+    "swap_rollover_tz": "America/New_York",
+    "swap_rollover_local_time": "17:00"
+  },
+  "unit_cost_breakdown_at_median_price_4179_94": {
+    "reference_price_usd": 4179.94,
+    "commission_rt_usd_per_lot": 10.04,
+    "commission_rt_usd_per_oz": 0.10032,
+    "commission_rt_bps": 0.24,
+    "slippage_rt_usd_per_oz": 0.01066,
+    "slippage_rt_bps": 0.026,
+    "median_tick_spread_usd_per_oz": 0.07,
+    "median_1m_bar_close_spread_usd_per_oz": 0.06,
+    "total_rt_friction_tick_usd_per_oz": 0.18098,
+    "total_rt_friction_tick_bps": 0.433,
+    "total_rt_friction_1m_bar_usd_per_oz": 0.17098,
+    "total_rt_friction_1m_bar_bps": 0.409,
+    "stale_g3_1_total_tick_usd_per_oz": 0.115,
+    "actual_vs_stale_friction_ratio": 1.574
+  },
+  "sizing_service_check": {
+    "equity_usd": 10000.0,
+    "risk_profile": "MEDIUM_BACKTEST",
+    "entry_price": 4180.0,
+    "atr_value": 6.67,
+    "commission_per_lot_rt": 10.04,
+    "sized_lots": 0.09,
+    "sl_price": 4169.995,
+    "tp_price": 4200.01,
+    "rejection_reason": null
+  },
+  "parity_test_cases": [
+    {
+      "lots": 0.01,
+      "entry_px": 3538.0,
+      "exit_px": 3541.5,
+      "broker_cost_service_rt_usd": 0.08,
+      "label_cost_spec_rt_usd": 0.08,
+      "abs_diff_usd": 0.0,
+      "stale_g3_1_4_50_lot_rt_usd": 0.04,
+      "understatement_ratio_vs_stale": 1.778
+    },
+    {
+      "lots": 0.05,
+      "entry_px": 4179.94,
+      "exit_px": 4184.12,
+      "broker_cost_service_rt_usd": 0.5,
+      "label_cost_spec_rt_usd": 0.5,
+      "abs_diff_usd": 0.0,
+      "stale_g3_1_4_50_lot_rt_usd": 0.23,
+      "understatement_ratio_vs_stale": 2.222
+    },
+    {
+      "lots": 0.1,
+      "entry_px": 4179.94,
+      "exit_px": 4175.76,
+      "broker_cost_service_rt_usd": 1.0,
+      "label_cost_spec_rt_usd": 1.0,
+      "abs_diff_usd": 0.0,
+      "stale_g3_1_4_50_lot_rt_usd": 0.45,
+      "understatement_ratio_vs_stale": 2.222
+    },
+    {
+      "lots": 1.0,
+      "entry_px": 4179.94,
+      "exit_px": 4179.94,
+      "broker_cost_service_rt_usd": 10.04,
+      "label_cost_spec_rt_usd": 10.03,
+      "abs_diff_usd": 0.01,
+      "stale_g3_1_4_50_lot_rt_usd": 4.5,
+      "understatement_ratio_vs_stale": 2.231
+    },
+    {
+      "lots": 1.0,
+      "entry_px": 4450.0,
+      "exit_px": 4450.0,
+      "broker_cost_service_rt_usd": 10.68,
+      "label_cost_spec_rt_usd": 10.68,
+      "abs_diff_usd": 0.0,
+      "stale_g3_1_4_50_lot_rt_usd": 4.5,
+      "understatement_ratio_vs_stale": 2.373
+    }
+  ],
+  "max_rounding_diff_usd": 0.01,
+  "elapsed_sec": 11.06
+}

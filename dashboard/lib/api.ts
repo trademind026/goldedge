@@ -158,14 +158,19 @@ export interface Trade {
   initial_sl?: number;
   sl: number;
   target: number;
-  lot_size: number;
+  lot_size?: number;
   qty?: number;
   pnl: number;
   exit_reason: string;
-  final_score: number;
-  regime: string;
-  session: string;
-  entry_atr: number;
+  final_score?: number;
+  score?: number;
+  regime?: string;
+  session?: string;
+  entry_atr?: number;
+  planned_risk_usd?: number;
+  planned_risk_pct?: number;
+  realized_loss_pct?: number;
+  sl_gap_usd?: number;
 }
 
 export interface PaperPosition {
@@ -291,16 +296,96 @@ export interface RiskProfile {
   min_score_threshold: number;
 }
 
+export interface BreakdownStats {
+  trades: number;
+  wins: number;
+  losses: number;
+  win_rate: number;
+  pnl: number;
+  avg_pnl?: number;
+  pf?: number;
+}
+
+export interface ExitReasonStats {
+  count: number;
+  wins: number;
+  win_rate: number;
+  pnl: number;
+}
+
+export interface BacktestMetrics {
+  strategy_mode?: string;
+  scorer_mode?: string;
+  max_score_threshold?: number | null;
+  commission_per_lot?: number;
+  initial_capital?: number;
+  final_equity?: number;
+  max_margin?: number;
+  required_capital?: number;
+  roi?: number;
+  closed_max_dd?: number;
+  closed_max_dd_pct?: number;
+  mtm_max_dd?: number;
+  mtm_max_dd_pct?: number;
+  mtm_max_dd_initial_pct?: number;
+  mtm_peak_equity?: number;
+  mtm_trough_equity?: number;
+  mtm_peak_time?: string | null;
+  mtm_trough_time?: string | null;
+  raw_tick_mtm_max_dd?: number;
+  max_planned_risk_pct?: number;
+  max_realized_loss_pct?: number;
+  sl_slippage_events?: number;
+  worst_sl_gap_usd?: number;
+  days_traded?: number;
+  avg_pnl_per_trade?: number;
+  avg_pnl_per_day?: number;
+  max_win?: number;
+  max_loss?: number;
+  strategy_breakdown?: Record<string, BreakdownStats>;
+  direction_breakdown?: Record<string, BreakdownStats>;
+  exit_reason_breakdown?: Record<string, ExitReasonStats>;
+  daily_breakdown?: Record<string, BreakdownStats>;
+  kalman_comparison?: KalmanComparisonReport | null;
+}
+
 export interface BacktestProfile {
+  run_id?: string;
+  symbol?: string;
+  strategy_mode?: string;
+  scorer_mode?: string;
+  max_score_threshold?: number | null;
   trades: number;
   win_rate: number;
   pnl: number;
   max_dd: number;
+  closed_max_dd?: number;
+  closed_max_dd_pct?: number;
+  mtm_max_dd?: number;
+  mtm_max_dd_pct?: number;
+  mtm_max_dd_initial_pct?: number;
+  max_planned_risk_pct?: number;
+  max_realized_loss_pct?: number;
+  sl_slippage_events?: number;
+  worst_sl_gap_usd?: number;
+  required_capital?: number;
+  max_margin?: number;
+  roi?: number;
+  final_equity?: number;
+  days_traded?: number;
+  avg_pnl_per_trade?: number;
+  avg_pnl_per_day?: number;
+  max_win?: number;
+  max_loss?: number;
+  strategy_breakdown?: Record<string, BreakdownStats>;
+  direction_breakdown?: Record<string, BreakdownStats>;
+  exit_reason_breakdown?: Record<string, ExitReasonStats>;
+  daily_breakdown?: Record<string, BreakdownStats>;
   pf: number;
   avg_win: number;
   avg_loss: number;
   rr: number;
-  equity_curve: number[];
+  equity_curve: EquityCurvePoint[] | number[];
   trade_list: Trade[];
 }
 
@@ -332,12 +417,15 @@ export interface ChartBar {
   high: number;
   low: number;
   close: number;
+  tick_count?: number;
   tick_volume: number;
+  tick_rate?: number;
+  real_volume?: number | null;
   spread_pips: number;
   kalman_price: number;
   kalman_velocity_z: number;
   entropy: number;
-  order_flow_momentum: number;
+  quote_rate_momentum: number;
   ema20: number;
   ema50: number;
   atr_pips: number;
@@ -389,6 +477,10 @@ export interface BacktestHistoryRun {
   avg_win: number;
   avg_loss: number;
   rr: number;
+  status?: string;
+  strategy_mode?: string;
+  error?: string | null;
+  metrics?: BacktestMetrics;
   created_at: string | null;
 }
 
@@ -409,6 +501,11 @@ export interface KalmanCompareMetrics {
   avg_win: number;
   avg_loss: number;
   max_drawdown: number;
+  closed_max_drawdown?: number;
+  closed_max_dd_pct?: number;
+  mtm_max_drawdown?: number;
+  mtm_max_dd_pct?: number;
+  max_planned_risk_pct?: number;
   pf: number;
   rr: number;
   kalman_exits: number;
@@ -423,4 +520,10 @@ export interface KalmanComparisonReport {
   without_kalman: KalmanCompareMetrics;
   with_kalman: KalmanCompareMetrics;
   net_kalman_difference: number;
+}
+
+export function normalizeWinRate(val?: number | null): number {
+  const n = Number(val ?? 0);
+  if (!Number.isFinite(n)) return 0;
+  return n > 0 && n <= 1.0 ? n * 100.0 : n;
 }

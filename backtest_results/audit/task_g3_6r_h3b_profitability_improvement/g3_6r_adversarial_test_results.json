@@ -1,0 +1,15 @@
+{
+  "task": "G3.6R_PHASE_E_ADVERSARIAL_TEST_RESULTS",
+  "generated_at_utc": "2026-11-23T11:47:44.539809+00:00",
+  "overall_status": "PASS",
+  "tests_passed": 6,
+  "tests_total": 6,
+  "results": {
+    "01_clean_room_zero_goldedge_imports": "PASS",
+    "02_opt_in_defaults_preserve_frozen_h0_h3b": "PASS",
+    "03_be_trigger_1_0_vs_1_4_atr_exact_behavior": "PASS",
+    "04_safety_locks_shadow_demo_hwm_8pct": "PASS",
+    "05_frozen_baselines_sha256_intact": "PASS",
+    "06_independent_clean_room_reconciliation_zero_mismatches": "PASS"
+  }
+}

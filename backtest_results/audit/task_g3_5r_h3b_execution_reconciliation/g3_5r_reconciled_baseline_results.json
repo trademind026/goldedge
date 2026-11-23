@@ -1,0 +1,20 @@
+{
+  "task": "G3.5R_PHASE_H_RECONCILED_BASELINE_RESULTS",
+  "generated_at_utc": "2026-11-23T10:58:28.087867+00:00",
+  "n_trades": 112,
+  "exit_reason_mismatches": 0,
+  "max_entry_price_diff": 0.0,
+  "max_exit_price_diff": 0.0,
+  "max_comm_usd_diff": 0.0,
+  "max_net_pnl_usd_diff": 0.0,
+  "max_net_r_diff": 0.0,
+  "app_total_pnl_usd": 27.5507,
+  "sim_total_pnl_usd": 27.5507,
+  "app_total_r": 0.77251,
+  "sim_total_r": 0.77251,
+  "total_r_diff": 0.0,
+  "app_cum_r_max_dd": -10.9091,
+  "sim_cum_r_max_dd": -10.9091,
+  "exact_reconciled": true,
+  "reconciled_ledger_sha256": "065765F9C4F615723305F67FF3C3C36616C2189FD6B064E86637DB5DF0069331"
+}

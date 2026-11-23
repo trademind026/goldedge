@@ -1,0 +1,149 @@
+{
+  "task": "G3.4_PHASE_J_INDEPENDENT_RECONCILIATION",
+  "generated_at_utc": "2026-11-23T09:50:30.913302+00:00",
+  "clean_room_zero_goldedge_imports": true,
+  "overall_status": "PASS",
+  "hashes_verified": true,
+  "duplicate_predictions": {
+    "macro": 0,
+    "micro": 0
+  },
+  "metric_mismatches": 0,
+  "macro_metric_reconciliation": {
+    "B1_TRAIN_PREVALENCE": {
+      "indep": {
+        "max_simplex_err": 0.0,
+        "log_loss": 0.87804,
+        "multiclass_brier": 0.50745,
+        "accuracy": 0.66046,
+        "balanced_accuracy": 0.33333,
+        "roc_auc_ovr": {
+          "UP": 0.49754,
+          "DOWN": 0.48323,
+          "FLAT": 0.49917
+        }
+      },
+      "max_diff": 0.0,
+      "match": true
+    },
+    "B2_CAUSAL_MOMENTUM": {
+      "indep": {
+        "max_simplex_err": 0.0,
+        "log_loss": 0.89326,
+        "multiclass_brier": 0.514,
+        "accuracy": 0.66046,
+        "balanced_accuracy": 0.33333,
+        "roc_auc_ovr": {
+          "UP": 0.49297,
+          "DOWN": 0.48789,
+          "FLAT": 0.54927
+        }
+      },
+      "max_diff": 0.0,
+      "match": true
+    },
+    "B3_LOGISTIC_L2": {
+      "indep": {
+        "max_simplex_err": 1e-06,
+        "log_loss": 0.84192,
+        "multiclass_brier": 0.48312,
+        "accuracy": 0.65996,
+        "balanced_accuracy": 0.34658,
+        "roc_auc_ovr": {
+          "UP": 0.62526,
+          "DOWN": 0.62339,
+          "FLAT": 0.65974
+        }
+      },
+      "max_diff": 0.0,
+      "match": true
+    },
+    "C1_LIGHTGBM_CONSTRAINED": {
+      "indep": {
+        "max_simplex_err": 1e-06,
+        "log_loss": 0.84017,
+        "multiclass_brier": 0.48203,
+        "accuracy": 0.65922,
+        "balanced_accuracy": 0.34314,
+        "roc_auc_ovr": {
+          "UP": 0.62688,
+          "DOWN": 0.62495,
+          "FLAT": 0.66331
+        }
+      },
+      "max_diff": 0.0,
+      "match": true
+    }
+  },
+  "micro_metric_reconciliation": {
+    "B1_TRAIN_PREVALENCE": {
+      "indep": {
+        "max_simplex_err": 1e-06,
+        "log_loss": 0.97965,
+        "multiclass_brier": 0.5997,
+        "accuracy": 0.44189,
+        "balanced_accuracy": 0.33333,
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.49864,
+          "WAIT_ADVERSE": 0.49736,
+          "NEUTRAL": 0.50434
+        }
+      },
+      "max_diff": 0.0,
+      "match": true
+    },
+    "B2_CAUSAL_MOMENTUM": {
+      "indep": {
+        "max_simplex_err": 1e-06,
+        "log_loss": 0.99105,
+        "multiclass_brier": 0.60722,
+        "accuracy": 0.43716,
+        "balanced_accuracy": 0.33074,
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.49451,
+          "WAIT_ADVERSE": 0.49322,
+          "NEUTRAL": 0.49971
+        }
+      },
+      "max_diff": 0.0,
+      "match": true
+    },
+    "B3_LOGISTIC_L2": {
+      "indep": {
+        "max_simplex_err": 1e-06,
+        "log_loss": 0.96658,
+        "multiclass_brier": 0.59492,
+        "accuracy": 0.44432,
+        "balanced_accuracy": 0.34783,
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.5329,
+          "WAIT_ADVERSE": 0.52298,
+          "NEUTRAL": 0.63318
+        }
+      },
+      "max_diff": 0.0,
+      "match": true
+    },
+    "C1_LIGHTGBM_CONSTRAINED": {
+      "indep": {
+        "max_simplex_err": 1e-06,
+        "log_loss": 0.9651,
+        "multiclass_brier": 0.59446,
+        "accuracy": 0.44443,
+        "balanced_accuracy": 0.34546,
+        "roc_auc_ovr": {
+          "ENTER_NOW": 0.53321,
+          "WAIT_ADVERSE": 0.5251,
+          "NEUTRAL": 0.63889
+        }
+      },
+      "max_diff": 0.0,
+      "match": true
+    }
+  },
+  "frozen_baselines_intact": {
+    "frozen_111": true,
+    "frozen_70": true
+  },
+  "elapsed_sec": 2.56
+}

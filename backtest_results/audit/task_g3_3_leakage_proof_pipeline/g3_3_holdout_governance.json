@@ -1,0 +1,26 @@
+{
+  "task": "G3.3_PHASE_G_HOLDOUT_GOVERNANCE",
+  "generated_at_utc": "2026-11-22T17:25:15.309284+00:00",
+  "git_head": "unknown",
+  "research_exposed_period": {
+    "window_utc": "2026-08-13T00:00:00Z .. 2026-11-19T11:45:39Z",
+    "status": "RESEARCH_EXPOSED_DEVELOPMENT_ONLY",
+    "reason": "Inspected during Tasks G1, G2, G3.1, G3.2, and G3.3. Must NOT be cited as an untouched final holdout."
+  },
+  "untouched_prospective_holdout": {
+    "window_utc": "Post-freeze forward shadow collection (> 2026-11-22)",
+    "status": "RESERVED_FOR_G3_7_FINAL_UNSEEN_EVALUATION"
+  },
+  "earlier_history_expansion_plan": {
+    "verified_recoverable_from_broker": "2025-11-17 .. 2026-08-12 via Fusion Markets cTrader Demo ProtoOAGetTickDataReq",
+    "isolation_rule": "Stage newly recovered earlier months separately without modifying frozen Aug-Nov H0/H3b research windows; lock any reserved earlier test block before G3.4 optimization."
+  },
+  "reproducibility_manifest": {
+    "random_seed_policy": 42,
+    "feature_schema_version": "G3_3_FEATURE_SCHEMA_V1",
+    "label_spec_version": "G3_2_LABEL_SPEC_V1",
+    "cost_profile": "fusion_ctrader_demo_48439552",
+    "g3_2_macro_parquet_sha256": "34EF853020E760C83E0250E7CBFC97259E9D5DEAA6B8FA5DD9A87473C6A3CE5D",
+    "g3_2_micro_parquet_sha256": "A642CC653EA8D9EDC993E4D9EEB3B8CF7A40C3E2CC4C792D029A962984CC1A19"
+  }
+}

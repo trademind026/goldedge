@@ -1,0 +1,445 @@
+{
+  "task": "G3.1_PHASE_D_INDEPENDENCE_AND_LEAKAGE_AUDIT",
+  "generated_at_utc": "2026-11-22T16:28:33.682822+00:00",
+  "independence_methodology_note": "Non-overlapping windows remove direct horizon overlap (return lag-1 ACF ~ 0) but DO NOT yield i.i.d. observations. Shared trading-day regimes, volatility clustering, and autocorrelated features inflate variance substantially. Both day-level block SE / ICC effective sample sizes and non-overlapping feature ACF are reported below.",
+  "macro_effective_sample_size": {
+    "raw_1m_overlapping_15m_windows": 95727,
+    "lopez_de_prado_avg_concurrency_1m": 15.0,
+    "uniqueness_weighted_n_1m": 6381.8,
+    "decision_grid_5m_windows": 19095,
+    "lopez_de_prado_avg_concurrency_5m": 3.0,
+    "uniqueness_weighted_n_5m": 6365.0,
+    "nonoverlap_15m_windows": 6321,
+    "unique_trading_days": 85,
+    "newey_west_1m_mid_ret_lag60": {
+      "n": 95727,
+      "n_eff": 7029.4,
+      "variance_inflation": 13.618,
+      "lag_acfs": {
+        "lag_1": 0.9301,
+        "lag_2": 0.86125,
+        "lag_3": 0.7926,
+        "lag_4": 0.72762,
+        "lag_5": 0.66042,
+        "lag_6": 0.59347,
+        "lag_7": 0.52556,
+        "lag_8": 0.45962,
+        "lag_9": 0.39267,
+        "lag_10": 0.32695,
+        "lag_15": -0.00273,
+        "lag_20": 0.00331,
+        "lag_30": 0.00135,
+        "lag_60": -0.00397
+      }
+    },
+    "newey_west_5m_mid_ret_lag20": {
+      "n": 19095,
+      "n_eff": 6727.0,
+      "variance_inflation": 2.839,
+      "lag_acfs": {
+        "lag_1": 0.65212,
+        "lag_2": 0.32884,
+        "lag_3": -0.00572,
+        "lag_4": 0.01175,
+        "lag_5": 0.0121,
+        "lag_6": 0.01089,
+        "lag_7": -0.00069,
+        "lag_8": -0.01121,
+        "lag_9": -0.01297,
+        "lag_10": -0.01196,
+        "lag_15": -0.00533,
+        "lag_20": 0.01594
+      }
+    },
+    "newey_west_nonoverlap_15m_mid_ret_lag10": {
+      "n": 6321,
+      "n_eff": 6321.0,
+      "variance_inflation": 1.0,
+      "lag_acfs": {
+        "lag_1": -0.02316,
+        "lag_2": 0.01124,
+        "lag_3": -0.01492,
+        "lag_4": -0.0031,
+        "lag_5": 0.00374,
+        "lag_6": 0.01834,
+        "lag_7": 0.00392,
+        "lag_8": 0.01116,
+        "lag_9": 0.00737,
+        "lag_10": 0.00049
+      }
+    },
+    "newey_west_1m_y10_label_lag60": {
+      "n": 95727,
+      "n_eff": 9070.1,
+      "variance_inflation": 10.554,
+      "lag_acfs": {
+        "lag_1": 0.79489,
+        "lag_2": 0.70422,
+        "lag_3": 0.63284,
+        "lag_4": 0.56987,
+        "lag_5": 0.51036,
+        "lag_6": 0.45509,
+        "lag_7": 0.4,
+        "lag_8": 0.3481,
+        "lag_9": 0.29501,
+        "lag_10": 0.24362,
+        "lag_15": -0.01264,
+        "lag_20": -0.01494,
+        "lag_30": -0.00871,
+        "lag_60": -0.0047
+      }
+    },
+    "newey_west_nonoverlap_15m_y10_label_lag10": {
+      "n": 6321,
+      "n_eff": 6321.0,
+      "variance_inflation": 1.0,
+      "lag_acfs": {
+        "lag_1": -0.03364,
+        "lag_2": -0.0026,
+        "lag_3": -0.02131,
+        "lag_4": 0.00517,
+        "lag_5": 0.01567,
+        "lag_6": 0.02389,
+        "lag_7": -0.00898,
+        "lag_8": 0.01842,
+        "lag_9": -0.00761,
+        "lag_10": 0.00426
+      }
+    },
+    "day_level_cluster_dependence": {
+      "up_0.10pct_binary": {
+        "n_obs": 6321,
+        "n_days": 85,
+        "mean_obs_per_day": 74.36,
+        "icc_within_day": 0.003762,
+        "deff_day_icc": 1.275,
+        "n_eff_day_icc": 4956.0,
+        "day_block_se": 0.007847,
+        "iid_se": 0.004705,
+        "day_block_variance_inflation": 2.782,
+        "n_eff_day_block_se": 2272.2,
+        "day_block_95pct_ci_halfwidth": 0.01538
+      },
+      "down_0.10pct_binary": {
+        "n_obs": 6321,
+        "n_days": 85,
+        "mean_obs_per_day": 74.36,
+        "icc_within_day": 0.009315,
+        "deff_day_icc": 1.682,
+        "n_eff_day_icc": 3758.1,
+        "day_block_se": 0.007375,
+        "iid_se": 0.004816,
+        "day_block_variance_inflation": 2.344,
+        "n_eff_day_block_se": 2696.2,
+        "day_block_95pct_ci_halfwidth": 0.014454
+      },
+      "directional_0.10pct_binary": {
+        "n_obs": 6321,
+        "n_days": 85,
+        "mean_obs_per_day": 74.36,
+        "icc_within_day": 0.013937,
+        "deff_day_icc": 2.02,
+        "n_eff_day_icc": 3128.6,
+        "day_block_se": 0.012072,
+        "iid_se": 0.005986,
+        "day_block_variance_inflation": 4.067,
+        "n_eff_day_block_se": 1554.2,
+        "day_block_95pct_ci_halfwidth": 0.023662
+      },
+      "mid_return_15m": {
+        "n_obs": 6321,
+        "n_days": 85,
+        "mean_obs_per_day": 74.36,
+        "icc_within_day": 0.001801,
+        "deff_day_icc": 1.132,
+        "n_eff_day_icc": 5584.5,
+        "day_block_se": 2.4e-05,
+        "iid_se": 1.7e-05,
+        "day_block_variance_inflation": 1.837,
+        "n_eff_day_block_se": 3440.1,
+        "day_block_95pct_ci_halfwidth": 4.6e-05
+      },
+      "conservative_day_clustered_n_eff": 1554.2
+    },
+    "nonoverlap_feature_and_volatility_dependence": {
+      "atr14_5m_nonoverlap_15m": {
+        "n": 6321,
+        "n_eff": 652.9,
+        "variance_inflation": 9.681,
+        "lag_acfs": {
+          "lag_1": 0.93175,
+          "lag_2": 0.84201,
+          "lag_3": 0.74231,
+          "lag_4": 0.64671,
+          "lag_5": 0.54742,
+          "lag_6": 0.45656,
+          "lag_7": 0.37096,
+          "lag_8": 0.296,
+          "lag_9": 0.22917,
+          "lag_10": 0.17062,
+          "lag_15": 0.01727,
+          "lag_20": 0.02766
+        }
+      },
+      "adx14_5m_nonoverlap_15m": {
+        "n": 6321,
+        "n_eff": 1137.2,
+        "variance_inflation": 5.558,
+        "lag_acfs": {
+          "lag_1": 0.85523,
+          "lag_2": 0.62676,
+          "lag_3": 0.42728,
+          "lag_4": 0.27924,
+          "lag_5": 0.18029,
+          "lag_6": 0.11849,
+          "lag_7": 0.07674,
+          "lag_8": 0.0497,
+          "lag_9": 0.03592,
+          "lag_10": 0.02584,
+          "lag_15": -0.02082,
+          "lag_20": -0.03882
+        }
+      },
+      "regime_is_bear_nonoverlap_15m": {
+        "n": 6321,
+        "n_eff": 812.8,
+        "variance_inflation": 7.777,
+        "lag_acfs": {
+          "lag_1": 0.72882,
+          "lag_2": 0.5901,
+          "lag_3": 0.49323,
+          "lag_4": 0.43297,
+          "lag_5": 0.3714,
+          "lag_6": 0.3216,
+          "lag_7": 0.27964,
+          "lag_8": 0.24684,
+          "lag_9": 0.22346,
+          "lag_10": 0.19786,
+          "lag_15": 0.10342,
+          "lag_20": 0.05806
+        }
+      },
+      "abs_15m_return_vol_cluster": {
+        "n": 6321,
+        "n_eff": 2740.8,
+        "variance_inflation": 2.306,
+        "lag_acfs": {
+          "lag_1": 0.18546,
+          "lag_2": 0.15044,
+          "lag_3": 0.11315,
+          "lag_4": 0.11806,
+          "lag_5": 0.07521,
+          "lag_6": 0.08055,
+          "lag_7": 0.04963,
+          "lag_8": 0.03216,
+          "lag_9": 0.01108,
+          "lag_10": 0.0178,
+          "lag_15": -0.00794,
+          "lag_20": -0.00283
+        }
+      }
+    }
+  },
+  "micro_effective_sample_size": {
+    "raw_overlapping_30_tick_windows": 19942829,
+    "lopez_de_prado_avg_concurrency": 30.0,
+    "uniqueness_weighted_n": 664761.0,
+    "nonoverlap_30_tick_windows": 664806,
+    "newey_west_nonoverlap_30_tick_lag10": {
+      "n": 664806,
+      "n_eff": 664806.0,
+      "variance_inflation": 1.0,
+      "lag_acfs": {
+        "lag_1": 0.00225,
+        "lag_2": -0.00588,
+        "lag_3": -0.00224,
+        "lag_4": -0.00907,
+        "lag_5": 0.00067,
+        "lag_6": -0.00067,
+        "lag_7": 0.00304,
+        "lag_8": 0.00385,
+        "lag_9": -0.00334,
+        "lag_10": -0.00182
+      }
+    },
+    "day_level_cluster_dependence": {
+      "exec_up_gt0_binary": {
+        "n_obs": 664806,
+        "n_days": 85,
+        "mean_obs_per_day": 7821.25,
+        "icc_within_day": 0.000185,
+        "deff_day_icc": 2.443,
+        "n_eff_day_icc": 272083.9,
+        "day_block_se": 0.001332,
+        "iid_se": 0.000607,
+        "day_block_variance_inflation": 4.811,
+        "n_eff_day_block_se": 138181.9,
+        "day_block_95pct_ci_halfwidth": 0.002611
+      },
+      "abs_30t_move_usd": {
+        "n_obs": 664806,
+        "n_days": 85,
+        "mean_obs_per_day": 7821.25,
+        "icc_within_day": 0.014761,
+        "deff_day_icc": 116.17,
+        "n_eff_day_icc": 5722.7,
+        "day_block_se": 0.006304,
+        "iid_se": 0.000511,
+        "day_block_variance_inflation": 152.474,
+        "n_eff_day_block_se": 4360.1,
+        "day_block_95pct_ci_halfwidth": 0.012357
+      },
+      "mid_return_30t": {
+        "n_obs": 664806,
+        "n_days": 85,
+        "mean_obs_per_day": 7821.25,
+        "icc_within_day": 1.6e-05,
+        "deff_day_icc": 1.127,
+        "n_eff_day_icc": 590124.5,
+        "day_block_se": 0.001355,
+        "iid_se": 0.000719,
+        "day_block_variance_inflation": 3.554,
+        "n_eff_day_block_se": 187084.4,
+        "day_block_95pct_ci_halfwidth": 0.002655
+      },
+      "conservative_day_clustered_n_eff": 4360.1
+    },
+    "nonoverlap_feature_and_volatility_dependence": {
+      "abs_30t_move_vol_cluster": {
+        "n": 664806,
+        "n_eff": 186271.6,
+        "variance_inflation": 3.569,
+        "lag_acfs": {
+          "lag_1": 0.16698,
+          "lag_2": 0.14567,
+          "lag_3": 0.13598,
+          "lag_4": 0.13171,
+          "lag_5": 0.13078,
+          "lag_6": 0.12683,
+          "lag_7": 0.12208,
+          "lag_8": 0.12074,
+          "lag_9": 0.11784,
+          "lag_10": 0.11903,
+          "lag_15": 0.10939,
+          "lag_20": 0.10434
+        }
+      },
+      "spread_30t_nonoverlap": {
+        "n": 664806,
+        "n_eff": 120606.7,
+        "variance_inflation": 5.512,
+        "lag_acfs": {
+          "lag_1": 0.47573,
+          "lag_2": 0.36654,
+          "lag_3": 0.28947,
+          "lag_4": 0.24587,
+          "lag_5": 0.22743,
+          "lag_6": 0.21349,
+          "lag_7": 0.18298,
+          "lag_8": 0.15849,
+          "lag_9": 0.15216,
+          "lag_10": 0.13542,
+          "lag_15": 0.11654,
+          "lag_20": 0.09797
+        }
+      }
+    },
+    "unique_trading_days": 85
+  },
+  "h3b_selection_bias_and_clustering": {
+    "g2_candidate_rows": 2482,
+    "g2_independent_eligible_setups": 140,
+    "h3b_executed_trades": 90,
+    "selection_rate_vs_5m_windows_pct": 0.733,
+    "warning": "Training ML exclusively on H3b-filtered entries (140 independent setups / 90 trades) introduces severe selection bias and insufficient EPV for nonlinear models. Base directional Macro/Micro models must train on the full eligible continuous timeline (or regime-stratified decision grid) and evaluate conditioned on strategy entries separately."
+  },
+  "macro_micro_dependency": {
+    "sampled_concurrent_pairs": 18047,
+    "pearson_corr_concurrent_15m_vs_30t": -0.00252,
+    "implication": "Concurrent 30-tick Micro returns are embedded inside the active 15m Macro bar; Macro and Micro models MUST share the same chronological train/validation/test cutoffs so Micro validation ticks never leak future price direction into Macro training or vice versa."
+  },
+  "pipeline_leakage_audit": [
+    {
+      "component": "TickRepository.get_ticks_as_df",
+      "file": "src/goldedge/adapters/secondary/db/tick_repository.py",
+      "status": "CLEAN",
+      "detail": "Uses half-open [start, end) range (time >= start AND time < end) and strict bid>0 & ask>0 & bid<ask."
+    },
+    {
+      "component": "TickRepository.get_ticks & stream_ticks",
+      "file": "src/goldedge/adapters/secondary/db/tick_repository.py",
+      "status": "DEFECT_MINOR_BOUNDARY",
+      "detail": "Uses inclusive [start, end] (time >= :start AND time <= :end) without strict bid<ask filter; chunked callers using get_ticks/stream_ticks risk duplicate boundary ticks at exact chunk boundaries."
+    },
+    {
+      "component": "PandasAggregatorRepository.aggregate_ticks_to_bars",
+      "file": "src/goldedge/adapters/secondary/database/pandas_aggregator_repo.py",
+      "status": "DEFECT_MINOR_BOUNDARY",
+      "detail": "Uses inclusive time <= %(end)s and legacy market_bars_1m (only 20,175 rows vs 117k+ 1m buckets in market_ticks); offline ML must read market_ticks or market_bars_1m_quote_semantics_v1 directly, never legacy market_bars_1m."
+    },
+    {
+      "component": "RollingBarAggregator (1m -> 5m -> 1h)",
+      "file": "src/goldedge/application/use_cases/run_backtest.py",
+      "status": "CLEAN_CAUSAL",
+      "detail": "Verified in G1: emits completed bars only when next bucket starts; zero look-ahead across 1m/5m/1h boundaries."
+    },
+    {
+      "component": "VolumeAdaptiveKalmanFilter",
+      "file": "src/goldedge/domain/services/denoise_service.py",
+      "status": "CLEAN_CAUSAL",
+      "detail": "Strictly recursive tick-by-tick state update with 24h warmup; zero future leakage."
+    },
+    {
+      "component": "IndicatorService & RegimeDetectorService",
+      "file": "src/goldedge/domain/services/indicator_service.py",
+      "status": "CLEAN_CAUSAL_WITH_WARMUP",
+      "detail": "Strictly backward-looking rolling/EMA calculations; requires >= 50 H1 bars (~50h) for H1 EMA50 and >= 100 5m bars (~8.3h) for ATR baseline."
+    },
+    {
+      "component": "MicrostructureFeatureRepository.compute_forex_micro_features",
+      "file": "src/goldedge/adapters/secondary/features/microstructure_feature_repo.py",
+      "status": "DEFECT_ZERO_SIGNAL",
+      "detail": "Lee-Ready aggressor rule (price>=ask / price<=bid) always evaluates to 0 on midpoint quotes (last=(bid+ask)/2); unusable as an order-flow feature."
+    },
+    {
+      "component": "Global Scalers / Quantile Normalization",
+      "file": "ML Pipeline Design Requirement",
+      "status": "REQUIRED_GUARD",
+      "detail": "All feature scalers, encoders, and neutral-band thresholds MUST be fit strictly inside each training fold, never across the full Aug-Nov 2026 history."
+    },
+    {
+      "component": "Research-Exposure Leakage (Aug-Nov 2026)",
+      "file": "Governance",
+      "status": "CRITICAL_GOVERNANCE_WARNING",
+      "detail": "Aug 13 - Nov 19, 2026 has already been inspected in Tasks G1, G2, and G3.1. Any model trained and tuned on this window cannot claim untouched out-of-sample status; genuine out-of-sample proof requires fresh post-freeze forward shadow data (post-Nov 22, 2026) or newly acquired unseen historical months."
+    }
+  ],
+  "recommended_chronological_validation_framework": {
+    "scheme": "Expanding-window or rolling Purged Walk-Forward CV with Embargo (never random K-fold)",
+    "macro_purge_length_minutes": 15,
+    "macro_embargo_length_minutes": 60,
+    "macro_embargo_justification": "Purge=15m removes exact label overlap; Embargo=60m (12x 5m bars) damps short-term ATR/regime hysteresis and intraday return autocorrelation.",
+    "micro_purge_length_seconds": 60.0,
+    "micro_embargo_length_seconds": 300,
+    "micro_embargo_justification": "p99 elapsed time for 30 valid ticks is 32.3619s; 300s (5m) embargo eliminates rolling-window and quote-burst persistence across fold boundaries.",
+    "suggested_walk_forward_folds": [
+      {
+        "fold": 1,
+        "train": "2026-08-20 .. 2026-09-25",
+        "val": "2026-09-26 .. 2026-10-12"
+      },
+      {
+        "fold": 2,
+        "train": "2026-08-20 .. 2026-10-12",
+        "val": "2026-10-13 .. 2026-10-30"
+      },
+      {
+        "fold": 3,
+        "train": "2026-08-20 .. 2026-10-30",
+        "val": "2026-10-31 .. 2026-11-16"
+      }
+    ],
+    "unseen_holdout_requirement": "Reserve post-freeze forward shadow data (after 2026-11-22) as untouched prospective OOS evaluation."
+  },
+  "elapsed_sec": 34.83
+}

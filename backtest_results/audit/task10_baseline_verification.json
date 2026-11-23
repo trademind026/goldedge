@@ -1,0 +1,65 @@
+{
+  "frozen_hashes": {
+    "task4_frozen_111_sha256": "73306e1529adc48284bce9ab6ac35122f33b9999d2464af441867eb3bb6cf168",
+    "task4_match": true,
+    "v2_w1_sha256": "29f21ac004763c61081df9d25a3d15c3ef49cdabe2f16b1bf63424df94467f4f",
+    "v2_w1_match": true,
+    "v2_w2_sha256": "1be4bd55a1f6282ec811bf68f213acaae1046952c10c8f79c54de39ae9e1b05a",
+    "v2_w2_match": true,
+    "v2_w3_sha256": "2021b78ab7beb55542562acee82912de12370fd298eb9694f70fbcbba98fce14",
+    "v2_w3_match": true,
+    "v2_w3_journeys_match": true
+  },
+  "task9_evidence_check": {
+    "task9_trades_count": 143,
+    "task9_vs_frozen_w3_max_pnl_diff": 0.0,
+    "task9_vs_frozen_w3_max_score_diff": 0.0,
+    "directions_exact_match": true,
+    "task9_repro_mismatch_count": 0,
+    "task9_H0": {
+      "n": 143,
+      "wins": 79,
+      "losses": 64,
+      "wr_pct": 55.24,
+      "net_pnl": 211.48,
+      "pf": 1.0414,
+      "expectancy": 1.48,
+      "closed_dd": -1336.28,
+      "mtm_dd_usd": -1409.22,
+      "mtm_dd_pct": 12.78,
+      "final_equity": 10211.48
+    },
+    "task9_H4a": {
+      "n": 99,
+      "wins": 61,
+      "losses": 38,
+      "wr_pct": 61.62,
+      "net_pnl": 1257.7,
+      "pf": 1.4005,
+      "expectancy": 12.7,
+      "closed_dd": -648.8,
+      "mtm_dd_usd": -695.94,
+      "mtm_dd_pct": 6.18,
+      "final_equity": 11257.7
+    },
+    "task9_H5": {
+      "n": 105,
+      "wins": 64,
+      "losses": 41,
+      "wr_pct": 60.95,
+      "net_pnl": 896.08,
+      "pf": 1.2656,
+      "expectancy": 8.53,
+      "closed_dd": -819.8,
+      "mtm_dd_usd": -919.16,
+      "mtm_dd_pct": 8.26,
+      "final_equity": 10896.08
+    }
+  },
+  "task8_hwm_protected_separation_verified": {
+    "w3_hwm_trades": 78,
+    "w3_hwm_net_pnl": 146.6442,
+    "w3_hwm_mtm_dd_pct": 8.0111,
+    "w3_hwm_halt_timestamp": "2026-10-16T07:39:25.668000+00:00"
+  }
+}

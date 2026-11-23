@@ -1,0 +1,21 @@
+{
+  "calibrator_id": "cal_micro_buy_timing_class_f1_C1_LIGHTGBM_CONSTRAINED_RAW",
+  "base_artifact_id": "micro_buy_timing_class_f1_C1_LIGHTGBM_CONSTRAINED",
+  "base_artifact_sha256": "78FB4DD205E7D0D6C00A30ED226B25BAE18FABDCDDDF5BB5DF3ACCAE24FF5E28",
+  "method": "RAW",
+  "horizon": "micro",
+  "target_name": "buy_timing_class",
+  "fold_id": 1,
+  "classes": [
+    "ENTER_NOW",
+    "WAIT_ADVERSE",
+    "NEUTRAL"
+  ],
+  "cal_start_utc": "2026-07-24T00:00:00Z",
+  "cal_end_utc": "2026-08-07T00:00:00Z",
+  "cal_n_samples": 86666,
+  "cal_unique_days": 12,
+  "internal_val_logloss": 0.975281,
+  "created_at_utc": "2026-11-23T10:20:27.615089+00:00",
+  "calibrator_sha256": "29F03A0C9FB00580A7F0C7FCD963CC7305DC466BD4AD98C7207608562C1321F6"
+}

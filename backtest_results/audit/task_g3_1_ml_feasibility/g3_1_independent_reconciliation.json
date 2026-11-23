@@ -1,0 +1,92 @@
+{
+  "task": "G3.1_PHASE_H_INDEPENDENT_RECONCILIATION",
+  "generated_at_utc": "2026-11-22T16:29:09.025141+00:00",
+  "overall_status": "PASS",
+  "checks": {
+    "tick_repository_reconciliation": {
+      "windows_tested": 3,
+      "mismatches": 0,
+      "repo_returns_unfiltered_invalid_quotes": true,
+      "ml_pipeline_guard_required": "Callers of TickRepository.get_ticks_as_df MUST explicitly apply (bid>0 & ask>0 & bid<ask) or read v_market_ticks_quote_semantics_v1 WHERE is_valid_quote.",
+      "status": "PASS",
+      "details": [
+        {
+          "window": "aug24_25",
+          "clean_room_raw_count": 320032,
+          "app_tick_repo_raw_count": 320032,
+          "invalid_quotes_passed_through_by_repo": 336,
+          "clean_room_valid_count": 319696,
+          "app_filtered_valid_count": 319696,
+          "exact_match": true
+        },
+        {
+          "window": "oct14_15",
+          "clean_room_raw_count": 282714,
+          "app_tick_repo_raw_count": 282714,
+          "invalid_quotes_passed_through_by_repo": 212,
+          "clean_room_valid_count": 282502,
+          "app_filtered_valid_count": 282502,
+          "exact_match": true
+        },
+        {
+          "window": "nov10_11",
+          "clean_room_raw_count": 287345,
+          "app_tick_repo_raw_count": 287345,
+          "invalid_quotes_passed_through_by_repo": 215,
+          "clean_room_valid_count": 287130,
+          "app_filtered_valid_count": 287130,
+          "exact_match": true
+        }
+      ]
+    },
+    "candle_1m_quote_semantics_reconciliation": {
+      "clean_room_1m_bars": 96020,
+      "db_quote_semantics_v1_bars": 96020,
+      "mismatches": 0,
+      "status": "PASS"
+    },
+    "aggregation_5m_and_causality": {
+      "app_5m_bars": 804,
+      "clean_room_5m_bars": 804,
+      "ohlcv_mismatches": 0,
+      "indicator_truncation_max_abs_diff": 0.0,
+      "regime_truncation_match": true,
+      "status": "PASS"
+    },
+    "order_flow_feature_exclusion_enforcement": {
+      "ticks_tested": 6252,
+      "output_1s_rows": 894,
+      "output_columns": [
+        "price",
+        "spread",
+        "tick_count",
+        "burst_ratio"
+      ],
+      "forbidden_order_flow_columns_emitted": [],
+      "include_disabled_flag_raises_value_error": true,
+      "ml_feature_contract_blocks_net_order_flow": true,
+      "status": "PASS"
+    },
+    "quarantine_and_843_bar_reconciliation": {
+      "quarantined_off_session_ticks": 1,
+      "all_valid_1m_bars": 96863,
+      "ml_eligible_1m_bars": 96862,
+      "qs_v1_1m_bars": 96020,
+      "diff_bars_all_vs_qs_v1": 843,
+      "quarantined_bars_removed": 1,
+      "explained_breakdown": "291 (2026-11-18 18:09-23:59Z) + 551 (2026-11-19 00:00-11:45Z) + 1 (quarantined 2026-11-22 16:00Z) = 843 (0 unexplained)",
+      "status": "PASS"
+    },
+    "safety_and_frozen_integrity": {
+      "SHADOW_MODE": true,
+      "TRADING_MODE": "demo",
+      "HWM_MAX_DRAWDOWN_PCT": 8.0,
+      "market_orders_count": 0,
+      "market_trades_count": 0,
+      "frozen_111_sha256_match": true,
+      "frozen_70_sha256_match": true,
+      "status": "PASS"
+    }
+  },
+  "elapsed_sec": 15.3
+}

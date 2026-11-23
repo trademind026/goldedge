@@ -1,0 +1,1185 @@
+[
+  {
+    "hypothesis": "H0_BASELINE_V2",
+    "description": "Unchanged RECOVERED_FULL_HISTORY_BASELINE_V2 (143 trades)",
+    "failure_mechanism": "Baseline control",
+    "h0_verify_max_pnl_diff": 0.0,
+    "retained": 143,
+    "removed": 0,
+    "newly_generated": 0,
+    "overall": {
+      "n": 143,
+      "wins": 79,
+      "losses": 64,
+      "wr_pct": 55.24,
+      "net_pnl": 211.48,
+      "pf": 1.0414,
+      "expectancy": 1.48,
+      "closed_dd": -1336.28,
+      "mtm_dd_usd": -1409.22,
+      "mtm_dd_pct": 12.78,
+      "final_equity": 10211.48
+    },
+    "buy": {
+      "n": 41,
+      "wr_pct": 48.78,
+      "net_pnl": -450.5,
+      "pf": 0.7142,
+      "expectancy": -10.99
+    },
+    "sell": {
+      "n": 102,
+      "wr_pct": 57.84,
+      "net_pnl": 661.98,
+      "pf": 1.1874,
+      "expectancy": 6.49
+    },
+    "subperiods": {
+      "P1": {
+        "n": 46,
+        "wr_pct": 65.22,
+        "net_pnl": 806.17,
+        "pf": 1.624,
+        "expectancy": 17.53
+      },
+      "P2": {
+        "n": 32,
+        "wr_pct": 46.88,
+        "net_pnl": -702.08,
+        "pf": 0.5742,
+        "expectancy": -21.94
+      },
+      "P3": {
+        "n": 65,
+        "wr_pct": 52.31,
+        "net_pnl": 107.39,
+        "pf": 1.0495,
+        "expectancy": 1.65
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 78,
+        "wr_pct": 57.69,
+        "net_pnl": 104.08,
+        "pf": 1.0354,
+        "expectancy": 1.33
+      },
+      "HOLDOUT": {
+        "n": 65,
+        "wr_pct": 52.31,
+        "net_pnl": 107.39,
+        "pf": 1.0495,
+        "expectancy": 1.65
+      },
+      "HOLDOUT_BUY": {
+        "n": 12,
+        "wr_pct": 50.0,
+        "net_pnl": 48.67,
+        "pf": 1.1884,
+        "expectancy": 4.06
+      },
+      "HOLDOUT_SELL": {
+        "n": 53,
+        "wr_pct": 52.83,
+        "net_pnl": 58.72,
+        "pf": 1.0307,
+        "expectancy": 1.11
+      }
+    },
+    "mw_p_vs_h0": 1.0,
+    "mw_q_fdr_vs_h0": 1.0
+  },
+  {
+    "hypothesis": "H1_BLOCK_BUY_07UTC",
+    "description": "Block BUY entries at 07:00 UTC (keep SELL at 07:00 UTC)",
+    "failure_mechanism": "BUY 07:00 UTC pre-open fakeout bleed (-$378.38, 2W/6L, PF 0.24 vs SELL +$512.78, 13W/3L)",
+    "h0_verify_max_pnl_diff": null,
+    "retained": 134,
+    "removed": 9,
+    "newly_generated": 2,
+    "overall": {
+      "n": 136,
+      "wins": 78,
+      "losses": 58,
+      "wr_pct": 57.35,
+      "net_pnl": 562.05,
+      "pf": 1.1164,
+      "expectancy": 4.13,
+      "closed_dd": -1054.52,
+      "mtm_dd_usd": -1127.47,
+      "mtm_dd_pct": 10.1,
+      "final_equity": 10562.05
+    },
+    "buy": {
+      "n": 34,
+      "wr_pct": 55.88,
+      "net_pnl": -140.9,
+      "pf": 0.8805,
+      "expectancy": -4.14
+    },
+    "sell": {
+      "n": 102,
+      "wr_pct": 57.84,
+      "net_pnl": 702.95,
+      "pf": 1.1926,
+      "expectancy": 6.89
+    },
+    "subperiods": {
+      "P1": {
+        "n": 44,
+        "wr_pct": 68.18,
+        "net_pnl": 932.66,
+        "pf": 1.7712,
+        "expectancy": 21.2
+      },
+      "P2": {
+        "n": 29,
+        "wr_pct": 48.28,
+        "net_pnl": -496.76,
+        "pf": 0.662,
+        "expectancy": -17.13
+      },
+      "P3": {
+        "n": 63,
+        "wr_pct": 53.97,
+        "net_pnl": 126.14,
+        "pf": 1.0586,
+        "expectancy": 2.0
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 73,
+        "wr_pct": 60.27,
+        "net_pnl": 435.91,
+        "pf": 1.1627,
+        "expectancy": 5.97
+      },
+      "HOLDOUT": {
+        "n": 63,
+        "wr_pct": 53.97,
+        "net_pnl": 126.14,
+        "pf": 1.0586,
+        "expectancy": 2.0
+      },
+      "HOLDOUT_BUY": {
+        "n": 10,
+        "wr_pct": 60.0,
+        "net_pnl": 36.37,
+        "pf": 1.2242,
+        "expectancy": 3.64
+      },
+      "HOLDOUT_SELL": {
+        "n": 53,
+        "wr_pct": 52.83,
+        "net_pnl": 89.77,
+        "pf": 1.0451,
+        "expectancy": 1.69
+      }
+    },
+    "mw_p_vs_h0": 0.91547,
+    "mw_q_fdr_vs_h0": 0.96806
+  },
+  {
+    "hypothesis": "H2_UNBLOCK_BUY_SIDEWAYS",
+    "description": "Allow BUY in SIDEWAYS regime (block_buy_sideways=False)",
+    "failure_mechanism": "Asymmetric gate bans BUY in SIDEWAYS while SELL profits +$339.82 there; pushes BUY into late TRENDING_BULL extensions",
+    "h0_verify_max_pnl_diff": null,
+    "retained": 137,
+    "removed": 6,
+    "newly_generated": 22,
+    "overall": {
+      "n": 159,
+      "wins": 83,
+      "losses": 76,
+      "wr_pct": 52.2,
+      "net_pnl": -23.73,
+      "pf": 0.9958,
+      "expectancy": -0.15,
+      "closed_dd": -1455.55,
+      "mtm_dd_usd": -1564.52,
+      "mtm_dd_pct": 14.22,
+      "final_equity": 9976.27
+    },
+    "buy": {
+      "n": 57,
+      "wr_pct": 42.11,
+      "net_pnl": -681.22,
+      "pf": 0.6946,
+      "expectancy": -11.95
+    },
+    "sell": {
+      "n": 102,
+      "wr_pct": 57.84,
+      "net_pnl": 657.5,
+      "pf": 1.1886,
+      "expectancy": 6.45
+    },
+    "subperiods": {
+      "P1": {
+        "n": 51,
+        "wr_pct": 60.78,
+        "net_pnl": 691.41,
+        "pf": 1.4571,
+        "expectancy": 13.56
+      },
+      "P2": {
+        "n": 39,
+        "wr_pct": 43.59,
+        "net_pnl": -797.6,
+        "pf": 0.5692,
+        "expectancy": -20.45
+      },
+      "P3": {
+        "n": 69,
+        "wr_pct": 50.72,
+        "net_pnl": 82.47,
+        "pf": 1.0351,
+        "expectancy": 1.2
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 90,
+        "wr_pct": 53.33,
+        "net_pnl": -106.19,
+        "pf": 0.9684,
+        "expectancy": -1.18
+      },
+      "HOLDOUT": {
+        "n": 69,
+        "wr_pct": 50.72,
+        "net_pnl": 82.47,
+        "pf": 1.0351,
+        "expectancy": 1.2
+      },
+      "HOLDOUT_BUY": {
+        "n": 16,
+        "wr_pct": 43.75,
+        "net_pnl": 16.94,
+        "pf": 1.0356,
+        "expectancy": 1.06
+      },
+      "HOLDOUT_SELL": {
+        "n": 53,
+        "wr_pct": 52.83,
+        "net_pnl": 65.52,
+        "pf": 1.0349,
+        "expectancy": 1.24
+      }
+    },
+    "mw_p_vs_h0": 0.93951,
+    "mw_q_fdr_vs_h0": 0.96806
+  },
+  {
+    "hypothesis": "H3_BUY_BULL_CANDLE",
+    "description": "Require close > open on bullish_momentum BUY (matching bearish_momentum close < open)",
+    "failure_mechanism": "19/41 BUY entries occur on red 5m candles (-$296.09), missing candle symmetry with SELL",
+    "h0_verify_max_pnl_diff": null,
+    "retained": 122,
+    "removed": 21,
+    "newly_generated": 12,
+    "overall": {
+      "n": 134,
+      "wins": 76,
+      "losses": 58,
+      "wr_pct": 56.72,
+      "net_pnl": 264.0,
+      "pf": 1.0536,
+      "expectancy": 1.97,
+      "closed_dd": -1197.52,
+      "mtm_dd_usd": -1312.61,
+      "mtm_dd_pct": 11.79,
+      "final_equity": 10264.0
+    },
+    "buy": {
+      "n": 32,
+      "wr_pct": 53.12,
+      "net_pnl": -437.35,
+      "pf": 0.678,
+      "expectancy": -13.67
+    },
+    "sell": {
+      "n": 102,
+      "wr_pct": 57.84,
+      "net_pnl": 701.35,
+      "pf": 1.1966,
+      "expectancy": 6.88
+    },
+    "subperiods": {
+      "P1": {
+        "n": 41,
+        "wr_pct": 68.29,
+        "net_pnl": 929.6,
+        "pf": 1.8358,
+        "expectancy": 22.67
+      },
+      "P2": {
+        "n": 30,
+        "wr_pct": 46.67,
+        "net_pnl": -597.45,
+        "pf": 0.6196,
+        "expectancy": -19.91
+      },
+      "P3": {
+        "n": 63,
+        "wr_pct": 53.97,
+        "net_pnl": -68.15,
+        "pf": 0.9696,
+        "expectancy": -1.08
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 71,
+        "wr_pct": 59.15,
+        "net_pnl": 332.15,
+        "pf": 1.1238,
+        "expectancy": 4.68
+      },
+      "HOLDOUT": {
+        "n": 63,
+        "wr_pct": 53.97,
+        "net_pnl": -68.15,
+        "pf": 0.9696,
+        "expectancy": -1.08
+      },
+      "HOLDOUT_BUY": {
+        "n": 10,
+        "wr_pct": 60.0,
+        "net_pnl": -159.6,
+        "pf": 0.5065,
+        "expectancy": -15.96
+      },
+      "HOLDOUT_SELL": {
+        "n": 53,
+        "wr_pct": 52.83,
+        "net_pnl": 91.44,
+        "pf": 1.0476,
+        "expectancy": 1.73
+      }
+    },
+    "mw_p_vs_h0": 0.9611,
+    "mw_q_fdr_vs_h0": 0.96806
+  },
+  {
+    "hypothesis": "H4a_SCORE_CAP_080",
+    "description": "Reject exhausted entries with score >= 0.80 (keep 0.60 <= score < 0.80)",
+    "failure_mechanism": "TradeScorer over-rewards saturated velocity+slope+ER+accel chasing; score >= 0.80 underperforms both directions",
+    "h0_verify_max_pnl_diff": null,
+    "retained": 74,
+    "removed": 69,
+    "newly_generated": 25,
+    "overall": {
+      "n": 99,
+      "wins": 61,
+      "losses": 38,
+      "wr_pct": 61.62,
+      "net_pnl": 1257.7,
+      "pf": 1.4005,
+      "expectancy": 12.7,
+      "closed_dd": -648.8,
+      "mtm_dd_usd": -695.94,
+      "mtm_dd_pct": 6.18,
+      "final_equity": 11257.7
+    },
+    "buy": {
+      "n": 30,
+      "wr_pct": 53.33,
+      "net_pnl": -0.74,
+      "pf": 0.9993,
+      "expectancy": -0.02
+    },
+    "sell": {
+      "n": 69,
+      "wr_pct": 65.22,
+      "net_pnl": 1258.45,
+      "pf": 1.6273,
+      "expectancy": 18.24
+    },
+    "subperiods": {
+      "P1": {
+        "n": 28,
+        "wr_pct": 75.0,
+        "net_pnl": 950.89,
+        "pf": 2.6425,
+        "expectancy": 33.96
+      },
+      "P2": {
+        "n": 22,
+        "wr_pct": 54.55,
+        "net_pnl": -57.2,
+        "pf": 0.9302,
+        "expectancy": -2.6
+      },
+      "P3": {
+        "n": 49,
+        "wr_pct": 57.14,
+        "net_pnl": 364.01,
+        "pf": 1.2089,
+        "expectancy": 7.43
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 50,
+        "wr_pct": 66.0,
+        "net_pnl": 893.69,
+        "pf": 1.639,
+        "expectancy": 17.87
+      },
+      "HOLDOUT": {
+        "n": 49,
+        "wr_pct": 57.14,
+        "net_pnl": 364.01,
+        "pf": 1.2089,
+        "expectancy": 7.43
+      },
+      "HOLDOUT_BUY": {
+        "n": 9,
+        "wr_pct": 55.56,
+        "net_pnl": -123.41,
+        "pf": 0.6248,
+        "expectancy": -13.71
+      },
+      "HOLDOUT_SELL": {
+        "n": 40,
+        "wr_pct": 57.5,
+        "net_pnl": 487.42,
+        "pf": 1.3449,
+        "expectancy": 12.19
+      }
+    },
+    "mw_p_vs_h0": 0.60426,
+    "mw_q_fdr_vs_h0": 0.96806
+  },
+  {
+    "hypothesis": "H4b_SCORE_CAP_075",
+    "description": "Reject exhausted entries with score >= 0.75 (keep 0.60 <= score < 0.75)",
+    "failure_mechanism": "Score >= 0.75 loses -$875.38 (-$422.62 BUY, -$452.76 SELL) while [0.60, 0.75) makes +$1,086.86 across all 3 periods",
+    "h0_verify_max_pnl_diff": null,
+    "retained": 57,
+    "removed": 86,
+    "newly_generated": 29,
+    "overall": {
+      "n": 86,
+      "wins": 51,
+      "losses": 35,
+      "wr_pct": 59.3,
+      "net_pnl": 512.26,
+      "pf": 1.1791,
+      "expectancy": 5.96,
+      "closed_dd": -814.47,
+      "mtm_dd_usd": -852.95,
+      "mtm_dd_pct": 7.76,
+      "final_equity": 10512.26
+    },
+    "buy": {
+      "n": 27,
+      "wr_pct": 51.85,
+      "net_pnl": -143.52,
+      "pf": 0.8606,
+      "expectancy": -5.32
+    },
+    "sell": {
+      "n": 59,
+      "wr_pct": 62.71,
+      "net_pnl": 655.78,
+      "pf": 1.3584,
+      "expectancy": 11.11
+    },
+    "subperiods": {
+      "P1": {
+        "n": 23,
+        "wr_pct": 78.26,
+        "net_pnl": 685.44,
+        "pf": 2.8058,
+        "expectancy": 29.8
+      },
+      "P2": {
+        "n": 20,
+        "wr_pct": 40.0,
+        "net_pnl": -283.39,
+        "pf": 0.698,
+        "expectancy": -14.17
+      },
+      "P3": {
+        "n": 43,
+        "wr_pct": 58.14,
+        "net_pnl": 110.22,
+        "pf": 1.0715,
+        "expectancy": 2.56
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 43,
+        "wr_pct": 60.47,
+        "net_pnl": 402.04,
+        "pf": 1.305,
+        "expectancy": 9.35
+      },
+      "HOLDOUT": {
+        "n": 43,
+        "wr_pct": 58.14,
+        "net_pnl": 110.22,
+        "pf": 1.0715,
+        "expectancy": 2.56
+      },
+      "HOLDOUT_BUY": {
+        "n": 9,
+        "wr_pct": 55.56,
+        "net_pnl": -125.38,
+        "pf": 0.6123,
+        "expectancy": -13.93
+      },
+      "HOLDOUT_SELL": {
+        "n": 34,
+        "wr_pct": 58.82,
+        "net_pnl": 235.6,
+        "pf": 1.1934,
+        "expectancy": 6.93
+      }
+    },
+    "mw_p_vs_h0": 0.76992,
+    "mw_q_fdr_vs_h0": 0.96806
+  },
+  {
+    "hypothesis": "H5_CAP_ER_045",
+    "description": "Cap Kaufman ER <= 0.45 at entry",
+    "failure_mechanism": "High Kaufman ER (FDR q=0.040 on SELL) marks late exhausted straight-line impulses right before pullback",
+    "h0_verify_max_pnl_diff": null,
+    "retained": 87,
+    "removed": 56,
+    "newly_generated": 18,
+    "overall": {
+      "n": 105,
+      "wins": 64,
+      "losses": 41,
+      "wr_pct": 60.95,
+      "net_pnl": 896.08,
+      "pf": 1.2656,
+      "expectancy": 8.53,
+      "closed_dd": -819.8,
+      "mtm_dd_usd": -919.16,
+      "mtm_dd_pct": 8.26,
+      "final_equity": 10896.08
+    },
+    "buy": {
+      "n": 29,
+      "wr_pct": 55.17,
+      "net_pnl": 67.47,
+      "pf": 1.0726,
+      "expectancy": 2.33
+    },
+    "sell": {
+      "n": 76,
+      "wr_pct": 63.16,
+      "net_pnl": 828.62,
+      "pf": 1.3389,
+      "expectancy": 10.9
+    },
+    "subperiods": {
+      "P1": {
+        "n": 38,
+        "wr_pct": 65.79,
+        "net_pnl": 743.02,
+        "pf": 1.6822,
+        "expectancy": 19.55
+      },
+      "P2": {
+        "n": 19,
+        "wr_pct": 52.63,
+        "net_pnl": -164.85,
+        "pf": 0.7724,
+        "expectancy": -8.68
+      },
+      "P3": {
+        "n": 48,
+        "wr_pct": 60.42,
+        "net_pnl": 317.91,
+        "pf": 1.2038,
+        "expectancy": 6.62
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 57,
+        "wr_pct": 61.4,
+        "net_pnl": 578.17,
+        "pf": 1.3188,
+        "expectancy": 10.14
+      },
+      "HOLDOUT": {
+        "n": 48,
+        "wr_pct": 60.42,
+        "net_pnl": 317.91,
+        "pf": 1.2038,
+        "expectancy": 6.62
+      },
+      "HOLDOUT_BUY": {
+        "n": 10,
+        "wr_pct": 60.0,
+        "net_pnl": 124.6,
+        "pf": 1.5203,
+        "expectancy": 12.46
+      },
+      "HOLDOUT_SELL": {
+        "n": 38,
+        "wr_pct": 60.53,
+        "net_pnl": 193.31,
+        "pf": 1.1464,
+        "expectancy": 5.09
+      }
+    },
+    "mw_p_vs_h0": 0.67767,
+    "mw_q_fdr_vs_h0": 0.96806
+  },
+  {
+    "hypothesis": "H6_SESSION_CLOSE_15UTC",
+    "description": "Stop new entries at >= 15:00 UTC (keep 07..14 UTC)",
+    "failure_mechanism": "16:00 UTC late-NY chop loses -$220.88 (40.0% WR, PF 0.77)",
+    "h0_verify_max_pnl_diff": null,
+    "retained": 110,
+    "removed": 33,
+    "newly_generated": 0,
+    "overall": {
+      "n": 110,
+      "wins": 63,
+      "losses": 47,
+      "wr_pct": 57.27,
+      "net_pnl": 450.66,
+      "pf": 1.1101,
+      "expectancy": 4.1,
+      "closed_dd": -1209.74,
+      "mtm_dd_usd": -1326.85,
+      "mtm_dd_pct": 11.62,
+      "final_equity": 10450.66
+    },
+    "buy": {
+      "n": 30,
+      "wr_pct": 46.67,
+      "net_pnl": -372.17,
+      "pf": 0.6968,
+      "expectancy": -12.41
+    },
+    "sell": {
+      "n": 80,
+      "wr_pct": 61.25,
+      "net_pnl": 822.83,
+      "pf": 1.2873,
+      "expectancy": 10.29
+    },
+    "subperiods": {
+      "P1": {
+        "n": 30,
+        "wr_pct": 73.33,
+        "net_pnl": 1181.64,
+        "pf": 2.8719,
+        "expectancy": 39.39
+      },
+      "P2": {
+        "n": 26,
+        "wr_pct": 50.0,
+        "net_pnl": -549.36,
+        "pf": 0.5809,
+        "expectancy": -21.13
+      },
+      "P3": {
+        "n": 54,
+        "wr_pct": 51.85,
+        "net_pnl": -181.62,
+        "pf": 0.9155,
+        "expectancy": -3.36
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 56,
+        "wr_pct": 62.5,
+        "net_pnl": 632.28,
+        "pf": 1.3255,
+        "expectancy": 11.29
+      },
+      "HOLDOUT": {
+        "n": 54,
+        "wr_pct": 51.85,
+        "net_pnl": -181.62,
+        "pf": 0.9155,
+        "expectancy": -3.36
+      },
+      "HOLDOUT_BUY": {
+        "n": 10,
+        "wr_pct": 50.0,
+        "net_pnl": 6.26,
+        "pf": 1.0226,
+        "expectancy": 0.63
+      },
+      "HOLDOUT_SELL": {
+        "n": 44,
+        "wr_pct": 52.27,
+        "net_pnl": -187.88,
+        "pf": 0.8997,
+        "expectancy": -4.27
+      }
+    },
+    "mw_p_vs_h0": 0.77027,
+    "mw_q_fdr_vs_h0": 0.96806
+  },
+  {
+    "hypothesis": "H7_BUY_FAST_BE_075_T1_12",
+    "description": "Asymmetric BUY exit only: BE at 0.75 ATR (from 1.0), T1 at 1.2/0.8 ATR (from 1.6/1.1)",
+    "failure_mechanism": "73.2% of BUYs hit +0.5 ATR and 24.4% reverse into full losses, while only 22.0% reach T1=1.6 ATR",
+    "h0_verify_max_pnl_diff": null,
+    "retained": 142,
+    "removed": 1,
+    "newly_generated": 1,
+    "overall": {
+      "n": 143,
+      "wins": 80,
+      "losses": 63,
+      "wr_pct": 55.94,
+      "net_pnl": 452.79,
+      "pf": 1.0927,
+      "expectancy": 3.17,
+      "closed_dd": -1218.29,
+      "mtm_dd_usd": -1302.47,
+      "mtm_dd_pct": 11.73,
+      "final_equity": 10452.79
+    },
+    "buy": {
+      "n": 41,
+      "wr_pct": 51.22,
+      "net_pnl": -235.06,
+      "pf": 0.8173,
+      "expectancy": -5.73
+    },
+    "sell": {
+      "n": 102,
+      "wr_pct": 57.84,
+      "net_pnl": 687.85,
+      "pf": 1.1912,
+      "expectancy": 6.74
+    },
+    "subperiods": {
+      "P1": {
+        "n": 46,
+        "wr_pct": 63.04,
+        "net_pnl": 884.12,
+        "pf": 1.7371,
+        "expectancy": 19.22
+      },
+      "P2": {
+        "n": 32,
+        "wr_pct": 50.0,
+        "net_pnl": -697.23,
+        "pf": 0.555,
+        "expectancy": -21.79
+      },
+      "P3": {
+        "n": 65,
+        "wr_pct": 53.85,
+        "net_pnl": 265.9,
+        "pf": 1.1255,
+        "expectancy": 4.09
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 78,
+        "wr_pct": 57.69,
+        "net_pnl": 186.89,
+        "pf": 1.0676,
+        "expectancy": 2.4
+      },
+      "HOLDOUT": {
+        "n": 65,
+        "wr_pct": 53.85,
+        "net_pnl": 265.9,
+        "pf": 1.1255,
+        "expectancy": 4.09
+      },
+      "HOLDOUT_BUY": {
+        "n": 12,
+        "wr_pct": 58.33,
+        "net_pnl": 188.37,
+        "pf": 2.1191,
+        "expectancy": 15.7
+      },
+      "HOLDOUT_SELL": {
+        "n": 53,
+        "wr_pct": 52.83,
+        "net_pnl": 77.53,
+        "pf": 1.0398,
+        "expectancy": 1.46
+      }
+    },
+    "mw_p_vs_h0": 0.96806,
+    "mw_q_fdr_vs_h0": 0.96806
+  },
+  {
+    "hypothesis": "H8_EARLY_FAIL_E1_15M",
+    "description": "Early failure cut E1: exit at 15 minutes if MFE < 0.40 ATR",
+    "failure_mechanism": "Stalled entries failing to reach +0.40 ATR by 15m produce -$682 on BUY and -$2,068 on SELL",
+    "h0_verify_max_pnl_diff": null,
+    "retained": 141,
+    "removed": 2,
+    "newly_generated": 5,
+    "overall": {
+      "n": 146,
+      "wins": 78,
+      "losses": 68,
+      "wr_pct": 53.42,
+      "net_pnl": 324.2,
+      "pf": 1.0644,
+      "expectancy": 2.22,
+      "closed_dd": -1172.19,
+      "mtm_dd_usd": -1266.47,
+      "mtm_dd_pct": 11.34,
+      "final_equity": 10324.2
+    },
+    "buy": {
+      "n": 42,
+      "wr_pct": 50.0,
+      "net_pnl": -84.67,
+      "pf": 0.9397,
+      "expectancy": -2.02
+    },
+    "sell": {
+      "n": 104,
+      "wr_pct": 54.81,
+      "net_pnl": 408.87,
+      "pf": 1.1126,
+      "expectancy": 3.93
+    },
+    "subperiods": {
+      "P1": {
+        "n": 46,
+        "wr_pct": 63.04,
+        "net_pnl": 902.98,
+        "pf": 1.8533,
+        "expectancy": 19.63
+      },
+      "P2": {
+        "n": 32,
+        "wr_pct": 43.75,
+        "net_pnl": -536.96,
+        "pf": 0.6399,
+        "expectancy": -16.78
+      },
+      "P3": {
+        "n": 68,
+        "wr_pct": 51.47,
+        "net_pnl": -41.82,
+        "pf": 0.9832,
+        "expectancy": -0.62
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 78,
+        "wr_pct": 55.13,
+        "net_pnl": 366.02,
+        "pf": 1.1436,
+        "expectancy": 4.69
+      },
+      "HOLDOUT": {
+        "n": 68,
+        "wr_pct": 51.47,
+        "net_pnl": -41.82,
+        "pf": 0.9832,
+        "expectancy": -0.62
+      },
+      "HOLDOUT_BUY": {
+        "n": 13,
+        "wr_pct": 46.15,
+        "net_pnl": -0.18,
+        "pf": 0.9996,
+        "expectancy": -0.01
+      },
+      "HOLDOUT_SELL": {
+        "n": 55,
+        "wr_pct": 52.73,
+        "net_pnl": -41.64,
+        "pf": 0.9799,
+        "expectancy": -0.76
+      }
+    },
+    "mw_p_vs_h0": 0.8664,
+    "mw_q_fdr_vs_h0": 0.96806
+  },
+  {
+    "hypothesis": "H9_BUY_NO_HIGH_CHASE_015",
+    "description": "Block BUY entries within <= 0.15 ATR of 20-bar high",
+    "failure_mechanism": "Chasing 20-bar breakout high on BUY lost -$273.84 (1W/5L, PF 0.226)",
+    "h0_verify_max_pnl_diff": null,
+    "retained": 137,
+    "removed": 6,
+    "newly_generated": 5,
+    "overall": {
+      "n": 142,
+      "wins": 81,
+      "losses": 61,
+      "wr_pct": 57.04,
+      "net_pnl": 708.06,
+      "pf": 1.1407,
+      "expectancy": 4.99,
+      "closed_dd": -1354.98,
+      "mtm_dd_usd": -1439.15,
+      "mtm_dd_pct": 12.55,
+      "final_equity": 10708.06
+    },
+    "buy": {
+      "n": 40,
+      "wr_pct": 55.0,
+      "net_pnl": 37.55,
+      "pf": 1.028,
+      "expectancy": 0.94
+    },
+    "sell": {
+      "n": 102,
+      "wr_pct": 57.84,
+      "net_pnl": 670.51,
+      "pf": 1.1817,
+      "expectancy": 6.57
+    },
+    "subperiods": {
+      "P1": {
+        "n": 46,
+        "wr_pct": 69.57,
+        "net_pnl": 1146.86,
+        "pf": 1.9512,
+        "expectancy": 24.93
+      },
+      "P2": {
+        "n": 31,
+        "wr_pct": 48.39,
+        "net_pnl": -618.18,
+        "pf": 0.6121,
+        "expectancy": -19.94
+      },
+      "P3": {
+        "n": 65,
+        "wr_pct": 52.31,
+        "net_pnl": 179.38,
+        "pf": 1.0803,
+        "expectancy": 2.76
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 77,
+        "wr_pct": 61.04,
+        "net_pnl": 528.68,
+        "pf": 1.1889,
+        "expectancy": 6.87
+      },
+      "HOLDOUT": {
+        "n": 65,
+        "wr_pct": 52.31,
+        "net_pnl": 179.38,
+        "pf": 1.0803,
+        "expectancy": 2.76
+      },
+      "HOLDOUT_BUY": {
+        "n": 12,
+        "wr_pct": 50.0,
+        "net_pnl": 76.77,
+        "pf": 1.32,
+        "expectancy": 6.4
+      },
+      "HOLDOUT_SELL": {
+        "n": 53,
+        "wr_pct": 52.83,
+        "net_pnl": 102.62,
+        "pf": 1.0515,
+        "expectancy": 1.94
+      }
+    },
+    "mw_p_vs_h0": 0.91529,
+    "mw_q_fdr_vs_h0": 0.96806
+  },
+  {
+    "hypothesis": "H10_V2_WITH_HWM_8PCT",
+    "description": "Task 8 8% HWM Kill-Switch Risk-Protected Variant",
+    "failure_mechanism": "Capital preservation boundary stopping run past 8% HWM drawdown",
+    "h0_verify_max_pnl_diff": null,
+    "retained": 78,
+    "removed": 65,
+    "newly_generated": 0,
+    "overall": {
+      "n": 78,
+      "wins": 45,
+      "losses": 33,
+      "wr_pct": 57.69,
+      "net_pnl": 146.64,
+      "pf": 1.0506,
+      "expectancy": 1.88,
+      "closed_dd": -830.32,
+      "mtm_dd_usd": -883.65,
+      "mtm_dd_pct": 8.01,
+      "final_equity": 10146.64
+    },
+    "buy": {
+      "n": 29,
+      "wr_pct": 48.28,
+      "net_pnl": -456.61,
+      "pf": 0.642,
+      "expectancy": -15.75
+    },
+    "sell": {
+      "n": 49,
+      "wr_pct": 63.27,
+      "net_pnl": 603.25,
+      "pf": 1.3718,
+      "expectancy": 12.31
+    },
+    "subperiods": {
+      "P1": {
+        "n": 46,
+        "wr_pct": 65.22,
+        "net_pnl": 806.17,
+        "pf": 1.624,
+        "expectancy": 17.53
+      },
+      "P2": {
+        "n": 32,
+        "wr_pct": 46.88,
+        "net_pnl": -659.52,
+        "pf": 0.5894,
+        "expectancy": -20.61
+      },
+      "P3": {
+        "n": 0,
+        "wr_pct": 0.0,
+        "net_pnl": 0.0,
+        "pf": 0.0,
+        "expectancy": 0.0
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 78,
+        "wr_pct": 57.69,
+        "net_pnl": 146.64,
+        "pf": 1.0506,
+        "expectancy": 1.88
+      },
+      "HOLDOUT": {
+        "n": 0,
+        "wr_pct": 0.0,
+        "net_pnl": 0.0,
+        "pf": 0.0,
+        "expectancy": 0.0
+      },
+      "HOLDOUT_BUY": {
+        "n": 0,
+        "wr_pct": 0.0,
+        "net_pnl": 0.0,
+        "pf": 0.0,
+        "expectancy": 0.0
+      },
+      "HOLDOUT_SELL": {
+        "n": 0,
+        "wr_pct": 0.0,
+        "net_pnl": 0.0,
+        "pf": 0.0,
+        "expectancy": 0.0
+      }
+    },
+    "mw_p_vs_h0": 0.94209,
+    "mw_q_fdr_vs_h0": 0.96806
+  },
+  {
+    "hypothesis": "H11_COMBO_CANDIDATE",
+    "description": "Block BUY 07UTC + Cap score < 0.80 + E1 15m<0.4ATR + HWM 8%",
+    "failure_mechanism": "Joint test of non-overlapping structural fixes + HWM risk cap",
+    "h0_verify_max_pnl_diff": null,
+    "retained": 68,
+    "removed": 75,
+    "newly_generated": 29,
+    "overall": {
+      "n": 97,
+      "wins": 58,
+      "losses": 39,
+      "wr_pct": 59.79,
+      "net_pnl": 1291.89,
+      "pf": 1.4634,
+      "expectancy": 13.32,
+      "closed_dd": -410.0,
+      "mtm_dd_usd": -494.98,
+      "mtm_dd_pct": 4.33,
+      "final_equity": 11291.89
+    },
+    "buy": {
+      "n": 27,
+      "wr_pct": 55.56,
+      "net_pnl": 138.49,
+      "pf": 1.1459,
+      "expectancy": 5.13
+    },
+    "sell": {
+      "n": 70,
+      "wr_pct": 61.43,
+      "net_pnl": 1153.4,
+      "pf": 1.6273,
+      "expectancy": 16.48
+    },
+    "subperiods": {
+      "P1": {
+        "n": 28,
+        "wr_pct": 71.43,
+        "net_pnl": 807.74,
+        "pf": 2.6548,
+        "expectancy": 28.85
+      },
+      "P2": {
+        "n": 19,
+        "wr_pct": 52.63,
+        "net_pnl": 13.66,
+        "pf": 1.0189,
+        "expectancy": 0.72
+      },
+      "P3": {
+        "n": 50,
+        "wr_pct": 56.0,
+        "net_pnl": 470.49,
+        "pf": 1.2981,
+        "expectancy": 9.41
+      }
+    },
+    "dev_vs_holdout": {
+      "DEV": {
+        "n": 47,
+        "wr_pct": 63.83,
+        "net_pnl": 821.4,
+        "pf": 1.6791,
+        "expectancy": 17.48
+      },
+      "HOLDOUT": {
+        "n": 50,
+        "wr_pct": 56.0,
+        "net_pnl": 470.49,
+        "pf": 1.2981,
+        "expectancy": 9.41
+      },
+      "HOLDOUT_BUY": {
+        "n": 9,
+        "wr_pct": 55.56,
+        "net_pnl": -96.72,
+        "pf": 0.6657,
+        "expectancy": -10.75
+      },
+      "HOLDOUT_SELL": {
+        "n": 41,
+        "wr_pct": 56.1,
+        "net_pnl": 567.21,
+        "pf": 1.4401,
+        "expectancy": 13.83
+      }
+    },
+    "mw_p_vs_h0": 0.55825,
+    "mw_q_fdr_vs_h0": 0.96806
+  }
+]

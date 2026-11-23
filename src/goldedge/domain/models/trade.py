@@ -13,6 +13,7 @@ class ExitReason(str, Enum):
     KALMAN_TIGHTEN = "KALMAN_TIGHTEN"
     TRAILING_SL = "TRAILING_SL"
     BREAKEVEN = "BREAKEVEN"
+    HWM_KILL_SWITCH_8PCT = "HWM_KILL_SWITCH_8PCT"
     # Aliases used by ManagePositionUseCase
     SL = "STOP_LOSS"
     TARGET = "TAKE_PROFIT"

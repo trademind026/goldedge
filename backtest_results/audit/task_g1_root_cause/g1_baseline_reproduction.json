@@ -1,0 +1,172 @@
+{
+  "reproduction_exact": true,
+  "original_csv_sha256": "27200EEA2C7FF4842FC586DD1131EE450247D0BCCBCF3E2F77ECA6952D2CCDC4",
+  "reproduced_csv_sha256": "27200EEA2C7FF4842FC586DD1131EE450247D0BCCBCF3E2F77ECA6952D2CCDC4",
+  "sha256_identical": true,
+  "vs_original_csv": {
+    "app_count": 70,
+    "ind_count": 70,
+    "count_diff": 0,
+    "matched_count": 70,
+    "mismatch_count": 0,
+    "max_pnl_diff_usd": 0.0,
+    "max_price_diff": 0.0,
+    "mismatches": []
+  },
+  "vs_original_db_run": {
+    "app_count": 70,
+    "ind_count": 70,
+    "count_diff": 0,
+    "matched_count": 70,
+    "mismatch_count": 0,
+    "max_pnl_diff_usd": 0.0,
+    "max_price_diff": 0.0,
+    "mismatches": []
+  },
+  "app_trades": 70,
+  "app_wins": 38,
+  "app_losses": 31,
+  "app_breakevens": 1,
+  "app_win_rate_pct": 54.2857,
+  "app_pnl_full_precision": 162.259032,
+  "app_pnl_rounded_ui_csv_sum": 162.25,
+  "app_pf": 1.078392,
+  "app_closed_max_dd": -822.0687,
+  "app_closed_max_dd_pct": 7.484,
+  "app_mtm_max_dd": -885.5187,
+  "app_mtm_max_dd_pct": 8.0154,
+  "app_mtm_max_dd_initial_pct": 8.8552,
+  "app_mtm_peak_time": "2026-09-14 12:36:30.082000",
+  "app_mtm_trough_time": "2026-10-26 13:36:14.256000",
+  "app_hwm_kill_switch": {
+    "account_scope": "backtest:XAUUSD",
+    "account_id": "",
+    "account_currency": "USD",
+    "initial_equity": 10000.0,
+    "hwm_equity": 11047.7777,
+    "current_equity": 10162.259,
+    "drawdown_pct": 8.0154,
+    "max_drawdown_pct": 8.0154,
+    "halted": true,
+    "halt_timestamp": "2026-10-26T13:36:14.256000+00:00",
+    "halt_reason": "8% HWM Kill-Switch triggered: drawdown 8.0154% >= 8.00% (HWM=$11,047.78, equity=$10,162.26)",
+    "trigger_hwm": 11047.7777,
+    "trigger_equity": 10162.259,
+    "trigger_drawdown_pct": 8.0154,
+    "open_positions_at_trigger": 1,
+    "emergency_exit_status": "ALL_CLOSED_CONFIRMED",
+    "emergency_exit_details": [
+      {
+        "ticket": 72361,
+        "symbol": "XAUUSD",
+        "direction": "SELL",
+        "requested_volume": 0.16,
+        "filled_volume": 0.16,
+        "remaining_volume": 0.0,
+        "requested_at": "2026-10-26T13:36:14.256000",
+        "requested_price": 4005.49,
+        "actual_execution_price": 4005.49,
+        "exit_reason": "HWM_KILL_SWITCH_8PCT",
+        "status": "CONFIRMED_CLOSED",
+        "retry_attempts": 1,
+        "error": null
+      }
+    ],
+    "reset_count": 0,
+    "last_reset_at": null,
+    "last_reset_by": null,
+    "last_reset_reason": null,
+    "updated_at": "2026-10-26T13:36:14.256000+00:00",
+    "persistence_degraded": false,
+    "halt_count": 1,
+    "trades_blocked": 102,
+    "trades_prevented": 102
+  },
+  "prompt_baseline_checks": {
+    "total_trades": {
+      "expected": 70,
+      "actual": 70
+    },
+    "net_pnl_ui_csv": {
+      "expected": 162.25,
+      "actual": 162.25
+    },
+    "net_pnl_exact": 162.259,
+    "sl_exits": {
+      "expected_count": 13,
+      "actual_count": 13,
+      "expected_pnl": -1366.03,
+      "actual_pnl": -1366.03
+    },
+    "october_pnl": {
+      "expected": -592.66,
+      "actual": -592.66,
+      "trades": 22
+    },
+    "sideways_sell": {
+      "expected_count": 23,
+      "actual_count": 23,
+      "expected_pnl": -160.48,
+      "actual_pnl": -160.48
+    },
+    "target_exits": {
+      "expected_count": 5,
+      "actual_count": 5,
+      "expected_pnl": 998.15,
+      "actual_pnl": 998.16
+    }
+  },
+  "exit_reason_breakdown": {
+    "BREAKEVEN": {
+      "count": 11,
+      "wins": 9,
+      "pnl": 24.05
+    },
+    "EARLY_FAIL_15M": {
+      "count": 7,
+      "wins": 0,
+      "pnl": -250.65
+    },
+    "HWM_KILL_SWITCH_8PCT": {
+      "count": 1,
+      "wins": 0,
+      "pnl": -34.4
+    },
+    "KALMAN_TIGHTEN": {
+      "count": 5,
+      "wins": 5,
+      "pnl": 366.93
+    },
+    "KALMAN_VELOCITY_REVERSAL": {
+      "count": 20,
+      "wins": 12,
+      "pnl": 144.13
+    },
+    "SL": {
+      "count": 13,
+      "wins": 0,
+      "pnl": -1366.03
+    },
+    "TARGET": {
+      "count": 5,
+      "wins": 5,
+      "pnl": 998.16
+    },
+    "TIME_SQUEEZE": {
+      "count": 5,
+      "wins": 4,
+      "pnl": 62.07
+    },
+    "TRAILING_SL": {
+      "count": 3,
+      "wins": 3,
+      "pnl": 218.0
+    }
+  },
+  "equity_curve_timestamp_bug": {
+    "first_point_time": "2026-08-17 07:50:00",
+    "trade_0_entry_time": "2026-08-17 07:50:00",
+    "trade_0_exit_time": "2026-08-17 08:00:00",
+    "uses_entry_time_bug": true
+  }
+}

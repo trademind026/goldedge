@@ -7,6 +7,7 @@ from ..domain.services.signal_generator import SignalGeneratorService
 from ..domain.services.trade_scorer import TradeScorer
 from ..domain.services.risk_service import RiskValidatorService
 from ..domain.services.sizing_service import PositionSizingService
+from ..domain.services.hwm_kill_switch_service import HwmKillSwitchService
 from .risk_profiles import MEDIUM_RISK_LIVE, MEDIUM_RISK_BACKTEST
 
 from ..infrastructure.ml.lgbm_meta_labeler import LightGBMMetaLabeler
@@ -22,6 +23,7 @@ from ..adapters.secondary.features.microstructure_feature_repo import Microstruc
 from ..adapters.secondary.ml.ridge_pnl_adapter import RidgeExpectedPnlAdapter
 
 from ..application.services.live_ticker import LiveTickerService
+from ..application.services.hwm_emergency_exit import HwmEmergencyLiquidator
 from ..application.use_cases.scan_market import ScanMarketUseCase
 from ..application.use_cases.execute_trade import ExecuteTradeUseCase
 from ..application.use_cases.manage_position import ManagePositionUseCase
@@ -39,7 +41,7 @@ from ..application.event_handlers.on_signal_generated import OnSignalGeneratedHa
 from ..adapters.secondary.logger.journey_logger import JourneyLoggerService
 from ..adapters.secondary.logger.market_data_logger import MarketDataLoggerService
 from ..adapters.secondary.db import (
-    build_engine, CandleRepository, TradeRepository, TickRepository, SystemConfigRepository, BacktestRepository
+    build_engine, CandleRepository, TradeRepository, TickRepository, SystemConfigRepository, BacktestRepository, HwmRiskRepository
 )
 
 # Backtest-specific adapters (no external infra needed)
@@ -158,6 +160,21 @@ class Container(containers.DeclarativeContainer):
     tick_repo = providers.Singleton(TickRepository, engine=db_engine)
     config_repo = providers.Singleton(SystemConfigRepository, engine=db_engine)
     backtest_repo = providers.Singleton(BacktestRepository, engine=db_engine)
+    hwm_risk_repo = providers.Singleton(HwmRiskRepository, engine=db_engine)
+    hwm_kill_switch = providers.Singleton(
+        HwmKillSwitchService,
+        max_drawdown_pct=_settings.HWM_MAX_DRAWDOWN_PCT,
+        initial_equity=_settings.HWM_INITIAL_EQUITY,
+        default_account_scope=f"{_settings.TRADING_MODE.lower()}:{_settings.CTRADER_ACCOUNT_ID}:USD",
+        default_account_id=str(_settings.CTRADER_ACCOUNT_ID),
+        account_currency="USD",
+        repo=hwm_risk_repo,
+        reset_auth_secret=(_settings.HWM_RESET_SECRET or None),
+    )
+    hwm_emergency_liquidator = providers.Singleton(
+        HwmEmergencyLiquidator,
+        kill_switch=hwm_kill_switch,
+    )
     
     # --- Data Aggregation (Strict Hexagonal Ports & Adapters) ---
     from ..adapters.secondary.database.pandas_aggregator_repo import PandasAggregatorRepository
@@ -197,7 +214,8 @@ class Container(containers.DeclarativeContainer):
         event_bus=event_bus,
         risk_validator=risk_validator,
         sizing_service=sizing_service,
-        active_profile=MEDIUM_RISK_LIVE
+        active_profile=MEDIUM_RISK_LIVE,
+        hwm_kill_switch=hwm_kill_switch,
     )
 
     ridge_pnl_model = providers.Singleton(
@@ -229,6 +247,8 @@ class Container(containers.DeclarativeContainer):
         shadow_mode=_settings.SHADOW_MODE,
         shadow_journal=shadow_journal,
         shadow_tracker=shadow_tracker,
+        hwm_kill_switch=hwm_kill_switch,
+        emergency_liquidator=hwm_emergency_liquidator,
     )
     
     scan_scheduler = providers.Singleton(
@@ -244,7 +264,10 @@ class Container(containers.DeclarativeContainer):
         broker=broker_adapter,
         trade_repo=trade_repo,
         event_bus=event_bus,
-        market_data=market_data_provider
+        market_data=market_data_provider,
+        hwm_kill_switch=hwm_kill_switch,
+        emergency_liquidator=hwm_emergency_liquidator,
+        initial_capital=_settings.HWM_INITIAL_EQUITY,
     )
     
     # --- Forex Quant Institutional Decision Engine ---
@@ -311,7 +334,9 @@ class Container(containers.DeclarativeContainer):
         symbol="XAUUSD",
         default_mode=_engine_default_mode,
         initial_balance=10000.0,
-        leverage=100.0
+        leverage=100.0,
+        hwm_kill_switch=hwm_kill_switch,
+        emergency_liquidator=hwm_emergency_liquidator,
     )
 
     compute_metrics_uc = providers.Factory(ComputeMetricsUseCase, trade_repo=trade_repo)

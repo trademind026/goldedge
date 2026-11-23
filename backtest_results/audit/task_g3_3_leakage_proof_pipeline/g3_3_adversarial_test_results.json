@@ -1,0 +1,22 @@
+{
+  "task": "G3.3_PHASE_H_ADVERSARIAL_TEST_RESULTS",
+  "generated_at_utc": "2026-11-23T11:39:57.223605+00:00",
+  "overall_status": "PASS",
+  "faults_tested": 13,
+  "faults_caught_or_verified": 13,
+  "results": {
+    "01_future_feature_timestamp": "REJECTED_AS_EXPECTED",
+    "02_future_target_as_input": "REJECTED_AS_EXPECTED",
+    "03_global_scaling_future_in_fit": "REJECTED_AS_EXPECTED",
+    "04_label_crossing_all_3_adjacent_boundaries": "PURGED_ALL_3_BOUNDARIES",
+    "05_overlapping_variable_micro_horizon": "PURGED_AS_EXPECTED",
+    "06_timezone_or_entry_before_decision": "REJECTED_AS_EXPECTED",
+    "07_unfinished_candle_cutoff": "REJECTED_AS_EXPECTED",
+    "08_invalid_inverted_quote": "REJECTED_AS_EXPECTED",
+    "09_quarantined_sunday_quote": "EXCLUDED_ZERO_ROWS",
+    "10_corrupted_dataset_fingerprint": "DETECTED_BY_SHA256_GUARD",
+    "11_exact_price_tick_boundary_tie": "DETERMINISTIC_DECIMAL_VERIFIED",
+    "12_missing_session_or_zero_horizon": "REJECTED_AS_EXPECTED",
+    "13_duplicate_events": "VERIFIED_ZERO_DUPLICATES"
+  }
+}

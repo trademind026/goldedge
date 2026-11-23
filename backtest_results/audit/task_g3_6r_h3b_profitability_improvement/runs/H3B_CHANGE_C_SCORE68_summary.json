@@ -1,0 +1,30 @@
+{
+  "name": "H3B_CHANGE_C_SCORE68",
+  "config": {
+    "name": "H3B_CHANGE_C_SCORE68",
+    "session_close_utc": 15,
+    "early_fail_mins": 15,
+    "early_fail_min_mfe_atr": 0.4,
+    "min_score_threshold": 0.68,
+    "max_kaufman_er": null,
+    "be_trigger_atr": 1.0
+  },
+  "trades": 177,
+  "unique_days": 82,
+  "win_rate_pct": 0.51,
+  "net_pnl_usd": 512.53,
+  "final_equity_usd": 10512.53,
+  "total_net_r": 10.6924,
+  "mean_net_r": 0.06041,
+  "pf": 1.172,
+  "closed_max_dd_usd": -454.93,
+  "closed_max_dd_pct": 4.19,
+  "mtm_max_dd_usd": -489.18,
+  "mtm_max_dd_pct": 4.5,
+  "hwm_kill_switch_halted": false,
+  "total_commission_usd": 132.82,
+  "total_slippage_usd": 13.48,
+  "trades_parquet": "backtest_results/audit/task_g3_6r_h3b_profitability_improvement/runs/H3B_CHANGE_C_SCORE68_trades.parquet",
+  "trades_parquet_sha256": "6AE0CE3B19C8D112D0091EB32D33DC172C572EE8DD82D9A46A2CFC2776568CB2",
+  "elapsed_sec": 695.7
+}

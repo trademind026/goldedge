@@ -1,0 +1,26 @@
+{
+  "W1": {
+    "frozen_trades": 118,
+    "sim_trades": 118,
+    "mismatch_count": 0,
+    "max_pnl_diff_usd": 0.0
+  },
+  "W2": {
+    "frozen_trades": 131,
+    "sim_trades": 131,
+    "mismatch_count": 0,
+    "max_pnl_diff_usd": 0.0
+  },
+  "W3": {
+    "frozen_trades": 143,
+    "sim_trades": 143,
+    "mismatch_count": 0,
+    "max_pnl_diff_usd": 0.0
+  },
+  "task9_cross_check": {
+    "H4a_pnl_diff_vs_task9": 0.0041,
+    "H5_pnl_diff_vs_task9": 0.0049,
+    "H1_pnl_diff_vs_task9": 0.0034,
+    "H7_pnl_diff_vs_task9": 0.0008
+  }
+}

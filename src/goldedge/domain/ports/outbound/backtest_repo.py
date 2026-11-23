@@ -14,6 +14,7 @@ class IBacktestRepository(Protocol):
         risk: Optional[str] = None,
         date_from: Optional[str] = None,
         date_to: Optional[str] = None,
+        symbol: Optional[str] = None,
     ) -> Dict[str, Any]:
         ...
 

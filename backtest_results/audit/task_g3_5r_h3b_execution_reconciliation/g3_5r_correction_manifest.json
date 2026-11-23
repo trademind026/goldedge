@@ -1,0 +1,21 @@
+{
+  "task": "G3.5R_PHASE_E_CORRECTION_MANIFEST",
+  "generated_at_utc": "2026-11-23T10:58:28.086588+00:00",
+  "git_head": "unknown",
+  "files_modified": [
+    {
+      "path": "src/goldedge/adapters/secondary/ml/calibration_utility.py",
+      "new_sha256": "182A5D5140D393A849C9B6447E104F75A964FF15DA27E09D34AC45737C05577E",
+      "fixes": [
+        "1. Immutable initial ATR = abs(TP - entry_price) / 3.0 (never post-exit ratcheted SL)",
+        "2. Canonical RunBacktestUseCase TIME_SQUEEZE formula & 07..19 UTC (<20) 60m hold window",
+        "3. Canonical TARGET limit fill at exact float(tp) with zero exit slippage",
+        "4. Canonical minute-grouped E1 (bars_held == 15 at minute close) and TIMEOUT evaluation",
+        "5. Canonical b >= a zero-spread + inverted quote guard, BREAKEVEN/TIME_SQUEEZE labels, 2-decimal per-leg commission rounding",
+        "6. Exact entry tick matching eliminating whole-second trade_list truncation drift"
+      ]
+    }
+  ],
+  "run_backtest_modified": false,
+  "frozen_baselines_modified": false
+}

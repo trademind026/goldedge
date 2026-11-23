@@ -1,0 +1,91 @@
+{
+  "task": "G3.3_PHASE_E_DISCRETE_TICK_STABILITY",
+  "generated_at_utc": "2026-11-22T17:25:15.253349+00:00",
+  "verified_broker_tick_size_usd": 0.01,
+  "half_tick_buffer_usd": 0.005,
+  "total_micro_rows_checked": 664806,
+  "exact_raw_price_ties_equal_to_entry_spread": {
+    "buy_ties_count": 11888,
+    "buy_ties_pct": 1.788,
+    "sell_ties_count": 11754,
+    "sell_ties_pct": 1.768,
+    "daily_buy_tie_rate_min_median_max_pct": [
+      0.862,
+      1.768,
+      2.523
+    ],
+    "concentrated_in_few_days": false
+  },
+  "float_vs_exact_integer_decimal_parity": {
+    "buy_strict_gt_mismatches_in_parquet": 0,
+    "sell_strict_gt_mismatches_in_parquet": 0,
+    "decimal_2000_sample_mismatches": 0,
+    "status": "PASS"
+  },
+  "policy_comparison": {
+    "frozen_g3_2_strict_gt": {
+      "BUY": {
+        "ENTER_NOW": 43.58,
+        "WAIT_ADVERSE": 44.32,
+        "NEUTRAL": 12.1
+      },
+      "SELL": {
+        "ENTER_NOW": 43.09,
+        "WAIT_ADVERSE": 43.03,
+        "NEUTRAL": 13.89
+      }
+    },
+    "half_tick_buffer_plus_0005": {
+      "note": "Symmetric BUY/SELL policy immune to tiny proportional commission sign flips on exact $0.01 ties.",
+      "BUY": {
+        "ENTER_NOW": 42.68,
+        "WAIT_ADVERSE": 43.43,
+        "NEUTRAL": 13.89
+      },
+      "SELL": {
+        "ENTER_NOW": 43.09,
+        "WAIT_ADVERSE": 43.03,
+        "NEUTRAL": 13.89
+      },
+      "buy_changed_vs_frozen_g3_2": 11888,
+      "sell_changed_vs_frozen_g3_2": 0
+    }
+  },
+  "ties_by_session": {
+    "ASIA_00_07": {
+      "rows": 199658,
+      "buy_exact_ties": 3386,
+      "buy_tie_pct": 1.696,
+      "sell_exact_ties": 3393,
+      "sell_tie_pct": 1.699
+    },
+    "LONDON_07_12": {
+      "rows": 134689,
+      "buy_exact_ties": 2599,
+      "buy_tie_pct": 1.93,
+      "sell_exact_ties": 2523,
+      "sell_tie_pct": 1.873
+    },
+    "NY_17_20": {
+      "rows": 85858,
+      "buy_exact_ties": 1892,
+      "buy_tie_pct": 2.204,
+      "sell_exact_ties": 1816,
+      "sell_tie_pct": 2.115
+    },
+    "OFF_20_24": {
+      "rows": 44209,
+      "buy_exact_ties": 854,
+      "buy_tie_pct": 1.932,
+      "sell_exact_ties": 795,
+      "sell_tie_pct": 1.798
+    },
+    "OVERLAP_12_17": {
+      "rows": 200392,
+      "buy_exact_ties": 3157,
+      "buy_tie_pct": 1.575,
+      "sell_exact_ties": 3227,
+      "sell_tie_pct": 1.61
+    }
+  }
+}

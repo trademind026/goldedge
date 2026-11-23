@@ -8,6 +8,7 @@ from ...domain.models.trade import TradeStatus
 from ...domain.ports.outbound.broker import IBrokerAdapter
 from ...domain.ports.outbound.market_data import IMarketDataProvider
 from ...domain.ports.outbound.trade_repo import ITradeRepository
+from ...domain.services.hwm_kill_switch_service import compute_account_equity, compute_unrealized_pnl
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +18,9 @@ class LiveExecutionContext:
     """Real-time account, spread, and risk-state metrics for trade execution."""
 
     account_balance: float
+    account_equity: float
+    account_currency: str
+    unrealized_pnl: float
     current_spread_pips: float
     recent_median_spread_pips: float
     current_daily_loss_pct: float
@@ -30,8 +34,8 @@ def resolve_execution_context(
     market_data: Optional[IMarketDataProvider] = None,
 ) -> Optional[LiveExecutionContext]:
     """
-    Gather live account balance, spread, daily loss percentage, and consecutive
-    loss streak from the configured broker and trade repository.
+    Gather live account balance, true MTM equity, spread, daily loss percentage, and
+    consecutive loss streak from the configured broker and trade repository.
 
     Returns None if live account information cannot be obtained so callers
     never trade on fabricated balances.
@@ -45,6 +49,44 @@ def resolve_execution_context(
     if account_balance <= 0.0:
         logger.error(f"Invalid non-positive account balance ({account_balance}); aborting execution.")
         return None
+    account_currency = str(account_info.get("currency", "USD") or "USD").upper()
+
+    # Compute MTM unrealized P&L using executable bid/ask quotes if equity is missing or open positions exist
+    unrealized_pnl = float(account_info.get("unrealized_pnl", 0.0) or 0.0)
+    raw_equity = account_info.get("equity")
+    if raw_equity is not None and account_info.get("unrealized_pnl") is not None:
+        account_equity = float(raw_equity)
+    else:
+        calc_unr = 0.0
+        try:
+            open_pos = list(broker.get_open_positions() or [])
+        except Exception:
+            open_pos = list(trade_repo.get_positions_by_status(TradeStatus.OPEN) or [])
+        for pos in open_pos:
+            if market_data is not None:
+                try:
+                    qt = market_data.get_current_tick(pos.symbol)
+                    if qt and qt.bid > 0 and qt.ask > 0 and qt.bid < qt.ask:
+                        cs = 100.0 if "XAU" in pos.symbol.upper() else 100000.0
+                        calc_unr += compute_unrealized_pnl(
+                            pos.type, pos.price_open, qt.bid, qt.ask, pos.volume, contract_size=cs
+                        )
+                        continue
+                except Exception:
+                    pass
+            if pos.profit is not None:
+                calc_unr += float(pos.profit)
+        if raw_equity is not None and float(raw_equity) != account_balance:
+            account_equity = float(raw_equity)
+            unrealized_pnl = account_equity - account_balance
+        else:
+            unrealized_pnl = calc_unr
+            account_equity = compute_account_equity(
+                account_balance,
+                unrealized_pnl,
+                profit_currency="USD",
+                account_currency=account_currency,
+            )
 
     # Resolve live spread in pips from broker or market data tick
     current_spread_pips: Optional[float] = None
@@ -98,6 +140,9 @@ def resolve_execution_context(
 
     return LiveExecutionContext(
         account_balance=account_balance,
+        account_equity=account_equity,
+        account_currency=account_currency,
+        unrealized_pnl=unrealized_pnl,
         current_spread_pips=current_spread_pips,
         recent_median_spread_pips=current_spread_pips,
         current_daily_loss_pct=current_daily_loss_pct,

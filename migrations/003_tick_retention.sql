@@ -11,5 +11,4 @@ ALTER TABLE market_ticks SET (
 -- Add policy to compress chunks older than 7 days
 SELECT add_compression_policy('market_ticks', INTERVAL '7 days');
 
--- Add policy to drop chunks older than 90 days (keeps DB lean)
-SELECT add_retention_policy('market_ticks', INTERVAL '90 days');
+-- NOTE: Retention drop policy removed in Migration 007 to avoid deleting historical backtest ticks.

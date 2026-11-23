@@ -1,0 +1,137 @@
+{
+  "task": "G3.2_REGRESSION_RESULTS",
+  "generated_at_utc": "2026-11-22T17:01:05.281076+00:00",
+  "overall_status": "PASS",
+  "suites_passed": 8,
+  "suites_total": 8,
+  "results": [
+    {
+      "suite": "test_task_g3_2_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 0.16,
+      "summary_tail": [
+        "test_phase_a_d_e_deliverables_pass (__main__.TestTaskG32Validation.test_phase_a_d_e_deliverables_pass) ... ok",
+        "test_safety_locks_and_frozen_artifacts (__main__.TestTaskG32Validation.test_safety_locks_and_frozen_artifacts) ... ok",
+        "test_tick_chronological_barrier_ordering_same_minute (__main__.TestTaskG32Validation.test_tick_chronological_barrier_ordering_same_minute) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 8 tests in 0.010s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task_g3_1_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 0.4,
+      "summary_tail": [
+        "test_phase_h_reconciliation_pass (__main__.TestTaskG31Validation.test_phase_h_reconciliation_pass) ... ok",
+        "test_quarantine_and_843_bar_reconciliation_in_audit_json (__main__.TestTaskG31Validation.test_quarantine_and_843_bar_reconciliation_in_audit_json) ... ok",
+        "test_safety_locks_and_frozen_artifacts (__main__.TestTaskG31Validation.test_safety_locks_and_frozen_artifacts) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 9 tests in 0.032s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task_g2_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 40.57,
+      "summary_tail": [
+        "ok",
+        "test_hexagonal_pure_python_and_legacy_mode_unchanged (__main__.TestTaskG2Validation.test_hexagonal_pure_python_and_legacy_mode_unchanged) ... ok",
+        "test_safety_locks_unchanged (__main__.TestTaskG2Validation.test_safety_locks_unchanged) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 6 tests in 39.016s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task_g1_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 1.95,
+      "summary_tail": [
+        "See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.",
+        "  df.set_index(\"time\", inplace=True)",
+        "ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 6 tests in 0.370s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_remediation_b1_b6.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 1.43,
+      "summary_tail": [
+        "See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#whatsnew-310-deprecations-values for more details.",
+        "  warnings.warn(",
+        "ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 4 tests in 0.341s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_shadow_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 1.51,
+      "summary_tail": [
+        "test_shadow_journal_dedup_and_restart_recovery (__main__.TestShadowValidation.test_shadow_journal_dedup_and_restart_recovery) ... ok",
+        "test_shadow_tracker_separates_buy_and_sell_stats (__main__.TestShadowValidation.test_shadow_tracker_separates_buy_and_sell_stats) ... ok",
+        "test_shadow_tracker_three_independent_portfolios_and_hwm_alerts (__main__.TestShadowValidation.test_shadow_tracker_three_independent_portfolios_and_hwm_alerts) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 8 tests in 0.455s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task6c_validation.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 5.33,
+      "summary_tail": [
+        "See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#whatsnew-310-deprecations-values for more details.",
+        "  warnings.warn(",
+        "ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 3 tests in 4.359s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "suite": "test_task8_hwm_kill_switch.py",
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_sec": 2.42,
+      "summary_tail": [
+        "2026-11-22 17:01:04,907 - goldedge.adapters.secondary.db.connection_pool - INFO - SQLAlchemy engine created (pool_size=5, max_overflow=10)",
+        "2026-11-22 17:01:04,910 - goldedge.adapters.secondary.ml.ridge_pnl_adapter - INFO - Loaded Ridge expected-PnL model from models/gold_ridge_pnl.pkl (11 features, trained_on=165).",
+        "ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 15 tests in 1.146s",
+        "",
+        "OK"
+      ]
+    }
+  ]
+}

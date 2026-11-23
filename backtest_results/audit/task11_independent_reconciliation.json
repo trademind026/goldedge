@@ -1,0 +1,20 @@
+{
+  "W1": {
+    "frozen_trades": 118,
+    "sim_trades": 118,
+    "mismatch_count": 0,
+    "max_pnl_diff_usd": 0.0
+  },
+  "W2": {
+    "frozen_trades": 131,
+    "sim_trades": 131,
+    "mismatch_count": 0,
+    "max_pnl_diff_usd": 0.0
+  },
+  "W3": {
+    "frozen_trades": 143,
+    "sim_trades": 143,
+    "mismatch_count": 0,
+    "max_pnl_diff_usd": 0.0
+  }
+}

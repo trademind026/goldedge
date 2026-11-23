@@ -1,0 +1,77 @@
+{
+  "artifact_id": "micro_buy_timing_class_f1_C1_LIGHTGBM_CONSTRAINED",
+  "model_family": "C1_LIGHTGBM_CONSTRAINED",
+  "target_name": "micro_buy_timing_class",
+  "classes": [
+    "ENTER_NOW",
+    "WAIT_ADVERSE",
+    "NEUTRAL"
+  ],
+  "feature_schema_version": "G3_3_FEATURE_SCHEMA_V1",
+  "feature_columns": [
+    "entry_spread_usd",
+    "entry_spread_bps",
+    "short_term_vol_30t_usd",
+    "prior_mid_ret_5t",
+    "prior_mid_ret_10t",
+    "prior_mid_ret_30t",
+    "prior_interarrival_mean_10t",
+    "prior_quote_intensity_30t",
+    "hour_sin",
+    "hour_cos"
+  ],
+  "dataset_sha256": "7B565DFAF77D2B23B987FF8EE64952B0875287D428EE2BE39B5DAF48C6778667",
+  "fold_id": 1,
+  "train_window_utc": [
+    "2026-05-13T00:00:00Z",
+    "2026-07-10T00:00:00Z"
+  ],
+  "hyperparameters": {
+    "max_depth": 3,
+    "num_leaves": 7,
+    "min_child_samples": 500,
+    "reg_alpha": 1.0,
+    "reg_lambda": 5.0,
+    "colsample_bytree": 0.7,
+    "learning_rate": 0.05,
+    "best_iteration": 144,
+    "selected_on": "inner_val_log_loss"
+  },
+  "git_head": "unknown",
+  "random_seed": 42,
+  "created_at_utc": "2026-11-23T09:36:20.313591+00:00",
+  "artifact_sha256": "78FB4DD205E7D0D6C00A30ED226B25BAE18FABDCDDDF5BB5DF3ACCAE24FF5E28",
+  "preprocessor_audit": {
+    "fold_id": 1,
+    "fit_n_samples": 402846,
+    "fit_max_event_end_utc": 1783641315.557,
+    "eval_start_utc": 1783641600.0,
+    "feature_count": 10,
+    "missing_counts_in_train": {
+      "entry_spread_usd": 0,
+      "entry_spread_bps": 0,
+      "short_term_vol_30t_usd": 0,
+      "prior_mid_ret_5t": 0,
+      "prior_mid_ret_10t": 0,
+      "prior_mid_ret_30t": 0,
+      "prior_interarrival_mean_10t": 209,
+      "prior_quote_intensity_30t": 209,
+      "hour_sin": 0,
+      "hour_cos": 0
+    },
+    "medians_sample_first5": {
+      "entry_spread_usd": 0.07,
+      "entry_spread_bps": 0.1703,
+      "short_term_vol_30t_usd": 0.43983,
+      "prior_mid_ret_5t": -1e-06,
+      "prior_mid_ret_10t": -1e-06
+    },
+    "iqr_scale_sample_first5": {
+      "entry_spread_usd": 0.06,
+      "entry_spread_bps": 0.1411,
+      "short_term_vol_30t_usd": 0.29287,
+      "prior_mid_ret_5t": 0.000163,
+      "prior_mid_ret_10t": 0.000237
+    }
+  }
+}

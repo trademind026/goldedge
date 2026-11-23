@@ -1,0 +1,5 @@
+run_label,trades,wins,losses,breakevens,win_rate_pct,gross_pnl_usd,commission_usd,slippage_usd,swap_usd,net_pnl_usd,final_equity_usd,profit_factor,closed_max_dd_usd,closed_max_dd_pct,mtm_max_dd_usd,mtm_max_dd_pct,mtm_max_dd_initial_pct
+"Frozen Task 4 Baseline ($7/lot + 0.30p, no swap)",118,64,53,1,54.2373,256.0,125.3,103.26,0.0,130.7,10130.7,1.0303,-995.77,9.81,-1301.95,12.83,13.02
+"Task 7B App Corrected ($7/lot + 0.30p, no swap)",118,64,53,1,54.2373,256.45,125.3,103.26,0.0,131.15,10131.15,1.0305,-1339.2,12.22,-1412.5,12.82,14.13
+"Task 7B App Corrected Zero-Cost ($0, 0p, no swap)",118,66,51,1,55.9322,401.12,0.0,0.0,0.0,401.12,10401.12,1.0927,-1266.72,11.48,-1354.49,12.2,13.54
+Task 7B App Corrected Verified Demo ($12/M side + NY17Z Swap + 0.0533p),118,65,53,0,55.0847,293.8,177.26,18.19,0.0,116.54,10116.54,1.0271,-1333.08,12.19,-1406.02,12.79,14.06
